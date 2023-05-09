@@ -78,59 +78,6 @@ const Dashboard = ({ data }: any) => {
           </Card>
         </SwiperSlide>
       </Swiper>
-
-      {/* <Box>
-        {data?.details?.role === `planner` && (
-          <Grid
-            container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 2 }}
-          >
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <Image src={Icon2} alt="EventIcon" height={40} width={40} />
-                <div>
-                  <div className="cardFlex">
-                    <small>NGN</small>
-                    <h2 className="title">00.00</h2>
-                  </div>
-                  <p>Total Amount Made</p>
-                </div>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <Image src={Icon1} alt="EventIcon" height={40} width={40} />
-                <div>
-                  <h2 className="title">0</h2>
-                  <p>Number of events</p>
-                </div>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <Image src={Icon3} alt="EventIcon" height={40} width={40} />
-                <div>
-                  <div className="cardFlex">
-                    <small>NGN</small>
-                    <h2 className="title">00.00</h2>
-                  </div>
-                  <p>Available Balance</p>
-                </div>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <Image src={Icon4} alt="EventIcon" height={40} width={40} />
-                <div>
-                  <h2 className="title">0</h2>
-                  <p>Even on Cue</p>
-                </div>
-              </Card>
-            </Grid>
-          </Grid>
-        )}
-      </Box> */}
     </DashboardWrapper>
   );
 };

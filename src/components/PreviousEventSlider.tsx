@@ -57,7 +57,7 @@ const PreviousEventSlider = ({ samplesData }: SlideProps) => {
           </div>
         </Box>
       ))}
-      <Link href="/dashboard/gig/event">
+      <Link href="/account/gig/event">
         <CustomButton mt={4} lgWidth="30%" smWidth="100%" bgPrimary>
           Edit
         </CustomButton>

@@ -125,11 +125,11 @@ export default function AvatarMenu({
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <Link href="/dashboard/profile">
+                    <Link href="/account/profile">
                       <MenuItem onClick={handleClose}>Settings</MenuItem>
                     </Link>
                     {/* <MenuItem onClick={handleClose}>History</MenuItem>
-                    <MenuItem onClick={() => router.push(`/dashboard/profile`)}>
+                    <MenuItem onClick={() => router.push(`/account/profile`)}>
                       My account
                     </MenuItem> */}
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>

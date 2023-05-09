@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import FormSuccess from '@/components/common/FormSuccess';
 import FormError from '@/components/common/FormError';
 import Label from '@/components/common/Label';
 import FormInput from '@/components/common/FormInput';
@@ -11,7 +10,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
-import { FaFacebookF, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Checkbox } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
@@ -50,7 +49,7 @@ const LoginForm = () => {
         if (data?.data?.user?.onboarding?.stage < 3) {
           router.push(`/onboarding`);
         } else {
-          router.push(`/dashboard`);
+          router.push(`/account`);
         }
       } else {
         if (typeof window !== `undefined`) {
@@ -145,15 +144,6 @@ const LoginForm = () => {
                       Forgot Password?
                     </Link>
                   </RememberDiv>
-                  {/* <SocailLogins>
-                <ORLine>OR</ORLine>
-                <SocialButton>
-                  <GoogleIcon /> <span className="text">Google</span>
-                </SocialButton>
-                <SocialButton>
-                  <FaFacebookF className="icon" /> Facebook
-                </SocialButton>
-              </SocailLogins> */}
                   <Footer>
                     Not a member yet?{` `}
                     <Link href="/signup" className="link">
@@ -217,74 +207,6 @@ const InputControl = styled(`div`)({
   borderBottom: `solid 1px #ccc`,
   marginBottom: `0.8rem`,
 });
-
-// const SocailLogins = styled(`div`)({
-//   position: `relative`,
-//   width: `100%`,
-//   borderTop: `solid 1px #cccc`,
-//   borderBottom: `solid 1px #cccc`,
-//   marginTop: `1rem`,
-//   paddingBottom: `1rem`,
-//   marginBottom: `1rem`,
-// });
-
-// const ORLine = styled(`p`)(({ theme }: any) => ({
-//   background: `#fff`,
-//   color: theme.palette.primary.main,
-//   width: `2rem`,
-//   height: `1.5rem`,
-//   margin: `-0.7rem auto 0 auto`,
-//   display: `flex`,
-//   alignItems: `center`,
-//   justifyContent: `center`,
-//   textAlign: `center`,
-//   fontSize: `0.8rem`,
-//   fontWeight: `500`,
-
-//   '@media (max-width: 900px)': {
-//     fontSize: `0.6rem`,
-//     fontWeight: `700`,
-//     width: `2rem`,
-//     height: `1rem`,
-//     margin: `-0.5rem auto 0 auto`,
-//   },
-// }));
-
-// const SocialButton = styled(`div`)(({ theme }: any) => ({
-//   display: `flex`,
-//   alignItems: `center`,
-//   justifyContent: `center`,
-//   background: `#fff`,
-//   border: `solid 1px #ccc`,
-//   width: `auto`,
-//   padding: `1rem`,
-//   fontWeight: `700`,
-//   fontSize: `0.9rem`,
-//   cursor: `pointer`,
-//   textAlign: `center`,
-//   marginTop: `1rem`,
-//   borderRadius: `0.5rem`,
-//   color: theme.palette.grey[700],
-//   transition: `0.5s ease`,
-
-//   '&:hover': {
-//     background: `#fff`,
-//   },
-
-//   '.icon': {
-//     color: theme.palette.primary.main,
-//     marginRight: `1rem`,
-//   },
-
-//   '.text': {
-//     marginLeft: `1rem`,
-//   },
-
-//   '@media (max-width: 1020px)': {
-//     fontSize: `1rem`,
-//     padding: `0.8rem`,
-//   },
-// }));
 
 const RememberDiv = styled(`div`)(({ theme }: any) => ({
   display: `flex`,

@@ -2,22 +2,20 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
-import Button from '@mui/material/Button';
-import theme from '@/styles/theme';
 import CustomButton from './CustomButton';
 
-const Badge = ({ data }: any) => {
+const Badge = () => {
   return (
     <BadgeWrapper>
       <div>
         <h3 className="title">Welcome to easeplan Planners</h3>
         <p>To get started lets get to know you</p>
       </div>
-      <Link href="/dashboard/profile">
+      <Link href="/account/profile">
         <CustomButton bgPrimary>COMPLETE YOUR PROFILE</CustomButton>
       </Link>
       {/* {data?.details?.firstname && data?.details?.picture ? (
-        <Link href="/dashboard/profile">
+        <Link href="/account/profile">
           <Button
             sx={{
               py: 1.1,
@@ -51,7 +49,7 @@ const Badge = ({ data }: any) => {
           </Button>
         </Link>
       ) : (
-        <Link href="/dashboard/profile/verify">
+        <Link href="/account/profile/verify">
           <Button
             sx={{
               py: 1.1,

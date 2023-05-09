@@ -163,7 +163,7 @@ const VendorPricingCard = ({ amount, title, data }: any) => {
               Select
             </CustomButton>
           ) : (
-            <Link href="/dashboard/gig">
+            <Link href="/account/gig">
               <CustomButton mt={4} lgWidth="100%" smWidth="100%" bgSecondary>
                 Edit
               </CustomButton>

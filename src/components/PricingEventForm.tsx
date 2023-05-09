@@ -140,7 +140,7 @@ const PricingEventForm = ({ token }: any) => {
         message="Awesome your pricing has been set!"
       >
         {queryData?.details?.role === `user` ? (
-          <Link href="/dashboard">
+          <Link href="/account">
             <CustomButton
               mt={2}
               bgPrimary
@@ -152,7 +152,7 @@ const PricingEventForm = ({ token }: any) => {
             </CustomButton>
           </Link>
         ) : (
-          <Link href="/dashboard/gig/event">
+          <Link href="/account/gig/event">
             <CustomButton
               mt={2}
               bgPrimary
@@ -744,7 +744,7 @@ const PricingEventForm = ({ token }: any) => {
             </Box>
             <Divider />
             <Box mt={3} textAlign="right">
-              {/* <Link href="/dashboard/profile">
+              {/* <Link href="/account/profile">
                 <CustomButton
                   style={{
                     background: `#fff`,

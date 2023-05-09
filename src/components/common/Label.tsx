@@ -8,7 +8,7 @@ type LabelProps = {
 
 const Label = ({ text }: LabelProps) => <LabelStyle>{text}</LabelStyle>;
 
-const LabelStyle = styled(`label`)(({ theme }) => ({
+const LabelStyle = styled(`label`)(({}) => ({
   fontSize: `0.8rem`,
   color: `#73877B`,
   fontWeight: `600`,

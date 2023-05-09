@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { useAuthUser } from '@/context/contextStore';
@@ -347,7 +347,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({ theme }) => ({
+const AddButton = styled(`label`)(({}) => ({
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

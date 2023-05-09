@@ -78,23 +78,4 @@ const ItemWrapper = styled(`div`)({
     transition: `0.5s all ease`,
   },
 });
-
-// const Flex = styled(`div`)(({ theme }) => ({
-//   display: `block`,
-//   alignItems: `center`,
-//   justifyContent: `center`,
-//   textTransform: `capitalize`,
-//   textAlign: `center`,
-//   color: theme.palette.common.white,
-
-//   '.text': {
-//     textAlign: `center`,
-//     fontSize: `0.7rem`,
-//     margin: `0`,
-//   },
-//   '.icon': {
-//     fontSize: `1.6rem`,
-//   },
-// }));
-
 export default MobileNavItems;

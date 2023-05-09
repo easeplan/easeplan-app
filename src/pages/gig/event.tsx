@@ -24,10 +24,10 @@ const EventPage = ({ token }: any) => {
     <DashboardLayout token={token}>
       <Box sx={{ width: `100%`, mt: 3 }}>
         <Flex>
-          <Link href="/dashboard/gig">
+          <Link href="/account/gig">
             <h3 className="title">Packages</h3>
           </Link>
-          <Link href="/dashboard/gig/event">
+          <Link href="/account/gig/event">
             <h3 className="title active">Previous Event</h3>
           </Link>
         </Flex>

@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import theme from '@/styles/theme';
-import CustomButton from './CustomButton';
 import { Container } from '@mui/system';
 
 const style = {

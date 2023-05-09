@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { useAuthUser } from '@/context/contextStore';
@@ -44,7 +46,7 @@ const UserFlow = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIntro, step1, introOne, setStep1, setStep2 } = useAuthUser();
+  const { setIntro, introOne, setStep1 } = useAuthUser();
 
   const handleNextSlide = () => {
     setStep1(false);
@@ -74,7 +76,7 @@ const UserFlow = ({ token }: PropsTypes) => {
       );
 
       if (data.status === `success`) {
-        router.push(`/dashboard`);
+        router.push(`/account`);
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,
@@ -285,7 +287,7 @@ const UserFlow = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({ theme }) => ({
+const AddButton = styled(`label`)(({}) => ({
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

@@ -4,23 +4,28 @@ import theme from '@/styles/theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
-interface ButtonTypes {
-  children: React.ReactNode | React.ReactElement;
-  onClick?: (e: any) => void;
-  loading?: boolean;
-  loadingText?: string;
-  type?: 'button' | 'submit' | 'reset';
-  width?: any;
-  smWidth?: any;
-  bgPrimary?: boolean;
-  bgSecondary?: boolean;
-  p?: string;
-  height?: string;
-  mb?: string;
-  mt?: string;
-  mr?: string;
-  ml?: string;
-}
+// interface ButtonTypes {
+//   children: React.ReactNode | React.ReactElement;
+//   onClick?: (e: any) => void;
+//   size?: string;
+//   sx?: any;
+//   loading?: boolean;
+//   loadingText?: string;
+//   type?: 'button' | 'submit' | 'reset';
+//   width?: any;
+//   smWidth?: any;
+//   bgPrimary?: boolean;
+//   bgSecondary?: boolean;
+//   p?: string;
+//   height?: string;
+//   mb?: string;
+//   mt?: string;
+//   mr?: string;
+//   ml?: string;
+//   mdWidth?: string;
+//   lgWidth?: string;
+//   fontSize?: string;
+// }
 
 const CustomButton = ({
   smWidth,

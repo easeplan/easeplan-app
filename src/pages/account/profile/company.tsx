@@ -1,13 +1,14 @@
 import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
-import VerifyAccountForm from '@/components/VerifyAccountForm';
 import Link from 'next/link';
 import { useAuthUser } from '@/context/contextStore';
+import PricingEventForm from '@/components/PricingEventForm';
+import OverviewForm from '@/components/OverviewForm';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/context/contextStore';
 
-const VerifyPage = ({ token }: any) => {
+const CompanyPage = ({ token }: any) => {
   const { queryData, error, isLoading } = useFetch(
     `/providers/profile`,
     `${token}`,
@@ -23,17 +24,17 @@ const VerifyPage = ({ token }: any) => {
   return (
     <DashboardLayout token={token}>
       <Flex>
-        <Link href="/dashboard/settings">
+        <Link href="/account/profile">
           <h3 className="title">Profile Settings</h3>
         </Link>
-        <h3 className="title">{`/`}</h3>
-        {queryData?.details?.role !== `user` && (
-          <Link href="/dashboard/settings/verify">
-            <h3 className="title active">Verification</h3>
-          </Link>
-        )}
+        <Link href="/account/profile/verify">
+          <h3 className="title">Verification</h3>
+        </Link>
+        <Link href="/account/profile/company">
+          <h3 className="title active">Company Profile</h3>
+        </Link>
       </Flex>
-      <VerifyAccountForm token={token} />
+      <OverviewForm token={token} />
     </DashboardLayout>
   );
 };
@@ -42,12 +43,10 @@ const Flex = styled(`div`)(({ theme }) => ({
   display: `flex`,
   alignItems: `center`,
   marginTop: `2rem`,
-  // color: theme.palette.primary.main,
-  color: theme.palette.grey[500],
+  color: theme.palette.primary.main,
 
   '.title': {
-    marginRight: `0.5rem`,
-    fontSize: `1rem`,
+    marginRight: `2rem`,
     '@media (max-width: 900px)': {
       fontSize: `0.7rem`,
     },
@@ -61,4 +60,4 @@ const Flex = styled(`div`)(({ theme }) => ({
   },
 }));
 
-export default VerifyPage;
+export default CompanyPage;

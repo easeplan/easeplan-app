@@ -18,7 +18,7 @@ const DragAndDropInput: React.FC<FileInputProps> = ({
   type,
   isVideo,
 }) => {
-  const [{ value }, { error }, { setValue }] = useField<FileList>(name);
+  const [{ value }, { error }] = useField<FileList>(name);
   const { setFieldValue } = useFormikContext();
   const [previewImg, setPreviewImg] = useState<any>(null);
 

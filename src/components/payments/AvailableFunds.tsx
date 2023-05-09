@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import CustomButton from '../common/CustomButton';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useRouter } from 'next/router';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';

@@ -20,9 +20,9 @@ const MobileNav = ({ show, handleClick }: MobileNavProp) => {
         zIndex: `99`,
       }}
     >
-      <NavItem href="/" text="Home" />
-      <NavItem href="/planner" text="Join planners" />
-      <NavItem href="/vendor" text="Join vendors" />
+      <NavItem href="https://www.easeplan.io/" text="Home" />
+      <NavItem href="https://www.easeplan.io/planner" text="Join planners" />
+      <NavItem href="https://www.easeplan.io/vendor" text="Join vendors" />
       <NavItem href="/login" text="Login" />
       <Link href="/signup">
         <CustomButton bgSecondary>SIGN UP</CustomButton>

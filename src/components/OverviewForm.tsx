@@ -202,7 +202,7 @@ const OverviewForm = ({ token }: any) => {
                 },
               }}
             >
-              <Link href="/dashboard/profile">
+              <Link href="/account/profile">
                 <CustomButton
                   style={{
                     background: `#fff`,

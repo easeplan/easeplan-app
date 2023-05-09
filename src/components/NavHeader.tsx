@@ -23,12 +23,12 @@ const NavHeader = ({ token }: any) => {
           </div>
           <h3 className="title">Welcome {queryData?.details?.firstname}</h3>
           <Box>
-            <Link href="/dashboard">
+            <Link href="/account">
               <Icon>
                 <InsertCommentIcon className="icon" />
               </Icon>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/account">
               <Icon>
                 <Dot></Dot>
                 <NotificationsIcon className="icon" />

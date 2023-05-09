@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import CustomButton from '../common/CustomButton';
-import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/router';
 import TextArea from '../common/TextArea';
 import FormSuccess from '../common/FormSuccess';
 import FormError from '../common/FormError';
@@ -74,7 +72,7 @@ const FeedbackForm = ({ token }: PropsTypes) => {
         title="Fail to send"
         message="Something went wrong"
       >
-        <CustomButton onChange={() => setIsError(false)} bgPrimary>
+        <CustomButton onClick={() => setIsError(false)} bgPrimary>
           Try Again
         </CustomButton>
       </ErrorModal>

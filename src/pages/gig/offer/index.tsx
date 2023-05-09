@@ -5,7 +5,7 @@ import React from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import CustomButton from '@/components/common/CustomButton';
 import PlannerMessageForm from '@/components/PlannerMessageForm';
-import SearchVendor from '@/components/SearchVendor';
+// import SearchVendor from '@/components/SearchVendor';
 export { getServerSideProps } from '@/context/contextStore';
 
 const OfferPage = ({ token }: any) => {
@@ -449,10 +449,10 @@ const OfferPage = ({ token }: any) => {
           </CustomButton>
         </Box>
       </Box>
-
+      {/*
       <Box mt={4}>
         <SearchVendor />
-      </Box>
+      </Box> */}
 
       <Box
         p={4}

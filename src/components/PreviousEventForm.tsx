@@ -78,13 +78,13 @@ const PreviousEventForm = ({ token }: EventProps) => {
         title="Sent Successfully"
         // message="Check back later your Information's are under review"
       >
-        <Link href="/dashboard/gig/preview">
+        <Link href="/account/gig/preview">
           <CustomButton mt={2} bgPrimary smWidth="auto" size="small">
             Preview your gig
           </CustomButton>
         </Link>
         <Box mt={2}></Box>
-        <Link href="/dashboard">Go to dashboard</Link>
+        <Link href="/account">Go to dashboard</Link>
       </SuccessModal>
       <ErrorModal
         isOpen={isError}

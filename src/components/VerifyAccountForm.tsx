@@ -258,7 +258,7 @@ const VerifyAccountForm = ({ token }: any) => {
             </Box>
             <FormFooter>
               <div className="flex">
-                {/* <Link href="/dashboard/profile">
+                {/* <Link href="/account/profile">
                   <Button
                     loading={isLoading}
                     loadingText="Saving..."

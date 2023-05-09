@@ -11,7 +11,7 @@ import theme from '@/styles/theme';
 import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { AuthProvider, useAuthUser } from '@/context/contextStore';
+import { AuthProvider } from '@/context/contextStore';
 import 'react-toastify/dist/ReactToastify.css';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;

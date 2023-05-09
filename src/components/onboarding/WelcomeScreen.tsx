@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import logoImg from '@/public/logo.png';
 import Image from 'next/image';
@@ -10,8 +9,7 @@ import IllusImg from '@/public/onboarding-image/welcome-img.svg';
 import { FaQuoteLeft } from 'react-icons/fa';
 
 const WelcomeScreen = () => {
-  const { queryData, intro, setIntro, introOne, setIntroOne, setStep1 } =
-    useAuthUser();
+  const { queryData, intro, setIntro, setIntroOne, setStep1 } = useAuthUser();
 
   const handleNextSlide = () => {
     if (queryData?.details?.role === `user`) {

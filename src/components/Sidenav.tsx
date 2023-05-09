@@ -37,28 +37,28 @@ const Sidenav = () => {
           <SidebarItem
             icon={<DashboardIcon />}
             text="Dashboard"
-            href="/dashboard"
+            href="/account"
           />
         </Links>
         {/* <Links>
           <SidebarItem
             icon={<EmailIcon />}
             text="Inbox"
-            href="/dashboard/inbox"
+            href="/account/inbox"
           />
         </Links> */}
         {/* <Links>
           <SidebarItem
             icon={<StyleIcon />}
             text="History"
-            href="/dashboard/history"
+            href="/account/history"
           />
         </Links> */}
         {/* <Links>
           <SidebarItem
             icon={<AccountBalanceWalletIcon />}
             text="Payment"
-            href="/dashboard/payment"
+            href="/account/payment"
           />
         </Links> */}
         {queryData?.details?.role === `user` ? null : (
@@ -66,7 +66,7 @@ const Sidenav = () => {
             <SidebarItem
               icon={<ChromeReaderModeIcon />}
               text="My Profile"
-              href="/dashboard/profile"
+              href="/profile"
             />
           </Links>
         )}
@@ -74,12 +74,12 @@ const Sidenav = () => {
           <SidebarItem
             icon={<PermPhoneMsgIcon />}
             text="Support"
-            href="/dashboard/support"
+            href="/account/support"
           />
         </Links>
       </NavLinks>
       <NavFooter>
-        <Link href="/dashboard/settings">
+        <Link href="/settings">
           <div className="IconWrapper">
             <SettingsIcon />
           </div>

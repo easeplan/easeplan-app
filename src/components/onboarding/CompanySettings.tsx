@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { useAuthUser } from '@/context/contextStore';
@@ -13,7 +14,6 @@ import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Input from '../common/Input';
 import IllusImg from '@/public/onboarding-image/illus-1.svg';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
 import MenuItem from '@mui/material/MenuItem';
 import TextArea from '../common/TextArea';
 import logoImg from '@/public/logo.png';
@@ -66,7 +66,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
         },
       );
       if (data.status === `success`) {
-        router.push(`/dashboard`);
+        router.push(`/account`);
         // setStep3(false);
         setIsLoading(false);
       }
@@ -306,7 +306,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({ theme }) => ({
+const AddButton = styled(`label`)(({}) => ({
   display: `flex`,
   alignItems: `center`,
   padding: `0.8rem 2rem`,

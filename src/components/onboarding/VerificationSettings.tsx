@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { useAuthUser } from '@/context/contextStore';
@@ -19,7 +21,6 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
-  // businessName: Yup.string().required(`Business name is required`),
   officeAddress: Yup.string().required(`Office Address is required`),
   phoneNumber: Yup.string().required(`Phone Number is required`),
   idType: Yup.string().required(`ID Type is required`),

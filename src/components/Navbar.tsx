@@ -7,7 +7,6 @@ import NavItem from './NavItem';
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
-import theme from '@/styles/theme';
 import CustomButton from './common/CustomButton';
 
 const Navbar = () => {
@@ -23,11 +22,17 @@ const Navbar = () => {
         <Flex>
           <Logo />
           <NavItemWrapper>
-            <NavItem href="/" text="Home" />
-            <NavItem href="/planner" text="Join planners" />
-            <NavItem href="/vendor" text="Join vendors" />
-            <NavItem href="/login" text="Login" />
-            <Link href="/signup">
+            <NavItem href="https://www.easeplan.io/" text="Home" />
+            <NavItem
+              href="https://www.easeplan.io/planner"
+              text="Join planners"
+            />
+            <NavItem
+              href="https://www.easeplan.io/vendor"
+              text="Join vendors"
+            />
+            <NavItem href="https://www.app.easeplan.io/login" text="Login" />
+            <Link href="https://www.app.easeplan.io/signup">
               <CustomButton p="0 3rem" bgSecondary>
                 Sign up
               </CustomButton>

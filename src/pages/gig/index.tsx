@@ -1,15 +1,15 @@
-import React from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
-import ProfileForm from '@/components/ProfileForm';
 import Link from 'next/link';
+import Box from '@mui/material/Box';
+import PricingEventForm from '@/components/PricingEventForm';
+import VendorPricingForm from '@/components/VendorPricingForm';
 import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/context/contextStore';
 
-const SettingsPage = ({ token }: any) => {
-  // const { queryData } = useAuthUser();
+const PricingPage = ({ token }: any) => {
   const { queryData, error, isLoading } = useFetch(
     `/providers/profile`,
     `${token}`,
@@ -22,21 +22,24 @@ const SettingsPage = ({ token }: any) => {
   if (error) {
     return <p>Error:</p>;
   }
-
   return (
     <DashboardLayout token={token}>
-      {queryData?.details?.role === `user` ? null : (
+      <Box sx={{ width: `100%`, mt: 3 }}>
         <Flex>
-          <Link href="/dashboard/settings">
-            <h3 className="title active">Profile Settings</h3>
+          <Link href="/account/gig">
+            <h3 className="title active">Packages</h3>
           </Link>
-          <h3 className="title">{`/`}</h3>
-          <Link href="/dashboard/settings/verify">
-            <h3 className="title">Verification</h3>
+          <Link href="/account/gig/event">
+            <h3 className="title">Previous Event</h3>
           </Link>
         </Flex>
-      )}
-      <ProfileForm token={token} />
+        {queryData?.details?.role === `vendor` && (
+          <VendorPricingForm token={token} />
+        )}
+        {queryData?.details?.role === `planner` && (
+          <PricingEventForm token={token} />
+        )}
+      </Box>
     </DashboardLayout>
   );
 };
@@ -45,23 +48,16 @@ const Flex = styled(`div`)(({ theme }) => ({
   display: `flex`,
   alignItems: `center`,
   marginTop: `2rem`,
-  // color: theme.palette.primary.main,
-  color: theme.palette.grey[500],
+  color: theme.palette.primary.main,
 
   '.title': {
-    marginRight: `0.5rem`,
-    fontSize: `1rem`,
-    '@media (max-width: 900px)': {
-      fontSize: `0.7rem`,
-    },
+    marginRight: `2rem`,
   },
   '.active': {
     color: theme.palette.secondary.main,
   },
 
-  '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-  },
+  '@media (max-width: 900px)': {},
 }));
 
-export default SettingsPage;
+export default PricingPage;

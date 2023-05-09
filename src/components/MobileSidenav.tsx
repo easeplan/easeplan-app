@@ -2,14 +2,11 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import EmailIcon from '@mui/icons-material/Email';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
 import { useAuthUser } from '@/context/contextStore';
-import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
 
 export { getServerSideProps } from '@/context/contextStore';
 
@@ -22,34 +19,34 @@ const MobileSidenav = () => {
         {/* <MobileNavItems
           text="Inbox"
           icon={<EmailIcon />}
-          href="/dashboard/inbox"
+          href="/account/inbox"
         />
         <MobileNavItems
           text="Payment"
           icon={<AccountBalanceWalletIcon />}
-          href="/dashboard/payment"
+          href="/account/payment"
         /> */}
         {queryData?.details?.role === `user` ? null : (
           <MobileNavItems
             text="My Profile"
             icon={<ChromeReaderModeIcon />}
-            href="/dashboard/profile"
+            href="/account/profile"
           />
         )}
         <MobileNavItems
           text="Dashboard"
           icon={<DashboardIcon className="Homeicon" />}
-          href="/dashboard"
+          href="/account"
         />
         <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
-          href="/dashboard/profile"
+          href="/account/profile"
         />
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}
-          href="/dashboard/support"
+          href="/account/support"
         />
       </FlexContainer>
     </MobileStyle>

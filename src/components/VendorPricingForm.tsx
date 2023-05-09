@@ -67,7 +67,7 @@ const VendorPricingForm = ({ token }: any) => {
         title="Successful"
         message="Awesome your pricing has been set!"
       >
-        <Link href="/dashboard/gig/event">
+        <Link href="/account/gig/event">
           <CustomButton
             mt={2}
             bgPrimary

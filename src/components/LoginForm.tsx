@@ -11,7 +11,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
 
@@ -75,9 +75,29 @@ const LoginForm = () => {
         <FormWrapper>
           <FormBody>
             {userName ? (
-              <Title>Welcome back, {userName}</Title>
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: `1.5rem`,
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                }}
+              >
+                Welcome back, {userName}
+              </Typography>
             ) : (
-              <Title>Login To Easeplan</Title>
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: `1.5rem`,
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                }}
+              >
+                Login To Easeplan
+              </Typography>
             )}
             <Formik
               initialValues={{
@@ -226,15 +246,7 @@ const CheckLabel = styled(`div`)({
   alignItems: `center`,
 });
 
-const Title = styled(`h3`)(({ theme }: any) => ({
-  fontWeight: `700`,
-  fontSize: `1.5rem`,
-  color: theme.palette.primary.main,
-  marginBottom: `2rem`,
-  textTransform: `capitalize`,
-}));
-
-const Footer = styled(`div`)(({ theme }: any) => ({
+const Footer = styled(`p`)(({ theme }: any) => ({
   borderTop: `solid 1px #ccc`,
   marginTop: `0.8rem`,
   paddingTop: `0.8rem`,

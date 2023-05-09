@@ -1,0 +1,262 @@
+{
+  "states": [
+    {
+      "name": "Abia",
+      "capital": "Umuahia",
+      "region": "South East",
+      "cities": ["Aba", "Arochukwu", "Umuahia"]
+    },
+    {
+      "name": "Adamawa",
+      "capital": "Yola",
+      "region": "North East",
+      "cities": ["Jimeta", "Mubi", "Numan", "Yola"]
+    },
+    {
+      "name": "Akwa Ibom",
+      "capital": "Uyo",
+      "region": "South South",
+      "cities": ["Eket", "Ikot Ekpene", "Oron", "Uyo"]
+    },
+    {
+      "name": "Anambra",
+      "capital": "Awka",
+      "region": "South East",
+      "cities": ["Awka", "Nnewi", "Onitsha"]
+    },
+    {
+      "name": "Bauchi",
+      "capital": "Bauchi",
+      "region": "North East",
+      "cities": ["Alkaleri", "Bauchi", "Dass", "Katagum", "Misau", "Ningi", "Tafawa Balewa"]
+    },
+    {
+      "name": "Bayelsa",
+      "capital": "Yenagoa",
+      "region": "South South",
+      "cities": ["Brass", "Nembe", "Yenagoa"]
+    },
+    {
+      "name": "Benue",
+      "capital": "Makurdi",
+      "region": "North Central",
+      "cities": ["Gboko", "Makurdi", "Otukpo"]
+    },
+    {
+      "name": "Borno",
+      "capital": "Maiduguri",
+      "region": "North East",
+      "cities": ["Bama", "Biu", "Dikwa", "Maiduguri"]
+    },
+    {
+      "name": "Cross River",
+      "capital": "Calabar",
+      "region": "South South",
+      "cities": ["Calabar", "Ogoja", "Ugep"]
+    },
+    {
+      "name": "Delta",
+      "capital": "Asaba",
+      "region": "South South",
+      "cities": ["Asaba", "Burutu", "Koko", "Sapele", "Ughelli", "Warri"]
+    },
+    {
+      "name": "Ebonyi",
+      "capital": "Abakaliki",
+      "region": "South East",
+      "cities": ["Abakaliki", "Afikpo", "Ezza"]
+    },
+    {
+      "name": "Edo",
+      "capital": "Benin City",
+      "region": "South South",
+      "cities": ["Auchi", "Benin City", "Ekpoma", "Igarra"]
+    },
+    {
+      "name": "Ekiti",
+      "capital": "Ado Ekiti",
+      "region": "South West",
+      "cities": ["Ado Ekiti", "Ikere Ekiti", "Ise Ekiti"]
+    },
+    {
+      "name": "Enugu",
+      "capital": "Enugu",
+      "region": "South East",
+      "cities": ["Enugu", "Nsukka"]
+    },
+    {
+      "name": "FCT (Abuja)",
+      "capital": "Abuja",
+      "region": "North Central",
+      "cities": ["Abuja"]
+    },
+    {
+      "name": "Gombe",
+      "capital": "Gombe",
+      "region": "North East",
+      "cities": ["Bajoga", "Dukku", "Gombe", "Kumo"]
+    },
+    {
+      "name": "Imo",
+      "capital": "Owerri",
+      "region": "South East",
+      "cities": ["Oguta", "Owerri", "Umuahia"]
+    },
+    {
+      "name": "Jigawa",
+      "capital": "Dutse",
+      "region": "North West",
+      "cities": ["Birnin Kudu", "Dutse", "Gumel", "Hadejia", "Kazaure"]
+    },
+    {
+      "name": "Kaduna",
+      "capital": "Kaduna",
+      "region": "North West",
+      "cities": [
+        "Ikara",
+        "Jema'a",
+        "Kaduna",
+        "Kafanchan",
+        "Kagarko",
+        "Kaura",
+        "Kudan",
+        "Makarfi",
+        "Sabon Gari",
+        "Sanga",
+        "Zaria"
+      ]
+    },
+    {
+      "name": "Kano",
+      "capital": "Kano",
+      "region": "North West",
+      "cities": ["Bichi", "Dambatta", "Funtua", "Kano", "Katsina", "Kazaure", "Rano", "Wudil"]
+    },
+    {
+      "name": "Katsina",
+      "capital": "Katsina",
+      "region": "North West",
+      "cities": ["Daura", "Funtua", "Katsina", "Malumfashi"]
+    },
+    {
+      "name": "Kebbi",
+      "capital": "Birnin Kebbi",
+      "region": "North West",
+      "cities": ["Birnin Kebbi", "Jega", "Yauri", "Zuru"]
+    },
+    {
+      "name": "Kogi",
+      "capital": "Lokoja",
+      "region": "North Central",
+      "cities": ["Idah", "Kabba", "Lokoja", "Okene"]
+    },
+    {
+      "name": "Kwara",
+      "capital": "Ilorin",
+      "region": "North Central",
+      "cities": ["Ilorin", "Jebba", "Offa", "Omu Aran"]
+    },
+    {
+      "name": "Lagos",
+      "capital": "Ikeja",
+      "region": "South West",
+      "cities": [
+        "Badagry",
+        "Epe",
+        "Ibeju Lekki",
+        "Ikorodu",
+        "Ikoyi",
+        "Lagos Island",
+        "Mushin",
+        "Ojo",
+        "Surulere",
+        "Victoria Island"
+      ]
+    },
+    {
+      "name": "Nasarawa",
+      "capital": "Lafia",
+      "region": "North Central",
+      "cities": ["Keffi", "Lafia", "Nasarawa", "Wamba"]
+    },
+    {
+      "name": "Niger",
+      "capital": "Minna",
+      "region": "North Central",
+      "cities": ["Bida", "Kontagora", "Minna", "Suleja"]
+    },
+    {
+      "name": "Ogun",
+      "capital": "Abeokuta",
+      "region": "South West",
+      "cities": ["Abeokuta", "Ijebu Ode", "Sagamu"]
+    },
+    {
+      "name": "Ondo",
+      "capital": "Akure",
+      "region": "South West",
+      "cities": ["Akure", "Ikare", "Ondo", "Owo"]
+    },
+    {
+      "name": "Osun",
+      "capital": "Osogbo",
+      "region": "South West",
+      "cities": ["Ede", "Ife", "Ilesha", "Ikirun", "Ila Orangun", "Iwo", "Osogbo"]
+    },
+    {
+      "name": "Oyo",
+      "capital": "Ibadan",
+      "region": "South West",
+      "cities": ["Ibadan", "Ogbomosho", "Oyo", "Saki"]
+    },
+    {
+      "name": "Plateau",
+      "capital": "Jos",
+      "region": "North Central",
+      "cities": ["Bokkos", "Jos", "Lafia", "Pankshin", "Shendam", "Wase"]
+    },
+    {
+      "name": "Rivers",
+      "capital": "Port Harcourt",
+      "region": "South South",
+      "cities": ["Bonny", "Degema", "Eleme", "Port Harcourt"]
+    },
+    {
+      "name": "Sokoto",
+      "capital": "Sokoto",
+      "region": "North West",
+      "cities": [
+        "Binji",
+        "Bodinga",
+        "Goronyo",
+        "Gwadabawa",
+        "Illela",
+        "Isa",
+        "Kebbe",
+        "Rabah",
+        "Sokoto",
+        "Tambuwal",
+        "Wurno",
+        "Yabo"
+      ]
+    },
+    {
+      "name": "Taraba",
+      "capital": "Jalingo",
+      "region": "North East",
+      "cities": ["Bali", "Jalingo", "Serti", "Wukari", "Zing"]
+    },
+    {
+      "name": "Yobe",
+      "capital": "Damaturu",
+      "region": "North East",
+      "cities": ["Buni Yadi", "Damaturu", "Gashua", "Potiskum"]
+    },
+    {
+      "name": "Zamfara",
+      "capital": "Gusau",
+      "region": "North West",
+      "cities": ["Anka", "Bakura", "Gusau", "Kaura Namoda", "Maru", "Tsafe", "Zurmi"]
+    }
+  ]
+}

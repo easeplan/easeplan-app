@@ -66,7 +66,7 @@ const Sidenav = () => {
             <SidebarItem
               icon={<ChromeReaderModeIcon />}
               text="My Profile"
-              href="/profile"
+              href="/account/profile"
             />
           </Links>
         )}

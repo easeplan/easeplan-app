@@ -133,7 +133,7 @@ const Card = styled(`div`)(({ theme }: any) => ({
   color: theme.palette.primary.main,
   background: theme.palette.common.light,
   margin: `1rem 0 0 0`,
-  height: `170px`,
+  height: `145px`,
   boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
 
   '.title': {

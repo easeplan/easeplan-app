@@ -50,7 +50,6 @@ const ProfilePhoto = ({ token }: any) => {
           md: `-4rem`,
           lg: `-4rem`,
         },
-        backgroundColor: `primary.main`,
         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
       }}
     >
@@ -83,7 +82,7 @@ const ChangeCoverImg = styled(`div`)(({ theme }) => ({
   position: `absolute`,
   bottom: `0.2rem`,
   right: `-1.4rem`,
-  zIndex: `9`,
+  zIndex: `1`,
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

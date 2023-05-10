@@ -55,15 +55,15 @@ const CoverBanner = ({ queryData, token }: any) => {
           sm: `130px`,
           md: `200px`,
           lg: `200px`,
-          xl: `200px`,
+          xl: `300px`,
         },
-        backgroundColor: `primary.main`,
-        my: `2rem`,
-        borderRadius: `18px`,
+        my: `1rem`,
+        borderRadius: `10px`,
         position: `relative`,
         display: `flex`,
         alignItems: `center`,
         justifyContent: `center`,
+        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
       }}
     >
       <Formik
@@ -90,9 +90,11 @@ const CoverBanner = ({ queryData, token }: any) => {
                   src={previewBannerImg}
                   alt="bannerImage"
                   fill
+                  quality={100}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{
-                    width: `100%`,
-                    borderRadius: `18px`,
+                    height: `100%`,
+                    borderRadius: `10px`,
                     objectFit: `cover`,
                   }}
                 />
@@ -101,9 +103,11 @@ const CoverBanner = ({ queryData, token }: any) => {
                   src={queryData?.company?.image}
                   alt="bannerImage"
                   fill
+                  quality={100}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{
-                    width: `100%`,
-                    borderRadius: `18px`,
+                    height: `100%`,
+                    borderRadius: `10px`,
                     objectFit: `cover`,
                   }}
                 />
@@ -130,7 +134,7 @@ const ChangeCoverImg = styled(`label`)(({ theme }) => ({
   position: `absolute`,
   top: `1rem`,
   right: `1rem`,
-  zIndex: `9`,
+  zIndex: `1`,
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

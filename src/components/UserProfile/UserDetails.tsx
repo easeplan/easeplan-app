@@ -16,7 +16,7 @@ const UserDetails = ({ queryData, token }: any) => {
       <EditUserDetailsModal
         isOpen={openModal}
         isClose={() => setOpenModal(false)}
-        toke={token}
+        token={token}
         queryData={queryData}
       />
       <Box
@@ -24,8 +24,8 @@ const UserDetails = ({ queryData, token }: any) => {
           mt: {
             xs: `3rem`,
             sm: `3rem`,
-            md: `4rem`,
-            lg: `4rem`,
+            md: `5rem`,
+            lg: `5rem`,
           },
         }}
       >
@@ -92,7 +92,7 @@ const UserDetails = ({ queryData, token }: any) => {
 const EditButton = styled(`button`)(({ theme }) => ({
   border: `none`,
   backgroundColor: `transparent`,
-  zIndex: `9`,
+  zIndex: `1`,
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

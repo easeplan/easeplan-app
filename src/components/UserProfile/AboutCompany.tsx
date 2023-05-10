@@ -1,15 +1,27 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
+import EditCompanyModal from './EditCompanyModal';
 
 const AboutCompany = ({ queryData, token }: any) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
   return (
     <Box
       sx={{
         mb: `3rem`,
       }}
     >
+      <EditCompanyModal
+        isOpen={openModal}
+        isClose={() => setOpenModal(false)}
+        token={token}
+        queryData={queryData}
+      />
       <Box
         sx={{
           mt: `5rem`,
@@ -31,7 +43,7 @@ const AboutCompany = ({ queryData, token }: any) => {
         >
           About {queryData?.company?.name}
         </Typography>
-        <EditButton>
+        <EditButton onClick={handleOpenModal}>
           <CreateOutlinedIcon className="icon" />
         </EditButton>
       </Box>
@@ -45,7 +57,7 @@ const AboutCompany = ({ queryData, token }: any) => {
 const EditButton = styled(`button`)(({ theme }) => ({
   border: `none`,
   backgroundColor: `transparent`,
-  zIndex: `9`,
+  zIndex: `1`,
   display: `flex`,
   alignItems: `center`,
   justifyContent: `center`,

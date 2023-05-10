@@ -1,10 +1,6 @@
-import { useState } from 'react';
-import { Box, MenuItem, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Image from 'next/image';
+import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { Field, FieldProps } from 'formik';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
@@ -15,8 +11,7 @@ import { Container } from '@mui/system';
 import FormInput from '../common/FormInput';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
-import SelectState from '../common/SelectState';
-import data from '@/lib/states.json';
+import TextArea from '../common/TextArea';
 
 const style = {
   position: `absolute` as const,
@@ -37,17 +32,17 @@ const style = {
   borderRadius: `8px`,
 };
 
-const ProfileSchema = Yup.object().shape({
-  picture: Yup.string(),
+const CompanyProfileSchema = Yup.object().shape({
+  name: Yup.string().required(`Name is missing`),
+  description: Yup.string().required(`Description is missing`),
 });
 
-const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
-  const [selectedState, setSelectedState] = useState<any>();
+const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.post(`/providers/profile`, credentials, {
+      customFetch.put(`/providers/verification/company`, credentials, {
         headers: {
           'Content-Type': `application/json`,
           Authorization: `Bearer ${token}`,
@@ -55,7 +50,7 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      toast.success(`Company Details Updated`);
       isClose(false);
     },
     onError: (error: any) => {
@@ -92,99 +87,38 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    firstname: queryData?.details?.firstname
-                      ? queryData?.details?.firstname
+                    name: queryData?.company?.name
+                      ? queryData?.company?.name
                       : ``,
-                    lastname: queryData?.details?.lastname
-                      ? queryData?.details?.lastname
+                    description: queryData?.company?.description
+                      ? queryData?.company?.description
                       : ``,
-                    city: queryData?.city ? queryData?.city : ``,
-                    state: queryData?.state ? queryData?.state : ``,
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
-                  validationSchema={ProfileSchema}
+                  validationSchema={CompanyProfileSchema}
                 >
                   {({ setFieldValue }) => (
                     <Form>
                       <Box>
                         <Box>
                           <div>
-                            <Label text="First Name" />
+                            <Label text="Enter Name of company" />
                           </div>
                           <FormInput
-                            ariaLabel="FirstName"
-                            name="firstname"
+                            ariaLabel="name"
+                            name="name"
                             type="text"
-                            placeholder="e.g John"
+                            placeholder="e.g Jammers Planning"
                           />
                         </Box>
                         <Box>
                           <div>
-                            <Label text="Last Name" />
+                            <Label text="Lets know more about company" />
                           </div>
-                          <FormInput
-                            ariaLabel="Last Name"
-                            name="lastname"
-                            type="text"
-                            placeholder="e.g mark"
+                          <TextArea
+                            name="description"
+                            placeholder="Enter description"
                           />
-                        </Box>
-                        <Box
-                          sx={{
-                            display: `grid`,
-                            alignItems: `center`,
-                            gap: `1rem`,
-                            gridTemplateColumns: `1fr 1fr`,
-                          }}
-                        >
-                          <Box>
-                            <div>
-                              <Label text="State" />
-                            </div>
-                            <SelectState
-                              selectPlaceholder="Select State"
-                              name="state"
-                              onChange={(e: { target: { value: string } }) => {
-                                const selectedState = data?.states.find(
-                                  (state) => state.name === e.target.value,
-                                );
-                                setSelectedState(selectedState);
-                                setFieldValue(`state`, e.target.value);
-                                setFieldValue(`city`, ``);
-                              }}
-                            >
-                              {data?.states?.map((state: any) => {
-                                return (
-                                  <MenuItem
-                                    key={state?.name}
-                                    value={state.name}
-                                  >
-                                    {state?.name}
-                                  </MenuItem>
-                                );
-                              })}
-                            </SelectState>
-                          </Box>
-                          {selectedState && (
-                            <Box>
-                              <div>
-                                <Label text="City" />
-                              </div>
-                              <FormInput
-                                isSelect
-                                selectPlaceholder="Select City"
-                                name="city"
-                              >
-                                {selectedState?.cities?.map((city: any) => {
-                                  return (
-                                    <MenuItem key={city} value={city}>
-                                      {city}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </FormInput>
-                            </Box>
-                          )}
                         </Box>
                         <Box
                           mt={2}
@@ -230,4 +164,4 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
   );
 };
 
-export default EditUserDetailsModal;
+export default EditCompanyModal;

@@ -21,8 +21,8 @@ const style = {
   transform: `translate(-50%, -50%)`,
   width: {
     xs: `85%`,
-    sm: 300,
-    md: `30%`,
+    sm: `45%`,
+    md: `40%`,
     lg: `30%`,
     xl: `30%`,
   },
@@ -104,6 +104,7 @@ export default function UpdateProfileModal({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
+      isClose(false);
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -142,6 +143,12 @@ export default function UpdateProfileModal({
                 <Formik
                   initialValues={{
                     picture: queryData?.picture ? queryData?.picture : ``,
+                    firstname: queryData?.details?.firstname
+                      ? queryData?.details?.firstname
+                      : ``,
+                    lastname: queryData?.details?.lastname
+                      ? queryData?.details?.lastname
+                      : ``,
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileImgSchema}
@@ -209,6 +216,7 @@ export default function UpdateProfileModal({
                           width: `100%`,
                           display: `flex`,
                           alignItems: `center`,
+                          flexWrap: `wrap`,
                           justifyContent: `center`,
                           padding: `1rem 0`,
                         }}

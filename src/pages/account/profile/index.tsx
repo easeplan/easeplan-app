@@ -10,20 +10,6 @@ import UserProfile from '@/components/UserProfile';
 export { getServerSideProps } from '@/context/contextStore';
 
 const ProfilePage = ({ token }: any) => {
-  // const { queryData } = useAuthUser();
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
-
   return (
     <DashboardLayout token={token}>
       <UserProfile token={token} />

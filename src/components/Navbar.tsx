@@ -31,8 +31,8 @@ const Navbar = () => {
               href="https://www.easeplan.io/vendor"
               text="Join vendors"
             />
-            <NavItem href="https://www.app.easeplan.io/login" text="Login" />
-            <Link href="https://www.app.easeplan.io/signup">
+            <NavItem href="/login" text="Login" />
+            <Link href="/signup">
               <CustomButton p="0 3rem" bgSecondary>
                 Sign up
               </CustomButton>

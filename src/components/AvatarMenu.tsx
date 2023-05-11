@@ -125,7 +125,7 @@ export default function AvatarMenu({
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <Link href="/account/profile">
+                    <Link href="/account/settings">
                       <MenuItem onClick={handleClose}>Settings</MenuItem>
                     </Link>
                     {/* <MenuItem onClick={handleClose}>History</MenuItem>

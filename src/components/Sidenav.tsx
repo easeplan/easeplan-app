@@ -79,7 +79,7 @@ const Sidenav = () => {
         </Links>
       </NavLinks>
       <NavFooter>
-        <Link href="/settings">
+        <Link href="/account/settings">
           <div className="IconWrapper">
             <SettingsIcon />
           </div>

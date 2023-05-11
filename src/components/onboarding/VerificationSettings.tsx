@@ -27,7 +27,7 @@ const ProfileSchema = Yup.object().shape({
   idDocument: Yup.mixed()
     .required(`Document is required`)
     .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
-      return value && value?.size <= 200000;
+      return value && value[0] && value[0]?.size <= 200000;
     })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (
@@ -84,9 +84,6 @@ const VerificationSettings = ({ token }: PropsTypes) => {
           },
         },
       );
-
-      console.log(data);
-
       if (data.status === `success`) {
         setStep1(false);
         setStep2(false);

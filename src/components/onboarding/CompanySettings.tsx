@@ -25,7 +25,18 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 const ProfileSchema = Yup.object().shape({
   name: Yup.string().required(`Business name is required`),
   serviceType: Yup.string().required(`Service type is required`),
-  image: Yup.string().required(`Business Banner is required`),
+  image: Yup.mixed()
+    .required(`Business Banner is required`)
+    .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
+      return value && value?.size <= 200000;
+    })
+    .test(`type`, `We only support jpeg`, function (value: any) {
+      return (
+        (value && value[0] && value[0].type === `image/jpeg`) ||
+        `image/png` ||
+        `image/jpg`
+      );
+    }),
 });
 
 interface PropsTypes {
@@ -268,13 +279,13 @@ const CompanySettings = ({ token }: PropsTypes) => {
                                 src={previewImg}
                                 alt="profileImg"
                                 height={50}
-                                width={100}
+                                width={80}
                                 style={{ borderRadius: `10px` }}
                               />
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg }`}</small>
+                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
                       </Box>
                       <Box>
                         <TextArea
@@ -307,8 +318,8 @@ const CompanySettings = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  display: `flex`,
-  alignItems: `center`,
+  // display: `flex`,
+  // alignItems: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

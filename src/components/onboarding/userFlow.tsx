@@ -26,7 +26,18 @@ const ProfileSchema = Yup.object().shape({
   firstname: Yup.string().required(`First Name is required`),
   lastname: Yup.string().required(`Last Name is required`),
   city: Yup.string().required(`City is required`),
-  picture: Yup.string(),
+  picture: Yup.mixed()
+    .required(`Image is required`)
+    .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
+      return value && value?.size <= 200000;
+    })
+    .test(`type`, `We only support jpeg`, function (value: any) {
+      return (
+        (value && value[0] && value[0].type === `image/jpeg`) ||
+        `image/png` ||
+        `image/jpg`
+      );
+    }),
 });
 
 interface PropsTypes {
@@ -262,7 +273,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg }`}</small>
+                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
                       </Box>
                       <Box mt={10}>
                         <CustomButton
@@ -288,9 +299,9 @@ const UserFlow = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+  // display: `flex`,
+  // alignItems: `center`,
+  // justifyContent: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

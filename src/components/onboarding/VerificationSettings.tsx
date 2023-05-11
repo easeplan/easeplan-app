@@ -26,9 +26,9 @@ const ProfileSchema = Yup.object().shape({
   idType: Yup.string().required(`ID Type is required`),
   idDocument: Yup.mixed()
     .required(`Document is required`)
-    // .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
-    //   return value && value?.size <= 200000;
-    // })
+    .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
+      return value && value?.size <= 200000;
+    })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (
         (value && value[0] && value[0].type === `image/jpeg`) ||
@@ -43,7 +43,6 @@ interface PropsTypes {
 }
 
 interface FormTypes {
-  // businssName?: string;
   officeAddress?: string;
   phoneNumber?: string;
   idType?: string;
@@ -185,7 +184,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                 mt={1}
                 color="primary.main"
                 py={1}
-                pl={2}
+                px={2}
                 sx={{
                   backgroundColor: `#fff`,
                   fontSize: {
@@ -307,13 +306,13 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                                 src={previewImg}
                                 alt="profileImg"
                                 height={50}
-                                width={100}
+                                width={80}
                                 style={{ borderRadius: `10px` }}
                               />
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg }`}</small>
+                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
                       </Box>
                       <Box mt={10}>
                         <CustomButton
@@ -339,8 +338,8 @@ const VerificationSettings = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
+  // display: `flex`,
+  // alignItems: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,
@@ -363,7 +362,7 @@ const AddButton = styled(`label`)(({ theme }) => ({
 
   '@media (max-width: 900px)': {
     padding: `0.6rem 1rem`,
-    width: `60%`,
+    width: `65%`,
   },
 }));
 

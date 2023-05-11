@@ -24,7 +24,18 @@ const ProfileSchema = Yup.object().shape({
   officeAddress: Yup.string().required(`Office Address is required`),
   phoneNumber: Yup.string().required(`Phone Number is required`),
   idType: Yup.string().required(`ID Type is required`),
-  idDocument: Yup.string().required(`Document is required`),
+  idDocument: Yup.mixed()
+    .required(`Document is required`)
+    // .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
+    //   return value && value?.size <= 200000;
+    // })
+    .test(`type`, `We only support jpeg`, function (value: any) {
+      return (
+        (value && value[0] && value[0].type === `image/jpeg`) ||
+        `image/png` ||
+        `image/jpg`
+      );
+    }),
 });
 
 interface PropsTypes {

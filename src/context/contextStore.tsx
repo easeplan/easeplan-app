@@ -58,10 +58,10 @@ export async function getServerSideProps({ req }: any) {
 const AuthContext = createContext<ContextType>({} as ContextType);
 
 export const AuthProvider = ({ queryData, token, children }: any) => {
-  const [intro, setIntro] = useState<boolean>(true);
+  const [intro, setIntro] = useState<boolean>(false);
   const [introOne, setIntroOne] = useState<boolean>(false);
   const [step1, setStep1] = useState<boolean>(false);
-  const [step2, setStep2] = useState<boolean>(false);
+  const [step2, setStep2] = useState<boolean>(true);
   const [step3, setStep3] = useState<boolean>(false);
 
   return (

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Field, FieldProps } from 'formik';
+import FormError from './FormError';
 
 type Props = {
   name: string;
@@ -20,7 +21,7 @@ const Input: FC<Props> = ({
 }) => {
   return (
     <Field name={name}>
-      {({ field, form }: FieldProps) => {
+      {({ field, form, meta }: FieldProps) => {
         const { setFieldValue } = form;
 
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +54,9 @@ const Input: FC<Props> = ({
             ) : (
               <input type={type} id={name} {...field} onChange={handleChange} />
             )}
+            {meta.touched && meta.error ? (
+              <FormError text={meta.error}></FormError>
+            ) : null}
           </div>
         );
       }}

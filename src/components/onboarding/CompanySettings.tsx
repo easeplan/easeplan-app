@@ -20,6 +20,7 @@ import logoImg from '@/public/logo.png';
 import { useRouter } from 'next/router';
 import services from '@/lib/services.json';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import { ValidationError } from 'yup';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -28,8 +29,11 @@ const ProfileSchema = Yup.object().shape({
   image: Yup.mixed()
     .required(`Business Banner is required`)
     .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
-      const maxFileSize = 2 * 1024 * 1024; // 2MB
-      return value && value?.size > maxFileSize;
+      const maxFileSize = 1 * 1024 * 1024; // 1MB
+      if (value && value.size < maxFileSize) {
+        return value && value.size < maxFileSize;
+      }
+      return false;
     })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (

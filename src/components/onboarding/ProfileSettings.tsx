@@ -27,22 +27,13 @@ const ProfileSchema = Yup.object().shape({
   city: Yup.string().required(`City is required`),
   picture: Yup.mixed()
     .required(`Image is required`)
-    .test(
-      `fileSize`,
-      `The file should be less than 1mb`,
-      (value: any): boolean | ValidationError => {
-        const maxFileSize = 4 * 1024 * 1024; // 2MB
-        if (value && value.size < maxFileSize) {
-          console.log(value && value.size > maxFileSize);
-          return new ValidationError(
-            `Selected image size is too large. Maximum size allowed is ${
-              maxFileSize / 1024 / 1024
-            }MB.`,
-          );
-        }
-        return true;
-      },
-    )
+    .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
+      const maxFileSize = 1 * 1024 * 1024; // 1MB
+      if (value && value.size < maxFileSize) {
+        return value && value.size < maxFileSize;
+      }
+      return false;
+    })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (
         (value && value[0] && value[0].type === `image/jpeg`) ||

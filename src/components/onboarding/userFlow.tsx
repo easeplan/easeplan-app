@@ -19,6 +19,7 @@ import logoImg from '@/public/logo.png';
 import IllusImg from '@/public/onboarding-image/Feeling proud-bro.svg';
 import { useRouter } from 'next/router';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import { ValidationError } from 'yup';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -29,8 +30,11 @@ const ProfileSchema = Yup.object().shape({
   picture: Yup.mixed()
     .required(`Image is required`)
     .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
-      const maxFileSize = 2 * 1024 * 1024; // 2MB
-      return value && value?.size > maxFileSize;
+      const maxFileSize = 1 * 1024 * 1024; // 1MB
+      if (value && value.size < maxFileSize) {
+        return value && value.size < maxFileSize;
+      }
+      return false;
     })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (

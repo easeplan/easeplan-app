@@ -29,7 +29,8 @@ const ProfileSchema = Yup.object().shape({
   picture: Yup.mixed()
     .required(`Image is required`)
     .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
-      return value && value[0] && value[0]?.size <= 200000;
+      const maxFileSize = 2 * 1024 * 1024; // 2MB
+      return value && value?.size > maxFileSize;
     })
     .test(`type`, `We only support jpeg`, function (value: any) {
       return (

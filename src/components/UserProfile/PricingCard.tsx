@@ -1,12 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import { PlannerCard, VendorPricingCard } from '../PricingCard';
+import EditPricingCardModal from './EditPricingCardModal';
 
 const PricingCard = ({ queryData, token }: any) => {
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
   return (
     <Box>
+      <EditPricingCardModal
+        token={token}
+        queryData={queryData}
+        isOpen={openModal}
+        isClose={() => setOpenModal(false)}
+      />
       <Box
         sx={{
           mt: `2rem`,
@@ -28,7 +39,7 @@ const PricingCard = ({ queryData, token }: any) => {
         >
           Pricing
         </Typography>
-        <EditButton>
+        <EditButton onClick={handleOpenModal}>
           <CreateOutlinedIcon className="icon" />
         </EditButton>
       </Box>

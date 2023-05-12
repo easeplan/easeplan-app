@@ -51,6 +51,7 @@ const ProfilePhoto = ({ token }: any) => {
           lg: `-4rem`,
         },
         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+        backgroundColor: `#fff`,
       }}
     >
       <Box>

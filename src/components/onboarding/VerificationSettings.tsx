@@ -28,7 +28,7 @@ const ProfileSchema = Yup.object().shape({
   idDocument: Yup.mixed()
     .required(`Document is required`)
     .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
-      const maxFileSize = 1 * 1024 * 1024; // 1MB
+      const maxFileSize = 5 * 1024 * 1024; // 1MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }

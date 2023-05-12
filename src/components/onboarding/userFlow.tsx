@@ -29,8 +29,8 @@ const ProfileSchema = Yup.object().shape({
   city: Yup.string().required(`City is required`),
   picture: Yup.mixed()
     .required(`Image is required`)
-    .test(`fileSize`, `The file should be less than 1mb`, (value: any) => {
-      const maxFileSize = 5 * 1024 * 1024; // 1MB
+    .test(`fileSize`, `The file should be less than 5mb`, (value: any) => {
+      const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }

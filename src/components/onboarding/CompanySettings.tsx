@@ -28,8 +28,8 @@ const ProfileSchema = Yup.object().shape({
   serviceType: Yup.string().required(`Service type is required`),
   image: Yup.mixed()
     .required(`Business Banner is required`)
-    .test(`fileSize`, `It hould be less than 1mb`, (value: any) => {
-      const maxFileSize = 5 * 1024 * 1024; // 1MB
+    .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
+      const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }

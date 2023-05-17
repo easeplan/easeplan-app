@@ -12,9 +12,9 @@ import 'swiper/css/pagination';
 const Dashboard = ({ data }: any) => {
   return (
     <DashboardWrapper>
-      {/* <h3 className="head">Today’s Summary</h3> */}
+      <h3 className="head">Today’s Summary</h3>
       <h3 className="greetTitle">Welcome, {data?.details?.firstname}</h3>
-      {/* <p className="subTitle">Activities</p> */}
+      <p className="subTitle">Activities</p>
 
       <Swiper
         slidesPerView={1.3}
@@ -85,7 +85,7 @@ const Dashboard = ({ data }: any) => {
 const DashboardWrapper = styled(`section`)(({ theme }: any) => ({
   position: `relative`,
   height: `100%`,
-  marginTop: `2rem`,
+  marginTop: `1rem`,
   color: theme.palette.primary.main,
   // border: `solid 1px #ccc`,
   padding: `1.2rem 1rem 2rem 1.2rem`,

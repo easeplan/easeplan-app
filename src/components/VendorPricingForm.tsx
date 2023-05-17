@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import FormInput from './common/FormInput';
 import axios from 'axios';
 import CustomButton from './common/CustomButton';
-import { Grid, Box, Typography, Checkbox } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import { useAuthUser } from '@/context/contextStore';
 import ErrorModal from './common/ErrorModal';
 import SuccessModal from './common/SuccessModal';

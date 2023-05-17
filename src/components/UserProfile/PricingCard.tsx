@@ -3,21 +3,23 @@ import { Box, Grid, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import { PlannerCard, VendorPricingCard } from '../PricingCard';
-import EditPricingCardModal from './EditPricingCardModal';
+import EditPlannerPriceModal from './EditPlannerForm/EditPremiumModal.tsx';
+import EditVendorPriceModal from './EditVendorPriceModal';
+import EditPremiumModal from './EditPlannerForm/EditPremiumModal.tsx';
+import EditStandardModal from './EditPlannerForm/EditStandardModal.tsx';
+import EditBasicModal from './EditPlannerForm/EditBasicModal.tsx';
 
 const PricingCard = ({ queryData, token }: any) => {
   const [openModal, setOpenModal] = useState(false);
+  const [openBasicModal, setOpenBasicModal] = useState(false);
+  const [openStandardModal, setOpenStandardModal] = useState(false);
+  const [openPremiumModal, setOpenPremiumModal] = useState(false);
+
   const handleOpenModal = () => {
     setOpenModal(true);
   };
   return (
     <Box>
-      <EditPricingCardModal
-        token={token}
-        queryData={queryData}
-        isOpen={openModal}
-        isClose={() => setOpenModal(false)}
-      />
       <Box
         sx={{
           mt: `2rem`,
@@ -39,51 +41,92 @@ const PricingCard = ({ queryData, token }: any) => {
         >
           Pricing
         </Typography>
-        <EditButton onClick={handleOpenModal}>
-          <CreateOutlinedIcon className="icon" />
-        </EditButton>
+        {queryData?.details?.role === `vendor` && (
+          <EditButton onClick={handleOpenModal}>
+            <CreateOutlinedIcon className="icon" />
+          </EditButton>
+        )}
       </Box>
 
       <Box mt={4}>
-        {queryData?.details?.role === `planner` && (
-          <Grid
-            container
-            rowSpacing={5}
-            columnSpacing={{ xs: 1, sm: 4, md: 5 }}
-          >
-            <Grid item xs={12} sm={6} md={4}>
-              <PlannerCard basic={true} data={queryData} />
+        {queryData?.details?.role === `vendor` && (
+          <>
+            <EditBasicModal
+              token={token}
+              queryData={queryData}
+              isOpen={openBasicModal}
+              isClose={() => setOpenBasicModal(false)}
+            />
+            <EditStandardModal
+              token={token}
+              queryData={queryData}
+              isOpen={openStandardModal}
+              isClose={() => setOpenStandardModal(false)}
+            />
+            <EditPremiumModal
+              token={token}
+              queryData={queryData}
+              isOpen={openPremiumModal}
+              isClose={() => setOpenPremiumModal(false)}
+            />
+
+            <Grid
+              container
+              rowSpacing={5}
+              columnSpacing={{ xs: 1, sm: 4, md: 5 }}
+            >
+              <Grid item xs={12} sm={6} md={4}>
+                <PlannerCard
+                  basic={true}
+                  setOpenBasicModal={setOpenBasicModal}
+                  data={queryData}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <PlannerCard
+                  standard={true}
+                  setOpenStandardModal={setOpenStandardModal}
+                  data={queryData}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <PlannerCard
+                  premium
+                  setOpenPremiumModal={setOpenPremiumModal}
+                  data={queryData}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <PlannerCard standard={true} data={queryData} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <PlannerCard premium data={queryData} />
-            </Grid>
-          </Grid>
+          </>
         )}
         {` `}
-        {queryData?.details?.role === `vendor` && (
-          <Grid
-            container
-            rowSpacing={5}
-            columnSpacing={{ xs: 1, sm: 4, md: 5 }}
-          >
-            <Grid item xs={12} sm={6} md={6}>
-              <VendorPricingCard
-                title="Minimum Amount"
-                data={queryData}
-                amount={queryData?.budget?.minimum}
-              />
+        {queryData?.details?.role === `planner` && (
+          <>
+            <EditVendorPriceModal
+              token={token}
+              queryData={queryData}
+              isOpen={openModal}
+              isClose={() => setOpenModal(false)}
+            />
+            <Grid
+              container
+              rowSpacing={5}
+              columnSpacing={{ xs: 1, sm: 4, md: 5 }}
+            >
+              <Grid item xs={12} sm={6} md={6}>
+                <VendorPricingCard
+                  title="Minimum Amount"
+                  amount={queryData?.budget?.minimum}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <VendorPricingCard
+                  title="Maximum Amount"
+                  amount={queryData?.budget?.maximum}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <VendorPricingCard
-                data={queryData}
-                title="Maximum Amount"
-                amount={queryData?.budget?.maximum}
-              />
-            </Grid>
-          </Grid>
+          </>
         )}
       </Box>
     </Box>

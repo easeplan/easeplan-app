@@ -6,6 +6,8 @@ import CoverBanner from './CoverBanner';
 import UserDetails from './UserDetails';
 import AboutCompany from './AboutCompany';
 import PricingCard from './PricingCard';
+import PreviousEvent from './PreviousEvent';
+import Reviews from './Reviews';
 export { getServerSideProps } from '@/context/contextStore';
 
 const UserProfile = ({ token }: any) => {
@@ -29,6 +31,8 @@ const UserProfile = ({ token }: any) => {
       <AboutCompany token={token} queryData={queryData} />
       <hr />
       <PricingCard token={token} queryData={queryData} />
+      <PreviousEvent queryData={queryData} />
+      <Reviews queryData={queryData} />
     </Box>
   );
 };

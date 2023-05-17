@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import EditUserDetailsModal from './EditUserDetailsModal';
+import UserRating from '../common/UserRating';
 
 const UserDetails = ({ queryData, token }: any) => {
   const [openModal, setOpenModal] = useState(false);
@@ -54,6 +55,16 @@ const UserDetails = ({ queryData, token }: any) => {
           <EditButton onClick={handleOpenModal}>
             <CreateOutlinedIcon className="icon" />
           </EditButton>
+        </Box>
+        <Box
+          sx={{
+            display: `flex`,
+            alignItems: `center`,
+            justifyContent: `center`,
+          }}
+        >
+          <UserRating rate="3" size="small" />
+          <Typography ml={1} fontSize="0.9rem">{`(45 Events)`}</Typography>
         </Box>
         <Box
           sx={{

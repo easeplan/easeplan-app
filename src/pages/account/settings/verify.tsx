@@ -4,6 +4,7 @@ import VerifyAccountForm from '@/components/VerifyAccountForm';
 import Link from 'next/link';
 import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
+// import FaceCapture from '@/components/FaceCapture';
 import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/context/contextStore';
 
@@ -27,6 +28,7 @@ const VerifyPage = ({ token }: any) => {
           <h3 className="title">Profile Settings</h3>
         </Link>
         <h3 className="title">{`/`}</h3>
+        {/* <FaceCapture /> */}
         {queryData?.details?.role !== `user` && (
           <Link href="/account/settings/verify">
             <h3 className="title active">Verification</h3>
@@ -34,6 +36,7 @@ const VerifyPage = ({ token }: any) => {
         )}
       </Flex>
       <VerifyAccountForm token={token} />
+      {/* <FaceCapture /> */}
     </DashboardLayout>
   );
 };

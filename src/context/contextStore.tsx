@@ -1,16 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useState, useEffect, createContext, useContext } from 'react';
-import axios from 'axios';
-import { parseCookies } from '@/lib/parseCookies';
-import useFetch from '@/hooks/useFetch';
 
 interface ContextType {
-  queryData?: any;
-  token: string;
-  setQueryData?: any;
-  // isLoading?: boolean;
-  setIsLoading?: any;
-  // error?: any;
   intro: boolean;
   setIntro: React.Dispatch<React.SetStateAction<boolean>>;
   introOne: boolean;
@@ -21,43 +12,11 @@ interface ContextType {
   setStep2: React.Dispatch<React.SetStateAction<boolean>>;
   step3: boolean;
   setStep3: React.Dispatch<React.SetStateAction<boolean>>;
-  // step4: boolean;
-  // setStep4: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export async function getServerSideProps({ req }: any) {
-  const { token } = parseCookies(req);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permanent: false,
-      },
-    };
-  }
-
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
-    {
-      headers: {
-        'Content-Type': `application/json`,
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return {
-    props: {
-      queryData: data?.data?.serviceProvider,
-      token: token,
-    },
-  };
 }
 
 const AuthContext = createContext<ContextType>({} as ContextType);
 
-export const AuthProvider = ({ queryData, token, children }: any) => {
+export const AuthProvider = ({ children }: any) => {
   const [intro, setIntro] = useState<boolean>(true);
   const [introOne, setIntroOne] = useState<boolean>(false);
   const [step1, setStep1] = useState<boolean>(false);
@@ -77,8 +36,6 @@ export const AuthProvider = ({ queryData, token, children }: any) => {
         setStep2,
         step3,
         setStep3,
-        queryData,
-        token,
       }}
     >
       {children}

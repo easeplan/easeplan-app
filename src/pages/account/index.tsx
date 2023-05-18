@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Badge from '@/components/common/Badge';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -7,16 +8,25 @@ import bannerImg from '@/public/banner.png';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
-
-export { getServerSideProps } from '@/context/contextStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTokenAsync } from '@/features/cookie/cookieMiddleware';
+// export { getServerSideProps } from '@/context/contextStore';
 
 interface Props {
   token: string;
 }
 
-const HomePage = ({ token }: Props) => {
+const HomePage = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((store: any) => store.token);
+
+  useEffect(() => {
+    // dispatch(setTokenAsync());
+  }, []);
+
+  console.log(token);
   const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
+    `/provider-profiles/profile`,
     `${token}`,
   );
 
@@ -31,12 +41,12 @@ const HomePage = ({ token }: Props) => {
   return (
     <>
       <DashboardLayout token={token}>
-        {queryData?.details?.role === `planner` && (
+        {/* {queryData?.details?.role === `planner` && (
           <Dashboard data={queryData} />
         )}
         {queryData?.details?.role === `vendor` && (
           <Dashboard data={queryData} />
-        )}
+        )} */}
 
         {/* {queryData?.identityVerify?.idDocument ? null : (
           <Badge data={queryData} />

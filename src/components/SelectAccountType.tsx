@@ -25,7 +25,7 @@ const SelectAccountType = () => {
   const updateUserRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
         role: `user`,
         email: `${userEmail}`,
       });
@@ -39,7 +39,7 @@ const SelectAccountType = () => {
   const updatePlannerRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
         role: `planner`,
         email: `${userEmail}`,
       });
@@ -53,7 +53,7 @@ const SelectAccountType = () => {
   const updateVendorRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
         role: `vendor`,
         email: `${userEmail}`,
       });

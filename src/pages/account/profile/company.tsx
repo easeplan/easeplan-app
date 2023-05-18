@@ -6,7 +6,7 @@ import PricingEventForm from '@/components/PricingEventForm';
 import OverviewForm from '@/components/OverviewForm';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
-export { getServerSideProps } from '@/context/contextStore';
+// export { getServerSideProps } from '@/context/contextStore';
 
 const CompanyPage = ({ token }: any) => {
   const { queryData, error, isLoading } = useFetch(

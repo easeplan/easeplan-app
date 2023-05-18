@@ -24,6 +24,8 @@ const UserProfile = ({ token }: any) => {
     return <p>Error:</p>;
   }
 
+  console.log(queryData);
+
   return (
     <Box>
       <CoverBanner token={token} queryData={queryData} />

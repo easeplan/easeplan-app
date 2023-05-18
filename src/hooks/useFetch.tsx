@@ -1,7 +1,14 @@
 import { useQuery } from 'react-query';
 import customFetch from '@/utils/customFetch';
+import {
+  fetchUserRequest,
+  fetchUserSuccess,
+  fetchUserFailure,
+} from '@/features/users/userSlice';
+import { useDispatch } from 'react-redux';
 
 const useFetch = (url: string, token: string) => {
+  const dispatch = useDispatch();
   const { data, error, isLoading } = useQuery({
     queryKey: [`userAuthData`],
     queryFn: async () => {
@@ -14,6 +21,7 @@ const useFetch = (url: string, token: string) => {
           },
         },
       );
+      // dispatch(fetchUserSuccess(data));
       return data;
     },
   });

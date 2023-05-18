@@ -14,6 +14,8 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Checkbox, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
+// import { useDispatch } from 'react-redux';
+// import { setToken } from '@/features/cookie/cookieSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
@@ -21,6 +23,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  // const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -44,21 +47,30 @@ const LoginForm = () => {
       );
       setLoginSuccess(`Successful Login`);
       setLoginError(``);
-
-      if (data?.data?.user?.hasVisited) {
-        if (data?.data?.user?.onboarding?.stage < 3) {
-          router.push(`/onboarding`);
-        } else {
-          router.push(`/account`);
-        }
-      } else {
-        if (typeof window !== `undefined`) {
-          localStorage.setItem(`userEmail`, `${credentials.email}`);
-        }
-        setTimeout(() => {
-          setPreviewModal(true);
-        }, 2000);
+      // saving the user role to localStorage
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`userRole`, `${data.data.role}`);
       }
+
+      console.log(data?.data?.accessToken);
+      // dispatch(setToken(data?.data?.accessToken));
+
+      router.push(`/account`);
+      // if (data?.data?.user?.hasVisited) {
+      //   // if (data?.data?.user?.onboarding?.stage < 3) {
+      //   //   router.push(`/onboarding`);
+      //   // } else {
+      //   //   router.push(`/account`);
+      //   // }
+      //   router.push(`/account`);
+      // } else {
+      //   if (typeof window !== `undefined`) {
+      //     localStorage.setItem(`userEmail`, `${credentials.email}`);
+      //   }
+      //   setTimeout(() => {
+      //     setPreviewModal(true);
+      //   }, 2000);
+      // }
     } catch (error: any) {
       setIsLoading(false);
       const { data } = error.response;

@@ -256,34 +256,6 @@ const VerifyAccountForm = ({ token }: any) => {
                 {isSuccess ? `SAVED ✔` : `SAVE`}
               </CustomButton>
             </Box>
-            <FormFooter>
-              <div className="flex">
-                {/* <Link href="/account/profile">
-                  <Button
-                    loading={isLoading}
-                    loadingText="Saving..."
-                    type="button"
-                    style={{
-                      width: `100%`,
-                      background: theme.palette.background.default,
-                      border: `solid 2px ${theme.palette.primary.main}`,
-                      color: theme.palette.primary.main,
-                      fontWeight: `700`,
-                    }}
-                  >
-                    BACK
-                  </Button>
-                </Link> */}
-                {/* <Button
-                  loading={isLoading}
-                  loadingText="Saving..."
-                  type="submit"
-                  style={{ width: `100%`, fontWeight: `700` }}
-                >
-                  SAVE
-                </Button> */}
-              </div>
-            </FormFooter>
           </Form>
         )}
       </Formik>

@@ -82,7 +82,7 @@ const VerifiactionModal = ({
     try {
       setIsResendLoading(true);
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-token`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-email`,
         { email: userEmail },
       );
       setIsResend(true);

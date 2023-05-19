@@ -9,18 +9,19 @@ import useFetch from '@/hooks/useFetch';
 // export { getServerSideProps } from '@/context/contextStore';
 
 const CompanyPage = ({ token }: any) => {
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/providers/profile`,
+  //   `${token}`,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
+
   return (
     <DashboardLayout token={token}>
       <Flex>

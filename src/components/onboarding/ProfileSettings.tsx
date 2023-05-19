@@ -73,7 +73,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       const formData = new FormData();
       formData.append(`picture`, credentials.picture);
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/stage_1`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         {
           state: credentials.state,
           firstname: credentials.firstname,

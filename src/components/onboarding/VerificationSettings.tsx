@@ -71,7 +71,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
       formData.append(`picture`, credentials.idDocument);
       setIsLoading(true);
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/stage_2`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/verify`,
         {
           business: {
             officeAddress: credentials?.officeAddress,

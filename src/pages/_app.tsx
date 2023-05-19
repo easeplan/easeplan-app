@@ -13,15 +13,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from '@/context/contextStore';
 import 'react-toastify/dist/ReactToastify.css';
-import { wrapper } from '../../store';
-import { Provider } from 'react-redux';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
 
 //  Create a client
 const queryClient = new QueryClient();
 
-function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -58,5 +56,3 @@ function App({ Component, pageProps }: AppProps) {
     </AnimatePresence>
   );
 }
-
-export default wrapper.withRedux(App);

@@ -10,22 +10,22 @@ import useFetch from '@/hooks/useFetch';
 
 const SettingsPage = ({ token }: any) => {
   // const { queryData } = useAuthUser();
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/providers/profile`,
+  //   `${token}`,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
 
   return (
     <DashboardLayout token={token}>
-      {queryData?.details?.role === `user` ? null : (
+      {/* {queryData?.details?.role === `user` ? null : (
         <Flex>
           <Link href="/account/settings">
             <h3 className="title active">Profile Settings</h3>
@@ -35,7 +35,7 @@ const SettingsPage = ({ token }: any) => {
             <h3 className="title">Verification</h3>
           </Link>
         </Flex>
-      )}
+      )} */}
       <ProfileForm token={token} />
     </DashboardLayout>
   );

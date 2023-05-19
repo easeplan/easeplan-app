@@ -51,26 +51,20 @@ const LoginForm = () => {
       if (typeof window !== `undefined`) {
         localStorage.setItem(`userRole`, `${data.data.role}`);
       }
-
-      console.log(data?.data?.accessToken);
-      // dispatch(setToken(data?.data?.accessToken));
-
-      router.push(`/account`);
-      // if (data?.data?.user?.hasVisited) {
-      //   // if (data?.data?.user?.onboarding?.stage < 3) {
-      //   //   router.push(`/onboarding`);
-      //   // } else {
-      //   //   router.push(`/account`);
-      //   // }
-      //   router.push(`/account`);
-      // } else {
-      //   if (typeof window !== `undefined`) {
-      //     localStorage.setItem(`userEmail`, `${credentials.email}`);
-      //   }
-      //   setTimeout(() => {
-      //     setPreviewModal(true);
-      //   }, 2000);
-      // }
+      if (data?.data?.hasVisited) {
+        if (data?.data?.onboardStage < 3) {
+          router.push(`/onboarding`);
+        } else {
+          router.push(`/account`);
+        }
+      } else {
+        if (typeof window !== `undefined`) {
+          localStorage.setItem(`userEmail`, `${credentials.email}`);
+        }
+        setTimeout(() => {
+          setPreviewModal(true);
+        }, 2000);
+      }
     } catch (error: any) {
       setIsLoading(false);
       const { data } = error.response;

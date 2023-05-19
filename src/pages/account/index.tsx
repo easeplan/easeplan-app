@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Badge from '@/components/common/Badge';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -8,27 +7,20 @@ import bannerImg from '@/public/banner.png';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTokenAsync } from '@/features/cookie/cookieMiddleware';
-// export { getServerSideProps } from '@/context/contextStore';
+import { parseCookies } from '@/lib/parseCookies';
 
 interface Props {
   token: string;
 }
 
-const HomePage = () => {
-  const dispatch = useDispatch();
-  const token = useSelector((store: any) => store.token);
-
-  useEffect(() => {
-    // dispatch(setTokenAsync());
-  }, []);
-
+const HomePage = ({ token }: Props) => {
   console.log(token);
   const { queryData, error, isLoading } = useFetch(
     `/provider-profiles/profile`,
-    `${token}`,
+    token,
   );
+
+  console.log(queryData);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -52,7 +44,7 @@ const HomePage = () => {
           <Badge data={queryData} />
         )} */}
 
-        {queryData?.details?.role === `user` && <FinderSection />}
+        {/* {queryData?.details?.role === `user` && <FinderSection />}
 
         <Box
           sx={{
@@ -72,7 +64,7 @@ const HomePage = () => {
             width={1200}
             loading="lazy"
           />
-        </Box>
+        </Box> */}
       </DashboardLayout>
     </>
   );
@@ -80,32 +72,23 @@ const HomePage = () => {
 
 export default HomePage;
 
-// export async function getServerSideProps({ req }: any) {
-//   const { token } = parseCookies(req);
+export async function getServerSideProps({ req }: any) {
+  const { token } = parseCookies(req);
 
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: `/login`,
-//         permanent: false,
-//       },
-//     };
-//   }
+  console.log(token);
 
-//   const { data } = await axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
-//     {
-//       headers: {
-//         'Content-Type': `application/json`,
-//         Authorization: `Bearer ${token}`,
-//       },
-//     },
-//   );
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {
-//       token: token,
-//       data: data?.data?.serviceProvider,
-//     },
-//   };
-// }
+  return {
+    props: {
+      token: token,
+    },
+  };
+}

@@ -1,14 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import customFetch from '@/utils/customFetch';
-import {
-  fetchUserRequest,
-  fetchUserSuccess,
-  fetchUserFailure,
-} from '@/features/users/userSlice';
-import { useDispatch } from 'react-redux';
+
+interface Props {
+  url?: string;
+  token: string;
+}
 
 const useFetch = (url: string, token: string) => {
-  const dispatch = useDispatch();
+  const [userRole, setUserRole] = useState<any>(null);
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      const role = localStorage.getItem(`userRole`);
+      setUserRole(role);
+    }
+  }, []);
   const { data, error, isLoading } = useQuery({
     queryKey: [`userAuthData`],
     queryFn: async () => {

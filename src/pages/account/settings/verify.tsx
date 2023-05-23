@@ -6,7 +6,7 @@ import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
 // import FaceCapture from '@/components/FaceCapture';
 import useFetch from '@/hooks/useFetch';
-export { getServerSideProps } from '@/context/contextStore';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const VerifyPage = ({ token }: any) => {
   // const { queryData, error, isLoading } = useFetch(

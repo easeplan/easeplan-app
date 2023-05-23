@@ -12,6 +12,10 @@ import CustomButton from '../common/CustomButton';
 import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useLoginMutation } from '@/features/usersApiSlice';
+import { setCredentials } from '@/features/authSlice';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
@@ -78,6 +82,7 @@ const SignupForm = () => {
         `${process.env.NEXT_PUBLIC_NEXT_API}/api/signup`,
         credentails,
       );
+      console.log(data);
       setLoginSuccess(data.message);
       setLoginError(``);
       if (typeof window !== `undefined`) {

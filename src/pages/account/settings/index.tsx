@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
-// export { getServerSideProps } from '@/context/contextStore';
+// export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const SettingsPage = ({ token }: any) => {
   // const { queryData } = useAuthUser();

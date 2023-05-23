@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
 import UserProfile from '@/components/UserProfile';
-export { getServerSideProps } from '@/context/contextStore';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const ProfilePage = ({ token }: any) => {
   // const { error, isLoading } = useFetch(`/providers/profile`, `${token}`);

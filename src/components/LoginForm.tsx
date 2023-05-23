@@ -3,19 +3,19 @@
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import FormError from '@/components/common/FormError';
 import Label from '@/components/common/Label';
 import FormInput from '@/components/common/FormInput';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Checkbox, Typography } from '@mui/material';
+import { Alert, Checkbox, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
-// import { useDispatch } from 'react-redux';
-// import { setToken } from '@/features/cookie/cookieSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useLoginMutation } from '@/features/usersApiSlice';
+import { setCredentials } from '@/features/authSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
@@ -23,11 +23,11 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const [login, { isLoading, error }] = useLoginMutation();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const [loginSuccess, setLoginSuccess] = useState<any>();
   const [loginError, setLoginError] = useState<any>();
   const [previewModal, setPreviewModal] = useState<boolean>();
   const [userName] = useState<any>(
@@ -40,17 +40,10 @@ const LoginForm = () => {
 
   const submitCredentials = async (credentials: any) => {
     try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_NEXT_API}/api/auth`,
-        credentials,
-      );
-      setLoginSuccess(`Successful Login`);
-      setLoginError(``);
-      // saving the user role to localStorage
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`userRole`, `${data.data.role}`);
-      }
+      const data = await login(credentials).unwrap();
+      const { role, hasVisited, onboardStage, _id } = data?.data;
+      dispatch(setCredentials({ role, hasVisited, onboardStage, _id }));
+
       if (data?.data?.hasVisited) {
         if (data?.data?.onboardStage < 3) {
           router.push(`/onboarding`);
@@ -66,10 +59,7 @@ const LoginForm = () => {
         }, 2000);
       }
     } catch (error: any) {
-      setIsLoading(false);
-      const { data } = error.response;
-      setLoginError(data.message);
-      setLoginSuccess(null);
+      setLoginError(error.data?.message);
     }
   };
 
@@ -115,8 +105,11 @@ const LoginForm = () => {
             >
               {() => (
                 <Form>
-                  {/* {loginSuccess && <FormSuccess text={loginSuccess} />} */}
-                  {loginError && <FormError text={loginError} />}
+                  {loginError && (
+                    <Alert sx={{ mb: 2 }} severity="error">
+                      {loginError}
+                    </Alert>
+                  )}
                   <InputControl>
                     <div>
                       <div>

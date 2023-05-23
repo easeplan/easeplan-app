@@ -9,13 +9,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
       req.body,
     );
-    console.log(data);
     if (!data) {
       res.status(401).json({ error: `Invalid credentials` });
       return;
     }
 
-    const token = data?.token;
+    const token = data?.data?.accessToken;
+    // console.log(token);
 
     res.setHeader(
       `Set-Cookie`,

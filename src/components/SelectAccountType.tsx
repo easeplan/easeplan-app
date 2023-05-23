@@ -9,6 +9,7 @@ import Logo from '@/public/easeplanlogo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import LoadingScreen from './common/LoadingScreen';
 
 const SelectAccountType = () => {
   const [userEmail, setUserEmail] = useState<any>();
@@ -53,11 +54,16 @@ const SelectAccountType = () => {
   const updateVendorRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
-        role: `vendor`,
-        email: `${userEmail}`,
-      });
-      router.push(`/onboarding`);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
+        {
+          role: `provider`,
+          email: `${userEmail}`,
+        },
+      );
+      if (data.status === `success`) {
+        router.push(`/onboarding`);
+      }
     } catch (error: any) {
       setIsLoading(false);
       console.log(error);
@@ -83,20 +89,7 @@ const SelectAccountType = () => {
       >
         <Container fixed>
           {isLoading ? (
-            <div>
-              <Box sx={{ marginBottom: `2rem` }}>
-                <Image src={Logo} alt="loaderImg" width={80} height={50} />
-              </Box>
-              <Image src={Loader} alt="loaderImg" width={100} height={100} />
-              <Typography
-                sx={{
-                  fontSize: 20,
-                  color: `${theme.palette.secondary.light}`,
-                }}
-              >
-                Creating account...
-              </Typography>
-            </div>
+            <LoadingScreen />
           ) : (
             <Box sx={{ flexGrow: 1 }}>
               <h2

@@ -7,28 +7,24 @@ import bannerImg from '@/public/banner.png';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
-import { parseCookies } from '@/lib/parseCookies';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 interface Props {
   token: string;
 }
 
 const HomePage = ({ token }: Props) => {
-  console.log(token);
-  const { queryData, error, isLoading } = useFetch(
-    `/provider-profiles/profile`,
-    token,
-  );
+  // const { queryData, error, isLoading } = useFetch(`/users`, token);
 
-  console.log(queryData);
+  // console.log(queryData);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
 
   return (
     <>
@@ -71,24 +67,3 @@ const HomePage = ({ token }: Props) => {
 };
 
 export default HomePage;
-
-export async function getServerSideProps({ req }: any) {
-  const { token } = parseCookies(req);
-
-  console.log(token);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/login`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      token: token,
-    },
-  };
-}

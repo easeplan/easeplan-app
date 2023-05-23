@@ -56,6 +56,7 @@ interface FormTypes {
 }
 
 const ProfileSettings = ({ token }: PropsTypes) => {
+  console.log(token);
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -76,8 +77,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         {
           state: credentials.state,
-          firstname: credentials.firstname,
-          lastname: credentials.lastname,
+          firstName: credentials.firstname,
+          lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
         },

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store/store';
 
 // Define a type for the slice state
@@ -33,9 +32,6 @@ export const authSlice = createSlice({
       state.userInfo = null;
       localStorage.removeItem(`userInfo`);
     },
-    // incrementByAmount: (state, action: PayloadAction<number>) => {
-    //   state.value += action.payload;
-    // },
   },
 });
 

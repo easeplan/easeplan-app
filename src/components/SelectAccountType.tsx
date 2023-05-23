@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react';
 import FinderIcon from '@/public/finder.gif';
 import PlannerIcon from '@/public/planner.gif';
 import VendorIcon from '@/public/vendor.gif';
-import Loader from '@/public/loader.gif';
-import Logo from '@/public/easeplanlogo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import LoadingScreen from './common/LoadingScreen';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/features/authSlice';
 
 const SelectAccountType = () => {
+  const dispatch = useDispatch();
   const [userEmail, setUserEmail] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -30,6 +31,7 @@ const SelectAccountType = () => {
         role: `user`,
         email: `${userEmail}`,
       });
+      dispatch(setCredentials({ role: `user` }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -44,6 +46,7 @@ const SelectAccountType = () => {
         role: `planner`,
         email: `${userEmail}`,
       });
+      dispatch(setCredentials({ role: `planner` }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -62,6 +65,7 @@ const SelectAccountType = () => {
         },
       );
       if (data.status === `success`) {
+        dispatch(setCredentials({ role: `provider` }));
         router.push(`/onboarding`);
       }
     } catch (error: any) {

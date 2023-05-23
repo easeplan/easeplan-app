@@ -4,20 +4,28 @@ import Image from 'next/image';
 import CustomButton from '../common/CustomButton';
 import { motion } from 'framer-motion';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import IllusImg from '@/public/onboarding-image/welcome-img.svg';
 import { FaQuoteLeft } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setIntro,
+  setUserIntro,
+  setIntroOne,
+} from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 const WelcomeScreen = () => {
-  const { queryData, intro, setIntro, setIntroOne, setStep1 } = useAuthUser();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { intro } = useSelector((state: RootState) => state.onboarding);
 
   const handleNextSlide = () => {
-    if (queryData?.details?.role === `user`) {
-      setIntroOne(true);
-      setIntro(false);
+    if (userInfo?.role === `user`) {
+      dispatch(setUserIntro(true));
+      dispatch(setIntro(false));
     } else {
-      setIntro(false);
-      setStep1(true);
+      dispatch(setIntro(false));
+      dispatch(setIntroOne(true));
     }
   };
 
@@ -106,7 +114,7 @@ const WelcomeScreen = () => {
             component={motion.section}
             {...headContainerAnimation}
           >
-            {queryData?.details?.role === `user` ? (
+            {userInfo?.role === `user` ? (
               <Typography variant="h5" fontWeight={600} color="primary.main">
                 <FaQuoteLeft /> {` `}
                 Welcome to the event app! Let&apos;s get you started in two

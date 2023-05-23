@@ -8,7 +8,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -21,7 +20,9 @@ import { useRouter } from 'next/router';
 import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import data from '@/lib/states.json';
-import { ValidationError } from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIntro, setUserIntro } from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -64,12 +65,13 @@ const UserFlow = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIntro, introOne, setStep1 } = useAuthUser();
   const [selectedState, setSelectedState] = useState<any>();
+  const dispatch = useDispatch();
+  const { userIntro } = useSelector((state: RootState) => state.onboarding);
 
   const handleNextSlide = () => {
-    setStep1(false);
-    setIntro(true);
+    dispatch(setUserIntro(false));
+    dispatch(setIntro(true));
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
@@ -110,7 +112,7 @@ const UserFlow = ({ token }: PropsTypes) => {
 
   return (
     <Box>
-      {introOne && (
+      {userIntro && (
         <Box sx={{ display: `flex`, height: `100vh` }}>
           <Box
             sx={{
@@ -328,9 +330,6 @@ const UserFlow = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  // display: `flex`,
-  // alignItems: `center`,
-  // justifyContent: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

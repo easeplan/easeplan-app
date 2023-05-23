@@ -13,6 +13,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import AvatarImg from '@/public/avatar.png';
+import { clearCredentials } from '@/features/authSlice';
+import { useDispatch } from 'react-redux';
+import { useLogoutMutation } from '@/features/usersApiSlice';
 
 interface AvatarMenuProps {
   imgSrc: any;
@@ -29,15 +32,20 @@ export default function AvatarMenu({
 }: AvatarMenuProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch();
+  // const [logout] = useLogoutMutation();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
   const router = useRouter();
 
+  // Logout function
   const handleLogout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+      // await logout().unwrap();
+      dispatch(clearCredentials());
       router.push(`/login`);
       setOpen(false);
     } catch (error: any) {}

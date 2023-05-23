@@ -14,11 +14,11 @@ const LoginPage = () => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     router.push(`/account`);
-  //   }
-  // }, [router, userInfo]);
+  useEffect(() => {
+    if (userInfo) {
+      router.push(`/account`);
+    }
+  }, [router, userInfo]);
 
   return (
     <>

@@ -29,9 +29,9 @@ export const authSlice = createSlice({
       state.userInfo = action.payload;
       localStorage.setItem(`userInfo`, JSON.stringify(action.payload));
     },
-    clearCredentials: (state, action) => {
+    clearCredentials: (state) => {
       state.userInfo = null;
-      localStorage.removeItem(`userInfor`);
+      localStorage.removeItem(`userInfo`);
     },
     // incrementByAmount: (state, action: PayloadAction<number>) => {
     //   state.value += action.payload;

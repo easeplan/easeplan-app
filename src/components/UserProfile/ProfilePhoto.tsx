@@ -4,22 +4,9 @@ import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import UpdateProfileModal from './ProfileImageModal';
-import useFetch from '@/hooks/useFetch';
 
-const ProfilePhoto = ({ token }: any) => {
+const ProfilePhoto = ({ token, queryData }: any) => {
   const [openModal, setOpenModal] = useState(false);
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
 
   const handleOpenModal = () => {
     setOpenModal(true);

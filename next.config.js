@@ -5,7 +5,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
-      'easeplan-s3.s3.eu-north-1.amazonaws.com',
+      'easeplan-storage.s3.us-east-1.amazonaws.com',
       'media.graphassets.com',
     ],
   },

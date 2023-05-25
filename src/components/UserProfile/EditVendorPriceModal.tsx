@@ -13,6 +13,8 @@ import { Formik, Form } from 'formik';
 import FormInput from '../common/FormInput';
 import CustomButton from '../common/CustomButton';
 import Label from '../common/Label';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: `absolute` as const,
@@ -39,16 +41,27 @@ const VendorSchema = Yup.object().shape({
 });
 
 const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`/providers/verification/add-budget`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+    mutationFn: (credentials: any) =>
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${queryData?.publicId}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Service Price Updated`);
@@ -60,7 +73,13 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
   });
 
   const handleVendorPricing = async (credentials: any) => {
-    updateProfile(credentials);
+    const data = {
+      budget: {
+        maximum: credentials.maximum,
+        minimum: credentials.minimum,
+      },
+    };
+    updateProfile(data);
   };
   return (
     <Container fixed>

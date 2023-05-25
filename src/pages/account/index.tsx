@@ -8,39 +8,48 @@ import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 interface Props {
   token: string;
 }
 
 const HomePage = ({ token }: Props) => {
-  // const { queryData, error, isLoading } = useFetch(`/users`, token);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { queryData, error, isLoading } = useFetch(
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `users`
+        : `users`
+    }/${userInfo?._id}`,
+    token,
+  );
 
-  // console.log(queryData);
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
-
-  // if (error) {
-  //   return <p>Error:</p>;
-  // }
+  if (error) {
+    return <p>Error:</p>;
+  }
 
   return (
     <>
       <DashboardLayout token={token}>
-        {/* {queryData?.details?.role === `planner` && (
+        {userInfo?.role === `provider` || userInfo?.role === `provider` ? (
           <Dashboard data={queryData} />
-        )}
-        {queryData?.details?.role === `vendor` && (
-          <Dashboard data={queryData} />
-        )} */}
+        ) : null}
 
         {/* {queryData?.identityVerify?.idDocument ? null : (
           <Badge data={queryData} />
         )} */}
 
-        {/* {queryData?.details?.role === `user` && <FinderSection />}
+        {userInfo?.role === `user` && <FinderSection />}
 
         <Box
           sx={{
@@ -60,7 +69,7 @@ const HomePage = ({ token }: Props) => {
             width={1200}
             loading="lazy"
           />
-        </Box> */}
+        </Box>
       </DashboardLayout>
     </>
   );

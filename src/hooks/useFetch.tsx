@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import customFetch from '@/utils/customFetch';
+import { RootState } from '@/store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { setQueryData } from '@/features/authSlice';
 
 interface Props {
   url?: string;
@@ -8,13 +11,7 @@ interface Props {
 }
 
 const useFetch = (url: string, token: string) => {
-  const [userRole, setUserRole] = useState<any>(null);
-  useEffect(() => {
-    if (typeof window !== `undefined`) {
-      const role = localStorage.getItem(`userRole`);
-      setUserRole(role);
-    }
-  }, []);
+  const dispatch = useDispatch();
   const { data, error, isLoading } = useQuery({
     queryKey: [`userAuthData`],
     queryFn: async () => {
@@ -27,12 +24,12 @@ const useFetch = (url: string, token: string) => {
           },
         },
       );
-      // dispatch(fetchUserSuccess(data));
+      dispatch(setQueryData(data?.data));
       return data;
     },
   });
 
-  return { queryData: data?.data?.serviceProvider, error, isLoading };
+  return { queryData: data?.data, error, isLoading };
 };
 
 export default useFetch;

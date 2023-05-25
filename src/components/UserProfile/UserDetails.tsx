@@ -50,7 +50,7 @@ const UserDetails = ({ queryData, token }: any) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.details?.firstname} {` `} {queryData?.details?.lastname}
+            {queryData?.firstName} {` `} {queryData?.lastName}
           </Typography>
           <EditButton onClick={handleOpenModal}>
             <CreateOutlinedIcon className="icon" />
@@ -63,8 +63,8 @@ const UserDetails = ({ queryData, token }: any) => {
             justifyContent: `center`,
           }}
         >
-          <UserRating rate="3" size="small" />
-          <Typography ml={1} fontSize="0.9rem">{`(45 Events)`}</Typography>
+          <UserRating rate={queryData?.rating} size="small" />
+          <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
         </Box>
         <Box
           sx={{

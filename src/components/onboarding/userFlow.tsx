@@ -68,6 +68,7 @@ const UserFlow = ({ token }: PropsTypes) => {
   const [selectedState, setSelectedState] = useState<any>();
   const dispatch = useDispatch();
   const { userIntro } = useSelector((state: RootState) => state.onboarding);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
     dispatch(setUserIntro(false));
@@ -87,6 +88,7 @@ const UserFlow = ({ token }: PropsTypes) => {
           lastname: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
+          role: userInfo?.role,
         },
         {
           headers: {

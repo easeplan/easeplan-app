@@ -7,7 +7,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -20,7 +19,9 @@ import logoImg from '@/public/logo.png';
 import { useRouter } from 'next/router';
 import services from '@/lib/services.json';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { ValidationError } from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIntroThree, setIntroTwo } from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -49,9 +50,10 @@ interface PropsTypes {
 }
 
 interface FormTypes {
-  companyName?: string;
+  name?: string;
   serviceType?: string;
   image?: any;
+  description?: string;
 }
 
 const CompanySettings = ({ token }: PropsTypes) => {
@@ -59,21 +61,36 @@ const CompanySettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
-  const { setStep3, step3, setStep2 } = useAuthUser();
+  const dispatch = useDispatch();
+  const { stepThree } = useSelector((state: RootState) => state.onboarding);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    setStep2(true);
-    setStep3(false);
+    dispatch(setIntroTwo(true));
+    dispatch(setIntroThree(false));
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
+    console.log({
+      name: credentials?.name,
+      serviceType: credentials?.serviceType,
+      image: credentials?.image,
+      description: credentials?.description,
+      role: userInfo?.role,
+    });
     try {
       const formData = new FormData();
       formData.append(`image`, credentials.image);
       setIsLoading(true);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company`,
-        credentials,
+        {
+          name: credentials?.name,
+          serviceType: credentials?.serviceType,
+          image: credentials?.image,
+          description: credentials?.description,
+          role: userInfo?.role,
+        },
         {
           headers: {
             'Content-Type': `multipart/form-data`,
@@ -83,7 +100,6 @@ const CompanySettings = ({ token }: PropsTypes) => {
       );
       if (data.status === `success`) {
         router.push(`/account`);
-        // setStep3(false);
         setIsLoading(false);
       }
     } catch (error) {}
@@ -91,7 +107,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
 
   return (
     <>
-      {step3 && (
+      {stepThree && (
         <Box sx={{ display: `flex`, height: `100vh` }}>
           <Box
             sx={{
@@ -217,6 +233,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
                     name: ``,
                     serviceType: ``,
                     image: ``,
+                    description: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}

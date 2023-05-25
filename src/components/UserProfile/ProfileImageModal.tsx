@@ -95,7 +95,7 @@ export default function UpdateProfileModal({
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.post(`/providers/profile`, credentials, {
+      customFetch.post(`/users`, credentials, {
         headers: {
           'Content-Type': `multipart/form-data`,
           Authorization: `Bearer ${token}`,

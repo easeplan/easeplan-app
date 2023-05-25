@@ -8,8 +8,11 @@ import EditVendorPriceModal from './EditVendorPriceModal';
 import EditPremiumModal from './EditPlannerForm/EditPremiumModal.tsx';
 import EditStandardModal from './EditPlannerForm/EditStandardModal.tsx';
 import EditBasicModal from './EditPlannerForm/EditBasicModal.tsx';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const PricingCard = ({ queryData, token }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
   const [openBasicModal, setOpenBasicModal] = useState(false);
   const [openStandardModal, setOpenStandardModal] = useState(false);
@@ -41,7 +44,7 @@ const PricingCard = ({ queryData, token }: any) => {
         >
           Pricing
         </Typography>
-        {queryData?.details?.role === `vendor` && (
+        {userInfo?.role === `provider` && (
           <EditButton onClick={handleOpenModal}>
             <CreateOutlinedIcon className="icon" />
           </EditButton>
@@ -49,7 +52,7 @@ const PricingCard = ({ queryData, token }: any) => {
       </Box>
 
       <Box mt={4}>
-        {queryData?.details?.role === `vendor` && (
+        {userInfo?.role === `planner` && (
           <>
             <EditBasicModal
               token={token}
@@ -100,7 +103,7 @@ const PricingCard = ({ queryData, token }: any) => {
           </>
         )}
         {` `}
-        {queryData?.details?.role === `planner` && (
+        {userInfo?.role === `provider` && (
           <>
             <EditVendorPriceModal
               token={token}
@@ -116,13 +119,17 @@ const PricingCard = ({ queryData, token }: any) => {
               <Grid item xs={12} sm={6} md={6}>
                 <VendorPricingCard
                   title="Minimum Amount"
-                  amount={queryData?.budget?.minimum}
+                  amount={
+                    queryData?.budget ? queryData?.budget?.minimum : `0.00`
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
                 <VendorPricingCard
                   title="Maximum Amount"
-                  amount={queryData?.budget?.maximum}
+                  amount={
+                    queryData?.budget ? queryData?.budget?.maximum : `0.00`
+                  }
                 />
               </Grid>
             </Grid>

@@ -12,25 +12,38 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import ProfilePhoto from './ProfilePhoto';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const CoverImageSchema = Yup.object().shape({
   image: Yup.string(),
 });
 
 const CoverBanner = ({ queryData, token }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [previewBannerImg, setPreviewBannerImg] = useState();
   const [fileName, setFileName] = useState();
 
   const queryClient = useQueryClient();
 
   const { mutate: updateBannerImg, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`/providers/verification/company`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
+    mutationFn: (credentials: any) =>
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${queryData?.publicId}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Saved`);
@@ -41,6 +54,7 @@ const CoverBanner = ({ queryData, token }: any) => {
   });
 
   const updateCoverBanner = async (credentials: any) => {
+    // console.log(credentials);
     const formData = new FormData();
     formData.append(`image`, credentials.image);
     updateBannerImg(credentials);

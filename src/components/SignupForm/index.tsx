@@ -99,7 +99,7 @@ const SignupForm = () => {
           ) : (
             <FormWrapper>
               <FormBody>
-                <Title>Sign up to Easyplan</Title>
+                <Title>Sign up to Easeplan</Title>
                 <form onSubmit={submitCredentials}>
                   {errorMsg && (
                     <Alert sx={{ mb: 2 }} severity="error">

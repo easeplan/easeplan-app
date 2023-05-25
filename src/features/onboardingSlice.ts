@@ -24,16 +24,16 @@ export const onboardingSlice = createSlice({
       state.intro = action.payload;
     },
     setUserIntro: (state, action) => {
-      state.intro = action.payload;
+      state.userIntro = action.payload;
     },
     setIntroOne: (state, action) => {
-      state.intro = action.payload;
+      state.stepOne = action.payload;
     },
     setIntroTwo: (state, action) => {
-      state.intro = action.payload;
+      state.stepTwo = action.payload;
     },
     setIntroThree: (state, action) => {
-      state.intro = action.payload;
+      state.stepThree = action.payload;
     },
   },
 });

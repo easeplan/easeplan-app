@@ -8,12 +8,24 @@ import Link from 'next/link';
 import Logo from './Logo';
 import AvatarMenu from './AvatarMenu';
 import useFetch from '@/hooks/useFetch';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const NavHeader = ({ token }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `users`
+        : `users`
+    }/${userInfo?._id}`,
+    token,
   );
+
   return (
     <Navbar>
       <Container fixed>
@@ -21,7 +33,7 @@ const NavHeader = ({ token }: any) => {
           <div className="logoWrapper">
             <Logo />
           </div>
-          <h3 className="title">Welcome {queryData?.details?.firstname}</h3>
+          <h3 className="title">Welcome {queryData?.firstname}</h3>
           <Box>
             <Link href="/account">
               <Icon>

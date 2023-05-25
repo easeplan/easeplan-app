@@ -41,7 +41,7 @@ const MobileSidenav = () => {
         <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
-          href="/account/profile"
+          href="/account/settings"
         />
         <MobileNavItems
           text="support"

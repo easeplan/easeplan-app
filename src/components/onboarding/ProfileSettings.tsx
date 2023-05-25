@@ -6,7 +6,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -18,6 +17,9 @@ import IllusImg from '@/public/onboarding-image/Feeling proud-bro.svg';
 import data from '@/lib/states.json';
 import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIntro, setIntroOne, setIntroTwo } from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -60,15 +62,18 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIntro, step1, setStep1, setStep2 } = useAuthUser();
   const [selectedState, setSelectedState] = useState<any>();
+  const dispatch = useDispatch();
+  const { stepOne } = useSelector((state: RootState) => state.onboarding);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    setStep1(false);
-    setIntro(true);
+    dispatch(setIntroOne(false));
+    dispatch(setIntro(true));
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
+    console.log(userInfo?.role);
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -81,6 +86,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
           lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
+          role: userInfo?.role,
         },
         {
           headers: {
@@ -89,10 +95,10 @@ const ProfileSettings = ({ token }: PropsTypes) => {
           },
         },
       );
-
+      console.log(data);
       if (data.status === `success`) {
-        setStep1(false);
-        setStep2(true);
+        dispatch(setIntroOne(false));
+        dispatch(setIntroTwo(true));
         setIsLoading(false);
         if (typeof window !== `undefined`) {
           localStorage.setItem(
@@ -108,7 +114,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
   return (
     <Box>
-      {step1 && (
+      {stepOne && (
         <Box sx={{ display: `flex`, height: `100vh` }}>
           <Box
             sx={{
@@ -364,9 +370,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  // display: `flex`,
-  // alignItems: `center`,
-  // justifyContent: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

@@ -27,11 +27,15 @@ const SelectAccountType = () => {
   const updateUserRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
-        role: `user`,
-        email: `${userEmail}`,
-      });
-      dispatch(setCredentials({ role: `user` }));
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
+        {
+          role: `user`,
+          email: `${userEmail}`,
+        },
+      );
+      const { role, onboardStage, _id } = data?.data;
+      dispatch(setCredentials({ role, onboardStage, _id }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -42,11 +46,15 @@ const SelectAccountType = () => {
   const updatePlannerRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
-        role: `planner`,
-        email: `${userEmail}`,
-      });
-      dispatch(setCredentials({ role: `planner` }));
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
+        {
+          role: `planner`,
+          email: `${userEmail}`,
+        },
+      );
+      const { role, onboardStage, _id } = data?.data;
+      dispatch(setCredentials({ role, onboardStage, _id }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -64,8 +72,10 @@ const SelectAccountType = () => {
           email: `${userEmail}`,
         },
       );
+      console.log(data);
       if (data.status === `success`) {
-        dispatch(setCredentials({ role: `provider` }));
+        const { role, onboardStage, _id } = data?.data;
+        dispatch(setCredentials({ role, onboardStage, _id }));
         router.push(`/onboarding`);
       }
     } catch (error: any) {

@@ -8,7 +8,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -18,7 +17,13 @@ import MenuItem from '@mui/material/MenuItem';
 import logoImg from '@/public/logo.png';
 import IllusImg from '@/public/onboarding-image/Beach wedding-bro.svg';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { ValidationError } from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setIntroOne,
+  setIntroTwo,
+  setIntroThree,
+} from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -58,11 +63,13 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
-  const { setStep3, setStep2, step2, setStep1 } = useAuthUser();
+  const dispatch = useDispatch();
+  const { stepTwo } = useSelector((state: RootState) => state.onboarding);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    setStep1(true);
-    setStep2(false);
+    dispatch(setIntroOne(true));
+    dispatch(setIntroTwo(false));
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
@@ -81,6 +88,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
             idType: credentials?.idType,
           },
           idDocument: credentials?.idDocument,
+          role: userInfo?.role,
         },
         {
           headers: {
@@ -90,9 +98,9 @@ const VerificationSettings = ({ token }: PropsTypes) => {
         },
       );
       if (data.status === `success`) {
-        setStep1(false);
-        setStep2(false);
-        setStep3(true);
+        dispatch(setIntroOne(false));
+        dispatch(setIntroTwo(false));
+        dispatch(setIntroThree(true));
         setIsLoading(false);
       }
     } catch (error) {
@@ -102,7 +110,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
 
   return (
     <>
-      {step2 && (
+      {stepTwo && (
         <Box sx={{ display: `flex`, height: `100vh` }}>
           <Box
             sx={{
@@ -340,8 +348,6 @@ const VerificationSettings = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({ theme }) => ({
-  // display: `flex`,
-  // alignItems: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

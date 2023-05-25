@@ -12,6 +12,8 @@ import FormInput from '../common/FormInput';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
 import TextArea from '../common/TextArea';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: `absolute` as const,
@@ -38,16 +40,27 @@ const CompanyProfileSchema = Yup.object().shape({
 });
 
 const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`/providers/verification/company`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+    mutationFn: (credentials: any) =>
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Company Details Updated`);

@@ -17,6 +17,8 @@ import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
 import SelectState from '../common/SelectState';
 import data from '@/lib/states.json';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: `absolute` as const,
@@ -42,17 +44,28 @@ const ProfileSchema = Yup.object().shape({
 });
 
 const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [selectedState, setSelectedState] = useState<any>();
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.post(`/providers/profile`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
@@ -92,12 +105,8 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    firstname: queryData?.details?.firstname
-                      ? queryData?.details?.firstname
-                      : ``,
-                    lastname: queryData?.details?.lastname
-                      ? queryData?.details?.lastname
-                      : ``,
+                    firstName: queryData?.firstName ? queryData?.firstName : ``,
+                    lastName: queryData?.lastName ? queryData?.lastName : ``,
                     city: queryData?.city ? queryData?.city : ``,
                     state: queryData?.state ? queryData?.state : ``,
                   }}
@@ -113,7 +122,7 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                           </div>
                           <FormInput
                             ariaLabel="FirstName"
-                            name="firstname"
+                            name="firstName"
                             type="text"
                             placeholder="e.g John"
                           />
@@ -124,7 +133,7 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                           </div>
                           <FormInput
                             ariaLabel="Last Name"
-                            name="lastname"
+                            name="lastName"
                             type="text"
                             placeholder="e.g mark"
                           />

@@ -13,7 +13,7 @@ const Dashboard = ({ data }: any) => {
   return (
     <DashboardWrapper>
       <h3 className="head">Today’s Summary</h3>
-      <h3 className="greetTitle">Welcome, {data?.details?.firstname}</h3>
+      <h3 className="greetTitle">Welcome, {data?.firstName}</h3>
       <p className="subTitle">Activities</p>
 
       <Swiper

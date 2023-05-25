@@ -1,6 +1,4 @@
 import React from 'react';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import useFetch from '@/hooks/useFetch';
 import { Box } from '@mui/material';
 import CoverBanner from './CoverBanner';
 import UserDetails from './UserDetails';
@@ -10,22 +8,7 @@ import PreviousEvent from './PreviousEvent';
 import Reviews from './Reviews';
 export { getServerSideProps } from '@/context/contextStore';
 
-const UserProfile = ({ token }: any) => {
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
-
-  console.log(queryData);
-
+const UserProfile = ({ token, queryData }: any) => {
   return (
     <Box>
       <CoverBanner token={token} queryData={queryData} />
@@ -33,8 +16,8 @@ const UserProfile = ({ token }: any) => {
       <AboutCompany token={token} queryData={queryData} />
       <hr />
       <PricingCard token={token} queryData={queryData} />
-      <PreviousEvent queryData={queryData} />
-      <Reviews queryData={queryData} />
+      {/* <PreviousEvent queryData={queryData} /> */}
+      {/* <Reviews queryData={queryData} /> */}
     </Box>
   );
 };

@@ -1,7 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import customFetch from '@/utils/customFetch';
 
+interface Props {
+  url?: string;
+  token: string;
+}
+
 const useFetch = (url: string, token: string) => {
+  const [userRole, setUserRole] = useState<any>(null);
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      const role = localStorage.getItem(`userRole`);
+      setUserRole(role);
+    }
+  }, []);
   const { data, error, isLoading } = useQuery({
     queryKey: [`userAuthData`],
     queryFn: async () => {
@@ -14,6 +27,7 @@ const useFetch = (url: string, token: string) => {
           },
         },
       );
+      // dispatch(fetchUserSuccess(data));
       return data;
     },
   });

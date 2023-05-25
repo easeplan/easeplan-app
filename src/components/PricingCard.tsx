@@ -4,10 +4,18 @@ import { Box, Divider, Typography } from '@mui/material';
 import React from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import CustomButton from './common/CustomButton';
-import Link from 'next/link';
 import { formatCurrency } from '@/utils';
 
-const PlannerCard = ({ basic, standard, premium, data }: any) => {
+// Planner Price Card
+const PlannerCard = ({
+  basic,
+  standard,
+  premium,
+  setOpenPremiumModal,
+  setOpenStandardModal,
+  setOpenBasicModal,
+  data,
+}: any) => {
   const [basicTotal] = useState(
     data?.packages?.basic?.map((amount: any) => amount?.amount),
   );
@@ -64,7 +72,7 @@ const PlannerCard = ({ basic, standard, premium, data }: any) => {
           Number of guest #{data.numGuest}
         </Typography>
 
-        <Box sx={{ width: `70%`, margin: `auto` }}>
+        <Box sx={{ width: `100%`, margin: `auto` }}>
           <Typography color="grey.300" fontWeight={300} mt={3}>
             Features
           </Typography>
@@ -87,6 +95,18 @@ const PlannerCard = ({ basic, standard, premium, data }: any) => {
                   </Typography>
                 </Box>
               ))}
+              <Box sx={{ textAlign: `center` }}>
+                <CustomButton
+                  mt={4}
+                  lgWidth="100%"
+                  mdWidth="100%"
+                  smWidth="100%"
+                  onClick={() => setOpenBasicModal(true)}
+                  bgSecondary
+                >
+                  Add Services
+                </CustomButton>
+              </Box>
             </div>
           )}
           {standard && (
@@ -108,41 +128,63 @@ const PlannerCard = ({ basic, standard, premium, data }: any) => {
                   </Typography>
                 </Box>
               ))}
+              <Box sx={{ textAlign: `center` }}>
+                <CustomButton
+                  mt={4}
+                  lgWidth="100%"
+                  onClick={() => setOpenStandardModal(true)}
+                  bgSecondary
+                >
+                  Add Services
+                </CustomButton>
+              </Box>
             </div>
           )}
           {premium && (
             <div>
               {data?.packages?.basic?.map((items: any, index: any) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                  }}
-                  mt={2}
-                >
-                  <SendIcon
-                    sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
-                  />
-                  <Typography ml={2} color="background.paper" fontWeight={300}>
-                    {items.serviceName}
-                  </Typography>
-                </Box>
+                <>
+                  <Box
+                    key={index}
+                    sx={{
+                      display: `flex`,
+                      alignItems: `center`,
+                    }}
+                    mt={2}
+                  >
+                    <SendIcon
+                      sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                    />
+                    <Typography
+                      ml={2}
+                      color="background.paper"
+                      fontWeight={300}
+                    >
+                      {items.serviceName}
+                    </Typography>
+                  </Box>
+                </>
               ))}
+              <Box sx={{ textAlign: `center` }}>
+                <CustomButton
+                  mt={4}
+                  lgWidth="100%"
+                  onClick={() => setOpenPremiumModal(true)}
+                  bgSecondary
+                >
+                  Add Services
+                </CustomButton>
+              </Box>
             </div>
           )}
-        </Box>
-        <Box sx={{ textAlign: `center` }}>
-          <CustomButton mt={4} lgWidth="100%" bgSecondary>
-            Select
-          </CustomButton>
         </Box>
       </Box>
     </Box>
   );
 };
 
-const VendorPricingCard = ({ amount, title, data }: any) => {
+// Vendor Price Card
+const VendorPricingCard = ({ amount, title }: any) => {
   return (
     <Box
       sx={{
@@ -157,19 +199,6 @@ const VendorPricingCard = ({ amount, title, data }: any) => {
           {formatCurrency(amount)}
         </Typography>
         <Divider color="white" sx={{ marginTop: `2rem` }} />
-        {/* <Box sx={{ textAlign: `center` }} mt={1}>
-          {data?.details?.role === `user` ? (
-            <CustomButton mt={4} lgWidth="100%" bgSecondary>
-              Select
-            </CustomButton>
-          ) : (
-            <Link href="/account/gig">
-              <CustomButton mt={4} lgWidth="100%" smWidth="100%" bgSecondary>
-                Edit
-              </CustomButton>
-            </Link>
-          )}
-        </Box> */}
       </Box>
     </Box>
   );

@@ -6,21 +6,22 @@ import PricingEventForm from '@/components/PricingEventForm';
 import OverviewForm from '@/components/OverviewForm';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
-export { getServerSideProps } from '@/context/contextStore';
+// export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const CompanyPage = ({ token }: any) => {
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/providers/profile`,
+  //   `${token}`,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
+
   return (
     <DashboardLayout token={token}>
       <Flex>

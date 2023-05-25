@@ -7,42 +7,40 @@ import bannerImg from '@/public/banner.png';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
-
-export { getServerSideProps } from '@/context/contextStore';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 interface Props {
   token: string;
 }
 
 const HomePage = ({ token }: Props) => {
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
+  // const { queryData, error, isLoading } = useFetch(`/users`, token);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // console.log(queryData);
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
+
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
 
   return (
     <>
       <DashboardLayout token={token}>
-        {queryData?.details?.role === `planner` && (
+        {/* {queryData?.details?.role === `planner` && (
           <Dashboard data={queryData} />
         )}
         {queryData?.details?.role === `vendor` && (
           <Dashboard data={queryData} />
-        )}
+        )} */}
 
         {/* {queryData?.identityVerify?.idDocument ? null : (
           <Badge data={queryData} />
         )} */}
 
-        {queryData?.details?.role === `user` && <FinderSection />}
+        {/* {queryData?.details?.role === `user` && <FinderSection />}
 
         <Box
           sx={{
@@ -62,40 +60,10 @@ const HomePage = ({ token }: Props) => {
             width={1200}
             loading="lazy"
           />
-        </Box>
+        </Box> */}
       </DashboardLayout>
     </>
   );
 };
 
 export default HomePage;
-
-// export async function getServerSideProps({ req }: any) {
-//   const { token } = parseCookies(req);
-
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: `/login`,
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   const { data } = await axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
-//     {
-//       headers: {
-//         'Content-Type': `application/json`,
-//         Authorization: `Bearer ${token}`,
-//       },
-//     },
-//   );
-
-//   return {
-//     props: {
-//       token: token,
-//       data: data?.data?.serviceProvider,
-//     },
-//   };
-// }

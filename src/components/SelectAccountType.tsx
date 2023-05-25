@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import FinderIcon from '@/public/finder.gif';
 import PlannerIcon from '@/public/planner.gif';
 import VendorIcon from '@/public/vendor.gif';
-import Loader from '@/public/loader.gif';
-import Logo from '@/public/easeplanlogo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import LoadingScreen from './common/LoadingScreen';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/features/authSlice';
 
 const SelectAccountType = () => {
+  const dispatch = useDispatch();
   const [userEmail, setUserEmail] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -25,10 +27,11 @@ const SelectAccountType = () => {
   const updateUserRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
         role: `user`,
         email: `${userEmail}`,
       });
+      dispatch(setCredentials({ role: `user` }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -39,10 +42,11 @@ const SelectAccountType = () => {
   const updatePlannerRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/add-role`, {
         role: `planner`,
         email: `${userEmail}`,
       });
+      dispatch(setCredentials({ role: `planner` }));
       router.push(`/onboarding`);
     } catch (error: any) {
       setIsLoading(false);
@@ -53,11 +57,17 @@ const SelectAccountType = () => {
   const updateVendorRole = async () => {
     try {
       setIsLoading(true);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-role`, {
-        role: `vendor`,
-        email: `${userEmail}`,
-      });
-      router.push(`/onboarding`);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
+        {
+          role: `provider`,
+          email: `${userEmail}`,
+        },
+      );
+      if (data.status === `success`) {
+        dispatch(setCredentials({ role: `provider` }));
+        router.push(`/onboarding`);
+      }
     } catch (error: any) {
       setIsLoading(false);
       console.log(error);
@@ -83,20 +93,7 @@ const SelectAccountType = () => {
       >
         <Container fixed>
           {isLoading ? (
-            <div>
-              <Box sx={{ marginBottom: `2rem` }}>
-                <Image src={Logo} alt="loaderImg" width={80} height={50} />
-              </Box>
-              <Image src={Loader} alt="loaderImg" width={100} height={100} />
-              <Typography
-                sx={{
-                  fontSize: 20,
-                  color: `${theme.palette.secondary.light}`,
-                }}
-              >
-                Creating account...
-              </Typography>
-            </div>
+            <LoadingScreen />
           ) : (
             <Box sx={{ flexGrow: 1 }}>
               <h2

@@ -71,8 +71,8 @@ const CompanySettings = ({ token }: PropsTypes) => {
       const formData = new FormData();
       formData.append(`image`, credentials.image);
       setIsLoading(true);
-      const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/stage_3`,
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company`,
         credentials,
         {
           headers: {

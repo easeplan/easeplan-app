@@ -11,7 +11,7 @@ export default async (req: any, res: any) => {
   }
 
   const { data } = await axios.put(
-    `${process.env.NEXT_PUBLIC_API_URL}/providers/verification`,
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
     res.body,
     {
       headers: {

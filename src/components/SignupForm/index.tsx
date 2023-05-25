@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState } from 'react';
-import FormSuccess from '@/components/common/FormSuccess';
-import FormError from '@/components/common/FormError';
 import Label from '@/components/common/Label';
-import axios from 'axios';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -12,14 +9,16 @@ import CustomButton from '../common/CustomButton';
 import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
+import { Alert } from '@mui/material';
+import { useSignupMutation } from '@/features/signupApiSlice';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
 const SignupForm = () => {
+  const [signup, { isLoading }] = useSignupMutation();
+
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loginSuccess, setLoginSuccess] = useState<any>();
-  const [loginError, setLoginError] = useState<any>();
+  const [errorMsg, setErrorMsg] = useState<any>();
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
   const [strength, setStrength] = useState(``);
@@ -70,28 +69,19 @@ const SignupForm = () => {
 
   const submitCredentials = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const credentails = { email: email, password: password };
+    const credentials = { email: email, password: password };
 
     try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_NEXT_API}/api/signup`,
-        credentails,
-      );
-      setLoginSuccess(data.message);
-      setLoginError(``);
+      await signup(credentials).unwrap();
+      // Saving user email, to send along with the verification token
       if (typeof window !== `undefined`) {
         localStorage.setItem(`userEmail`, `${email}`);
       }
       setTimeout(() => {
         setVerificationModal(true);
-        setIsLoading(false);
       }, 2000);
     } catch (error: any) {
-      setIsLoading(false);
-      const { data } = error.response;
-      setLoginError(data.message);
-      setLoginSuccess(null);
+      setErrorMsg(error?.data.message);
     }
   };
 
@@ -111,8 +101,11 @@ const SignupForm = () => {
               <FormBody>
                 <Title>Sign up to Easyplan</Title>
                 <form onSubmit={submitCredentials}>
-                  {loginSuccess && <FormSuccess text={loginSuccess} />}
-                  {loginError && <FormError text={loginError} />}
+                  {errorMsg && (
+                    <Alert sx={{ mb: 2 }} severity="error">
+                      {errorMsg}
+                    </Alert>
+                  )}
                   <InputControl>
                     <div>
                       <div>

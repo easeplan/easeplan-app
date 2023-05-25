@@ -4,25 +4,27 @@ import VerifyAccountForm from '@/components/VerifyAccountForm';
 import Link from 'next/link';
 import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
+// import FaceCapture from '@/components/FaceCapture';
 import useFetch from '@/hooks/useFetch';
-export { getServerSideProps } from '@/context/contextStore';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const VerifyPage = ({ token }: any) => {
-  const { queryData, error, isLoading } = useFetch(
-    `/providers/profile`,
-    `${token}`,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/providers/profile`,
+  //   `${token}`,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <p>Error:</p>;
-  }
+  // if (error) {
+  //   return <p>Error:</p>;
+  // }
+
   return (
     <DashboardLayout token={token}>
-      <Flex>
+      {/* <Flex>
         <Link href="/account/settings">
           <h3 className="title">Profile Settings</h3>
         </Link>
@@ -33,7 +35,7 @@ const VerifyPage = ({ token }: any) => {
           </Link>
         )}
       </Flex>
-      <VerifyAccountForm token={token} />
+      <VerifyAccountForm token={token} /> */}
     </DashboardLayout>
   );
 };

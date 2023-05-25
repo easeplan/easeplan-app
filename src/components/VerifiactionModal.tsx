@@ -58,11 +58,12 @@ const VerifiactionModal = ({
   }, [isResend]);
 
   const submitOtp = async (otp: any) => {
+    const token = otp.token;
     try {
       setIsLoading(true);
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
-        otp,
+        { email: userEmail, token },
       );
       setLoginSuccess(data.message);
       setLoginError(``);
@@ -80,12 +81,11 @@ const VerifiactionModal = ({
 
   const resendHandler = async () => {
     try {
-      setIsResendLoading(true);
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-token`,
+      // setIsResendLoading(true);
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-email`,
         { email: userEmail },
       );
-      setIsResend(true);
     } catch (error: any) {
       setIsResendLoading(false);
       const { data } = error.response;

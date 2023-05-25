@@ -1,13 +1,25 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { styled } from '@mui/material/styles';
 import LoginImg from '@/public/loginImg.png';
 import LoginBg from '@/public/decoration.png';
 import Image from 'next/image';
 import LoginForm from '@/components/LoginForm';
+import { RootState } from '@/store/store';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 const LoginPage = () => {
+  const router = useRouter();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push(`/account`);
+    }
+  }, [router, userInfo]);
+
   return (
     <>
       <Navbar />

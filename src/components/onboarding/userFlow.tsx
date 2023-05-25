@@ -6,9 +6,8 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, Typography } from '@mui/material';
+import { Box, MenuItem, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { useAuthUser } from '@/context/contextStore';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -18,8 +17,12 @@ import AvatarImg from '@/public/avatar.png';
 import logoImg from '@/public/logo.png';
 import IllusImg from '@/public/onboarding-image/Feeling proud-bro.svg';
 import { useRouter } from 'next/router';
+import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { ValidationError } from 'yup';
+import data from '@/lib/states.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIntro, setUserIntro } from '@/features/onboardingSlice';
+import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -62,11 +65,13 @@ const UserFlow = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setIntro, introOne, setStep1 } = useAuthUser();
+  const [selectedState, setSelectedState] = useState<any>();
+  const dispatch = useDispatch();
+  const { userIntro } = useSelector((state: RootState) => state.onboarding);
 
   const handleNextSlide = () => {
-    setStep1(false);
-    setIntro(true);
+    dispatch(setUserIntro(false));
+    dispatch(setIntro(true));
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
@@ -75,7 +80,7 @@ const UserFlow = ({ token }: PropsTypes) => {
       const formData = new FormData();
       formData.append(`picture`, credentials.picture);
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         {
           state: credentials.state,
           firstname: credentials.firstname,
@@ -107,7 +112,7 @@ const UserFlow = ({ token }: PropsTypes) => {
 
   return (
     <Box>
-      {introOne && (
+      {userIntro && (
         <Box sx={{ display: `flex`, height: `100vh` }}>
           <Box
             sx={{
@@ -204,7 +209,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
                 >
-                  {() => (
+                  {({ values, setFieldValue }) => (
                     <Form>
                       <Box>
                         <FormInput
@@ -223,20 +228,41 @@ const UserFlow = ({ token }: PropsTypes) => {
                         />
                       </Box>
                       <Box>
-                        <FormInput
-                          ariaLabel="State"
+                        <SelectState
+                          selectPlaceholder="Select State"
                           name="state"
-                          type="text"
-                          placeholder="Your State"
-                        />
+                          onChange={(e: { target: { value: string } }) => {
+                            const selectedState = data?.states.find(
+                              (state) => state.name === e.target.value,
+                            );
+                            setSelectedState(selectedState);
+                            setFieldValue(`state`, e.target.value);
+                            setFieldValue(`city`, ``);
+                          }}
+                        >
+                          {data?.states?.map((state: any) => {
+                            return (
+                              <MenuItem key={state?.name} value={state.name}>
+                                {state?.name}
+                              </MenuItem>
+                            );
+                          })}
+                        </SelectState>
                       </Box>
                       <Box>
                         <FormInput
-                          ariaLabel="city"
+                          isSelect
+                          selectPlaceholder="Select City"
                           name="city"
-                          type="text"
-                          placeholder="Your City"
-                        />
+                        >
+                          {selectedState?.cities?.map((city: any) => {
+                            return (
+                              <MenuItem key={city} value={city}>
+                                {city}
+                              </MenuItem>
+                            );
+                          })}
+                        </FormInput>
                       </Box>
                       <Box mb={3}>
                         <Box
@@ -280,7 +306,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                         </Box>
                         <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
                       </Box>
-                      <Box mt={10}>
+                      <Box mt={5}>
                         <CustomButton
                           type="submit"
                           lgWidth="100%"
@@ -288,7 +314,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                           loading={isLoading}
                           // loadingText="Submiting..."
                         >
-                          Proceed to dashboard
+                          Next
                         </CustomButton>
                       </Box>
                     </Form>
@@ -304,9 +330,6 @@ const UserFlow = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  // display: `flex`,
-  // alignItems: `center`,
-  // justifyContent: `center`,
   padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,

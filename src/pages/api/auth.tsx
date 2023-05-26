@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json(data);
   } catch (error) {
-    return error;
+    return res.status(401).json({ error: `Invalid credentials` });
   }
 };
 

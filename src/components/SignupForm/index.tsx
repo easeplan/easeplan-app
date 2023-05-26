@@ -81,7 +81,7 @@ const SignupForm = () => {
         setVerificationModal(true);
       }, 2000);
     } catch (error: any) {
-      setErrorMsg(error?.data.message);
+      setErrorMsg(error.data?.error);
     }
   };
 

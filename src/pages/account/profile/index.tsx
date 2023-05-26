@@ -30,32 +30,12 @@ const ProfilePage = ({ token }: any) => {
   if (error) {
     return <p>Error:</p>;
   }
+
   return (
     <DashboardLayout token={token}>
       <UserProfile token={token} queryData={queryData} />
     </DashboardLayout>
   );
 };
-
-const Flex = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `2rem`,
-  color: theme.palette.primary.main,
-
-  '.title': {
-    marginRight: `2rem`,
-    '@media (max-width: 900px)': {
-      fontSize: `0.7rem`,
-    },
-  },
-  '.active': {
-    color: theme.palette.secondary.main,
-  },
-
-  '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-  },
-}));
 
 export default ProfilePage;

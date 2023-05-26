@@ -39,6 +39,7 @@ const ProfilePhoto = ({ token, queryData }: any) => {
         },
         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
         backgroundColor: `#fff`,
+        border: `solid 4px #fff`,
       }}
     >
       <Box>

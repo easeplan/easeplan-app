@@ -13,6 +13,8 @@ import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: `absolute` as const,
@@ -91,16 +93,27 @@ export default function UpdateProfileModal({
   queryData,
 }: any) {
   const [previewProfileImg, setPreviewProfileImg] = useState();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.post(`/users`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
@@ -113,7 +126,7 @@ export default function UpdateProfileModal({
 
   const updateProfileImg = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`image`, credentials.image);
+    formData.append(`picture`, credentials.picture);
     updateProfile(credentials);
   };
   return (
@@ -143,12 +156,6 @@ export default function UpdateProfileModal({
                 <Formik
                   initialValues={{
                     picture: queryData?.picture ? queryData?.picture : ``,
-                    firstname: queryData?.details?.firstname
-                      ? queryData?.details?.firstname
-                      : ``,
-                    lastname: queryData?.details?.lastname
-                      ? queryData?.details?.lastname
-                      : ``,
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileImgSchema}

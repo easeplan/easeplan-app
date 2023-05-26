@@ -41,7 +41,7 @@ const HomePage = ({ token }: Props) => {
   return (
     <>
       <DashboardLayout token={token}>
-        {userInfo?.role === `provider` || userInfo?.role === `provider` ? (
+        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <Dashboard data={queryData} />
         ) : null}
 

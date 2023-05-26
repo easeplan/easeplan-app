@@ -4,9 +4,12 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import EditUserDetailsModal from './EditUserDetailsModal';
 import UserRating from '../common/UserRating';
+import Link from 'next/link';
 
 const UserDetails = ({ queryData, token }: any) => {
   const [openModal, setOpenModal] = useState(false);
+
+  console.log(queryData?.publicId);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -65,6 +68,38 @@ const UserDetails = ({ queryData, token }: any) => {
         >
           <UserRating rate={queryData?.rating} size="small" />
           <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
+        </Box>
+        <Box
+          sx={{
+            textAlign: `center`,
+            margin: `0 auto`,
+
+            '.btn': {
+              border: `none`,
+              cursor: `pointer`,
+              borderRadius: `8px`,
+              // boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+              margin: `1rem`,
+              padding: `0.5rem 1rem`,
+            },
+            '.share-btn': {
+              color: `secondary.main`,
+              fontWeight: `bold`,
+              backgroundColor: `primary.main`,
+              border: `solid 1px #1111`,
+            },
+            '.preview-btn': {
+              color: `secondary.main`,
+              fontWeight: `bold`,
+              backgroundColor: `primary.main`,
+              border: `solid 1px #1111`,
+            },
+          }}
+        >
+          <button className="share-btn btn">Share Profile</button>
+          <Link href={`/ease/${queryData?.publicId}`} target="_blank">
+            <button className="preview-btn btn">Preview Profile</button>
+          </Link>
         </Box>
         <Box
           sx={{

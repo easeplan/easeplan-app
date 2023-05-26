@@ -33,7 +33,7 @@ const CoverBanner = ({ queryData, token }: any) => {
           userInfo?.role === `provider`
             ? `provider-profiles/${userInfo?._id}`
             : userInfo?.role === `planner`
-            ? `planner-profiles/${queryData?.publicId}`
+            ? `planner-profiles/${userInfo?._id}`
             : null
         }/`,
         credentials,
@@ -54,7 +54,6 @@ const CoverBanner = ({ queryData, token }: any) => {
   });
 
   const updateCoverBanner = async (credentials: any) => {
-    // console.log(credentials);
     const formData = new FormData();
     formData.append(`image`, credentials.image);
     updateBannerImg(credentials);

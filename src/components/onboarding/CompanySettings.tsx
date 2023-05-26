@@ -71,13 +71,6 @@ const CompanySettings = ({ token }: PropsTypes) => {
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
-    console.log({
-      name: credentials?.name,
-      serviceType: credentials?.serviceType,
-      image: credentials?.image,
-      description: credentials?.description,
-      role: userInfo?.role,
-    });
     try {
       const formData = new FormData();
       formData.append(`image`, credentials.image);

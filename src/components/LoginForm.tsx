@@ -57,7 +57,7 @@ const LoginForm = () => {
         }, 2000);
       }
     } catch (error: any) {
-      setErrorMsg(error.data?.message);
+      setErrorMsg(error.data?.error);
     }
   };
 

@@ -33,7 +33,7 @@ const NavHeader = ({ token }: any) => {
           <div className="logoWrapper">
             <Logo />
           </div>
-          <h3 className="title">Welcome {queryData?.firstname}</h3>
+          <h3 className="title">Welcome, {queryData?.firstName}</h3>
           <Box>
             <Link href="/account">
               <Icon>

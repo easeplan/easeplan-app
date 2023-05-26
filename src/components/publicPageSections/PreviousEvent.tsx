@@ -57,14 +57,20 @@ const PreviousEvent = ({ queryData }: any) => {
             consequuntur, id hic eum fugiat animi eligendi ducimus corporis
             sapiente sed?
           </Typography>
-          <Typography textAlign="right" mt={3}>
+          {/* <Typography textAlign="right" mt={3}>
             2 days ago
-          </Typography>
+          </Typography> */}
         </Box>
         <Box
           sx={{
             width: `100%`,
-            height: `auto`,
+            height: {
+              xs: `300px`,
+              sm: `300px`,
+              md: `100%`,
+              lg: `100%`,
+              xl: `100%`,
+            },
             borderRadius: `10px`,
             position: `relative`,
           }}
@@ -103,7 +109,13 @@ const PreviousEvent = ({ queryData }: any) => {
         <Box
           sx={{
             width: `100%`,
-            height: `auto`,
+            height: {
+              xs: `300px`,
+              sm: `300px`,
+              md: `100%`,
+              lg: `100%`,
+              xl: `100%`,
+            },
             borderRadius: `10px`,
             position: `relative`,
           }}
@@ -140,9 +152,9 @@ const PreviousEvent = ({ queryData }: any) => {
             consequuntur, id hic eum fugiat animi eligendi ducimus corporis
             sapiente sed?
           </Typography>
-          <Typography textAlign="right" mt={3}>
+          {/* <Typography textAlign="right" mt={3}>
             2 days ago
-          </Typography>
+          </Typography> */}
         </Box>
       </Box>
     </Box>

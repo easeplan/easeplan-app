@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Hero = ({ queryData }: any) => {
   console.log(queryData);
   return (
-    <Box>
+    <Box mt={13}>
       <Box
         sx={{
           width: `100%`,

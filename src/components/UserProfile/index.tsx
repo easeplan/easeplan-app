@@ -9,6 +9,7 @@ import Reviews from './Reviews';
 export { getServerSideProps } from '@/context/contextStore';
 
 const UserProfile = ({ token, queryData }: any) => {
+  // console.log(queryData);
   return (
     <Box>
       <CoverBanner token={token} queryData={queryData} />

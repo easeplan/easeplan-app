@@ -4,7 +4,6 @@ import UserRating from '../common/UserRating';
 import Link from 'next/link';
 
 const Hero = ({ queryData }: any) => {
-  console.log(queryData);
   return (
     <Box mt={13}>
       <Box

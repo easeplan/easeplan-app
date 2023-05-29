@@ -9,6 +9,7 @@ import Reviews from './Reviews';
 export { getServerSideProps } from '@/context/contextStore';
 
 const UserProfile = ({ token, queryData }: any) => {
+  // console.log(queryData);
   return (
     <Box>
       <CoverBanner token={token} queryData={queryData} />
@@ -16,7 +17,7 @@ const UserProfile = ({ token, queryData }: any) => {
       <AboutCompany token={token} queryData={queryData} />
       <hr />
       <PricingCard token={token} queryData={queryData} />
-      <PreviousEvent queryData={queryData} />
+      {/* <PreviousEvent queryData={queryData} /> */}
       {/* Later feature */}
       {/* <Reviews queryData={queryData} /> */}
     </Box>

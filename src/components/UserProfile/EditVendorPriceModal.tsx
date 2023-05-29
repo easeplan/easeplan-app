@@ -51,7 +51,7 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
           userInfo?.role === `provider`
             ? `provider-profiles/${userInfo?._id}`
             : userInfo?.role === `planner`
-            ? `planner-profiles/${queryData?.publicId}`
+            ? `planner-profiles/${userInfo?._id}`
             : null
         }/`,
         credentials,

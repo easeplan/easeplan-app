@@ -14,6 +14,9 @@ import FormInput from '../../common/FormInput';
 import CustomButton from '../../common/CustomButton';
 import Label from '../../common/Label';
 import { services } from '@/lib/vendorServices';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import MultiSelect from '@/components/MultiSelect';
 
 const style = {
   position: `absolute` as const,
@@ -27,7 +30,7 @@ const style = {
     lg: `30%`,
     xl: `30%`,
   },
-  height: `70vh`,
+  height: `auto`,
   overflowX: `auto`,
   bgcolor: `#fff`,
   border: `none`,
@@ -36,29 +39,17 @@ const style = {
 };
 
 const FormSchema = Yup.object().shape({
-  catering: Yup.string(),
-  dj: Yup.string(),
-  entertainer: Yup.string(),
-  eventDecorator: Yup.string(),
-  mc: Yup.string(),
-  makeUpArtist: Yup.string(),
-  photographer: Yup.string(),
-  printVendor: Yup.string(),
-  securityPersonnel: Yup.string(),
-  transportationCoordinator: Yup.string(),
-  userhing: Yup.string(),
-  venueManager: Yup.string(),
-  videographer: Yup.string(),
-  guest: Yup.string(),
-  cost: Yup.string(),
+  price: Yup.string().required(`Price is required`),
 });
 
 const EditStandardModal = ({ isOpen, isClose, token, queryData }: any) => {
+  const [services, setServices] = useState([]);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: updateStandard, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`/providers/verification/package`, credentials, {
+    mutationFn: (credentials: any) =>
+      customFetch.put(`/planner-profiles/${userInfo?._id}`, credentials, {
         headers: {
           'Content-Type': `application/json`,
           Authorization: `Bearer ${token}`,
@@ -75,7 +66,13 @@ const EditStandardModal = ({ isOpen, isClose, token, queryData }: any) => {
   });
 
   const handleStandardServices = async (credentials: any) => {
-    updateStandard(credentials);
+    const data = {
+      standard: {
+        service: services,
+        price: credentials.price,
+      },
+    };
+    updateStandard(data);
   };
 
   return (
@@ -111,21 +108,7 @@ const EditStandardModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box sx={{ borderTop: `solid 1px #ccc` }}>
                 <Formik
                   initialValues={{
-                    catering: ``,
-                    dj: ``,
-                    entertainer: ``,
-                    eventDecorator: ``,
-                    mc: ``,
-                    makeUpArtist: ``,
-                    photographer: ``,
-                    printVendor: ``,
-                    securityPersonnel: ``,
-                    transportationCoordinator: ``,
-                    userhing: ``,
-                    venueManager: ``,
-                    videographer: ``,
-                    guest: ``,
-                    cost: ``,
+                    price: ``,
                   }}
                   validationSchema={FormSchema}
                   onSubmit={(values) => handleStandardServices(values)}
@@ -138,22 +121,18 @@ const EditStandardModal = ({ isOpen, isClose, token, queryData }: any) => {
                             <p>Enter the amount for each of your services</p>
                           </Description>
                         </Box>
+                        <Box mt={2}>
+                          <Label text="Select Servicers" />
+                          <MultiSelect setServices={setServices} />
+                        </Box>
                         <Box>
-                          <InputController>
-                            {services?.map(
-                              (data: any, i: any | null | undefined) => (
-                                <Box key={i}>
-                                  <Label text={data.label} />
-                                  <FormInput
-                                    ariaLabel={data.name}
-                                    name={data.name}
-                                    type="text"
-                                    placeholder="Amount"
-                                  />
-                                </Box>
-                              ),
-                            )}
-                          </InputController>
+                          <Label text="price" />
+                          <FormInput
+                            ariaLabel="price"
+                            name="price"
+                            type="text"
+                            placeholder="Amount"
+                          />
                         </Box>
                         <Box
                           mt={4}

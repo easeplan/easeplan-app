@@ -26,6 +26,8 @@ const PlannerCard = ({
     data?.packages?.premium?.map((amount: any) => amount?.amount),
   );
 
+  // console.log(data);
+
   const totalPlanBalance = (arr: any) => {
     let sum = 0;
     for (let i = 0; i < arr.length; i++) {

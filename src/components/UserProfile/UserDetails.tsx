@@ -5,11 +5,11 @@ import { styled } from '@mui/material/styles';
 import EditUserDetailsModal from './EditUserDetailsModal';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
+import SocialShareButton from './SocialShareButton';
+import { dateFormater } from '@/utils';
 
 const UserDetails = ({ queryData, token }: any) => {
   const [openModal, setOpenModal] = useState(false);
-
-  console.log(queryData?.publicId);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -71,33 +71,39 @@ const UserDetails = ({ queryData, token }: any) => {
         </Box>
         <Box
           sx={{
-            textAlign: `center`,
+            display: `flex`,
+            alignItems: `center`,
+            justifyContent: `center`,
             margin: `0 auto`,
 
-            '.btn': {
-              border: `none`,
-              cursor: `pointer`,
-              borderRadius: `8px`,
-              // boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-              margin: `1rem`,
-              padding: `0.5rem 1rem`,
-            },
-            '.share-btn': {
-              color: `secondary.main`,
-              fontWeight: `bold`,
-              backgroundColor: `primary.main`,
-              border: `solid 1px #1111`,
-            },
+            // '.share-btn': {
+            //   color: `secondary.main`,
+            //   fontWeight: `bold`,
+            //   backgroundColor: `primary.main`,
+            // },
             '.preview-btn': {
               color: `secondary.main`,
               fontWeight: `bold`,
               backgroundColor: `primary.main`,
-              border: `solid 1px #1111`,
+              border: `none`,
+              cursor: `pointer`,
+              borderRadius: `8px`,
+              // boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+              padding: `0.5rem 1rem`,
+              width: `140px`,
+              height: `50px`,
+              transition: `0.2s`,
             },
           }}
         >
-          <button className="share-btn btn">Share Profile</button>
-          <Link href={`/ease/${queryData?.publicId}`} target="_blank">
+          <button className="share-button">
+            <span className="share-text">Share Profile</span>
+            <SocialShareButton
+              message="Exciting news! I've joined Easeplan, the platform to find professional event planners, vendors, and service providers for your events. Check out my profile and join me on Easeplan."
+              url={`https://app.easeplan.io/profile/${queryData?.publicId}`}
+            />
+          </button>
+          <Link href={`/profile/${queryData?.publicId}`} target="_blank">
             <button className="preview-btn btn">Preview Profile</button>
           </Link>
         </Box>
@@ -127,7 +133,7 @@ const UserDetails = ({ queryData, token }: any) => {
           </Box>
           <Box>
             <Typography fontWeight={600}>Member Since:</Typography>
-            <Typography>Sep, 2022</Typography>
+            <Typography>{dateFormater(queryData?.createdAt)}</Typography>
           </Box>
         </Box>
       </Box>

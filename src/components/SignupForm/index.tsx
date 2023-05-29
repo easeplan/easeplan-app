@@ -15,9 +15,10 @@ import { useSignupMutation } from '@/features/signupApiSlice';
 const strengthLables = [`weak`, `medium`, `strong`];
 
 const SignupForm = () => {
-  const [signup, { isLoading }] = useSignupMutation();
+  const [signup] = useSignupMutation();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<any>();
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
@@ -72,6 +73,7 @@ const SignupForm = () => {
     const credentials = { email: email, password: password };
 
     try {
+      setIsLoading(true);
       await signup(credentials).unwrap();
       // Saving user email, to send along with the verification token
       if (typeof window !== `undefined`) {
@@ -81,6 +83,7 @@ const SignupForm = () => {
         setVerificationModal(true);
       }, 2000);
     } catch (error: any) {
+      setIsLoading(false);
       setErrorMsg(error.data?.error);
     }
   };

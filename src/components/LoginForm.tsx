@@ -23,8 +23,9 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState<any>();
   const [previewModal, setPreviewModal] = useState<boolean>();
@@ -38,6 +39,7 @@ const LoginForm = () => {
 
   const submitCredentials = async (credentials: any) => {
     try {
+      setIsLoading(true);
       const data = await login(credentials).unwrap();
       const { role, hasVisited, onboardStage, _id } = data?.data;
       dispatch(setCredentials({ role, hasVisited, onboardStage, _id }));
@@ -57,6 +59,7 @@ const LoginForm = () => {
         }, 2000);
       }
     } catch (error: any) {
+      setIsLoading(false);
       setErrorMsg(error.data?.error);
     }
   };

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import theme from '@/styles/theme';
 import { Box, Divider, Typography } from '@mui/material';
 import React from 'react';
@@ -16,30 +15,6 @@ const PlannerCard = ({
   setOpenBasicModal,
   data,
 }: any) => {
-  const [basicTotal] = useState(
-    data?.packages?.basic?.map((amount: any) => amount?.amount),
-  );
-  const [standardTotal] = useState(
-    data?.packages?.standard?.map((amount: any) => amount?.amount),
-  );
-  const [premiumTotal] = useState(
-    data?.packages?.premium?.map((amount: any) => amount?.amount),
-  );
-
-  // console.log(data);
-
-  const totalPlanBalance = (arr: any) => {
-    let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-      sum += arr[i];
-    }
-    return sum;
-  };
-
-  const basicSubData = totalPlanBalance(basicTotal);
-  const standardSumTotal = totalPlanBalance(standardTotal);
-  const premiumSumTotal = totalPlanBalance(premiumTotal);
-
   return (
     <Box
       sx={{
@@ -55,24 +30,33 @@ const PlannerCard = ({
 
         {basic && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
-            {formatCurrency(basicSubData)}
+            {formatCurrency(
+              data?.package?.basic?.price
+                ? data?.package?.basic?.price
+                : `0.00`,
+            )}
           </Typography>
         )}
         {standard && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
-            {formatCurrency(standardSumTotal)}
+            {formatCurrency(
+              data?.package?.standard?.price
+                ? data?.package?.standard?.price
+                : `0.00`,
+            )}
           </Typography>
         )}
         {premium && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
-            {formatCurrency(premiumSumTotal)}
+            {formatCurrency(
+              data?.package?.premium?.price
+                ? data?.package?.premium?.price
+                : `0.00`,
+            )}
           </Typography>
         )}
 
         <Divider color="white" sx={{ marginTop: `2rem` }} />
-        <Typography color="background.paper" fontWeight={300} mt={2}>
-          Number of guest #{data.numGuest}
-        </Typography>
 
         <Box sx={{ width: `100%`, margin: `auto` }}>
           <Typography color="grey.300" fontWeight={300} mt={3}>
@@ -80,7 +64,7 @@ const PlannerCard = ({
           </Typography>
           {basic && (
             <div>
-              {data?.packages?.basic?.map((items: any, index: any) => (
+              {data?.package?.basic?.service?.map((items: any, index: any) => (
                 <Box
                   key={index}
                   sx={{
@@ -93,7 +77,7 @@ const PlannerCard = ({
                     sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
                   />
                   <Typography ml={2} color="background.paper" fontWeight={300}>
-                    {items.serviceName}
+                    {items}
                   </Typography>
                 </Box>
               ))}
@@ -113,39 +97,8 @@ const PlannerCard = ({
           )}
           {standard && (
             <div>
-              {data?.packages?.basic?.map((items: any, index: any) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                  }}
-                  mt={2}
-                >
-                  <SendIcon
-                    sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
-                  />
-                  <Typography ml={2} color="background.paper" fontWeight={300}>
-                    {items.serviceName}
-                  </Typography>
-                </Box>
-              ))}
-              <Box sx={{ textAlign: `center` }}>
-                <CustomButton
-                  mt={4}
-                  lgWidth="100%"
-                  onClick={() => setOpenStandardModal(true)}
-                  bgSecondary
-                >
-                  Add Services
-                </CustomButton>
-              </Box>
-            </div>
-          )}
-          {premium && (
-            <div>
-              {data?.packages?.basic?.map((items: any, index: any) => (
-                <>
+              {data?.package?.standard?.service?.map(
+                (items: any, index: any) => (
                   <Box
                     key={index}
                     sx={{
@@ -162,11 +115,51 @@ const PlannerCard = ({
                       color="background.paper"
                       fontWeight={300}
                     >
-                      {items.serviceName}
+                      {items}
                     </Typography>
                   </Box>
-                </>
-              ))}
+                ),
+              )}
+              <Box sx={{ textAlign: `center` }}>
+                <CustomButton
+                  mt={4}
+                  lgWidth="100%"
+                  onClick={() => setOpenStandardModal(true)}
+                  bgSecondary
+                >
+                  Add Services
+                </CustomButton>
+              </Box>
+            </div>
+          )}
+          {premium && (
+            <div>
+              {data?.package?.premium?.service?.map(
+                (items: any, index: any) => (
+                  <>
+                    <Box
+                      key={index}
+                      sx={{
+                        display: `flex`,
+                        alignItems: `center`,
+                      }}
+                      mt={2}
+                    >
+                      <SendIcon
+                        sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                      />
+                      <Typography
+                        ml={2}
+                        color="background.paper"
+                        fontWeight={300}
+                        textTransform="capitalize"
+                      >
+                        {items}
+                      </Typography>
+                    </Box>
+                  </>
+                ),
+              )}
               <Box sx={{ textAlign: `center` }}>
                 <CustomButton
                   mt={4}

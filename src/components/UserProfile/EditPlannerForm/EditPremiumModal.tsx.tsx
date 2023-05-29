@@ -49,12 +49,16 @@ const EditPremiumModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const { mutate: updatePremium, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`/planner-profiles/${userInfo?._id}`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/planner-profiles/${userInfo?._id}/set-pricing`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Service Price Updated`);
@@ -67,7 +71,7 @@ const EditPremiumModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const handlePremuimServices = async (credentials: any) => {
     const data = {
-      premuim: {
+      premium: {
         service: services,
         price: credentials.price,
       },

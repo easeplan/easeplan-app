@@ -74,13 +74,8 @@ const UserDetails = ({ queryData, token }: any) => {
             display: `flex`,
             alignItems: `center`,
             justifyContent: `center`,
+            position: `relative`,
             margin: `0 auto`,
-
-            // '.share-btn': {
-            //   color: `secondary.main`,
-            //   fontWeight: `bold`,
-            //   backgroundColor: `primary.main`,
-            // },
             '.preview-btn': {
               color: `secondary.main`,
               fontWeight: `bold`,
@@ -96,13 +91,22 @@ const UserDetails = ({ queryData, token }: any) => {
             },
           }}
         >
-          <button className="share-button">
+          <div className="share-button">
+            <Box
+              sx={{
+                position: `absolute`,
+                left: `0`,
+                backgroundColor: `red`,
+                color: `blue`,
+              }}
+            >
+              <SocialShareButton
+                message="Exciting news! I've joined Easeplan, the platform to find professional event planners, vendors, and service providers for your events. Check out my profile and join me on Easeplan."
+                url={`https://app.easeplan.io/profile/${queryData?.publicId}`}
+              />
+            </Box>
             <span className="share-text">Share Profile</span>
-            <SocialShareButton
-              message="Exciting news! I've joined Easeplan, the platform to find professional event planners, vendors, and service providers for your events. Check out my profile and join me on Easeplan."
-              url={`https://app.easeplan.io/profile/${queryData?.publicId}`}
-            />
-          </button>
+          </div>
           <Link href={`/profile/${queryData?.publicId}`} target="_blank">
             <button className="preview-btn btn">Preview Profile</button>
           </Link>

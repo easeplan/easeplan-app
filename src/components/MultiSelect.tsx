@@ -19,19 +19,19 @@ const MenuProps = {
 };
 
 const services = [
-  `catering`,
-  `dj`,
-  `entertainer`,
-  `eventDecorator`,
-  `mc`,
-  `makeUpArtist`,
-  `photographer`,
-  `printVendor`,
-  `securityPersonnel`,
-  `transportationCoordinator`,
-  `userhing`,
-  `venueManager`,
-  `videographer`,
+  `Catering`,
+  `DJ`,
+  `Entertainer`,
+  `Event Decorator`,
+  `MC`,
+  `MakeUp Artist`,
+  `Photographer`,
+  `Print Vendor`,
+  `Security Personnel`,
+  `Transportation Coordinator`,
+  `Userhing`,
+  `Venue Manager`,
+  `Videographer`,
 ];
 
 function getStyles(service: string, personName: string[], theme: Theme) {
@@ -49,9 +49,7 @@ function getStyles(service: string, personName: string[], theme: Theme) {
 
 export default function MultipleSelect({ setServices }: any) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([
-    `Select Services`,
-  ]);
+  const [personName, setPersonName] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {

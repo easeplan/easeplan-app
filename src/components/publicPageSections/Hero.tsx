@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
+import { dateFormater } from '@/utils';
 
 const Hero = ({ queryData }: any) => {
   return (
@@ -125,7 +126,7 @@ const Hero = ({ queryData }: any) => {
           }}
         >
           <UserRating rate={queryData?.rating} size="small" />
-          <Typography ml={1} fontSize="0.9rem">{`(7 Events)`}</Typography>
+          <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
         </Box>
         <Box
           sx={{
@@ -175,7 +176,7 @@ const Hero = ({ queryData }: any) => {
           </Box>
           <Box>
             <Typography fontWeight={600}>Member Since:</Typography>
-            <Typography>Sep, 2022</Typography>
+            <Typography>{dateFormater(queryData?.createdAt)}</Typography>
           </Box>
         </Box>
       </Box>

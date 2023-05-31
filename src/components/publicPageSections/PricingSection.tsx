@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { PlannerCard, VendorPricingCard } from './ServiceCard';
 
-const PricingSection = ({ queryData, token }: any) => {
-  const [openBasicModal, setOpenBasicModal] = useState(false);
-  const [openStandardModal, setOpenStandardModal] = useState(false);
-  const [openPremiumModal, setOpenPremiumModal] = useState(false);
+const PricingSection = ({ queryData }: any) => {
+  const [setOpenBasicModal] = useState(false);
+  const [setOpenStandardModal] = useState(false);
+  const [setOpenPremiumModal] = useState(false);
   return (
     <Box my={10}>
       <Box
@@ -76,7 +75,9 @@ const PricingSection = ({ queryData, token }: any) => {
                 <VendorPricingCard
                   title="Minimum Amount"
                   amount={
-                    queryData?.budget ? queryData?.budget?.minimum : `0.00`
+                    queryData?.data?.budget
+                      ? queryData?.data?.budget?.minimum
+                      : `0.00`
                   }
                 />
               </Grid>
@@ -84,7 +85,9 @@ const PricingSection = ({ queryData, token }: any) => {
                 <VendorPricingCard
                   title="Maximum Amount"
                   amount={
-                    queryData?.budget ? queryData?.budget?.maximum : `0.00`
+                    queryData?.data?.budget
+                      ? queryData?.data?.budget?.maximum
+                      : `0.00`
                   }
                 />
               </Grid>

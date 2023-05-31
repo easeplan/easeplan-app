@@ -19,11 +19,12 @@ import data from '@/lib/states.json';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const ProfileSchema = Yup.object().shape({
-  email: Yup.string(),
-  firstname: Yup.string().required(`First Name is required`),
-  lastname: Yup.string().required(`Last Name is required`),
+  firstName: Yup.string().required(`First Name is required`),
+  lastName: Yup.string().required(`Last Name is required`),
   city: Yup.string(),
   state: Yup.string(),
   picture: Yup.string(),
@@ -37,6 +38,7 @@ interface Props {
 }
 
 const ProfileForm = ({ token, queryData }: Props) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
   const [changePassword, setChangePassword] = useState<boolean>(false);
@@ -50,12 +52,22 @@ const ProfileForm = ({ token, queryData }: Props) => {
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.post(`/users`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : `user-profiles/${userInfo?._id}`
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
@@ -76,13 +88,8 @@ const ProfileForm = ({ token, queryData }: Props) => {
       <h3 className="title">Profile Settings</h3>
       <Formik
         initialValues={{
-          email: queryData?.email ? queryData?.email : ``,
-          firstname: queryData?.details?.firstname
-            ? queryData?.details?.firstname
-            : ``,
-          lastname: queryData?.details?.lastname
-            ? queryData?.details?.lastname
-            : ``,
+          firstName: queryData?.firstName ? queryData?.firstName : ``,
+          lastName: queryData?.lastName ? queryData?.lastName : ``,
           city: queryData?.city ? queryData?.city : ``,
           state: queryData?.state ? queryData?.state : ``,
           picture: queryData?.picture ? queryData?.picture : ``,
@@ -94,30 +101,6 @@ const ProfileForm = ({ token, queryData }: Props) => {
       >
         {({ setFieldValue }) => (
           <Form>
-            <Flex>
-              <Description>
-                <h4 className="subTitle">Basic</h4>
-                <p>
-                  Having an up-to-date email address, attached to your account
-                  is a great step to improve account security
-                </p>
-              </Description>
-              <InputController>
-                <div>
-                  <div>
-                    <Label text="Email address" />
-                  </div>
-                  <FormInput
-                    ariaLabel="Email"
-                    name="email"
-                    type="text"
-                    placeholder="example@email.com"
-                    disabled
-                  />
-                </div>
-              </InputController>
-            </Flex>
-            <Divider />
             <Flex>
               <Description>
                 <h4 className="subTitle">Profile</h4>
@@ -134,7 +117,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                     </div>
                     <FormInput
                       ariaLabel="FirstName"
-                      name="firstname"
+                      name="firstName"
                       type="text"
                       placeholder="e.g John"
                     />
@@ -145,7 +128,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                     </div>
                     <FormInput
                       ariaLabel="Last Name"
-                      name="lastname"
+                      name="lastName"
                       type="text"
                       placeholder="e.g mark"
                     />
@@ -303,6 +286,8 @@ const ProfileForm = ({ token, queryData }: Props) => {
               <CustomButton
                 bgPrimary
                 lgWidth="20%"
+                smWidth="20%"
+                mdWidth="20%"
                 loading={isLoading}
                 loadingText="Saving..."
                 type="submit"

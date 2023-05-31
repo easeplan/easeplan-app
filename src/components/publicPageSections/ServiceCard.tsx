@@ -186,7 +186,6 @@ const PlannerCard = ({
 
 // Vendor Price Card
 const VendorPricingCard = ({ amount, title }: any) => {
-  console.log(amount);
   return (
     <Box
       sx={{

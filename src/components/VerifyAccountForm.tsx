@@ -10,22 +10,22 @@ import Label from './common/Label';
 import Divider from './common/Divider';
 import DragAndDropInput from './common/DragAndDropInput';
 import { MenuItem } from '@mui/material';
-import axios from 'axios';
-import Link from 'next/link';
 import { Box } from '@mui/material';
 import { useAuthUser } from '@/context/contextStore';
 import CustomButton from './common/CustomButton';
-import theme from '@/styles/theme';
+import { useMutation, useQueryClient } from 'react-query';
 import SuccessModal from './common/SuccessModal';
 import ErrorModal from './common/ErrorModal';
+import { toast } from 'react-toastify';
+import customFetch from '@/utils/customFetch';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const ProfileSchema = Yup.object().shape({
-  // businessName: Yup.string().required(`Missing field`),
   homeAddress: Yup.string().required(`Missing field`),
   officeAddress: Yup.string().required(`Missing field`),
   phoneNumber: Yup.string().required(`Missing field`),
   idType: Yup.string(),
-  // country: Yup.string().required(`Missing field`),
   idDocument: Yup.string(),
   introVideo: Yup.string(),
 });
@@ -33,54 +33,46 @@ const ProfileSchema = Yup.object().shape({
 const idTypeData = [`International Passport`, `NIN`, `Drivers License`];
 
 const VerifyAccountForm = ({ token }: any) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, setQueryData } = useAuthUser();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
   const [isError, setIsError] = useState<boolean>(false);
 
-  const submitCredentials = async (credentials: any) => {
-    try {
-      const formData = new FormData();
-      formData.append(`idDocument`, credentials.idDocument);
-      formData.append(`introVideo`, credentials.introVideo);
-      setIsLoading(true);
-      const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/providers/verification`,
-        {
-          business: {
-            // businessName: credentials?.businessName,
-            homeAddress: credentials?.homeAddress,
-            officeAddress: credentials?.officeAddress,
-            phoneNumber: credentials?.phoneNumber,
-          },
-          identityVerify: {
-            idType: credentials?.idType,
-            idDocument: credentials?.idDocument,
-          },
-          introVideo: credentials?.introVideo,
-        },
+  const queryClient = useQueryClient();
+
+  const { mutate: updateProfile, isLoading } = useMutation({
+    mutationFn: (credentials) =>
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : `user-profiles/${userInfo?._id}`
+        }/`,
+        credentials,
         {
           headers: {
             'Content-Type': `multipart/form-data`,
             Authorization: `Bearer ${token}`,
           },
         },
-      );
-      setIsSuccessMessage(data?.status);
-      if (data.status === `success`) {
-        setIsLoading(false);
-        setIsSuccess(true);
-      }
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log(error);
-      setIsError(true);
-      setIsErrorMessage(error.message);
-      // setIsSuccess(``);
-    }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
+      toast.success(`Profile updated`);
+    },
+    onError: (error: any) => {
+      toast.error(error.response.data.message);
+    },
+  });
+
+  const submitCredentials = async (credentials: any) => {
+    const formData = new FormData();
+    formData.append(`idDocument`, credentials.idDocument);
+    formData.append(`introVideo`, credentials.introVideo);
+    updateProfile(credentials);
   };
 
   return (
@@ -110,9 +102,6 @@ const VerifyAccountForm = ({ token }: any) => {
       <h3 className="title">Verification</h3>
       <Formik
         initialValues={{
-          // businessName: queryData?.business?.businessName
-          //   ? queryData?.business?.businessName
-          //   : ``,
           homeAddress: queryData?.business?.homeAddress
             ? queryData?.business?.homeAddress
             : ``,
@@ -130,8 +119,6 @@ const VerifyAccountForm = ({ token }: any) => {
       >
         {() => (
           <Form>
-            {/* {isSuccess && <FormSuccess text={isSuccess} />}
-            {isError && <FormError text={isError} />} */}
             <Flex>
               <Description>
                 <h4 className="subTitle">Address verification</h4>
@@ -142,17 +129,6 @@ const VerifyAccountForm = ({ token }: any) => {
                 </p>
               </Description>
               <InputController>
-                {/* <div>
-                  <div>
-                    <Label text="Enter Business Name" />
-                  </div>
-                  <FormInput
-                    ariaLabel="businessName"
-                    name="businessName"
-                    type="text"
-                    placeholder="Business Name"
-                  />
-                </div> */}
                 <div>
                   <div>
                     <Label text="Enter Home Address" />

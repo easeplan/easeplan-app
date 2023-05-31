@@ -34,17 +34,17 @@ const SettingsPage = ({ token }: any) => {
 
   return (
     <DashboardLayout token={token}>
-      {queryData?.role === `user` ? null : (
-        <Flex>
-          <Link href="/account/settings">
-            <h3 className="title active">Profile Settings</h3>
-          </Link>
-          <h3 className="title">{`/`}</h3>
+      <Flex>
+        <Link href="/account/settings">
+          <h3 className="title active">Profile Settings</h3>
+        </Link>
+        <h3 className="title">{`/`}</h3>
+        {queryData?.role !== `user` && (
           <Link href="/account/settings/verify">
             <h3 className="title">Verification</h3>
           </Link>
-        </Flex>
-      )}
+        )}
+      </Flex>
       <ProfileForm token={token} queryData={queryData} />
     </DashboardLayout>
   );

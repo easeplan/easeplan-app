@@ -241,20 +241,22 @@ const CompanySettings = ({ token }: PropsTypes) => {
                           placeholder="Company Name"
                         />
                       </Box>
-                      <Box>
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Select Services"
-                          ariaLabel="serviceType"
-                          name="serviceType"
-                        >
-                          {services?.services.map((service) => (
-                            <MenuItem key={service} value={service}>
-                              {service}
-                            </MenuItem>
-                          ))}
-                        </FormInput>
-                      </Box>
+                      {userInfo?.role === `provider` && (
+                        <Box>
+                          <FormInput
+                            isSelect
+                            selectPlaceholder="Select Services"
+                            ariaLabel="serviceType"
+                            name="serviceType"
+                          >
+                            {services?.services.map((service) => (
+                              <MenuItem key={service} value={service}>
+                                {service}
+                              </MenuItem>
+                            ))}
+                          </FormInput>
+                        </Box>
+                      )}
                       <Box mb={3}>
                         <Box
                           sx={{
@@ -315,7 +317,6 @@ const CompanySettings = ({ token }: PropsTypes) => {
                           lgWidth="100%"
                           bgPrimary
                           loading={isLoading}
-                          // loadingText="Submiting..."
                         >
                           Proceed to dashboard
                         </CustomButton>

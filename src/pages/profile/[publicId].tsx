@@ -8,7 +8,6 @@ import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
 
 const PublicProfilePage = ({ data }: any) => {
-  // console.log(data?.data);
   return (
     <>
       <Head>
@@ -36,8 +35,8 @@ const PublicProfilePage = ({ data }: any) => {
         <Box>
           <Hero queryData={data?.data} />
           <PricingSection queryData={data} />
-          <PreviousEvent queryData={data?.data} />
-          <ClientReviews queryData={data?.data} />
+          {/* <PreviousEvent queryData={data?.data} />
+          <ClientReviews queryData={data?.data} /> */}
         </Box>
       </Layout>
     </>

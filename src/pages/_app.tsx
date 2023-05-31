@@ -10,7 +10,6 @@ import * as gtag from '@/lib/gtag';
 import theme from '@/styles/theme';
 import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from '@/context/contextStore';
 import 'react-toastify/dist/ReactToastify.css';
 import { store } from '../store/store';

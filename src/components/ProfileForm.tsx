@@ -33,17 +33,17 @@ const ProfileSchema = Yup.object().shape({
 
 interface Props {
   token: string;
+  queryData: any;
 }
 
-const ProfileForm = ({ token }: Props) => {
+const ProfileForm = ({ token, queryData }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [fileName, setFileName] = useState<any>(null);
-  // const { queryData } = useFetch(`/users`, `${token}`);
-  // const [previewImg, setPreviewImg] = useState<any>(
-  //   queryData?.picture ? queryData?.picture : null,
-  // );
+  const [previewImg, setPreviewImg] = useState<any>(
+    queryData?.picture ? queryData?.picture : null,
+  );
   const [selectedState, setSelectedState] = useState<any>();
 
   const queryClient = useQueryClient();
@@ -74,9 +74,9 @@ const ProfileForm = ({ token }: Props) => {
   return (
     <Section>
       <h3 className="title">Profile Settings</h3>
-      {/* <Formik
+      <Formik
         initialValues={{
-          email: queryData?.details?.email ? queryData?.details?.email : ``,
+          email: queryData?.email ? queryData?.email : ``,
           firstname: queryData?.details?.firstname
             ? queryData?.details?.firstname
             : ``,
@@ -312,7 +312,7 @@ const ProfileForm = ({ token }: Props) => {
             </Box>
           </Form>
         )}
-      </Formik> */}
+      </Formik>
     </Section>
   );
 };

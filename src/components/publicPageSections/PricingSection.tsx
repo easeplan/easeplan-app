@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import { PlannerCard, VendorPricingCard } from './ServiceCard';
 
 const PricingSection = ({ queryData, token }: any) => {
-  console.log(queryData);
   const [openBasicModal, setOpenBasicModal] = useState(false);
   const [openStandardModal, setOpenStandardModal] = useState(false);
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
@@ -68,7 +67,7 @@ const PricingSection = ({ queryData, token }: any) => {
         {` `}
         {queryData?.role === `provider` && (
           <>
-            {/* <Grid
+            <Grid
               container
               rowSpacing={5}
               columnSpacing={{ xs: 1, sm: 4, md: 5 }}
@@ -89,7 +88,7 @@ const PricingSection = ({ queryData, token }: any) => {
                   }
                 />
               </Grid>
-            </Grid> */}
+            </Grid>
           </>
         )}
       </Box>

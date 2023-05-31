@@ -10,9 +10,13 @@ import { dateFormater } from '@/utils';
 
 const UserDetails = ({ queryData, token }: any) => {
   const [openModal, setOpenModal] = useState(false);
+  const [toggleIcon, setToggleIcon] = useState(false);
 
   const handleOpenModal = () => {
     setOpenModal(true);
+  };
+  const toggleSocialIcon = () => {
+    setToggleIcon(!toggleIcon);
   };
 
   return (
@@ -75,12 +79,6 @@ const UserDetails = ({ queryData, token }: any) => {
             alignItems: `center`,
             justifyContent: `center`,
             margin: `0 auto`,
-
-            // '.share-btn': {
-            //   color: `secondary.main`,
-            //   fontWeight: `bold`,
-            //   backgroundColor: `primary.main`,
-            // },
             '.preview-btn': {
               color: `secondary.main`,
               fontWeight: `bold`,
@@ -93,18 +91,20 @@ const UserDetails = ({ queryData, token }: any) => {
               width: `140px`,
               height: `50px`,
               transition: `0.2s`,
+              fontSize: `0.8rem`,
             },
           }}
         >
-          <button className="share-button">
-            <span className="share-text">Share Profile</span>
+          <div className="share-button" onClick={toggleSocialIcon}>
             <SocialShareButton
+              toggleIcon={toggleIcon}
               message="Exciting news! I've joined Easeplan, the platform to find professional event planners, vendors, and service providers for your events. Check out my profile and join me on Easeplan."
               url={`https://app.easeplan.io/profile/${queryData?.publicId}`}
             />
-          </button>
+            <span className="share-text">Share Profile</span>
+          </div>
           <Link href={`/profile/${queryData?.publicId}`} target="_blank">
-            <button className="preview-btn btn">Preview Profile</button>
+            <button className="preview-btn">Preview Profile</button>
           </Link>
         </Box>
         <Box

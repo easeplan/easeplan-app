@@ -8,11 +8,11 @@ import {
 import { BsTwitter, BsLinkedin, BsFacebook, BsWhatsapp } from 'react-icons/bs';
 import { Box } from '@mui/material';
 
-const SocialShareButton = ({ message, url }: any) => {
+const SocialShareButton = ({ message, url, toggleIcon }: any) => {
   const shareMessage = `Check out this awesome post: ${message}`;
 
   return (
-    <Box className="button-links">
+    <Box className={toggleIcon ? `show-links` : `button-links`}>
       <TwitterShareButton url={url} title={shareMessage}>
         <BsTwitter className="icon" />
       </TwitterShareButton>

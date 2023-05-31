@@ -72,7 +72,6 @@ const SelectAccountType = () => {
           email: `${userEmail}`,
         },
       );
-      console.log(data);
       if (data.status === `success`) {
         const { role, onboardStage, _id } = data?.data;
         dispatch(setCredentials({ role, onboardStage, _id }));

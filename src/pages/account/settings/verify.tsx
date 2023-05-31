@@ -2,40 +2,50 @@ import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
 import VerifyAccountForm from '@/components/VerifyAccountForm';
 import Link from 'next/link';
-import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
 // import FaceCapture from '@/components/FaceCapture';
 import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const VerifyPage = ({ token }: any) => {
-  // const { queryData, error, isLoading } = useFetch(
-  //   `/providers/profile`,
-  //   `${token}`,
-  // );
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { queryData, error, isLoading } = useFetch(
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `users`
+        : `users`
+    }/${userInfo?._id}`,
+    token,
+  );
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
-  // if (error) {
-  //   return <p>Error:</p>;
-  // }
+  if (error) {
+    return <p>Error:</p>;
+  }
 
   return (
     <DashboardLayout token={token}>
-      {/* <Flex>
+      <Flex>
         <Link href="/account/settings">
           <h3 className="title">Profile Settings</h3>
         </Link>
         <h3 className="title">{`/`}</h3>
-        {queryData?.details?.role !== `user` && (
+        {queryData?.role !== `user` && (
           <Link href="/account/settings/verify">
             <h3 className="title active">Verification</h3>
           </Link>
         )}
       </Flex>
-      <VerifyAccountForm token={token} /> */}
+      <VerifyAccountForm token={token} />
     </DashboardLayout>
   );
 };

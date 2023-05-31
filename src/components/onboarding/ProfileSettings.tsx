@@ -246,7 +246,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
                 >
-                  {({ values, setFieldValue }) => (
+                  {({ setFieldValue }) => (
                     <Form>
                       <Box>
                         <FormInput

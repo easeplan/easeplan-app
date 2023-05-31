@@ -8,7 +8,6 @@ import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
 
 const PublicProfilePage = ({ data }: any) => {
-  // console.log(data?.data);
   return (
     <>
       <Head>

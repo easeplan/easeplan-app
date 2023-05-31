@@ -3,29 +3,38 @@ import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
 import ProfileForm from '@/components/ProfileForm';
 import Link from 'next/link';
-import { useAuthUser } from '@/context/contextStore';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
-// export { getServerSideProps } from '@/hooks/getServerSideProps';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const SettingsPage = ({ token }: any) => {
-  // const { queryData } = useAuthUser();
-  // const { queryData, error, isLoading } = useFetch(
-  //   `/providers/profile`,
-  //   `${token}`,
-  // );
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { queryData, error, isLoading } = useFetch(
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `users`
+        : `users`
+    }/${userInfo?._id}`,
+    token,
+  );
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
-  // if (error) {
-  //   return <p>Error:</p>;
-  // }
+  if (error) {
+    return <p>Error:</p>;
+  }
 
   return (
     <DashboardLayout token={token}>
-      {/* {queryData?.details?.role === `user` ? null : (
+      {queryData?.role === `user` ? null : (
         <Flex>
           <Link href="/account/settings">
             <h3 className="title active">Profile Settings</h3>
@@ -35,8 +44,8 @@ const SettingsPage = ({ token }: any) => {
             <h3 className="title">Verification</h3>
           </Link>
         </Flex>
-      )} */}
-      <ProfileForm token={token} />
+      )}
+      <ProfileForm token={token} queryData={queryData} />
     </DashboardLayout>
   );
 };

@@ -47,8 +47,6 @@ const EditBasicModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
-  console.log(queryData);
-
   const { mutate: updateBasic, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.put(

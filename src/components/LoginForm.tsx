@@ -45,10 +45,21 @@ const LoginForm = () => {
       dispatch(setCredentials({ role, hasVisited, onboardStage, _id }));
 
       if (data?.data?.hasVisited) {
-        if (data?.data?.onboardStage < 3) {
-          router.push(`/onboarding`);
-        } else {
-          router.push(`/account`);
+        // User onboarding check
+        if (data?.data?.role === `user`) {
+          if (data.data?.onboardStage < 1) {
+            router.push(`/onboarding`);
+          } else {
+            router.push(`/account`);
+          }
+        }
+        if (data?.data?.role === `planner` || data?.data?.role === `provider`) {
+          // Planner and Provider onboarding check
+          if (data?.data?.onboardStage < 3) {
+            router.push(`/onboarding`);
+          } else {
+            router.push(`/account`);
+          }
         }
       } else {
         if (typeof window !== `undefined`) {

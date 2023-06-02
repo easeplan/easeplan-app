@@ -8,27 +8,49 @@ import MobileNav from '../MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomButton from '../common/CustomButton';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { clearCredentials } from '@/features/authSlice';
+import axios from 'axios';
 
 const Header = () => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [toggleMenu, setToggleMenu] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     setToggleMenu(!toggleMenu);
   };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+      dispatch(clearCredentials());
+    } catch (error: any) {}
+  };
+
   return (
     <NavWrapper>
       <MobileNav show={toggleMenu} handleClick={handleClick} />
       <Container maxWidth="xl">
         <Flex>
           <Logo />
-          <NavItemWrapper>
-            <NavItem href="/login" text="Login" />
-            <Link href="/signup">
-              <CustomButton p="0 3rem" bgSecondary>
-                Sign up
-              </CustomButton>
-            </Link>
-          </NavItemWrapper>
+          {!userInfo ? (
+            <NavItemWrapper>
+              <NavItem href="/login" text="Login" />
+              <Link href="/signup">
+                <CustomButton p="0 3rem" bgSecondary>
+                  Sign up
+                </CustomButton>
+              </Link>
+            </NavItemWrapper>
+          ) : (
+            <NavItemWrapper>
+              <NavItem href="#" text="Logout" onClick={handleLogout} />
+              <NavItem href="/account" text="Dashboard" />
+            </NavItemWrapper>
+          )}
           <MenuIcon className="menuIcon" onClick={handleClick} />
         </Flex>
         <MobileNav show={toggleMenu} handleClick={handleClick} />

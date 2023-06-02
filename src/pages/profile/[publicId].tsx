@@ -3,8 +3,8 @@ import Layout from '@/components/publicPageSections/Layout';
 import { Box } from '@mui/material';
 import React from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
-import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
-import ClientReviews from '@/components/publicPageSections/ClientReviews';
+// import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
+// import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
 
 const PublicProfilePage = ({ data }: any) => {
@@ -35,8 +35,8 @@ const PublicProfilePage = ({ data }: any) => {
         <Box>
           <Hero queryData={data?.data} />
           <PricingSection queryData={data} />
-          {/* <PreviousEvent queryData={data?.data} />
-          <ClientReviews queryData={data?.data} /> */}
+          {/* <PreviousEvent queryData={data?.data} /> */}
+          {/* <ClientReviews queryData={data?.data} /> */}
         </Box>
       </Layout>
     </>
@@ -47,6 +47,7 @@ export async function getServerSideProps(context: {
   query: { publicId: any };
 }) {
   const { publicId } = context.query;
+  console.log(publicId);
   // Fetch data based on the dynamicParam
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,

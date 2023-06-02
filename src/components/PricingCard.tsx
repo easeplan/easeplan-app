@@ -136,28 +136,26 @@ const PlannerCard = ({
             <div>
               {data?.package?.premium?.service?.map(
                 (items: any, index: any) => (
-                  <>
-                    <Box
-                      key={index}
-                      sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                      }}
-                      mt={2}
+                  <Box
+                    key={index}
+                    sx={{
+                      display: `flex`,
+                      alignItems: `center`,
+                    }}
+                    mt={2}
+                  >
+                    <SendIcon
+                      sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                    />
+                    <Typography
+                      ml={2}
+                      color="background.paper"
+                      fontWeight={300}
+                      textTransform="capitalize"
                     >
-                      <SendIcon
-                        sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
-                      />
-                      <Typography
-                        ml={2}
-                        color="background.paper"
-                        fontWeight={300}
-                        textTransform="capitalize"
-                      >
-                        {items}
-                      </Typography>
-                    </Box>
-                  </>
+                      {items}
+                    </Typography>
+                  </Box>
                 ),
               )}
               <Box sx={{ textAlign: `center` }}>

@@ -8,14 +8,15 @@ import { styled } from '@mui/material/styles';
 type NavProps = {
   href: string;
   text: string;
+  onClick?: () => void;
 };
 
-function NavItem({ href, text }: NavProps) {
+function NavItem({ href, text, onClick }: NavProps) {
   const router = useRouter();
   const isActive = router.asPath === href;
 
   return (
-    <ItemWrapper>
+    <ItemWrapper onClick={onClick}>
       <NextLink
         href={href}
         style={

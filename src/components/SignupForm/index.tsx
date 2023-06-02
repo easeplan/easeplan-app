@@ -10,7 +10,7 @@ import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
 import { Alert } from '@mui/material';
-import { useSignupMutation } from '@/features/signupApiSlice';
+import { useSignupMutation } from '@/features/usersApiSlice';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 

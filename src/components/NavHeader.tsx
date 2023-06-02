@@ -20,11 +20,13 @@ const NavHeader = ({ token }: any) => {
         : userInfo?.role === `planner`
         ? `planner-profiles`
         : userInfo?.role === `user`
-        ? `users`
-        : `users`
+        ? `user-profiles`
+        : `user-profiles`
     }/${userInfo?._id}`,
     token,
   );
+
+  console.log(queryData);
 
   return (
     <Navbar>

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
 import FormInput from '../common/FormInput';
-import { styled } from '@mui/material/styles';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
 import TextArea from '../common/TextArea';
@@ -40,16 +39,10 @@ const style = {
 const CompanyProfileSchema = Yup.object().shape({
   title: Yup.string().required(`Name is missing`),
   description: Yup.string().required(`Description is missing`),
-  eventImage: Yup.string().required(`Image is missing`),
+  eventImg: Yup.string().required(`Image is missing`),
 });
 
-const EditPreviousEventModal = ({
-  isOpen,
-  isClose,
-  token,
-  queryData,
-  eventId,
-}: any) => {
+const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
@@ -58,11 +51,11 @@ const EditPreviousEventModal = ({
       customFetch.put(
         `/${
           userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}/edit-sample/${eventId}`
+            ? `provider-profiles/${userInfo?._id}/add-sample`
             : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}/edit-sample/${eventId}`
+            ? `planner-profiles/${userInfo?._id}/add-sample`
             : null
-        }/`,
+        }`,
         credentials,
         {
           headers: {
@@ -86,7 +79,7 @@ const EditPreviousEventModal = ({
     formData.append(`image`, credentials.image);
     const data = {
       title: credentials.title,
-      image: credentials.eventImage,
+      image: credentials.eventImg,
       description: credentials.description,
     };
     handleUpdate(data);
@@ -120,10 +113,8 @@ const EditPreviousEventModal = ({
               <Box>
                 <Formik
                   initialValues={{
-                    title: queryData?.title ? queryData?.title : ``,
-                    description: queryData?.description
-                      ? queryData?.description
-                      : ``,
+                    title: ``,
+                    description: ``,
                     image: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
@@ -155,7 +146,7 @@ const EditPreviousEventModal = ({
                         </Box>
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
-                          {/* <DragAndDropInput type="file" name="eventImage" /> */}
+                          <DragAndDropInput type="file" name="eventImg" />
                         </Box>
                         <Box
                           mt={2}
@@ -201,4 +192,4 @@ const EditPreviousEventModal = ({
   );
 };
 
-export default EditPreviousEventModal;
+export default AddPreviousEventModal;

@@ -26,8 +26,6 @@ const NavHeader = ({ token }: any) => {
     token,
   );
 
-  console.log(queryData);
-
   return (
     <Navbar>
       <Container fixed>

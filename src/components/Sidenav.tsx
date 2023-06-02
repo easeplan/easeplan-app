@@ -14,19 +14,21 @@ import LoginIcon from '@mui/icons-material/Login';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuthUser } from '@/context/contextStore';
-
 export { getServerSideProps } from '@/context/contextStore';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const Sidenav = () => {
-  const { queryData } = useAuthUser();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+
   const handleLogout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
       router.push(`/login`);
     } catch (error: any) {}
   };
+
   return (
     <Navbar>
       <div className="container">
@@ -61,7 +63,7 @@ const Sidenav = () => {
             href="/account/payment"
           />
         </Links> */}
-        {queryData?.details?.role === `user` ? null : (
+        {userInfo?.role === `user` ? null : (
           <Links>
             <SidebarItem
               icon={<ChromeReaderModeIcon />}

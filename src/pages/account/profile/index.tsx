@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
 import LoadingScreen from '@/components/common/LoadingScreen';

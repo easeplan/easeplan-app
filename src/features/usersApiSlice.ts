@@ -9,6 +9,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    signup: builder.mutation({
+      query: (data) => ({
+        url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/signup`,
+        method: `POST`,
+        body: data,
+      }),
+    }),
     logout: builder.mutation({
       query: () => ({
         url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`,
@@ -18,4 +25,5 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = userApiSlice;
+export const { useLoginMutation, useSignupMutation, useLogoutMutation } =
+  userApiSlice;

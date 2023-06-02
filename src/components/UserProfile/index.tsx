@@ -6,7 +6,6 @@ import AboutCompany from './AboutCompany';
 import PricingCard from './PricingCard';
 import PreviousEvent from './PreviousEvent';
 import Reviews from './Reviews';
-export { getServerSideProps } from '@/context/contextStore';
 
 const UserProfile = ({ token, queryData }: any) => {
   return (

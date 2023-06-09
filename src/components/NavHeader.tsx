@@ -1,19 +1,25 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Link from 'next/link';
 import Logo from './Logo';
 import AvatarMenu from './AvatarMenu';
 import useFetch from '@/hooks/useFetch';
 import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import NotificationDropdown from './NotificationDropdown';
+import { setNotifyData } from '@/features/notificationsSlice';
+
+const API_URL = `http://apidev.us-east-1.elasticbeanstalk.com/api/v2`;
 
 const NavHeader = ({ token }: any) => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData, error, isLoading } = useFetch(
+  const { notifyData } = useSelector((state: RootState) => state.notifications);
+  const { queryData } = useFetch(
     `/${
       userInfo?.role === `provider`
         ? `provider-profiles`
@@ -25,6 +31,27 @@ const NavHeader = ({ token }: any) => {
     }/${userInfo?._id}`,
     token,
   );
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const fetchNotifications = async () => {
+    try {
+      const { data } = await axios.get(
+        `${API_URL}/contracts/${queryData?.userId}`,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      dispatch(setNotifyData(data));
+    } catch (error) {}
+  };
+
+  console.log(notifyData);
 
   return (
     <Navbar>
@@ -40,12 +67,11 @@ const NavHeader = ({ token }: any) => {
                 <InsertCommentIcon className="icon" />
               </Icon>
             </Link>
-            <Link href="/account">
-              <Icon>
-                <Dot></Dot>
-                <NotificationsIcon className="icon" />
-              </Icon>
-            </Link>
+            <NotificationDropdown
+              token={token}
+              notificationData={notifyData}
+              queryData={queryData}
+            />
             <AvatarMenu
               imgSrc={queryData?.picture}
               alt="userImage"

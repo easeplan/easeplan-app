@@ -61,9 +61,6 @@ const FormInput = ({
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
             MenuProps={MenuProps}
           >
-            <MenuItem value="">
-              <span>{selectPlaceholder}</span>
-            </MenuItem>
             {props.children}
           </Select>
           {meta.touched && meta.error ? (

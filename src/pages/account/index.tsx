@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import Badge from '@/components/common/Badge';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -17,6 +18,7 @@ interface Props {
 
 const HomePage = ({ token }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
+
   const { queryData, error, isLoading } = useFetch(
     `/${
       userInfo?.role === `provider`
@@ -24,8 +26,8 @@ const HomePage = ({ token }: Props) => {
         : userInfo?.role === `planner`
         ? `planner-profiles`
         : userInfo?.role === `user`
-        ? `users`
-        : `users`
+        ? `user-profiles`
+        : `user-profiles`
     }/${userInfo?._id}`,
     token,
   );
@@ -45,11 +47,9 @@ const HomePage = ({ token }: Props) => {
           <Dashboard data={queryData} />
         ) : null}
 
-        {/* {queryData?.identityVerify?.idDocument ? null : (
-          <Badge data={queryData} />
-        )} */}
-
-        {userInfo?.role === `user` && <FinderSection />}
+        {userInfo?.role === `user` && (
+          <FinderSection token={token} queryData={queryData} />
+        )}
 
         <Box
           sx={{

@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import theme from '@/styles/theme';
 import { Box, Divider, Typography } from '@mui/material';
-import React from 'react';
+import { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import CustomButton from '../common/CustomButton';
 import { formatCurrency } from '@/utils';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import customFetch from '@/utils/customFetch';
+import axios from 'axios';
+
+const API_URL = `http://apidev.us-east-1.elasticbeanstalk.com/api/v2`;
 
 // Planner Price Card
 const PlannerCard = ({
@@ -12,9 +19,115 @@ const PlannerCard = ({
   premium,
   setOpenPremiumModal,
   setOpenStandardModal,
-  setOpenBasicModal,
+  token,
   data,
 }: any) => {
+  const { planData } = useSelector((state: RootState) => state.searchModal);
+  const [basicLoading, setBasicLoading] = useState(false);
+  const [standardLoading, setStandardLoading] = useState(false);
+  const [premiumLoading, setPremiumLoading] = useState(false);
+
+  const handleBasicPlan = async () => {
+    setBasicLoading(true);
+    try {
+      const resData = {
+        state: planData?.state,
+        city: planData?.city,
+        budget: planData?.budget,
+        dateTime: planData?.dateTime,
+        profileId: planData?.profileId,
+        role: planData?.role,
+        package: {
+          service: planData?.package?.basic?.service,
+          type: `basic`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        resData,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        setBasicLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //  Standard plan handler
+  const handleStandardPlan = async () => {
+    setStandardLoading(true);
+    try {
+      const resData = {
+        state: planData?.state,
+        city: planData?.city,
+        budget: planData?.budget,
+        dateTime: planData?.dateTime,
+        profileId: planData?.profileId,
+        role: planData?.role,
+        package: {
+          service: planData?.package?.standard?.service,
+          type: `standard`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        resData,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        setStandardLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //  Premium plan handler
+  const handlePremiumPlan = async () => {
+    setPremiumLoading(true);
+    try {
+      const resData = {
+        state: planData?.state,
+        city: planData?.city,
+        budget: planData?.budget,
+        dateTime: planData?.dateTime,
+        profileId: planData?.profileId,
+        role: planData?.role,
+        package: {
+          service: planData?.package?.premium?.service,
+          type: `premium`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        resData,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        setPremiumLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -31,8 +144,8 @@ const PlannerCard = ({
         {basic && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
             {formatCurrency(
-              data?.data?.package?.basic?.price
-                ? data?.data?.package?.basic?.price
+              data?.package?.basic?.price
+                ? data?.package?.basic?.price
                 : `0.00`,
             )}
           </Typography>
@@ -40,8 +153,8 @@ const PlannerCard = ({
         {standard && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
             {formatCurrency(
-              data?.data?.package?.standard?.price
-                ? data?.data?.package?.standard?.price
+              data?.package?.standard?.price
+                ? data?.package?.standard?.price
                 : `0.00`,
             )}
           </Typography>
@@ -49,8 +162,8 @@ const PlannerCard = ({
         {premium && (
           <Typography color="background.paper" mt={2} fontWeight={600}>
             {formatCurrency(
-              data?.data?.package?.premium?.price
-                ? data?.data?.package?.premium?.price
+              data?.package?.premium?.price
+                ? data?.package?.premium?.price
                 : `0.00`,
             )}
           </Typography>
@@ -64,46 +177,41 @@ const PlannerCard = ({
           </Typography>
           {basic && (
             <div>
-              {data?.data?.package?.basic?.service?.map(
-                (items: any, index: any) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                    }}
-                    mt={2}
-                  >
-                    <SendIcon
-                      sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
-                    />
-                    <Typography
-                      ml={2}
-                      color="background.paper"
-                      fontWeight={300}
-                    >
-                      {items}
-                    </Typography>
-                  </Box>
-                ),
-              )}
+              {data?.package?.basic?.service?.map((items: any, index: any) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: `flex`,
+                    alignItems: `center`,
+                  }}
+                  mt={2}
+                >
+                  <SendIcon
+                    sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                  />
+                  <Typography ml={2} color="background.paper" fontWeight={300}>
+                    {items}
+                  </Typography>
+                </Box>
+              ))}
               <Box sx={{ textAlign: `center` }}>
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
                   mdWidth="100%"
                   smWidth="100%"
-                  onClick={() => setOpenBasicModal(true)}
+                  onClick={handleBasicPlan}
                   bgSecondary
+                  loading={basicLoading}
                 >
-                  Add Services
+                  Request Plan
                 </CustomButton>
               </Box>
             </div>
           )}
           {standard && (
             <div>
-              {data?.data?.package?.standard?.service?.map(
+              {data?.package?.standard?.service?.map(
                 (items: any, index: any) => (
                   <Box
                     key={index}
@@ -130,17 +238,18 @@ const PlannerCard = ({
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
-                  onClick={() => setOpenStandardModal(true)}
+                  onClick={handleStandardPlan}
                   bgSecondary
+                  loading={standardLoading}
                 >
-                  Add Services
+                  Request Plan
                 </CustomButton>
               </Box>
             </div>
           )}
           {premium && (
             <div>
-              {data?.data?.package?.premium?.service?.map(
+              {data?.package?.premium?.service?.map(
                 (items: any, index: any) => (
                   <>
                     <Box
@@ -170,10 +279,11 @@ const PlannerCard = ({
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
-                  onClick={() => setOpenPremiumModal(true)}
+                  onClick={handlePremiumPlan}
                   bgSecondary
+                  loading={premiumLoading}
                 >
-                  Add Services
+                  Request plan
                 </CustomButton>
               </Box>
             </div>

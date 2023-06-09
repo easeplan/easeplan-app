@@ -6,7 +6,7 @@ import { dateFormater } from '@/utils';
 
 const Hero = ({ queryData }: any) => {
   return (
-    <Box mt={13}>
+    <Box mt={6}>
       <Box
         sx={{
           width: `100%`,
@@ -149,8 +149,8 @@ const Hero = ({ queryData }: any) => {
             },
           }}
         >
-          <Link href="/login">
-            <button className="preview-btn btn">Contact Me</button>
+          <Link href="#pricingSection">
+            <button className="preview-btn btn">Contract Me</button>
           </Link>
         </Box>
         <Box

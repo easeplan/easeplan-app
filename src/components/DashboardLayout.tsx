@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Sidenav from './Sidenav';
 import NavHeader from './NavHeader';
 import MobileSidenav from './MobileSidenav';
-import { Container, Box } from '@mui/material';
+import { Container } from '@mui/material';
 
 interface ILayout {
   children: React.ReactElement | React.ReactNode;
   data?: any;
-  token: any;
+  token?: any;
 }
 
 const DashboardLayout = ({ children, token }: ILayout) => {

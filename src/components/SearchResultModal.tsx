@@ -1,5 +1,4 @@
 import { Box, Typography, Alert } from '@mui/material';
-import { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { Container } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,11 +18,11 @@ const style = {
   width: {
     xs: `100%`,
     sm: `100%`,
-    md: `70%`,
-    lg: `70%`,
-    xl: `70%`,
+    md: `95%`,
+    lg: `95%`,
+    xl: `95%`,
   },
-  height: `90vh`,
+  height: `95vh`,
   bgcolor: `#fff`,
   border: `none`,
   boxShadow: 24,

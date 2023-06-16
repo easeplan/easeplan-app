@@ -51,8 +51,6 @@ const NavHeader = ({ token }: any) => {
     } catch (error) {}
   };
 
-  console.log(notifyData);
-
   return (
     <Navbar>
       <Container fixed>

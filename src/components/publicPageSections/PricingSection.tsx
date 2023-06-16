@@ -3,10 +3,6 @@ import { Box, Grid, Typography } from '@mui/material';
 import { PlannerCard, VendorPricingCard } from './ServiceCard';
 
 const PricingSection = ({ queryData, token }: any) => {
-  const [setOpenBasicModal] = useState(false);
-  const [setOpenStandardModal] = useState(false);
-  const [setOpenPremiumModal] = useState(false);
-
   return (
     <Box my={10} id="pricingSection">
       <Box
@@ -44,20 +40,10 @@ const PricingSection = ({ queryData, token }: any) => {
                 <PlannerCard basic={true} token={token} data={queryData} />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <PlannerCard
-                  standard={true}
-                  token={token}
-                  setOpenStandardModal={setOpenStandardModal}
-                  data={queryData}
-                />
+                <PlannerCard standard={true} token={token} data={queryData} />
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <PlannerCard
-                  token={token}
-                  premium
-                  setOpenPremiumModal={setOpenPremiumModal}
-                  data={queryData}
-                />
+                <PlannerCard token={token} premium data={queryData} />
               </Grid>
             </Grid>
           </>

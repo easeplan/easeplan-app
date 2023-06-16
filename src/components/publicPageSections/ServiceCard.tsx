@@ -6,29 +6,35 @@ import SendIcon from '@mui/icons-material/Send';
 import CustomButton from '../common/CustomButton';
 import { formatCurrency } from '@/utils';
 import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setOpenSearchModal,
+  setOpenPlannerModal,
+  setOpenVendorModal,
+} from '@/features/searchResultSlice';
 import customFetch from '@/utils/customFetch';
 import axios from 'axios';
-
-const API_URL = `http://apidev.us-east-1.elasticbeanstalk.com/api/v2`;
+import ConfirmModal from './ConfirmModal';
+import SuccessModal from '../common/SuccessModal';
+import { useRouter } from 'next/router';
 
 // Planner Price Card
-const PlannerCard = ({
-  basic,
-  standard,
-  premium,
-  setOpenPremiumModal,
-  setOpenStandardModal,
-  token,
-  data,
-}: any) => {
+const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const { planData } = useSelector((state: RootState) => state.searchModal);
-  const [basicLoading, setBasicLoading] = useState(false);
-  const [standardLoading, setStandardLoading] = useState(false);
-  const [premiumLoading, setPremiumLoading] = useState(false);
+  const [basicModal, setBasicModal] = useState(false);
+  const [standardModal, setStandardModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [premiumModal, setPremiumModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(true);
+
+  const handleBasicModal = () => {
+    setBasicModal(true);
+  };
 
   const handleBasicPlan = async () => {
-    setBasicLoading(true);
+    setIsLoading(true);
     try {
       const resData = {
         state: planData?.state,
@@ -53,16 +59,21 @@ const PlannerCard = ({
         },
       );
       if (data.status === `success`) {
-        setBasicLoading(false);
+        setBasicModal(false);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleOpenStandardModal = () => {
+    setStandardModal(true);
+  };
+
   //  Standard plan handler
   const handleStandardPlan = async () => {
-    setStandardLoading(true);
+    setIsLoading(true);
     try {
       const resData = {
         state: planData?.state,
@@ -87,16 +98,20 @@ const PlannerCard = ({
         },
       );
       if (data.status === `success`) {
-        setStandardLoading(false);
+        setStandardModal(false);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handlePremiumModal = () => {
+    setPremiumModal(true);
+  };
   //  Premium plan handler
   const handlePremiumPlan = async () => {
-    setPremiumLoading(true);
+    setIsLoading(true);
     try {
       const resData = {
         state: planData?.state,
@@ -121,11 +136,25 @@ const PlannerCard = ({
         },
       );
       if (data.status === `success`) {
-        setPremiumLoading(false);
+        setPremiumModal(false);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleCloseModal = () => {
+    dispatch(setOpenSearchModal(false));
+    dispatch(setOpenPlannerModal(false));
+    setSuccessModal(false);
+  };
+
+  const handleRedirect = () => {
+    router.push(`/account/event/${453}`);
+    dispatch(setOpenSearchModal(false));
+    dispatch(setOpenPlannerModal(false));
+    setSuccessModal(false);
   };
 
   return (
@@ -136,6 +165,156 @@ const PlannerCard = ({
         backgroundColor: theme.palette.primary.main,
       }}
     >
+      <SuccessModal
+        isOpen={successModal}
+        isClose={() => setSuccessModal(false)}
+        title="Request sent Successfully"
+        message="You will get a feedback with 24 hours from the Planner"
+      >
+        <Box
+          sx={{
+            mt: 3,
+            display: `flex`,
+            alignItems: `center`,
+            justifyContent: `space-between`,
+            flexDirection: {
+              xs: `column-reverse`,
+            },
+          }}
+        >
+          <Box
+            sx={{
+              backgroundColor: `#cccc`,
+              textAlign: `center`,
+              padding: `10px`,
+              width: {
+                xs: `100%`,
+                sm: `100%`,
+                md: `20%`,
+                lg: `20%`,
+                xl: `20%`,
+              },
+              borderRadius: `10px`,
+              textTransform: `uppercase`,
+              cursor: `pointer`,
+              fontSize: `0.8rem`,
+              mt: {
+                xs: 2,
+                sm: 2,
+                md: `0`,
+              },
+            }}
+            onClick={handleCloseModal}
+          >
+            Done
+          </Box>
+          {/* <CustomButton onClick={handleCloseModal} bgPrimary>
+            Done
+          </CustomButton> */}
+          <CustomButton onClick={handleRedirect} bgPrimary>
+            Event Plan Details
+          </CustomButton>
+        </Box>
+      </SuccessModal>
+      <ConfirmModal
+        isOpen={
+          basicModal
+            ? handleBasicPlan
+            : standardModal
+            ? handleStandardPlan
+            : premiumModal
+            ? handlePremiumPlan
+            : null
+        }
+        isClose={() =>
+          basicModal
+            ? setBasicModal(false)
+            : standardModal
+            ? setStandardModal(false)
+            : premiumModal
+            ? setPremiumModal(false)
+            : null
+        }
+      >
+        <Box
+          sx={{
+            py: {
+              xs: 4,
+              lg: 4,
+            },
+            px: {
+              xs: 3,
+              lg: 4,
+            },
+          }}
+        >
+          <Box>
+            <Typography>Proceed to Event</Typography>
+            <Box
+              my={3}
+              sx={{
+                display: `flex`,
+                alignItems: `center`,
+                justifyContent: `space-between`,
+              }}
+            >
+              <CustomButton
+                bgPrimary
+                smWidth="100%"
+                lgWidth="100%"
+                type="submit"
+                className="changeBtn"
+                loading={isLoading}
+                onClick={
+                  basicModal
+                    ? handleBasicPlan
+                    : standardModal
+                    ? handleStandardPlan
+                    : premiumModal
+                    ? handlePremiumPlan
+                    : null
+                }
+              >
+                Proceed
+              </CustomButton>
+            </Box>
+            <Divider />
+            <Typography mt={2}>Cancel Event</Typography>
+            <Box
+              mt={2}
+              sx={{
+                display: `flex`,
+                alignItems: `center`,
+                justifyContent: `space-between`,
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: `#cccc`,
+                  textAlign: `center`,
+                  width: `100%`,
+                  padding: `10px`,
+                  borderRadius: `10px`,
+                  textTransform: `uppercase`,
+                  cursor: `pointer`,
+                  fontSize: `0.8rem`,
+                }}
+                onClick={() =>
+                  basicModal
+                    ? setBasicModal(false)
+                    : standardModal
+                    ? setStandardModal(false)
+                    : premiumModal
+                    ? setPremiumModal(false)
+                    : null
+                }
+              >
+                Cancel
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </ConfirmModal>
       <Box p={4}>
         {basic && <Typography color="background.paper">Basic</Typography>}
         {standard && <Typography color="background.paper">Standard</Typography>}
@@ -200,11 +379,10 @@ const PlannerCard = ({
                   lgWidth="100%"
                   mdWidth="100%"
                   smWidth="100%"
-                  onClick={handleBasicPlan}
+                  onClick={handleBasicModal}
                   bgSecondary
-                  loading={basicLoading}
                 >
-                  Request Plan
+                  Select
                 </CustomButton>
               </Box>
             </div>
@@ -238,11 +416,10 @@ const PlannerCard = ({
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
-                  onClick={handleStandardPlan}
+                  onClick={handleOpenStandardModal}
                   bgSecondary
-                  loading={standardLoading}
                 >
-                  Request Plan
+                  Select
                 </CustomButton>
               </Box>
             </div>
@@ -279,11 +456,10 @@ const PlannerCard = ({
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
-                  onClick={handlePremiumPlan}
+                  onClick={handlePremiumModal}
                   bgSecondary
-                  loading={premiumLoading}
                 >
-                  Request plan
+                  Select
                 </CustomButton>
               </Box>
             </div>

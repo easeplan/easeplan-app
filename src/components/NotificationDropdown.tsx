@@ -153,7 +153,7 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
                     ?.slice(0, 5)
                     .map(
                       (data: { status: any; dateTime: any; _id: string }) => (
-                        <>
+                        <div key={data?._id}>
                           {data?.dateTime && (
                             <Link
                               href={`/account/notifications/${data?._id}`}
@@ -183,7 +183,7 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
                               <Divider />
                             </Link>
                           )}
-                        </>
+                        </div>
                       ),
                     )}
                 </List>

@@ -98,8 +98,6 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
         package: data?.data[0]?.package,
       };
 
-      console.log(data?.data[0]);
-
       dispatch(setPlanData(planData));
       setisLoading(false);
       if (data?.data?.msg) {

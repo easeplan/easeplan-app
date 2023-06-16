@@ -3,6 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 interface modalState {
   openSearchModal: boolean;
   closeSearchModal: boolean;
+  openPlannerModal: boolean;
+  openVendorModal: boolean;
+  closePlannerModal: boolean;
+  closeVendorModal: boolean;
   data: any;
   planData?: {
     state?: string;
@@ -20,6 +24,10 @@ interface modalState {
 const initialState: modalState = {
   openSearchModal: false,
   closeSearchModal: false,
+  openPlannerModal: false,
+  openVendorModal: false,
+  closePlannerModal: false,
+  closeVendorModal: false,
   data: null,
   planData: {},
   loadingResult: false,
@@ -32,6 +40,12 @@ export const searchResultSlice = createSlice({
   reducers: {
     setOpenSearchModal: (state, action) => {
       state.openSearchModal = action.payload;
+    },
+    setOpenPlannerModal: (state, action) => {
+      state.openPlannerModal = action.payload;
+    },
+    setOpenVendorModal: (state, action) => {
+      state.openVendorModal = action.payload;
     },
     setUpdateData: (state, action) => {
       state.data = action.payload;
@@ -50,6 +64,8 @@ export const searchResultSlice = createSlice({
 
 export const {
   setOpenSearchModal,
+  setOpenPlannerModal,
+  setOpenVendorModal,
   setLoadingResult,
   setUpdateData,
   setErrorMsg,

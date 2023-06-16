@@ -11,60 +11,89 @@ import FindVendorModal from './FindVendorModal';
 import SearchResultModal from './SearchResultModal';
 import { RootState } from '@/store/store';
 import { useSelector, useDispatch } from 'react-redux';
-import { setOpenSearchModal } from '@/features/searchResultSlice';
+import {
+  setOpenSearchModal,
+  setOpenPlannerModal,
+  setOpenVendorModal,
+} from '@/features/searchResultSlice';
+import bannerImg from '@/public/banner.png';
+import EventList from './EventList';
 
 const FinderSection = ({ queryData, token }: any) => {
   const dispatch = useDispatch();
-  const { openSearchModal, data } = useSelector(
-    (state: RootState) => state.searchModal,
-  );
-  const [openPlannerModal, setOpenPlannerModal] = useState(false);
-  const [openVendorModal, setOpenVendorModal] = useState(false);
+  const { openSearchModal, openPlannerModal, openVendorModal, data } =
+    useSelector((state: RootState) => state.searchModal);
 
   const handleOpenFindPlannerModal = () => {
-    setOpenPlannerModal(true);
+    dispatch(setOpenPlannerModal(true));
   };
 
   const handleOpenFindVendorModal = () => {
-    setOpenVendorModal(true);
+    dispatch(setOpenVendorModal(true));
   };
 
   return (
-    <DashboardWrapper>
-      <SearchResultModal
-        openResult={openSearchModal}
-        closeResult={() => dispatch(setOpenSearchModal(false))}
-        queryData={data}
-        token={token}
-      />
-      <h3 className="sectionTitle">Act Swiftly</h3>
-      <FindPlannerModal
-        isOpen={openPlannerModal}
-        isClose={() => setOpenPlannerModal(false)}
-        queryData={queryData}
-        token={token}
-      />
-      <FindVendorModal
-        isOpen={openVendorModal}
-        isClose={() => setOpenVendorModal(false)}
-        queryData={queryData}
-        token={token}
-      />
-      <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 4, md: 5 }}>
-        <Grid item xs={6} sm={6} md={6}>
-          <Card onClick={handleOpenFindPlannerModal}>
-            <Image src={FinderIcon} alt="EventIcon" height={80} width={80} />
-            <h3 className="title">Find Planner</h3>
-          </Card>
+    <>
+      <Box
+        sx={{
+          width: `100%`,
+          height: `100%`,
+          position: `relative`,
+          marginTop: {
+            xs: `2rem`,
+          },
+          img: { width: `100%`, height: `100%` },
+        }}
+      >
+        <Image
+          src={bannerImg}
+          alt="img"
+          height={100}
+          width={1200}
+          loading="lazy"
+        />
+      </Box>
+
+      <DashboardWrapper>
+        <SearchResultModal
+          openResult={openSearchModal}
+          closeResult={() => dispatch(setOpenSearchModal(false))}
+          queryData={data}
+          token={token}
+        />
+        <h3 className="sectionTitle">Act Swiftly</h3>
+        <FindPlannerModal
+          isOpen={openPlannerModal}
+          isClose={() => dispatch(setOpenPlannerModal(false))}
+          queryData={queryData}
+          token={token}
+        />
+        <FindVendorModal
+          isOpen={openVendorModal}
+          isClose={() => dispatch(setOpenVendorModal(false))}
+          queryData={queryData}
+          token={token}
+        />
+        <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 4, md: 5 }}>
+          <Grid item xs={6} sm={6} md={6}>
+            <Card onClick={handleOpenFindPlannerModal}>
+              <Image src={FinderIcon} alt="EventIcon" height={80} width={80} />
+              <h3 className="title">Find Planner</h3>
+            </Card>
+          </Grid>
+          <Grid item xs={6} sm={6} md={6}>
+            <Card onClick={handleOpenFindVendorModal}>
+              <Image src={VendorIcon} alt="EventIcon" height={80} width={80} />
+              <h3 className="title">Find Vendor</h3>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={6} sm={6} md={6}>
-          <Card onClick={handleOpenFindVendorModal}>
-            <Image src={VendorIcon} alt="EventIcon" height={80} width={80} />
-            <h3 className="title">Find Vendor</h3>
-          </Card>
-        </Grid>
-      </Grid>
-    </DashboardWrapper>
+        <Box sx={{ mt: 10 }}>
+          <h3 className="sectionTitle">Events</h3>
+          <EventList />
+        </Box>
+      </DashboardWrapper>
+    </>
   );
 };
 

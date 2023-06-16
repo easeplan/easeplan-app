@@ -4,8 +4,7 @@ import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
 import FinderSection from '@/components/FinderSection';
 import Box from '@mui/material/Box';
-import bannerImg from '@/public/banner.png';
-import Image from 'next/image';
+
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
@@ -50,26 +49,6 @@ const HomePage = ({ token }: Props) => {
         {userInfo?.role === `user` && (
           <FinderSection token={token} queryData={queryData} />
         )}
-
-        <Box
-          sx={{
-            width: `100%`,
-            height: `100%`,
-            position: `relative`,
-            marginTop: {
-              xs: `2rem`,
-            },
-            img: { width: `100%`, height: `100%` },
-          }}
-        >
-          <Image
-            src={bannerImg}
-            alt="img"
-            height={100}
-            width={1200}
-            loading="lazy"
-          />
-        </Box>
       </DashboardLayout>
     </>
   );

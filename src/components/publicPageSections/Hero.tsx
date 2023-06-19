@@ -150,7 +150,7 @@ const Hero = ({ queryData }: any) => {
           }}
         >
           <Link href="#pricingSection">
-            <button className="preview-btn btn">Contract Me</button>
+            <button className="preview-btn btn">Hire Me</button>
           </Link>
         </Box>
         <Box

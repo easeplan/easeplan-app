@@ -12,16 +12,16 @@ import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckIcon from '@mui/icons-material/Check';
 import Link from 'next/link';
+import theme from '@/styles/theme';
 
 interface Props {
   token: string;
 }
 
 const EventDetailsPage = ({ token }: Props) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   const { id } = router.query;
-
-  console.log(id);
 
   return (
     <DashboardLayout token={token}>
@@ -111,6 +111,75 @@ const EventDetailsPage = ({ token }: Props) => {
               <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
             </Typography>
           </Box>
+          {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
+            <Box
+              sx={{
+                display: `flex`,
+                justifyContent: `space-between`,
+                alignItems: `center`,
+                flexDirection: {
+                  xs: `column`,
+                  sm: `column`,
+                  md: `row`,
+                  lg: `row`,
+                  xl: `row`,
+                },
+                p: 4,
+                mt: 4,
+                border: ` solid 1px #ccc`,
+              }}
+            >
+              <Box>
+                <Typography
+                  fontWeight="600"
+                  fontSize="1.2rem"
+                  color="primary.main"
+                >
+                  Are you available for this gig?
+                </Typography>
+                <Typography color="grey.500" mt={1}>
+                  If you are please accept the event or decline if you are not
+                  available
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  justifyContent: `space-between`,
+                  gap: `2rem`,
+                  mt: {
+                    xs: `2rem`,
+                    sm: `2rem`,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    border: `solid 1px ${theme.palette.primary.main}`,
+                    color: `primary.main`,
+                    py: 1,
+                    px: 4,
+                    fontWeight: `600`,
+                  }}
+                >
+                  <Link href="/dashboard/support">Declined</Link>
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: `primary.main`,
+                    color: `secondary.main`,
+                    py: 1,
+                    px: 6,
+                    fontWeight: `600`,
+                    cursor: `pointer`,
+                  }}
+                >
+                  Accept
+                </Box>
+              </Box>
+            </Box>
+          ) : null}
           {/* Support CTA */}
           <Box
             sx={{

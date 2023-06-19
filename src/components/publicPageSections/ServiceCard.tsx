@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setOpenSearchModal,
   setOpenPlannerModal,
-  setOpenVendorModal,
 } from '@/features/searchResultSlice';
 import customFetch from '@/utils/customFetch';
 import axios from 'axios';
@@ -27,7 +26,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   const [standardModal, setStandardModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [premiumModal, setPremiumModal] = useState(false);
-  const [successModal, setSuccessModal] = useState(true);
+  const [successModal, setSuccessModal] = useState(false);
 
   const handleBasicModal = () => {
     setBasicModal(true);
@@ -61,6 +60,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
       if (data.status === `success`) {
         setBasicModal(false);
         setIsLoading(false);
+        setSuccessModal(true);
       }
     } catch (error) {
       console.log(error);
@@ -100,6 +100,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
       if (data.status === `success`) {
         setStandardModal(false);
         setIsLoading(false);
+        setSuccessModal(true);
       }
     } catch (error) {
       console.log(error);
@@ -138,6 +139,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
       if (data.status === `success`) {
         setPremiumModal(false);
         setIsLoading(false);
+        setSuccessModal(true);
       }
     } catch (error) {
       console.log(error);
@@ -151,10 +153,11 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   };
 
   const handleRedirect = () => {
+    setIsLoading(true);
     router.push(`/account/event/${453}`);
-    dispatch(setOpenSearchModal(false));
-    dispatch(setOpenPlannerModal(false));
-    setSuccessModal(false);
+    // dispatch(setOpenSearchModal(false));
+    // dispatch(setOpenPlannerModal(false));
+    // setSuccessModal(false);
   };
 
   return (
@@ -169,13 +172,14 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         isOpen={successModal}
         isClose={() => setSuccessModal(false)}
         title="Request sent Successfully"
-        message="You will get a feedback with 24 hours from the Planner"
+        message="You will get a feedback within 24 hours from the Planner"
       >
         <Box
           sx={{
             mt: 3,
             display: `flex`,
             alignItems: `center`,
+            gap: `1rem`,
             justifyContent: `space-between`,
             flexDirection: {
               xs: `column-reverse`,
@@ -211,7 +215,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
           {/* <CustomButton onClick={handleCloseModal} bgPrimary>
             Done
           </CustomButton> */}
-          <CustomButton onClick={handleRedirect} bgPrimary>
+          <CustomButton loading={isLoading} onClick={handleRedirect} bgPrimary>
             Event Plan Details
           </CustomButton>
         </Box>

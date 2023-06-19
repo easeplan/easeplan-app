@@ -1,0 +1,28 @@
+<xml version="1.0" encoding="UTF-8">
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+      <loc>https://easeplan.io</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+    <url>
+      <loc>https://easeplan/vendor</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+    <url>
+      <loc>https://easeplan/planner</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+    <url>
+      <loc>https://easeplan/about</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+    <url>
+      <loc>https://app.easeplan/signup</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+    <url>
+      <loc>https://app.easeplan/login</loc>
+      <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    </url>
+  </urlset>
+</xml>

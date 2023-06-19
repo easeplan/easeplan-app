@@ -87,9 +87,7 @@ const DashboardWrapper = styled(`section`)(({ theme }: any) => ({
   height: `100%`,
   marginTop: `1rem`,
   color: theme.palette.primary.main,
-  // border: `solid 1px #ccc`,
   padding: `1.2rem 1rem 2rem 1.2rem`,
-  // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
   borderRadius: `10px`,
 
   '.subTitle': {

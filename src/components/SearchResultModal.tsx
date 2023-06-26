@@ -40,8 +40,6 @@ const SearchResultModal = ({
     (state: RootState) => state.searchModal,
   );
 
-  // console.log(errorMsg?.matchedServiceProviders[0]);
-
   return (
     <Container fixed>
       <Modal

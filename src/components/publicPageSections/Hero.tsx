@@ -3,6 +3,7 @@ import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
 import { dateFormater } from '@/utils';
+import BannerImg from '@/public/banner.png';
 
 const Hero = ({ queryData }: any) => {
   return (
@@ -29,7 +30,9 @@ const Hero = ({ queryData }: any) => {
       >
         <Box>
           <Image
-            src={queryData?.company?.image}
+            src={
+              queryData?.company?.image ? queryData?.company?.image : BannerImg
+            }
             alt="bannerImage"
             fill
             quality={100}

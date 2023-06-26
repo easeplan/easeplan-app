@@ -49,13 +49,13 @@ const Sidenav = () => {
             href="/account/inbox"
           />
         </Links> */}
-        {/* <Links>
+        <Links>
           <SidebarItem
             icon={<StyleIcon />}
             text="History"
             href="/account/history"
           />
-        </Links> */}
+        </Links>
         <Links>
           <SidebarItem
             icon={<AccountBalanceWalletIcon />}

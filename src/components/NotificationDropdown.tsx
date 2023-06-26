@@ -6,14 +6,10 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
 import Typography from '@mui/material/Typography';
-// import Popover from '@mui/material/Popover';
-// import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import List from '@mui/material/List';
@@ -21,8 +17,6 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import { dateFormater } from '@/utils';
-
-const API_URL = `http://apidev.us-east-1.elasticbeanstalk.com/api/v2`;
 
 const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
   const [open, setOpen] = useState(false);
@@ -149,7 +143,7 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
                     bgcolor: `background.paper`,
                   }}
                 >
-                  {notificationData?.data
+                  {notificationData
                     ?.slice(0, 5)
                     .map(
                       (data: { status: any; dateTime: any; _id: string }) => (

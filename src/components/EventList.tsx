@@ -17,31 +17,38 @@ const EventList = () => {
     }
   }
 
-  const resultData = getLastFiveElements(notifyData?.data);
+  const resultData = getLastFiveElements(notifyData);
 
   return (
     <>
-      {resultData?.map((data: any) => (
-        <Box
-          key={data?._id}
-          sx={{
-            bgcolor: `secondary.light`,
-            py: 2,
-            my: 2,
-            display: `grid`,
-            gridTemplateColumns: `repeat(3, 1fr)`,
-            alignItems: `center`,
-            textAlign: `center`,
-            border: `solid 1px ${theme.palette.secondary.main}`,
-          }}
-        >
-          <Typography>{formatCurrency(data?.budget)}</Typography>
-          <Typography>
-            {data?.dateTime && dateFormaterAndTime(data?.dateTime)}
-          </Typography>
-          <Link href={`/account/notifications/${data?._id}`}>View</Link>
+      <h3 className="sectionTitle">Events</h3>
+      {notifyData?.length < 1 ? (
+        <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+          <Typography>Your ongoing events will show here</Typography>
         </Box>
-      ))}
+      ) : (
+        resultData?.map((data: any) => (
+          <Box
+            key={data?._id}
+            sx={{
+              bgcolor: `secondary.light`,
+              py: 2,
+              my: 2,
+              display: `grid`,
+              gridTemplateColumns: `repeat(3, 1fr)`,
+              alignItems: `center`,
+              textAlign: `center`,
+              border: `solid 1px ${theme.palette.secondary.main}`,
+            }}
+          >
+            <Typography>{formatCurrency(data?.budget)}</Typography>
+            <Typography>
+              {data?.dateTime && dateFormaterAndTime(data?.dateTime)}
+            </Typography>
+            <Link href={`/account/event/${data?._id}`}>View</Link>
+          </Box>
+        ))
+      )}
     </>
   );
 };

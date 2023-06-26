@@ -89,7 +89,6 @@ const FinderSection = ({ queryData, token }: any) => {
           </Grid>
         </Grid>
         <Box sx={{ mt: 10 }}>
-          <h3 className="sectionTitle">Events</h3>
           <EventList />
         </Box>
       </DashboardWrapper>

@@ -21,13 +21,24 @@ interface Props {
   token: string;
 }
 
-const EventDetailsPage = ({ token }: Props) => {
+const SuccessPage = ({ token }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
+
+  console.log(id);
+
+  const checkUserID = (arr: any) => {
+    const newUser = arr?.map((newID: any) => newID);
+    return newUser;
+  };
+
+  const userID = checkUserID(
+    notifyData?.data.map((item: any) => item?.package),
+  );
 
   function convertToObject(str: any) {
     try {
@@ -39,23 +50,11 @@ const EventDetailsPage = ({ token }: Props) => {
     }
   }
 
-  const queryParams = (arr: any) => {
-    let userData: any = {};
-    arr?.map((ids: any) => {
-      if (ids?._id === id) {
-        return (userData = ids);
-      }
-    });
-
-    return userData;
-  };
-  const queryID = queryParams(notifyData);
-
-  console.log(queryID?.package);
-
   const newPack = convertToObject(
     `{"service":["dkddk","djjdjd"],"type":"basic"}`,
   );
+
+  console.log(newPack);
 
   const handleAcceptOffer = async () => {
     const res = await fetch(
@@ -77,42 +76,6 @@ const EventDetailsPage = ({ token }: Props) => {
     const data = await res.json();
   };
 
-  const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
-    token,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
-
-  const handlePayment = async () => {
-    const data = {
-      email: `email@mail`,
-      amount: queryID?.budget,
-      contractId: id,
-      role: userInfo?.role,
-    };
-    console.log(data);
-    try {
-    } catch (error) {}
-  };
-
-  // console.log(`Contract:`, notifyData);
-  // console.log(`UserInfo:`, queryData);
-
   return (
     <DashboardLayout token={token}>
       <section>
@@ -127,19 +90,13 @@ const EventDetailsPage = ({ token }: Props) => {
             <CustomButton bgPrimary>Accept Offer</CustomButton>
           </Box>
         </AcceptOfferConfirmModal>
-        {notifyData?.map((data: any) =>
+        {notifyData?.data.map((data: any) =>
           data?._id === id ? (
             <Box
               key={data?._id}
               sx={{
                 display: `grid`,
-                gridTemplateColumns: {
-                  xs: `1fr`,
-                  sm: `1fr`,
-                  md: `1fr 1fr`,
-                  lg: `1fr 1fr`,
-                  xl: `1fr 1fr`,
-                },
+                gridTemplateColumns: `1fr 1fr`,
                 gap: `2rem`,
               }}
             >
@@ -382,13 +339,7 @@ const EventDetailsPage = ({ token }: Props) => {
                     backgroundColor: `secondary.light`,
                   }}
                 >
-                  <CustomButton
-                    onClick={handlePayment}
-                    bgPrimary
-                    lgWidth="100%"
-                  >
-                    Make Payment
-                  </CustomButton>
+                  <CustomButton bgPrimary>Make Payment</CustomButton>
                 </Box>
               </Box>
             </Box>
@@ -448,4 +399,4 @@ const EventDetailsPage = ({ token }: Props) => {
   );
 };
 
-export default EventDetailsPage;
+export default SuccessPage;

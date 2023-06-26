@@ -40,7 +40,7 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon2} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
-                <small>NGN</small>
+                <small>₦</small>
                 <h2 className="title">00.00</h2>
               </div>
               <p>Total Amount Made</p>
@@ -61,7 +61,7 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon3} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
-                <small>NGN</small>
+                <small>₦</small>
                 <h2 className="title">00.00</h2>
               </div>
               <p>Available Balance</p>
@@ -73,7 +73,7 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon4} alt="EventIcon" height={40} width={40} />
             <div>
               <h2 className="title">0</h2>
-              <p>Even on Cue</p>
+              <p>Event on Cue</p>
             </div>
           </Card>
         </SwiperSlide>

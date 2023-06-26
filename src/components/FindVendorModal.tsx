@@ -63,8 +63,6 @@ const services = [
   `Entertainer`,
 ];
 
-const API_URL = `http://apidev.us-east-1.elasticbeanstalk.com/api/v2`;
-
 const FormSchema = Yup.object().shape({
   state: Yup.string().required(`State is missing`),
   city: Yup.string().required(`City is missing`),
@@ -77,11 +75,11 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
   const dispatch = useDispatch();
   const { errorMsg } = useSelector((state: RootState) => state.searchModal);
   const [selectedState, setSelectedState] = useState<any>();
-  const [isLoading, setisLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   const handleSubmit = async (credentials: any) => {
-    setisLoading(true);
+    setIsLoading(true);
     const queryString = Object.keys(credentials)
       .map(
         (key) =>
@@ -91,7 +89,7 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
 
     try {
       const res = await fetch(
-        `${API_URL}/provider-profiles/profiles/search?${queryString}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/provider-profiles/profiles/search?${queryString}`,
         {
           method: `GET`,
           headers: {
@@ -103,12 +101,12 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
       const data = await res.json();
       dispatch(setUpdateData(data?.data[0] && data?.data[0]));
       dispatch(setErrorMsg(data?.data && data?.data));
-      setisLoading(false);
+      setIsLoading(false);
       if (data?.data?.msg) {
         setShowError(true);
-        setTimeout(() => {
-          setShowError(false);
-        }, 1000);
+        // setTimeout(() => {
+        //   setShowError(false);
+        // }, 6000);
       }
       if (data?.data[0] || data?.data?.matchedServiceProviders[0]) {
         dispatch(setOpenSearchModal(true));
@@ -118,7 +116,7 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
         }, 4000);
       }
     } catch (error) {
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -184,6 +182,13 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
                   {({ setFieldValue }) => (
                     <Form>
                       <Box>
+                        {errorMsg?.msg && (
+                          <Box>
+                            {showError && (
+                              <Alert severity="error">{errorMsg?.msg}</Alert>
+                            )}
+                          </Box>
+                        )}
                         <Box>
                           <Label text="State" />
                           <SelectState
@@ -282,13 +287,6 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
                             </FormInput>
                           </Box>
                         </Box>
-                        {errorMsg?.msg && (
-                          <Box>
-                            {showError && (
-                              <Alert severity="error">{errorMsg?.msg}</Alert>
-                            )}
-                          </Box>
-                        )}
                         <Box
                           mt={3}
                           sx={{

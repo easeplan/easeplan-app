@@ -48,7 +48,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       };
       const { data } = await axios.post(
-        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API_URL}/planner-profiles/create-offer`,
         resData,
         {
           headers: {
@@ -57,6 +57,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
           },
         },
       );
+      console.log(data);
       if (data.status === `success`) {
         setBasicModal(false);
         setIsLoading(false);
@@ -64,6 +65,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -88,7 +90,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       };
       const { data } = await axios.post(
-        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API_URL}/planner-profiles/create-offer`,
         resData,
         {
           headers: {
@@ -127,7 +129,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       };
       const { data } = await axios.post(
-        `http://apidev.us-east-1.elasticbeanstalk.com/api/v2/planner-profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API_URL}/planner-profiles/create-offer`,
         resData,
         {
           headers: {
@@ -155,9 +157,6 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   const handleRedirect = () => {
     setIsLoading(true);
     router.push(`/account/event/${453}`);
-    // dispatch(setOpenSearchModal(false));
-    // dispatch(setOpenPlannerModal(false));
-    // setSuccessModal(false);
   };
 
   return (

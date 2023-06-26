@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';
+import PaymentModal from './PaymentModal';
 
 const PaymentSchema = Yup.object().shape({
   amount: Yup.string().required(`Amount is required`),
@@ -15,7 +16,7 @@ const PaymentSchema = Yup.object().shape({
 const AvailableFunds = ({ token }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
-  const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
+  const [paymentModal, setPaymentModal] = useState<any>();
   const [isError, setIsError] = useState<boolean>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
 
@@ -52,12 +53,13 @@ const AvailableFunds = ({ token }: any) => {
 
   return (
     <Box>
-      <Typography my={1} variant="h5" fontWeight="bold" color="primary.main">
-        Available Funds
-      </Typography>
+      <PaymentModal
+        isOpen={paymentModal}
+        isClose={() => setPaymentModal(false)}
+      />
       <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
         <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
-          Balance available
+          Available Balance
         </Typography>
         {/* Balance card */}
         <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
@@ -72,7 +74,9 @@ const AvailableFunds = ({ token }: any) => {
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography my={3}>Withdraw funds to bank or card added</Typography>
-          <CustomButton bgPrimary>Withdraw Funds</CustomButton>
+          <CustomButton onClick={() => setPaymentModal(true)} bgPrimary>
+            Withdraw Funds
+          </CustomButton>
         </Box>
         <Typography
           mb={2}
@@ -81,12 +85,10 @@ const AvailableFunds = ({ token }: any) => {
           fontWeight="bold"
           color="primary.main"
         >
-          Make Payment
+          Add Bank Details
         </Typography>
         <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
-          <Typography>
-            Add money to your available balance to make paymens
-          </Typography>
+          <Typography mb={3}>Add bank details to recieve payment</Typography>
           <Box>
             <Formik
               initialValues={{
@@ -97,19 +99,33 @@ const AvailableFunds = ({ token }: any) => {
             >
               {() => (
                 <Form>
-                  <Box sx={{ mb: 5, pt: 2 }}>
-                    <Label text="Amount" />
+                  <Box sx={{ mb: 2 }}>
+                    <Label text="Account Holder Name" />
                     <FormInput
-                      ariaLabel="amount"
-                      name="amount"
+                      ariaLabel="accountName"
+                      name="accountName"
                       type="text"
-                      sx={{ padding: `0.7rem` }}
+                      placeholder="Full Name"
+                    />
+                  </Box>
+                  <Box>
+                    <Label text="Select Bank" />
+                    <FormInput
+                      ariaLabel="accountName"
+                      name="accountName"
+                      type="text"
+                      isSelect
                       placeholder="e.g ₦1000.00"
                     />
-                    <Typography sx={{ fontSize: `0.8rem` }}>
-                      Note: Amount below will be debited from your bank card
-                      added
-                    </Typography>
+                  </Box>
+                  <Box sx={{ mb: 2 }}>
+                    <Label text="Account Number" />
+                    <FormInput
+                      ariaLabel="accountNumber"
+                      name="accountNumber"
+                      type="text"
+                      placeholder="1748-9938-948"
+                    />
                   </Box>
                   <CustomButton
                     bgPrimary

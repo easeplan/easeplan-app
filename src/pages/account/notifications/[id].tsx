@@ -22,8 +22,6 @@ const NotificationPage = ({ token }: Props) => {
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { id } = router.query;
 
-  console.log(notifyData?.data[43].package);
-
   return (
     <DashboardLayout token={token}>
       <section>

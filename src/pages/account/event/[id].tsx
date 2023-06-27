@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import DashboardLayout from '@/components/DashboardLayout';
-import useFetch from '@/hooks/useFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import LoadingScreen from '@/components/common/LoadingScreen';
 import { Typography, Box } from '@mui/material';
-export { getServerSideProps } from '@/hooks/getServerSideProps';
+import { parseCookies } from '@/lib/parseCookies';
 import axios from 'axios';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -19,25 +17,19 @@ import customFetch from '@/utils/customFetch';
 
 interface Props {
   token: string;
+  data: any;
 }
 
-const EventDetailsPage = ({ token }: Props) => {
+const EventDetailsPage = ({ token, data }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [userEmail] = useState(
+    typeof window !== `undefined` && localStorage.getItem(`userEmail`),
+  );
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
-
-  function convertToObject(str: any) {
-    try {
-      const parsedPackage = JSON.parse(str);
-      return parsedPackage;
-    } catch (error) {
-      console.error(`Invalid package format:`, error);
-      return null;
-    }
-  }
 
   const queryParams = (arr: any) => {
     let userData: any = {};
@@ -49,69 +41,40 @@ const EventDetailsPage = ({ token }: Props) => {
 
     return userData;
   };
-  const queryID = queryParams(notifyData);
+  const userServices = queryParams(notifyData);
 
-  console.log(queryID?.package);
-
-  const newPack = convertToObject(
-    `{"service":["dkddk","djjdjd"],"type":"basic"}`,
-  );
-
-  const handleAcceptOffer = async () => {
-    const res = await fetch(
-      `/${
-        userInfo?.role === `provider`
-          ? `provider-profiles/${userInfo?._id}/accept-offer`
-          : userInfo?.role === `planner`
-          ? `planner-profiles/${userInfo?._id}/accept-offer`
-          : null
-      }/`,
-      {
-        method: `GET`,
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    const data = await res.json();
-  };
-
-  const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
-    token,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
+  const userServiceObj =
+    typeof window !== `undefined` && JSON?.parse(userServices?.package);
 
   const handlePayment = async () => {
-    const data = {
-      email: `email@mail`,
-      amount: queryID?.budget,
+    setIsSuccess(true);
+    const credentials = {
+      email: userEmail,
+      amount: userServices?.budget,
       contractId: id,
       role: userInfo?.role,
     };
-    console.log(data);
+    console.log(credentials);
     try {
-    } catch (error) {}
-  };
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/payments/create`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-  // console.log(`Contract:`, notifyData);
-  // console.log(`UserInfo:`, queryData);
+      if (data?.data?.status === true) {
+        router.push(data?.data?.data?.authorization_url);
+        console.log(data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <DashboardLayout token={token}>
@@ -127,24 +90,24 @@ const EventDetailsPage = ({ token }: Props) => {
             <CustomButton bgPrimary>Accept Offer</CustomButton>
           </Box>
         </AcceptOfferConfirmModal>
-        {notifyData?.map((data: any) =>
-          data?._id === id ? (
-            <Box
-              key={data?._id}
-              sx={{
-                display: `grid`,
-                gridTemplateColumns: {
-                  xs: `1fr`,
-                  sm: `1fr`,
-                  md: `1fr 1fr`,
-                  lg: `1fr 1fr`,
-                  xl: `1fr 1fr`,
-                },
-                gap: `2rem`,
-              }}
-            >
-              <Box>
+        <Box
+          sx={{
+            display: `grid`,
+            gridTemplateColumns: {
+              xs: `1fr`,
+              sm: `1fr`,
+              md: `1fr 1fr`,
+              lg: `1fr 1fr`,
+              xl: `1fr 1fr`,
+            },
+            gap: `2rem`,
+          }}
+        >
+          <Box>
+            {notifyData?.map((data: any) =>
+              data?._id === id ? (
                 <Box
+                  key={data?._id}
                   sx={{
                     display: `flex`,
                     justifyContent: `space-between`,
@@ -181,7 +144,7 @@ const EventDetailsPage = ({ token }: Props) => {
                         },
                       }}
                     />
-                    {data.state}, {data?.city}
+                    {data?.state}, {data?.city}
                   </Typography>
                   <Typography
                     fontWeight="600"
@@ -196,63 +159,51 @@ const EventDetailsPage = ({ token }: Props) => {
                     }}
                     color="primary.main"
                   >
-                    {data.budget && formatCurrency(data?.budget)}
+                    {data?.budget && formatCurrency(data?.budget)}
                   </Typography>
                 </Box>
-                <Box
+              ) : null,
+            )}
+            <Box
+              sx={{
+                p: 4,
+                mt: 4,
+                backgroundColor: `secondary.light`,
+              }}
+            >
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  justifyContent: `space-between`,
+                }}
+              >
+                <Typography
+                  fontWeight="600"
+                  fontSize="1.3rem"
+                  mb={4}
+                  color="primary.main"
+                  textTransform="capitalize"
+                >
+                  {userServiceObj?.type}
+                </Typography>
+              </Box>
+              {userServiceObj?.service?.map((list: any) => (
+                <Typography
+                  key={list}
                   sx={{
-                    p: 4,
-                    mt: 4,
-                    backgroundColor: `secondary.light`,
+                    display: `flex`,
+                    alignItems: `center`,
+                    color: `primary.main`,
+                    mt: 1,
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
-                    }}
-                  >
-                    <Typography
-                      fontWeight="600"
-                      fontSize="1rem"
-                      color="primary.main"
-                    >
-                      Basic
-                    </Typography>
-                  </Box>
-                  <Typography
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      color: `primary.main`,
-                      mt: 1,
-                    }}
-                  >
-                    <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      color: `primary.main`,
-                      mt: 1,
-                    }}
-                  >
-                    <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      color: `primary.main`,
-                      mt: 1,
-                    }}
-                  >
-                    <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-                  </Typography>
-                </Box>
-                {userInfo?.role === `provider` ||
+                  <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} />
+                  {list}
+                </Typography>
+              ))}
+            </Box>
+            {/* {userInfo?.role === `provider` ||
                 userInfo?.role === `planner` ? (
                   <Box
                     sx={{
@@ -332,9 +283,11 @@ const EventDetailsPage = ({ token }: Props) => {
                       </Box>
                     </Box>
                   </Box>
-                ) : null}
-              </Box>
-              <Box>
+                ) : null} */}
+          </Box>
+          {notifyData?.map((data: any) =>
+            data?._id === id ? (
+              <Box key={data?._id}>
                 <Box
                   sx={{
                     p: 4,
@@ -386,14 +339,15 @@ const EventDetailsPage = ({ token }: Props) => {
                     onClick={handlePayment}
                     bgPrimary
                     lgWidth="100%"
+                    loading={isSuccess}
                   >
                     Make Payment
                   </CustomButton>
                 </Box>
               </Box>
-            </Box>
-          ) : null,
-        )}
+            ) : null,
+          )}
+        </Box>
         {/* Support CTA */}
         <Box
           sx={{
@@ -447,5 +401,41 @@ const EventDetailsPage = ({ token }: Props) => {
     </DashboardLayout>
   );
 };
+
+export async function getServerSideProps({ req, params }: any) {
+  const { id } = params;
+  const { token } = parseCookies(req);
+
+  console.log(token);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  // Fetch data based on the dynamicParam
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+    {
+      headers: {
+        'Content-Type': `application/json`,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const data = await res.json();
+
+  return {
+    props: {
+      token: token,
+      data: data,
+    },
+  };
+}
 
 export default EventDetailsPage;

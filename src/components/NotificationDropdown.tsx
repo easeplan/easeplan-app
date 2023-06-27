@@ -90,102 +90,94 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
             },
           }}
         >
-          <Box
-            sx={{
-              width: `10px`,
-              height: `10px`,
-              border: `solid 2px #fff`,
-              borderRadius: `16px`,
-              position: `absolute`,
-              top: `0.6rem`,
-              right: `0.6rem`,
-              background: theme.palette.info.main,
-
-              '@media (max-width: 900px)': {
-                width: `9px`,
-                height: `9px`,
-                border: `solid 1.5px #fff`,
+          {notificationData?.length < 0 ? null : (
+            <Box
+              sx={{
+                width: `10px`,
+                height: `10px`,
+                border: `solid 2px #fff`,
+                borderRadius: `16px`,
                 position: `absolute`,
                 top: `0.6rem`,
-                right: `0.5rem`,
-              },
-            }}
-          ></Box>
+                right: `0.6rem`,
+                background: theme.palette.info.main,
+
+                '@media (max-width: 900px)': {
+                  width: `9px`,
+                  height: `9px`,
+                  border: `solid 1.5px #fff`,
+                  position: `absolute`,
+                  top: `0.6rem`,
+                  right: `0.5rem`,
+                },
+              }}
+            ></Box>
+          )}
           <NotificationsIcon className="icon" />
         </Box>
       </Button>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        placement="bottom-start"
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              background: `#fff`,
-              color: `#333`,
-              transformOrigin:
-                placement === `bottom-start` ? `left top` : `left bottom`,
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <List
-                  onKeyDown={handleListKeyDown}
-                  sx={{
-                    width: `100%`,
-                    maxWidth: 360,
-                    p: 3,
-                    bgcolor: `background.paper`,
-                  }}
-                >
-                  {notificationData
-                    ?.slice(0, 5)
-                    .map(
-                      (data: { status: any; dateTime: any; _id: string }) => (
-                        <div key={data?._id}>
-                          {data?.dateTime && (
-                            <Link
-                              href={`/account/notifications/${data?._id}`}
-                              key={data?._id}
-                            >
-                              <ListItem
-                                sx={{ cursor: `pointer` }}
-                                onClick={handleClose}
-                              >
-                                <ListItemText
-                                  primary={`Status: ${data?.status}`}
-                                  secondary={
-                                    <>
-                                      <Typography
-                                        sx={{ display: `inline` }}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                      ></Typography>
-                                      {` Date: — ${dateFormater(
-                                        data?.dateTime,
-                                      )}`}
-                                    </>
-                                  }
-                                />
-                              </ListItem>
-                              <Divider />
-                            </Link>
-                          )}
-                        </div>
-                      ),
+      {notificationData?.length < 0 ? null : (
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                background: `#fff`,
+                color: `#333`,
+                transformOrigin:
+                  placement === `bottom-start` ? `left top` : `left bottom`,
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <List
+                    onKeyDown={handleListKeyDown}
+                    sx={{
+                      width: `100%`,
+                      maxWidth: 360,
+                      p: 3,
+                      bgcolor: `background.paper`,
+                    }}
+                  >
+                    {notificationData?.length < 0 ? null : (
+                      <Link href={`/account/event/`}>
+                        <ListItem
+                          sx={{ cursor: `pointer` }}
+                          onClick={handleClose}
+                        >
+                          <ListItemText
+                            primary={`Status:`}
+                            secondary={
+                              <>
+                                <Typography
+                                  sx={{ display: `inline` }}
+                                  component="span"
+                                  variant="body2"
+                                  color="text.primary"
+                                >
+                                  You have a new Event Request
+                                </Typography>
+                              </>
+                            }
+                          />
+                        </ListItem>
+                        <Divider />
+                      </Link>
                     )}
-                </List>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+                  </List>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      )}
     </Stack>
   );
 };

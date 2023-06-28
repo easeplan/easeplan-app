@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import EditUserDetailsModal from './EditUserDetailsModal';
-import UserRating from '../common/UserRating';
+import RatingStar from '../common/RatingStar';
 import Link from 'next/link';
 import SocialShareButton from './SocialShareButton';
 import { dateFormater } from '@/utils';
@@ -70,7 +70,7 @@ const UserDetails = ({ queryData, token }: any) => {
             justifyContent: `center`,
           }}
         >
-          <UserRating rate={queryData?.rating} size="small" />
+          <RatingStar rate={3.5} size="small" />
           <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
         </Box>
         <Box

@@ -19,6 +19,8 @@ const EventList = () => {
 
   const resultData = getLastFiveElements(notifyData);
 
+  console.log(notifyData);
+
   return (
     <>
       <h3 className="sectionTitle">Events</h3>
@@ -27,7 +29,7 @@ const EventList = () => {
           <Typography>Your ongoing events will show here</Typography>
         </Box>
       ) : (
-        resultData?.map((data: any) => (
+        notifyData?.map((data: any) => (
           <Box
             key={data?._id}
             sx={{
@@ -45,7 +47,7 @@ const EventList = () => {
             <Typography>
               {data?.dateTime && dateFormaterAndTime(data?.dateTime)}
             </Typography>
-            <Link href={`/account/event/${data?._id}`}>View</Link>
+            <Link href={`/account/contracts/${data?._id}`}>View</Link>
           </Box>
         ))
       )}

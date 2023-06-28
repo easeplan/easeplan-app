@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
 import FinderSection from '@/components/FinderSection';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
@@ -15,7 +15,6 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
-import customFetch from '@/utils/customFetch';
 
 interface Props {
   token: string;
@@ -25,8 +24,6 @@ const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
-
-  console.log(contracts);
 
   const fetchContracts = async () => {
     try {
@@ -51,8 +48,6 @@ const HomePage = ({ token }: Props) => {
   useEffect(() => {
     fetchContracts();
   }, []);
-
-  console.log(contracts);
 
   const { queryData, error, isLoading } = useFetch(
     `/${
@@ -86,90 +81,82 @@ const HomePage = ({ token }: Props) => {
             {contracts
               ?.filter((list: { status: string }) => list.status === `Accepted`)
               .map((list: any) => (
-                <Box
-                  key={list?._id}
-                  sx={{
-                    display: `flex`,
-                    justifyContent: `space-between`,
-                    alignItems: `center`,
-                    flexDirection: {
-                      xs: `column`,
-                      sm: `column`,
-                      md: `row`,
-                      lg: `row`,
-                      xl: `row`,
-                    },
-                    p: 4,
-                    mt: 4,
-                    border: ` solid 1px #ccc`,
-                  }}
-                >
-                  <Box>
-                    {list.status === `Accepted` ? (
-                      <>
-                        <Typography
-                          fontWeight="600"
-                          fontSize="1.2rem"
-                          color="primary.main"
-                        >
-                          Event Planning has started
-                        </Typography>
-                        <Typography color="grey.500" mt={1}>
-                          The countdown is now ticking
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box>
-                        <Typography
-                          fontWeight="600"
-                          fontSize="1.2rem"
-                          color="primary.main"
-                        >
-                          Are you available for this gig?
-                        </Typography>
-                        <Typography color="grey.500" mt={1}>
-                          If you are please accept the event or decline if you
-                          are not available
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
+                <Box key={list?._id}>
                   <Box
                     sx={{
                       display: `flex`,
-                      alignItems: `center`,
                       justifyContent: `space-between`,
-                      gap: `2rem`,
-                      mt: {
-                        xs: `2rem`,
-                        sm: `2rem`,
+                      alignItems: `center`,
+                      flexDirection: {
+                        xs: `column`,
+                        sm: `column`,
+                        md: `row`,
+                        lg: `row`,
+                        xl: `row`,
                       },
+                      p: 4,
+                      mt: 4,
+                      border: ` solid 1px #ccc`,
                     }}
                   >
-                    {list.status === `Accepted` ? null : (
-                      <Box
-                        sx={{
-                          border: `solid 1px ${theme.palette.primary.main}`,
-                          color: `primary.main`,
-                          py: 1,
-                          px: 4,
-                          fontWeight: `600`,
-                        }}
-                      >
-                        <Link href="/dashboard/support">Declined</Link>
-                      </Box>
-                    )}
+                    <Box>
+                      {list.status === `Accepted` ? (
+                        <>
+                          <Typography
+                            fontWeight="600"
+                            fontSize="1.2rem"
+                            color="primary.main"
+                          >
+                            Event Planning has started
+                          </Typography>
+                          <Typography color="grey.500" mt={1}>
+                            The countdown is now ticking
+                          </Typography>
+                        </>
+                      ) : (
+                        <Box>
+                          <Typography
+                            fontWeight="600"
+                            fontSize="1.2rem"
+                            color="primary.main"
+                          >
+                            Are you available for this gig?
+                          </Typography>
+                          <Typography color="grey.500" mt={1}>
+                            If you are please accept the event or decline if you
+                            are not available
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
                     <Box
                       sx={{
-                        backgroundColor: `primary.main`,
-                        color: `secondary.main`,
-                        py: 1,
-                        px: 6,
-                        fontWeight: `600`,
+                        display: `flex`,
+                        alignItems: `center`,
+                        justifyContent: `space-between`,
+                        gap: `2rem`,
+                        mt: {
+                          xs: `2rem`,
+                          sm: `2rem`,
+                        },
                       }}
                     >
+                      {list.status === `Accepted` ? null : (
+                        <Box
+                          sx={{
+                            border: `solid 1px ${theme.palette.primary.main}`,
+                            color: `primary.main`,
+                            py: 1,
+                            px: 4,
+                            fontWeight: `600`,
+                          }}
+                        >
+                          <Link href="/dashboard/support">Declined</Link>
+                        </Box>
+                      )}
+
                       <Link href={`/account/contracts/${list?._id}`}>
-                        View Event
+                        <Button variant="outlined">View Event</Button>
                       </Link>
                     </Box>
                   </Box>

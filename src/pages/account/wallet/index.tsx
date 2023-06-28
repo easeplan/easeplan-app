@@ -28,7 +28,6 @@ const PaymentPage = ({ token }: any) => {
       );
 
       setBankDetails(data);
-      console.log(data);
     } catch (err) {
       console.log(err);
     }

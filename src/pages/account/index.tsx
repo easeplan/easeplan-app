@@ -15,7 +15,6 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
-import customFetch from '@/utils/customFetch';
 
 interface Props {
   token: string;
@@ -25,8 +24,6 @@ const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
-
-  console.log(contracts);
 
   const fetchContracts = async () => {
     try {
@@ -51,8 +48,6 @@ const HomePage = ({ token }: Props) => {
   useEffect(() => {
     fetchContracts();
   }, []);
-
-  console.log(contracts);
 
   const { queryData, error, isLoading } = useFetch(
     `/${

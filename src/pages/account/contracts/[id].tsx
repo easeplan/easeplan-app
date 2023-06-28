@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { Typography, Box } from '@mui/material';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';

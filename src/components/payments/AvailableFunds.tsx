@@ -44,7 +44,7 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();
-  const [bankInfo, setBankInfo] = useState<any>(null);
+  const [bankInfo, setBankInfo] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
 
@@ -220,7 +220,7 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
           </>
         ) : (
           <>
-            {bankDetails || bankInfo ? (
+            {bankDetails ? (
               <>
                 <Typography
                   mb={2}

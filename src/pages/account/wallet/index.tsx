@@ -15,8 +15,6 @@ const PaymentPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [bankDetails, setBankDetails] = useState();
 
-  // console.log(token);
-
   const fetchBankDetails = async () => {
     try {
       const { data } = await axios.get(
@@ -40,26 +38,6 @@ const PaymentPage = ({ token }: any) => {
     fetchBankDetails();
   }, []);
 
-  const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `user-profiles`
-        : `user-profiles`
-    }/${userInfo?._id}`,
-    token,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <p>Error:</p>;
-  }
   return (
     <DashboardLayout token={token}>
       <Typography my={3} variant="h5" fontWeight="bold" color="primary.main">

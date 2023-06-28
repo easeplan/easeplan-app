@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
 import FinderSection from '@/components/FinderSection';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
@@ -154,19 +154,10 @@ const HomePage = ({ token }: Props) => {
                           <Link href="/dashboard/support">Declined</Link>
                         </Box>
                       )}
-                      <Box
-                        sx={{
-                          backgroundColor: `primary.main`,
-                          color: `secondary.main`,
-                          py: 1,
-                          px: 6,
-                          fontWeight: `600`,
-                        }}
-                      >
-                        <Link href={`/account/contracts/${list?._id}`}>
-                          View Event
-                        </Link>
-                      </Box>
+
+                      <Link href={`/account/contracts/${list?._id}`}>
+                        <Button variant="outlined">View Event</Button>
+                      </Link>
                     </Box>
                   </Box>
                 </Box>

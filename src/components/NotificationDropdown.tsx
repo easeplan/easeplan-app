@@ -147,7 +147,7 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
                     }}
                   >
                     {notificationData?.length < 0 ? null : (
-                      <Link href={`/account/event/`}>
+                      <Link href={`/account/contracts/`}>
                         <ListItem
                           sx={{ cursor: `pointer` }}
                           onClick={handleClose}

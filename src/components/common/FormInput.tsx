@@ -21,6 +21,7 @@ type InputProps = {
   disabled?: boolean;
   sx?: any;
   selectPlaceholder?: string;
+  value?: any;
   // onChange?: (e) => void;
 };
 

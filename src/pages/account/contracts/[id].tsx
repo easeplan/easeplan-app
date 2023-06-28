@@ -4,6 +4,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { Typography, Box } from '@mui/material';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckIcon from '@mui/icons-material/Check';
@@ -11,7 +12,9 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { parseCookies } from '@/lib/parseCookies';
 import AcceptOfferConfirmModal from '@/components/AcceptOfferConfirmModal';
+import DeclienedOfferConfirmModal from '@/components/DeclienedOfferConfirmModal';
 import CustomButton from '@/components/common/CustomButton';
+import DangerButton from '@/components/common/DangerButton';
 import customFetch from '@/utils/customFetch';
 
 interface Props {
@@ -20,16 +23,19 @@ interface Props {
 }
 
 const ContractsPage = ({ token, data }: Props) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
+  const [declined, setDecliend] = useState(false);
 
   const userServiceObj =
     typeof window !== `undefined` && JSON?.parse(data?.package);
 
   const handleAcceptOffer = async () => {
     try {
-      setIsSuccess(true);
+      setIsLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/${
           userInfo?.role === `provider`
@@ -47,6 +53,44 @@ const ContractsPage = ({ token, data }: Props) => {
         },
       );
       const resData = await res.json();
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsSuccess(true);
+      }, 3000);
+      console.log(resData);
+    } catch (err) {
+      console.log(err);
+      setIsSuccess(false);
+    }
+  };
+
+  console.log(data);
+
+  const handleDecliendOffer = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${data?._id}/decline-offer`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${data?._id}/decline-offer`
+            : null
+        }`,
+        {
+          method: `PUT`,
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const resData = await res.json();
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsSuccess(true);
+        router.push(`/account/`);
+      }, 2000);
       console.log(resData);
     } catch (err) {
       console.log(err);
@@ -62,18 +106,63 @@ const ContractsPage = ({ token, data }: Props) => {
           isClose={() => setConfirm(false)}
         >
           <Box sx={{ p: 4, textAlign: `center` }}>
-            <Typography mb={4} variant="h5">
-              Yes I want to accept this Job offer
-            </Typography>
-            <CustomButton
-              loading={isSuccess}
-              onClick={handleAcceptOffer}
-              bgPrimary
-            >
-              Accept Offer
-            </CustomButton>
+            {isSuccess ? (
+              <Typography mb={4} variant="h6">
+                Offer Accepted ✨🎉⭐🤝
+              </Typography>
+            ) : (
+              <Typography mb={4} variant="h5">
+                Yes I want to accept this Job offer
+              </Typography>
+            )}
+
+            {isSuccess ? (
+              <Link href="/account/wallet">
+                <CustomButton
+                  loading={isLoading}
+                  onClick={handleAcceptOffer}
+                  bgPrimary
+                >
+                  Check for payment status
+                </CustomButton>
+              </Link>
+            ) : (
+              <CustomButton
+                loading={isLoading}
+                onClick={handleAcceptOffer}
+                bgPrimary
+              >
+                Accept Offer
+              </CustomButton>
+            )}
           </Box>
         </AcceptOfferConfirmModal>
+
+        <DeclienedOfferConfirmModal
+          isOpen={declined}
+          isClose={() => setDecliend(false)}
+        >
+          <Box sx={{ p: 4, textAlign: `center` }}>
+            {isSuccess ? (
+              <Typography mb={4} variant="h6">
+                Decliend 😥😥😥
+              </Typography>
+            ) : (
+              <Typography mb={4} variant="h6">
+                Yes I want to decliend this Job offer 😥
+              </Typography>
+            )}
+
+            <DangerButton
+              loading={isLoading}
+              onClick={handleDecliendOffer}
+              bgPrimary
+            >
+              Decliend Offer
+            </DangerButton>
+          </Box>
+        </DeclienedOfferConfirmModal>
+
         <Box>
           <Box
             sx={{
@@ -263,6 +352,7 @@ const ContractsPage = ({ token, data }: Props) => {
                     }}
                   >
                     <Box
+                      onClick={() => setDecliend(true)}
                       sx={{
                         border: `solid 1px ${theme.palette.primary.main}`,
                         color: `primary.main`,
@@ -276,7 +366,7 @@ const ContractsPage = ({ token, data }: Props) => {
                         fontWeight: `600`,
                       }}
                     >
-                      <Link href="/dashboard/support">Declined</Link>
+                      Declined
                     </Box>
                     <Box
                       sx={{

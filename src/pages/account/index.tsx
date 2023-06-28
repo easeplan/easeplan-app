@@ -86,91 +86,92 @@ const HomePage = ({ token }: Props) => {
             {contracts
               ?.filter((list: { status: string }) => list.status === `Accepted`)
               .map((list: any) => (
-                <Box
-                  key={list?._id}
-                  sx={{
-                    display: `flex`,
-                    justifyContent: `space-between`,
-                    alignItems: `center`,
-                    flexDirection: {
-                      xs: `column`,
-                      sm: `column`,
-                      md: `row`,
-                      lg: `row`,
-                      xl: `row`,
-                    },
-                    p: 4,
-                    mt: 4,
-                    border: ` solid 1px #ccc`,
-                  }}
-                >
-                  <Box>
-                    {list.status === `Accepted` ? (
-                      <>
-                        <Typography
-                          fontWeight="600"
-                          fontSize="1.2rem"
-                          color="primary.main"
-                        >
-                          Event Planning has started
-                        </Typography>
-                        <Typography color="grey.500" mt={1}>
-                          The countdown is now ticking
-                        </Typography>
-                      </>
-                    ) : (
-                      <Box>
-                        <Typography
-                          fontWeight="600"
-                          fontSize="1.2rem"
-                          color="primary.main"
-                        >
-                          Are you available for this gig?
-                        </Typography>
-                        <Typography color="grey.500" mt={1}>
-                          If you are please accept the event or decline if you
-                          are not available
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
+                <Box key={list?._id}>
                   <Box
                     sx={{
                       display: `flex`,
-                      alignItems: `center`,
                       justifyContent: `space-between`,
-                      gap: `2rem`,
-                      mt: {
-                        xs: `2rem`,
-                        sm: `2rem`,
+                      alignItems: `center`,
+                      flexDirection: {
+                        xs: `column`,
+                        sm: `column`,
+                        md: `row`,
+                        lg: `row`,
+                        xl: `row`,
                       },
+                      p: 4,
+                      mt: 4,
+                      border: ` solid 1px #ccc`,
                     }}
                   >
-                    {list.status === `Accepted` ? null : (
+                    <Box>
+                      {list.status === `Accepted` ? (
+                        <>
+                          <Typography
+                            fontWeight="600"
+                            fontSize="1.2rem"
+                            color="primary.main"
+                          >
+                            Event Planning has started
+                          </Typography>
+                          <Typography color="grey.500" mt={1}>
+                            The countdown is now ticking
+                          </Typography>
+                        </>
+                      ) : (
+                        <Box>
+                          <Typography
+                            fontWeight="600"
+                            fontSize="1.2rem"
+                            color="primary.main"
+                          >
+                            Are you available for this gig?
+                          </Typography>
+                          <Typography color="grey.500" mt={1}>
+                            If you are please accept the event or decline if you
+                            are not available
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+                    <Box
+                      sx={{
+                        display: `flex`,
+                        alignItems: `center`,
+                        justifyContent: `space-between`,
+                        gap: `2rem`,
+                        mt: {
+                          xs: `2rem`,
+                          sm: `2rem`,
+                        },
+                      }}
+                    >
+                      {list.status === `Accepted` ? null : (
+                        <Box
+                          sx={{
+                            border: `solid 1px ${theme.palette.primary.main}`,
+                            color: `primary.main`,
+                            py: 1,
+                            px: 4,
+                            fontWeight: `600`,
+                          }}
+                        >
+                          <Link href="/dashboard/support">Declined</Link>
+                        </Box>
+                      )}
                       <Box
                         sx={{
-                          border: `solid 1px ${theme.palette.primary.main}`,
-                          color: `primary.main`,
+                          backgroundColor: `primary.main`,
+                          color: `secondary.main`,
                           py: 1,
-                          px: 4,
+                          px: 6,
                           fontWeight: `600`,
                         }}
                       >
-                        <Link href="/dashboard/support">Declined</Link>
+                        <Link href={`/account/contracts/${list?._id}`}>
+                          View Event
+                        </Link>
                       </Box>
-                    )}
-                    <Box
-                      sx={{
-                        backgroundColor: `primary.main`,
-                        color: `secondary.main`,
-                        py: 1,
-                        px: 6,
-                        fontWeight: `600`,
-                      }}
-                    >
-                      <Link href={`/account/contracts/${list?._id}`}>
-                        View Event
-                      </Link>
                     </Box>
                   </Box>
                 </Box>

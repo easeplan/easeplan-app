@@ -6,6 +6,7 @@ const nextConfig = {
   images: {
     domains: [
       'easeplan-storage.s3.us-east-1.amazonaws.com',
+      'ease-storage.s3.us-east-1.amazonaws.com',
       'media.graphassets.com',
     ],
   },

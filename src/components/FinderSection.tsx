@@ -19,7 +19,7 @@ import {
 import bannerImg from '@/public/banner.png';
 import EventList from './EventList';
 
-const FinderSection = ({ queryData, token }: any) => {
+const FinderSection = ({ queryData, token, notificationData }: any) => {
   const dispatch = useDispatch();
   const { openSearchModal, openPlannerModal, openVendorModal, data } =
     useSelector((state: RootState) => state.searchModal);
@@ -89,7 +89,7 @@ const FinderSection = ({ queryData, token }: any) => {
           </Grid>
         </Grid>
         <Box sx={{ mt: 10 }}>
-          <EventList />
+          <EventList notificationData={notificationData} />
         </Box>
       </DashboardWrapper>
     </>

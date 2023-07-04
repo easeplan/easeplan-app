@@ -24,6 +24,7 @@ const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
+  const [notificationData, setNotificationData] = useState<any>();
 
   const fetchContracts = async () => {
     try {
@@ -40,6 +41,7 @@ const HomePage = ({ token }: Props) => {
       const json = await res.json();
       setContracts(json?.data);
       dispatch(setNotifyData(json?.data));
+      setNotificationData(json?.data);
     } catch (err) {
       console.log(err);
     }
@@ -187,7 +189,11 @@ const HomePage = ({ token }: Props) => {
         ) : null}
 
         {userInfo?.role === `user` && (
-          <FinderSection token={token} queryData={queryData} />
+          <FinderSection
+            token={token}
+            queryData={queryData}
+            notificationData={notificationData}
+          />
         )}
       </DashboardLayout>
     </>

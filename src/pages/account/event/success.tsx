@@ -14,6 +14,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import Link from 'next/link';
 import theme from '@/styles/theme';
 import CustomButton from '@/components/common/CustomButton';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
 import Image from 'next/image';
 
@@ -57,216 +58,27 @@ const SuccessPage = ({ token }: Props) => {
         <Box
           sx={{
             display: `grid`,
-            gridTemplateColumns: `1fr 1fr`,
+            gridTemplateColumns: `1fr`,
             gap: `2rem`,
           }}
         >
-          <Box>
-            <Box
-              sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                alignItems: `center`,
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-              }}
-            >
-              <Typography
-                fontWeight="600"
-                fontSize="1rem"
-                color="primary.main"
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
-                  },
-                }}
-              >
-                <LocationOnIcon
-                  sx={{
-                    fontSize: {
-                      xs: `0.9rem`,
-                      sm: `0.9rem`,
-                      md: `1rem`,
-                      lg: `1rem`,
-                      lx: `1rem`,
-                    },
-                  }}
-                />
-                State
-              </Typography>
-              <Typography
-                fontWeight="600"
-                sx={{
-                  fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
-                  },
-                }}
-                color="primary.main"
-              >
-                56000
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-              }}
-            >
-              <Box
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
-                }}
-              >
-                <Typography
-                  fontWeight="600"
-                  fontSize="1rem"
-                  color="primary.main"
-                >
-                  Basic
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
-                  mt: 1,
-                }}
-              >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-              </Typography>
-              <Typography
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
-                  mt: 1,
-                }}
-              >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-              </Typography>
-              <Typography
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
-                  mt: 1,
-                }}
-              >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
-              </Typography>
-            </Box>
-            {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
-              <Box
-                sx={{
-                  display: `flex`,
-                  justifyContent: `space-between`,
-                  alignItems: `center`,
-                  flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
-                  },
-                  p: 4,
-                  mt: 4,
-                  border: ` solid 1px #ccc`,
-                }}
-              >
-                <Box>
-                  <Typography
-                    fontWeight="600"
-                    fontSize="1.2rem"
-                    color="primary.main"
-                  >
-                    Are you available for this gig?
-                  </Typography>
-                  <Typography color="grey.500" mt={1}>
-                    If you are please accept the event or decline if you are not
-                    available
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    gap: `1rem`,
-                    mt: {
-                      xs: `2rem`,
-                      sm: `2rem`,
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      border: `solid 1px ${theme.palette.primary.main}`,
-                      color: `primary.main`,
-                      py: 1,
-                      px: {
-                        xs: 2,
-                        sm: 2,
-                        md: 3,
-                        lg: 4,
-                      },
-                      fontWeight: `600`,
-                    }}
-                  >
-                    <Link href="/dashboard/support">Declined</Link>
-                  </Box>
-                  <Box
-                    sx={{
-                      backgroundColor: `primary.main`,
-                      color: `secondary.main`,
-                      py: 1,
-                      px: {
-                        xs: 2,
-                        sm: 2,
-                        md: 3,
-                        lg: 4,
-                      },
-                      fontWeight: `600`,
-                      cursor: `pointer`,
-                    }}
-                    onClick={() => setConfirm(true)}
-                  >
-                    Accept
-                  </Box>
-                </Box>
-              </Box>
-            ) : null}
-          </Box>
-          <Box>
+          <Box sx={{ width: `50%`, margin: `0 auto` }}>
             <Box
               sx={{
                 p: 4,
                 mt: 4,
                 border: `solid 1px ${theme.palette.secondary.main}`,
+                textAlign: `center`,
+                color: `secondary.main`,
               }}
             >
-              <Box
+              <DoneAllIcon
                 sx={{
                   width: `50px`,
                   height: `50px`,
-                  backgroundColor: `primary.main`,
                   margin: `0 auto`,
                 }}
-              ></Box>
+              />
               <Typography
                 variant="h6"
                 color="primary.main"
@@ -295,55 +107,6 @@ const SuccessPage = ({ token }: Props) => {
                 <Image src={successBanner} alt="Success Banner" fill />
               </Box>
             </Box>
-          </Box>
-        </Box>
-        {/* Support CTA */}
-        <Box
-          sx={{
-            display: `flex`,
-            justifyContent: `space-between`,
-            alignItems: `center`,
-            flexDirection: {
-              xs: `column`,
-              sm: `column`,
-              md: `row`,
-              lg: `row`,
-              xl: `row`,
-            },
-            p: 4,
-            mt: 10,
-            backgroundColor: `primary.main`,
-          }}
-        >
-          <Box
-            sx={{
-              mb: {
-                xs: `2rem`,
-                sm: `2rem`,
-              },
-            }}
-          >
-            <Typography
-              fontWeight="600"
-              fontSize="1.2rem"
-              color="secondary.main"
-            >
-              Are you having challenge or need support?
-            </Typography>
-            <Typography color="#ccc">
-              Please click to visit the resolution center
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              backgroundColor: `secondary.main`,
-              color: `primary.main`,
-              py: 1,
-              px: 2,
-              fontWeight: `600`,
-            }}
-          >
-            <Link href="/dashboard/support">Resolution center</Link>
           </Box>
         </Box>
       </section>

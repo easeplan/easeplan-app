@@ -49,7 +49,7 @@ const PricingSection = ({ queryData, token }: any) => {
           </>
         )}
         {` `}
-        {queryData?.role === `provider` && (
+        {/* {queryData?.role === `provider` && (
           <>
             <Grid
               container
@@ -78,7 +78,7 @@ const PricingSection = ({ queryData, token }: any) => {
               </Grid>
             </Grid>
           </>
-        )}
+        )} */}
       </Box>
     </Box>
   );

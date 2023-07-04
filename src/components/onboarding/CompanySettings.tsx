@@ -26,7 +26,7 @@ import { RootState } from '@/store/store';
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
   name: Yup.string().required(`Business name is required`),
-  serviceType: Yup.string().required(`Service type is required`),
+  serviceType: Yup.string(),
   image: Yup.mixed()
     .required(`Business Banner is required`)
     .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
@@ -71,10 +71,10 @@ const CompanySettings = ({ token }: PropsTypes) => {
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append(`image`, credentials.image);
-      setIsLoading(true);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company`,
         {

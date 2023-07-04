@@ -7,7 +7,6 @@ import Hero from '@/components/publicPageSections/Hero';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import Spinner from './common/Spinner';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const style = {
   position: `absolute` as const,

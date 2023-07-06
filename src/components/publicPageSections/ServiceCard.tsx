@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import theme from '@/styles/theme';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import CustomButton from '../common/CustomButton';
@@ -16,6 +16,7 @@ import axios from 'axios';
 import ConfirmModal from './ConfirmModal';
 import SuccessModal from '../common/SuccessModal';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 // Planner Price Card
 const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
@@ -27,6 +28,10 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [premiumModal, setPremiumModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [contractID, setContractID] = useState();
+  const [recieverID, setrecieverID] = useState();
+
+  // console.log(localStorage.getItem(`contract`));
 
   const handleBasicModal = () => {
     setBasicModal(true);
@@ -57,9 +62,15 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
           },
         },
       );
-      console.log(data);
       if (data.status === `success`) {
         setBasicModal(false);
+        localStorage.setItem(`contractID`, `${data?.data?._id}`);
+        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+        localStorage.setItem(
+          `recieverID`,
+          `${data?.data?.parties?.receiverId}`,
+        );
+        setContractID(data?.data?._id);
         setIsLoading(false);
         setSuccessModal(true);
       }
@@ -100,6 +111,13 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       );
       if (data.status === `success`) {
+        localStorage.setItem(`contractID`, `${data?.data?._id}`);
+        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+        localStorage.setItem(
+          `recieverID`,
+          `${data?.data?.parties?.receiverId}`,
+        );
+        setContractID(data?.data?._id);
         setStandardModal(false);
         setIsLoading(false);
         setSuccessModal(true);
@@ -139,6 +157,14 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       );
       if (data.status === `success`) {
+        console.log(data?.data);
+        localStorage.setItem(`contractID`, `${data?.data?._id}`);
+        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+        localStorage.setItem(
+          `recieverID`,
+          `${data?.data?.parties?.receiverId}`,
+        );
+        setContractID(data?.data?._id);
         setPremiumModal(false);
         setIsLoading(false);
         setSuccessModal(true);
@@ -156,7 +182,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
 
   const handleRedirect = () => {
     setIsLoading(true);
-    router.push(`/account/event/${453}`);
+    router.push(`/account/event/${contractID}`);
   };
 
   return (
@@ -182,17 +208,17 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             justifyContent: `space-between`,
             flexDirection: {
               xs: `column-reverse`,
+              md: `row`,
+              lg: `row`,
             },
           }}
         >
-          <Box
+          <Button
+            variant="outlined"
             sx={{
-              backgroundColor: `#cccc`,
-              textAlign: `center`,
-              padding: `10px`,
               width: {
-                xs: `100%`,
-                sm: `100%`,
+                xs: `20%`,
+                sm: `20%`,
                 md: `20%`,
                 lg: `20%`,
                 xl: `20%`,
@@ -210,13 +236,15 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             onClick={handleCloseModal}
           >
             Done
-          </Box>
-          {/* <CustomButton onClick={handleCloseModal} bgPrimary>
-            Done
-          </CustomButton> */}
-          <CustomButton loading={isLoading} onClick={handleRedirect} bgPrimary>
-            Event Plan Details
-          </CustomButton>
+          </Button>
+          <Link href={`/account/event/${contractID}`}>
+            <Button
+              variant="contained"
+              style={{ color: theme.palette.secondary.main }}
+            >
+              View Details
+            </Button>
+          </Link>
         </Box>
       </SuccessModal>
       <ConfirmModal

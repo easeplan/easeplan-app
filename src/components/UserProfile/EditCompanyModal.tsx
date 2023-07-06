@@ -110,7 +110,7 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={CompanyProfileSchema}
                 >
-                  {({ setFieldValue }) => (
+                  {({}) => (
                     <Form>
                       <Box>
                         <Box>

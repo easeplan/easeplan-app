@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Button } from '@mui/material';
 import { parseCookies } from '@/lib/parseCookies';
 import axios from 'axios';
 import { formatCurrency } from '@/utils';
@@ -30,15 +30,13 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
     typeof window !== `undefined` && localStorage.getItem(`userEmail`),
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
-  // console.log(data);
-
   useEffect(() => {
     localStorage.setItem(`eventID`, `${id}`);
+    localStorage.setItem(`contract`, `${data}`);
   }, []);
 
   const userServiceObj =
@@ -73,8 +71,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
       console.log(error);
     }
   };
-
-  // console.log(token);
 
   return (
     <DashboardLayout token={token}>
@@ -302,15 +298,15 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                         xs: `70px`,
                         sm: `70px`,
                         md: `100px`,
-                        lg: `150px`,
-                        xl: `150px`,
+                        lg: `120px`,
+                        xl: `120px`,
                       },
                       height: {
                         xs: `70px`,
                         sm: `70px`,
                         md: `100px`,
-                        lg: `150px`,
-                        xl: `150px`,
+                        lg: `120px`,
+                        xl: `120px`,
                       },
                       position: `absolute`,
                       borderRadius: `50%`,
@@ -361,10 +357,10 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                       fontWeight={600}
                       sx={{
                         fontSize: {
-                          xs: `1.2rem`,
-                          sm: `1.2rem`,
-                          md: `1.4rem`,
-                          lg: `1.5rem`,
+                          xs: `1rem`,
+                          sm: `1rem`,
+                          md: `1rem`,
+                          lg: `1.2rem`,
                         },
                       }}
                       textTransform="capitalize"
@@ -377,7 +373,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                       display: `flex`,
                       alignItems: `center`,
                       justifyContent: `center`,
-                      my: `0.5rem`,
+                      mb: `0.8rem`,
                     }}
                   >
                     <UserRating
@@ -387,9 +383,9 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                       profileId={queryData?.userId}
                       size="small"
                     />
-                    <Typography ml={1} fontSize="0.9rem">
+                    {/* <Typography ml={1} fontSize="0.9rem">
                       {queryData?.events.length} Events
-                    </Typography>
+                    </Typography> */}
                   </Box>
                   <Box
                     sx={{
@@ -412,11 +408,13 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                       },
                     }}
                   >
-                    <Link href={`/account/profile/`}>
-                      <button className="preview-btn btn">View Details</button>
+                    <Link href={`/account/preview/${data?._id}`}>
+                      <Button variant="outlined" size="small">
+                        View Details
+                      </Button>
                     </Link>
                   </Box>
-                  <Box
+                  {/* <Box
                     sx={{
                       mt: `2rem`,
                       display: `flex`,
@@ -443,15 +441,15 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                         {dateFormater(queryData?.createdAt)}
                       </Typography>
                     </Box>
-                  </Box>
+                  </Box> */}
                 </Box>
                 {/* Review Form */}
-                <ReviewForm
+                {/* <ReviewForm
                   token={token}
                   role={queryData?.role}
                   rating={queryData?.rating}
                   profileId={queryData?.userId}
-                />
+                /> */}
               </Box>
             )}
           </Box>

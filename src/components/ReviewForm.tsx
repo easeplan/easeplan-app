@@ -59,10 +59,10 @@ interface PropsTypes {
 }
 
 interface FormTypes {
-  review?: string;
+  review?: any;
 }
 
-const ReviewForm = ({ token }: PropsTypes) => {
+const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
@@ -84,13 +84,13 @@ const ReviewForm = ({ token }: PropsTypes) => {
   });
 
   const handleFormSubmit = async (credentials: FormTypes) => {
-    // const data = {
-    //   stars: value,
-    //   role: role,
-    //   profileId: profileId,
-    // };
-    console.log(credentials);
-    // updateReview();
+    const data = {
+      stars: rating,
+      role: role,
+      profileId: profileId,
+      review: credentials.review,
+    };
+    updateReview(data);
   };
 
   return (
@@ -130,6 +130,7 @@ const ReviewForm = ({ token }: PropsTypes) => {
                   color="primary"
                   style={{ color: theme.palette.secondary.main }}
                   variant="contained"
+                  type="submit"
                 >
                   Send Message
                 </Button>

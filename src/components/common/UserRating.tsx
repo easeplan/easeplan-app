@@ -45,10 +45,6 @@ export default function UserRating({
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
-    },
-    onError: (error: any) => {
-      toast.error(error.response.data.message);
     },
   });
 
@@ -59,7 +55,6 @@ export default function UserRating({
       profileId: profileId,
     };
     updateRating(data);
-    console.log(data);
   };
 
   return (
@@ -83,11 +78,11 @@ export default function UserRating({
         }}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
-      {value === 0 ? null : (
+      {/* {value === 0 ? null : (
         <Typography fontSize={fontSize} sx={{ ml: 1 }}>
           {value}
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 }

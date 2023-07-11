@@ -56,13 +56,15 @@ const Sidenav = () => {
             href="/account/history"
           />
         </Links> */}
-        {/* <Links>
-          <SidebarItem
-            icon={<AccountBalanceWalletIcon />}
-            text="Payment"
-            href="/account/payment"
-          />
-        </Links> */}
+        {userInfo?.role === `user` ? null : (
+          <Links>
+            <SidebarItem
+              icon={<AccountBalanceWalletIcon />}
+              text="Wallet"
+              href="/account/wallet"
+            />
+          </Links>
+        )}
         {userInfo?.role === `user` ? null : (
           <Links>
             <SidebarItem

@@ -1,63 +1,98 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-// import { useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import FinderIcon from '@/public/finder.gif';
 import EventCenterIcon from '@/public/eventCenter.gif';
 import VendorIcon from '@/public/vendor.gif';
 import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import { Box, Grid, Typography } from '@mui/material';
+import FindPlannerModal from './FindPlannerModal';
+import FindVendorModal from './FindVendorModal';
+import SearchResultModal from './SearchResultModal';
+import { RootState } from '@/store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setOpenSearchModal,
+  setOpenPlannerModal,
+  setOpenVendorModal,
+} from '@/features/searchResultSlice';
+import bannerImg from '@/public/banner.png';
+import EventList from './EventList';
 
-const FinderSection = () => {
+const FinderSection = ({ queryData, token, notificationData }: any) => {
+  const dispatch = useDispatch();
+  const { openSearchModal, openPlannerModal, openVendorModal, data } =
+    useSelector((state: RootState) => state.searchModal);
+
+  const handleOpenFindPlannerModal = () => {
+    dispatch(setOpenPlannerModal(true));
+  };
+
+  const handleOpenFindVendorModal = () => {
+    dispatch(setOpenVendorModal(true));
+  };
+
   return (
-    <DashboardWrapper>
-      <h3 className="sectionTitle">Act Swiftly</h3>
-
-      <Swiper
-        slidesPerView={2.4}
-        spaceBetween={10}
-        breakpoints={{
-          640: {
-            spaceBetween: 10,
-            slidesPerView: 2.3,
+    <>
+      <Box
+        sx={{
+          width: `100%`,
+          height: `100%`,
+          position: `relative`,
+          marginTop: {
+            xs: `2rem`,
           },
-          768: {
-            spaceBetween: 10,
-            slidesPerView: 2.3,
-          },
-          1024: {
-            spaceBetween: 40,
-            slidesPerView: 3,
-          },
+          img: { width: `100%`, height: `100%` },
         }}
-        className="mySwiper"
       >
-        <SwiperSlide>
-          <Card>
-            <Image src={FinderIcon} alt="EventIcon" height={50} width={50} />
-            <h3 className="title">Find Planner</h3>
-          </Card>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card>
-            <Image src={VendorIcon} alt="EventIcon" height={50} width={50} />
-            <h3 className="title">Find Vendor</h3>
-          </Card>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card>
-            <Image
-              src={EventCenterIcon}
-              alt="EventIcon"
-              height={50}
-              width={50}
-            />
-            <h3 className="title">Find Event Center</h3>
-          </Card>
-        </SwiperSlide>
-      </Swiper>
-    </DashboardWrapper>
+        <Image
+          src={bannerImg}
+          alt="img"
+          height={100}
+          width={1200}
+          loading="lazy"
+        />
+      </Box>
+
+      <DashboardWrapper>
+        <SearchResultModal
+          openResult={openSearchModal}
+          closeResult={() => dispatch(setOpenSearchModal(false))}
+          queryData={data}
+          token={token}
+        />
+        <h3 className="sectionTitle">Act Swiftly</h3>
+        <FindPlannerModal
+          isOpen={openPlannerModal}
+          isClose={() => dispatch(setOpenPlannerModal(false))}
+          queryData={queryData}
+          token={token}
+        />
+        <FindVendorModal
+          isOpen={openVendorModal}
+          isClose={() => dispatch(setOpenVendorModal(false))}
+          queryData={queryData}
+          token={token}
+        />
+        <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 4, md: 5 }}>
+          <Grid item xs={6} sm={6} md={6}>
+            <Card onClick={handleOpenFindPlannerModal}>
+              <Image src={FinderIcon} alt="EventIcon" height={80} width={80} />
+              <h3 className="title">Find Planner</h3>
+            </Card>
+          </Grid>
+          <Grid item xs={6} sm={6} md={6}>
+            <Card onClick={handleOpenFindVendorModal}>
+              <Image src={VendorIcon} alt="EventIcon" height={80} width={80} />
+              <h3 className="title">Find Vendor</h3>
+            </Card>
+          </Grid>
+        </Grid>
+        <Box sx={{ mt: 10 }}>
+          <EventList notificationData={notificationData} />
+        </Box>
+      </DashboardWrapper>
+    </>
   );
 };
 
@@ -79,22 +114,30 @@ const DashboardWrapper = styled(`section`)(({ theme }) => ({
 }));
 
 const Card = styled(`div`)(({ theme }) => ({
-  border: `solid 1px #ccc`,
+  borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
   padding: `2rem`,
   width: `100%`,
-  color: theme.palette.primary.main,
-  background: theme.palette.background.default,
+  color: theme.palette.secondary.main,
+  background: theme.palette.primary.main,
   marginTop: `1.3rem`,
   textAlign: `center`,
   cursor: `pointer`,
   transition: `all 0.5s ease`,
+  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+  borderRadius: `10px`,
 
   '&:hover': {
-    background: theme.palette.secondary.light,
+    background: theme.palette.primary.light,
+  },
+
+  '&:hover .title': {
+    transition: `all 0.5s ease`,
+    transform: `scale(1.3)`,
   },
 
   '.title': {
-    margin: `0.5rem 0`,
+    margin: `0.3rem 0`,
+    transition: `all 0.5s ease`,
   },
 
   '@media (max-width: 900px)': {

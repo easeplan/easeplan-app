@@ -21,6 +21,7 @@ type InputProps = {
   disabled?: boolean;
   sx?: any;
   selectPlaceholder?: string;
+  value?: any;
   // onChange?: (e) => void;
 };
 
@@ -61,9 +62,6 @@ const FormInput = ({
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
             MenuProps={MenuProps}
           >
-            <MenuItem value="">
-              <span>{selectPlaceholder}</span>
-            </MenuItem>
             {props.children}
           </Select>
           {meta.touched && meta.error ? (

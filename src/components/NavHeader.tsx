@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Link from 'next/link';
 import Logo from './Logo';
 import AvatarMenu from './AvatarMenu';
 import useFetch from '@/hooks/useFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import NotificationDropdown from './NotificationDropdown';
 
 const NavHeader = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData, error, isLoading } = useFetch(
+  const { notifyData } = useSelector((state: RootState) => state.notifications);
+  const { queryData } = useFetch(
     `/${
       userInfo?.role === `provider`
         ? `provider-profiles`
@@ -40,12 +40,11 @@ const NavHeader = ({ token }: any) => {
                 <InsertCommentIcon className="icon" />
               </Icon>
             </Link>
-            <Link href="/account">
-              <Icon>
-                <Dot></Dot>
-                <NotificationsIcon className="icon" />
-              </Icon>
-            </Link>
+            <NotificationDropdown
+              token={token}
+              notificationData={notifyData}
+              queryData={queryData}
+            />
             <AvatarMenu
               imgSrc={queryData?.picture}
               alt="userImage"

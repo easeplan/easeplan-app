@@ -4,6 +4,7 @@ import Icon1 from '@/public/svgs/Icon.svg';
 import Icon2 from '@/public/svgs/Icon(1).svg';
 import Icon3 from '@/public/svgs/Icon(2).svg';
 import Icon4 from '@/public/svgs/Icon(3).svg';
+import Icon6 from '@/public/graph.png';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -40,11 +41,18 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon2} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
-                <small>NGN</small>
+                <small>₦</small>
                 <h2 className="title">00.00</h2>
               </div>
               <p>Total Amount Made</p>
             </div>
+            <Image
+              src={Icon6}
+              alt="EventIcon"
+              className="shape"
+              height={200}
+              width={200}
+            />
           </Card>
         </SwiperSlide>
         <SwiperSlide>
@@ -54,6 +62,13 @@ const Dashboard = ({ data }: any) => {
               <h2 className="title">0</h2>
               <p>Number of events</p>
             </div>
+            <Image
+              src={Icon6}
+              alt="EventIcon"
+              className="shape"
+              height={200}
+              width={200}
+            />
           </Card>
         </SwiperSlide>
         <SwiperSlide>
@@ -61,11 +76,18 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon3} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
-                <small>NGN</small>
+                <small>₦</small>
                 <h2 className="title">00.00</h2>
               </div>
               <p>Available Balance</p>
             </div>
+            <Image
+              src={Icon6}
+              alt="EventIcon"
+              className="shape"
+              height={200}
+              width={200}
+            />
           </Card>
         </SwiperSlide>
         <SwiperSlide>
@@ -73,8 +95,15 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon4} alt="EventIcon" height={40} width={40} />
             <div>
               <h2 className="title">0</h2>
-              <p>Even on Cue</p>
+              <p>Event on Cue</p>
             </div>
+            <Image
+              src={Icon6}
+              alt="EventIcon"
+              className="shape"
+              height={200}
+              width={200}
+            />
           </Card>
         </SwiperSlide>
       </Swiper>
@@ -87,9 +116,7 @@ const DashboardWrapper = styled(`section`)(({ theme }: any) => ({
   height: `100%`,
   marginTop: `1rem`,
   color: theme.palette.primary.main,
-  // border: `solid 1px #ccc`,
   padding: `1.2rem 1rem 2rem 1.2rem`,
-  // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
   borderRadius: `10px`,
 
   '.subTitle': {
@@ -131,10 +158,12 @@ const Card = styled(`div`)(({ theme }: any) => ({
   width: `90%`,
   borderRadius: `6px`,
   color: theme.palette.primary.main,
-  background: theme.palette.common.light,
+  background: theme.palette.secondary.light,
   margin: `1rem 0 0 0`,
-  height: `145px`,
+  // height: `145px`,
   boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+  position: `relative`,
+  overflow: `hidden`,
 
   '.title': {
     margin: `0`,
@@ -145,6 +174,12 @@ const Card = styled(`div`)(({ theme }: any) => ({
     alignItems: `center`,
   },
 
+  '.shape': {
+    position: `absolute`,
+    top: `-4rem`,
+    right: `-4rem`,
+  },
+
   small: {
     fontSize: `1rem`,
     fontWeight: `600`,
@@ -153,8 +188,8 @@ const Card = styled(`div`)(({ theme }: any) => ({
 
   '@media (max-width: 900px)': {
     padding: `1rem`,
-    height: `120px`,
-    display: `flex`,
+    // height: `120px`,
+    // display: `flex`,
     flexDirection: `row-reverse`,
     alignItems: `center`,
     justifyContent: `space-between`,

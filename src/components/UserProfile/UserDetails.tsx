@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { styled } from '@mui/material/styles';
 import EditUserDetailsModal from './EditUserDetailsModal';
-import UserRating from '../common/UserRating';
+import RatingStar from '../common/RatingStar';
 import Link from 'next/link';
 import SocialShareButton from './SocialShareButton';
 import { dateFormater } from '@/utils';
@@ -70,8 +70,8 @@ const UserDetails = ({ queryData, token }: any) => {
             justifyContent: `center`,
           }}
         >
-          <UserRating rate={queryData?.rating} size="small" />
-          <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
+          <RatingStar rate={queryData?.rating} size="small" />
+          {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
         </Box>
         <Box
           sx={{
@@ -88,8 +88,20 @@ const UserDetails = ({ queryData, token }: any) => {
               borderRadius: `8px`,
               // boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
               padding: `0.5rem 1rem`,
-              width: `140px`,
-              height: `50px`,
+              width: {
+                xs: `auto`,
+                sm: `auto`,
+                md: `auto`,
+                lg: `140px`,
+                xl: `140px`,
+              },
+              height: {
+                xs: `40px`,
+                sm: `40px`,
+                md: `50px`,
+                lg: `50px`,
+                xl: `50px`,
+              },
               transition: `0.2s`,
               fontSize: `0.8rem`,
             },

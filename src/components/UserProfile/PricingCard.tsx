@@ -43,6 +43,7 @@ const PricingCard = ({ queryData, token }: any) => {
               lg: `1.5rem`,
             },
           }}
+          color="primary.main"
         >
           Pricing
         </Typography>
@@ -104,7 +105,6 @@ const PricingCard = ({ queryData, token }: any) => {
             </Grid>
           </>
         )}
-        {` `}
         {userInfo?.role === `provider` && (
           <>
             <EditVendorPriceModal

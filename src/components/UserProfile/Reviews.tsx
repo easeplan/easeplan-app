@@ -1,22 +1,12 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import ForumIcon from '@mui/icons-material/Forum';
 import Image from 'next/image';
 
 const Reviews = ({ queryData }: any) => {
+  console.log(queryData);
   return (
-    <Box
-      mt={6}
-      sx={{
-        borderBottom: `solid 1px #ccc`,
-        paddingBottom: {
-          xs: `1rem`,
-          sm: `1rem`,
-          md: `2rem`,
-          lg: `3rem`,
-          xl: `3rem`,
-        },
-      }}
-    >
+    <Box mt={6}>
       <Typography
         fontWeight={600}
         sx={{
@@ -31,54 +21,49 @@ const Reviews = ({ queryData }: any) => {
         Reviews
       </Typography>
       <Box
-        sx={{ display: `grid`, gridTemplateColumns: `1fr 1fr`, gap: `8rem` }}
+        sx={{
+          display: `grid`,
+          gridTemplateColumns: {
+            xs: `1fr`,
+            sm: `1fr`,
+            md: `1fr 1fr`,
+            lg: `1fr 1fr 1fr`,
+          },
+          gap: `4rem`,
+          mt: `4rem`,
+        }}
       >
-        <Box>
+        {queryData?.ratings.map((reviews: any) => (
           <Box
+            key={reviews?.id}
             sx={{
-              display: `flex`,
-              flexDirection: `row`,
-              alignItem: `center`,
-              justifyContent: `space-between`,
-              gap: `1rem`,
-              mt: `3rem`,
-              mb: `1rem`,
+              borderBottom: `solid 1px #ccc`,
+              paddingBottom: {
+                xs: `1rem`,
+                sm: `1rem`,
+                md: `2rem`,
+                lg: `2rem`,
+                xl: `2rem`,
+              },
             }}
           >
-            <Typography fontWeight={600}>John Deo</Typography>
-            <Typography textAlign="right" mt={1}>
-              2 days ago
-            </Typography>
+            <Box
+              sx={{
+                display: `flex`,
+                flexDirection: `row`,
+                alignItem: `center`,
+                justifyContent: `space-between`,
+                gap: `1rem`,
+                mb: `1rem`,
+              }}
+            >
+              <Typography>
+                <ForumIcon sx={{ color: `secondary.main` }} />
+              </Typography>
+            </Box>
+            <Typography>{reviews?.review}</Typography>
           </Box>
-          <Typography>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-            consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-            sapiente sed?
-          </Typography>
-        </Box>
-        <Box>
-          <Box
-            sx={{
-              display: `flex`,
-              flexDirection: `row`,
-              alignItem: `center`,
-              justifyContent: `space-between`,
-              gap: `1rem`,
-              mt: `3rem`,
-              mb: `1rem`,
-            }}
-          >
-            <Typography fontWeight={600}>John Deo</Typography>
-            <Typography textAlign="right" mt={1}>
-              2 days ago
-            </Typography>
-          </Box>
-          <Typography>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-            consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-            sapiente sed?
-          </Typography>
-        </Box>
+        ))}
       </Box>
     </Box>
   );

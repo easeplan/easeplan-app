@@ -93,9 +93,10 @@ const CompanySettings = ({ token }: PropsTypes) => {
       );
       if (data.status === `success`) {
         router.push(`/account`);
-        setIsLoading(false);
       }
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (

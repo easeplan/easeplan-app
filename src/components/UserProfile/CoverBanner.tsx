@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import ProfilePhoto from './ProfilePhoto';
+import BannerImg from '@/public/banner.png';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
@@ -113,7 +114,11 @@ const CoverBanner = ({ queryData, token }: any) => {
                 />
               ) : (
                 <Image
-                  src={queryData?.company?.image}
+                  src={
+                    queryData?.company?.image
+                      ? queryData?.company?.image
+                      : BannerImg
+                  }
                   alt="bannerImage"
                   fill
                   quality={100}

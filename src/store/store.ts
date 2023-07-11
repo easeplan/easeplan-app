@@ -1,12 +1,16 @@
+import notificationSlice from '@/features/notificationsSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/features/authSlice';
 import onboardingSlice from '@/features/onboardingSlice';
 import { apiSlice } from '@/features/apiSlice';
+import searchResultSlice from '@/features/searchResultSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     onboarding: onboardingSlice,
+    notifications: notificationSlice,
+    searchModal: searchResultSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -7,9 +7,10 @@ export const dateFormater = (date: any) => {
     year: `numeric`,
   });
 };
-// export const dateFormater = (date: any) => {
-//   return format(parseISO(date), `MM/d/yyyy`, { locale: enUS });
-// };
+
+export const dateFormaterAndTime = (date: any) => {
+  return format(parseISO(date), `MM/d/yyyy`, { locale: enUS });
+};
 
 export const formatCurrency = (num: any) => {
   const formatter = new Intl.NumberFormat(`en-US`, {

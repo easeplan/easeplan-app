@@ -40,7 +40,7 @@ function MobileNavItems({ href, text, icon }: NavProps) {
               style={
                 isActive
                   ? {
-                      fontSize: `0.8rem`,
+                      fontSize: `0.7rem`,
                       margin: `0`,
                       color: `${theme.palette.secondary.main}`,
                     }
@@ -48,7 +48,7 @@ function MobileNavItems({ href, text, icon }: NavProps) {
                       fontWeight: `normal`,
                       margin: `0`,
                       color: `${theme.palette.secondary.light}`,
-                      fontSize: `0.8rem`,
+                      fontSize: `0.7rem`,
                     }
               }
             >

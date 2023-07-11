@@ -3,10 +3,15 @@ import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
 import { dateFormater } from '@/utils';
+import BannerImg from '@/public/banner.png';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import RatingStar from '../common/RatingStar';
 
-const Hero = ({ queryData }: any) => {
+const Hero = ({ queryData, token }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   return (
-    <Box mt={13}>
+    <Box mt={6}>
       <Box
         sx={{
           width: `100%`,
@@ -29,7 +34,9 @@ const Hero = ({ queryData }: any) => {
       >
         <Box>
           <Image
-            src={queryData?.company?.image}
+            src={
+              queryData?.company?.image ? queryData?.company?.image : BannerImg
+            }
             alt="bannerImage"
             fill
             quality={100}
@@ -117,17 +124,43 @@ const Hero = ({ queryData }: any) => {
             {queryData?.firstName} {` `} {queryData?.lastName}
           </Typography>
         </Box>
-        <Box
-          sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            my: `0.5rem`,
-          }}
-        >
-          <UserRating rate={queryData?.rating} size="small" />
-          <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
-        </Box>
+        {userInfo && userInfo.role === `user` ? (
+          <Box
+            sx={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+              my: `0.5rem`,
+            }}
+          >
+            <UserRating
+              rate={queryData?.rating}
+              token={token}
+              role={queryData?.role}
+              profileId={queryData?.userId}
+              size="medium"
+            />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+              my: `0.5rem`,
+            }}
+          >
+            <RatingStar
+              rate={queryData?.rating}
+              token={token}
+              role={queryData?.role}
+              profileId={queryData?.userId}
+              size="medium"
+            />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
+          </Box>
+        )}
         <Box
           sx={{
             textAlign: `center`,
@@ -149,8 +182,8 @@ const Hero = ({ queryData }: any) => {
             },
           }}
         >
-          <Link href="/login">
-            <button className="preview-btn btn">Contact Me</button>
+          <Link href="#pricingSection">
+            <button className="preview-btn btn">Hire Me</button>
           </Link>
         </Box>
         <Box

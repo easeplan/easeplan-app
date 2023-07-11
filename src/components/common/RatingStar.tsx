@@ -21,12 +21,13 @@ export default function RatingStar({ rate, size, fontSize }: any) {
         value={value}
         precision={0.5}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+        readOnly
       />
-      {value !== null && (
+      {/* {value !== null && (
         <Typography fontSize={fontSize} sx={{ ml: 1 }}>
           {value}
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 }

@@ -9,11 +9,11 @@ interface onboardState {
 }
 
 const initialState: onboardState = {
-  intro: false,
+  intro: true,
   userIntro: false,
   stepOne: false,
   stepTwo: false,
-  stepThree: true,
+  stepThree: false,
 };
 
 export const onboardingSlice = createSlice({

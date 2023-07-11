@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/material/styles';
 import AddPreviousEventModal from './AddPreviousEventModal';
 import EditPreviousEventModal from './EditPreviousEventModal';
+import DeleteIcon from '@mui/icons-material/Delete';
 import theme from '@/styles/theme';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
@@ -17,30 +18,29 @@ const PreviousEvent = ({ queryData, token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
   const [openEditEventModal, setOpenEditEventModal] = useState(false);
-  const [eventId, setEventId] = useState(``);
+  const [sampleId, setSampleId] = useState(``);
   const [eventData, setEventData] = useState(``);
   const queryClient = useQueryClient();
 
   const { mutate: handleDelete } = useMutation({
-    mutationFn: () =>
+    mutationFn: (sampleId: string) =>
       customFetch.put(
         `/${
           userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}/delete-sample/${eventId}`
+            ? `provider-profiles/${userInfo?._id}/delete-sample/${sampleId}`
             : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}/delete-sample/${eventId}`
+            ? `planner-profiles/${userInfo?._id}/delete-sample/${sampleId}`
             : null
         }`,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Company Details Updated`);
+      toast.success(`Deleted`);
       // isClose(false);
     },
     onError: (error: any) => {
@@ -48,14 +48,14 @@ const PreviousEvent = ({ queryData, token }: any) => {
     },
   });
 
-  const handleEventDelete = async (eventId: any) => {
-    setEventId(eventId);
-    handleDelete();
+  const handleEventDelete = async (id: any) => {
+    setSampleId(id);
+    handleDelete(id);
   };
 
   const handleEdit = (data: any) => {
     setOpenEditEventModal(true);
-    setEventId(data?._id);
+    setSampleId(data?._id);
     setEventData(data);
   };
 
@@ -71,13 +71,13 @@ const PreviousEvent = ({ queryData, token }: any) => {
         token={token}
         queryData={queryData}
       />
-      {/* <EditPreviousEventModal
+      <EditPreviousEventModal
         isOpen={openEditEventModal}
         isClose={() => setOpenEditEventModal(false)}
         token={token}
-        eventId={eventId}
+        eventId={sampleId}
         queryData={eventData}
-      /> */}
+      />
       <Box
         sx={{
           display: `flex`,
@@ -129,129 +129,107 @@ const PreviousEvent = ({ queryData, token }: any) => {
           <AddIcon className="icon" />
         </Box>
       </Box>
-      {queryData.samples.map((data: any, i: any) => (
-        <Box
-          key={i}
-          sx={{
-            display: `grid`,
-            gridTemplateColumns: {
-              xs: `1fr`,
-              sm: `1fr`,
-              md: `1fr 1fr`,
-              lg: `1fr 2fr`,
-            },
-            gridTemplateAreas: `item2 item1`,
-            alignItem: `center`,
-            gap: `1rem`,
-            mt: `3rem`,
-            boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-            borderRadius: `10px`,
-            padding: `1rem`,
-            borderLeft: `solid 1rem ${theme.palette.secondary.main}`,
-          }}
-        >
+      <Box
+        sx={{
+          display: `grid`,
+          gridTemplateColumns: {
+            xs: `1fr`,
+            sm: `1fr`,
+            md: `1fr 1fr`,
+            lg: `1fr 1fr`,
+          },
+          gridTemplateAreas: `item2 item1`,
+          alignItem: `center`,
+          gap: `2rem`,
+          mt: `3rem`,
+        }}
+      >
+        {queryData.samples.map((data: any, i: any) => (
           <Box
+            key={i}
             sx={{
-              width: `100%`,
-              p: {
-                xs: `1rem`,
-                sm: `1rem`,
-                md: `2rem`,
-                lg: `2rem`,
-                xl: `2rem`,
-              },
-
-              '.item1': {
-                gridArea: `item1`,
-              },
+              borderRadius: `10px`,
+              height: `100%`,
+              position: `relative`,
             }}
           >
-            <Typography variant="h5" fontWeight="bold">
-              {data?.title}
-            </Typography>
-            <Typography mt={2}>{data?.description}</Typography>
-            <Box sx={{ display: `flex`, cursor: `pointer` }} mt={3}>
-              <Typography
-                textAlign="right"
-                color="warning.main"
-                mr={2}
-                onClick={() => handleEdit(data)}
+            <Box
+              sx={{
+                width: `100%`,
+                height: {
+                  xs: `300px`,
+                  sm: `300px`,
+                  md: `300px`,
+                  lg: `400px`,
+                  xl: `400px`,
+                },
+                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                borderRadius: `10px`,
+                position: `relative`,
+
+                '.item2': {
+                  gridArea: `item2`,
+                },
+              }}
+            >
+              <Image
+                src={data?.sampleImage}
+                alt="eventname"
+                fill
+                quality={100}
+                style={{
+                  borderRadius: `10px`,
+                  objectFit: `cover`,
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                width: `100%`,
+                p: {
+                  xs: `1rem`,
+                  sm: `1rem`,
+                  md: `2rem`,
+                  lg: `2rem`,
+                  xl: `2rem`,
+                },
+                position: `absolute`,
+                bottom: `0`,
+                zIndez: `1`,
+                background: `rgba(0,0,0,0.5)`,
+                color: `#fff`,
+                borderRadius: `10px`,
+              }}
+            >
+              <Typography fontWeight="bold">{data?.title}</Typography>
+              {/* <Typography mt={2}>{data?.description}</Typography> */}
+              <Box
+                sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}
+                mt={2}
               >
-                Edit
-              </Typography>
-              <Typography
-                textAlign="right"
-                color="error.main"
-                onClick={() => handleEventDelete(data?._id)}
-              >
-                Delete
-              </Typography>
+                <Button
+                  onClick={() => handleEdit(data)}
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<CreateOutlinedIcon />}
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => handleEventDelete(data?._id)}
+                  variant="contained"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+              </Box>
             </Box>
           </Box>
-          <Box
-            sx={{
-              width: `100%`,
-              height: {
-                xs: `300px`,
-                sm: `300px`,
-                md: `100%`,
-                lg: `100%`,
-                xl: `100%`,
-              },
-              borderRadius: `10px`,
-              position: `relative`,
-
-              '.item2': {
-                gridArea: `item2`,
-              },
-            }}
-          >
-            <Image
-              src={queryData?.company?.image}
-              alt="eventname"
-              fill
-              quality={100}
-              style={{
-                borderRadius: `10px`,
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                objectFit: `cover`,
-              }}
-            />
-          </Box>
-        </Box>
-      ))}
+        ))}
+      </Box>
     </Box>
   );
 };
-
-const EditButton = styled(`button`)(({ theme }) => ({
-  border: `none`,
-  backgroundColor: `transparent`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `50%`,
-  color: theme.palette.primary.main,
-
-  '&:hover': {
-    color: theme.palette.secondary.main,
-  },
-
-  '.icon': {
-    fontSize: `2rem`,
-    marginLeft: `0.4rem`,
-    marginBottom: `0.6rem`,
-  },
-
-  '@media (max-width: 900px)': {
-    '.icon': {
-      fontSize: `1.2rem`,
-    },
-  },
-}));
 
 export default PreviousEvent;

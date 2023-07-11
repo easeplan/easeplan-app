@@ -1,8 +1,10 @@
-import { Box, Typography, Alert } from '@mui/material';
+import { Box, Typography, Divider, Alert } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Container } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 import PricingSection from '@/components/publicPageSections/PricingSection';
+import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
+import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Hero from '@/components/publicPageSections/Hero';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
@@ -21,7 +23,7 @@ const style = {
     lg: `95%`,
     xl: `95%`,
   },
-  height: `95vh`,
+  height: `100vh`,
   bgcolor: `#fff`,
   border: `none`,
   boxShadow: 24,
@@ -39,6 +41,8 @@ const SearchResultModal = ({
     (state: RootState) => state.searchModal,
   );
 
+  // console.log(queryData);
+
   return (
     <Container fixed>
       <Modal
@@ -52,7 +56,8 @@ const SearchResultModal = ({
             <>
               <Box
                 sx={{
-                  p: 2,
+                  py: 2,
+                  px: 4,
                   backgroundColor: `primary.main`,
                   borderTopRightRadius: `1rem`,
                   borderTopLeftRadius: `1rem`,
@@ -61,7 +66,11 @@ const SearchResultModal = ({
                   justifyContent: `space-between`,
                 }}
               >
-                <Typography color="secondary.main" fontWeight={600}>
+                <Typography
+                  color="secondary.main"
+                  variant="h5"
+                  fontWeight={600}
+                >
                   Plan Your Event
                 </Typography>
                 <Typography
@@ -107,7 +116,7 @@ const SearchResultModal = ({
                       height: `100%`,
                       px: {
                         xs: 3,
-                        lg: 4,
+                        lg: 10,
                       },
                       pb: 10,
                     }}
@@ -116,6 +125,10 @@ const SearchResultModal = ({
                       <Box>
                         <Hero queryData={queryData} />
                         <PricingSection token={token} queryData={queryData} />
+                        <Divider />
+                        <PreviousEvent token={token} queryData={queryData} />
+                        <Divider />
+                        <ClientReviews token={token} queryData={queryData} />
                       </Box>
                     ) : (
                       <>

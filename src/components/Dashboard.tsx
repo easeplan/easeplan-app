@@ -188,8 +188,8 @@ const Card = styled(`div`)(({ theme }: any) => ({
 
   '@media (max-width: 900px)': {
     padding: `1rem`,
-    height: `120px`,
-    display: `flex`,
+    // height: `120px`,
+    // display: `flex`,
     flexDirection: `row-reverse`,
     alignItems: `center`,
     justifyContent: `space-between`,

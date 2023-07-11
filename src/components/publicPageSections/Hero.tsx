@@ -4,8 +4,12 @@ import UserRating from '../common/UserRating';
 import Link from 'next/link';
 import { dateFormater } from '@/utils';
 import BannerImg from '@/public/banner.png';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import RatingStar from '../common/RatingStar';
 
 const Hero = ({ queryData, token }: any) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   return (
     <Box mt={6}>
       <Box
@@ -120,23 +124,43 @@ const Hero = ({ queryData, token }: any) => {
             {queryData?.firstName} {` `} {queryData?.lastName}
           </Typography>
         </Box>
-        <Box
-          sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            my: `0.5rem`,
-          }}
-        >
-          <UserRating
-            rate={queryData?.rating}
-            token={token}
-            role={queryData?.role}
-            profileId={queryData?.userId}
-            size="medium"
-          />
-          {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
-        </Box>
+        {userInfo && userInfo.role === `user` ? (
+          <Box
+            sx={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+              my: `0.5rem`,
+            }}
+          >
+            <UserRating
+              rate={queryData?.rating}
+              token={token}
+              role={queryData?.role}
+              profileId={queryData?.userId}
+              size="medium"
+            />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+              my: `0.5rem`,
+            }}
+          >
+            <RatingStar
+              rate={queryData?.rating}
+              token={token}
+              role={queryData?.role}
+              profileId={queryData?.userId}
+              size="medium"
+            />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
+          </Box>
+        )}
         <Box
           sx={{
             textAlign: `center`,

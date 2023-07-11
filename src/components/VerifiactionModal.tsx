@@ -79,10 +79,12 @@ const VerifiactionModal = ({
     }
   };
 
+  // console.log(userEmail);
+
   const resendHandler = async () => {
     try {
       // setIsResendLoading(true);
-      await axios.put(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-email`,
         { email: userEmail },
       );

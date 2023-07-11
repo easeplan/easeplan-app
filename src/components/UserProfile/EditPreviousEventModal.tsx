@@ -40,7 +40,7 @@ const style = {
 const CompanyProfileSchema = Yup.object().shape({
   title: Yup.string().required(`Name is missing`),
   description: Yup.string().required(`Description is missing`),
-  eventImage: Yup.string().required(`Image is missing`),
+  editeventImage: Yup.string().required(`Image is missing`),
 });
 
 const EditPreviousEventModal = ({
@@ -66,14 +66,14 @@ const EditPreviousEventModal = ({
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': `multipart/form-data`,
             Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Company Details Updated`);
+      toast.success(`Event Updated`);
       isClose(false);
     },
     onError: (error: any) => {
@@ -83,10 +83,10 @@ const EditPreviousEventModal = ({
 
   const handleEventSubmit = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`image`, credentials.image);
+    formData.append(`sampleImage`, credentials.editeventImage);
     const data = {
       title: credentials.title,
-      image: credentials.eventImage,
+      sampleImage: credentials.editeventImage,
       description: credentials.description,
     };
     handleUpdate(data);
@@ -124,7 +124,7 @@ const EditPreviousEventModal = ({
                     description: queryData?.description
                       ? queryData?.description
                       : ``,
-                    image: ``,
+                    editeventImage: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -155,7 +155,7 @@ const EditPreviousEventModal = ({
                         </Box>
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
-                          {/* <DragAndDropInput type="file" name="eventImage" /> */}
+                          <DragAndDropInput type="file" name="editeventImage" />
                         </Box>
                         <Box
                           mt={2}

@@ -84,8 +84,8 @@ const UserFlow = ({ token }: PropsTypes) => {
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         {
           state: credentials.state,
-          firstname: credentials.firstname,
-          lastname: credentials.lastname,
+          firstName: credentials.firstname,
+          lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
           role: userInfo?.role,

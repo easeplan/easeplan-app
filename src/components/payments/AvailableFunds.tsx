@@ -99,8 +99,8 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
         isOpen={paymentModal}
         isClose={() => setPaymentModal(false)}
       />
-      <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
-        <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
+      <Box sx={{ border: `solid 1px #ccc`, p: 2 }}>
+        <Typography my={2} fontWeight="bold" color="primary.main">
           Available Balance
         </Typography>
         {/* Balance card */}
@@ -110,7 +110,15 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
             fontWeight="bold"
             color="primary.main"
             textAlign="center"
-            variant="h4"
+            sx={{
+              fontSize: {
+                xs: `1.5rem`,
+                sm: `1.5rem`,
+                md: `1.5rem`,
+                lg: `2rem`,
+                xl: `3rem`,
+              },
+            }}
           >
             ₦0.00
           </Typography>

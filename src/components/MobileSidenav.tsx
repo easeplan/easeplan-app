@@ -7,6 +7,9 @@ import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
 import { useAuthUser } from '@/context/contextStore';
+import EmailIcon from '@mui/icons-material/Email';
+import StyleIcon from '@mui/icons-material/Style';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 export { getServerSideProps } from '@/context/contextStore';
 
@@ -20,17 +23,19 @@ const MobileSidenav = () => {
           text="Inbox"
           icon={<EmailIcon />}
           href="/account/inbox"
-        />
-        <MobileNavItems
-          text="Payment"
-          icon={<AccountBalanceWalletIcon />}
-          href="/account/payment"
         /> */}
         {queryData?.details?.role === `user` ? null : (
           <MobileNavItems
-            text="My Profile"
             icon={<ChromeReaderModeIcon />}
+            text="My Profile"
             href="/account/profile"
+          />
+        )}
+        {queryData?.details?.role === `user` ? null : (
+          <MobileNavItems
+            icon={<AccountBalanceWalletIcon />}
+            text="Wallet"
+            href="/account/wallet"
           />
         )}
         <MobileNavItems
@@ -39,10 +44,15 @@ const MobileSidenav = () => {
           href="/account"
         />
         <MobileNavItems
+          icon={<StyleIcon />}
+          text="History"
+          href="/account/history"
+        />
+        {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
-        />
+        /> */}
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}
@@ -62,7 +72,7 @@ const MobileStyle = styled(`nav`)(({ theme }) => ({
   // borderTopLeftRadius: `1.5rem`,
   // borderTopRightRadius: `1.5rem`,
   display: `none`,
-  padding: `1.5rem 0`,
+  padding: `1rem 0`,
   zIndex: `9`,
 
   '@media (max-width: 900px)': {

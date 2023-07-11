@@ -10,6 +10,7 @@ import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
 import { Alert } from '@mui/material';
+import FormError from '../common/FormError';
 import { useSignupMutation } from '@/features/usersApiSlice';
 
 const strengthLables = [`weak`, `medium`, `strong`];
@@ -23,6 +24,8 @@ const SignupForm = () => {
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
   const [strength, setStrength] = useState(``);
+  const [passErr, setPassErr] = useState<string>(``);
+  const [emailErr, setEmailErr] = useState<string>(``);
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
 
@@ -71,20 +74,26 @@ const SignupForm = () => {
   const submitCredentials = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const credentials = { email: email, password: password };
-
-    try {
-      setIsLoading(true);
-      await signup(credentials).unwrap();
-      // Saving user email, to send along with the verification token
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`userEmail`, `${email}`);
+    if (!email) {
+      setEmailErr(`email is required`);
+    } else if (!password) {
+      setPassErr(`password is required`);
+    } else {
+      try {
+        setIsLoading(true);
+        await signup(credentials).unwrap();
+        // Saving user email, to send along with the verification token
+        if (typeof window !== `undefined`) {
+          localStorage.setItem(`userEmail`, `${email}`);
+        }
+        setTimeout(() => {
+          setVerificationModal(true);
+          setIsLoading(false);
+        }, 2000);
+      } catch (error: any) {
+        setIsLoading(false);
+        setErrorMsg(error.data?.error);
       }
-      setTimeout(() => {
-        setVerificationModal(true);
-      }, 2000);
-    } catch (error: any) {
-      setIsLoading(false);
-      setErrorMsg(error.data?.error);
     }
   };
 
@@ -122,6 +131,7 @@ const SignupForm = () => {
                         type="email"
                       />
                     </div>
+                    {emailErr && <FormError text={emailErr}></FormError>}
                   </InputControl>
                   <InputControl>
                     <div>
@@ -140,6 +150,7 @@ const SignupForm = () => {
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </div>
                     </PasswordControl>
+                    {passErr && <FormError text={passErr}></FormError>}
                   </InputControl>
                   <CustomButton
                     bgPrimary

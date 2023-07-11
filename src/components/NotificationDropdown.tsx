@@ -58,65 +58,67 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
 
   return (
     <Stack direction="row">
-      <Button
-        ref={anchorRef}
-        id="composition-button"
-        aria-controls={open ? `composition-menu` : undefined}
-        aria-expanded={open ? `true` : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-      >
-        <Box
-          sx={{
-            position: `relative`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            width: `40px`,
-            height: `40px`,
-            border: `solid 1px #ccc`,
-            borderRadius: `9px`,
-            margin: `0 0.5rem`,
-            color: `primary.main`,
-            cursor: `pointer`,
-
-            '.icon': {
-              fontSize: `1.5rem`,
-            },
-
-            '@media (max-width: 900px)': {
-              width: `35px`,
-              height: `35px`,
-            },
-          }}
+      <Link href="/account/contracts/">
+        <Button
+          ref={anchorRef}
+          id="composition-button"
+          aria-controls={open ? `composition-menu` : undefined}
+          aria-expanded={open ? `true` : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
         >
-          {notificationData?.length < 0 ? null : (
-            <Box
-              sx={{
-                width: `10px`,
-                height: `10px`,
-                border: `solid 2px #fff`,
-                borderRadius: `16px`,
-                position: `absolute`,
-                top: `0.6rem`,
-                right: `0.6rem`,
-                background: theme.palette.info.main,
+          <Box
+            sx={{
+              position: `relative`,
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+              width: `40px`,
+              height: `40px`,
+              border: `solid 1px #ccc`,
+              borderRadius: `9px`,
+              margin: `0 0.5rem`,
+              color: `primary.main`,
+              cursor: `pointer`,
 
-                '@media (max-width: 900px)': {
-                  width: `9px`,
-                  height: `9px`,
-                  border: `solid 1.5px #fff`,
+              '.icon': {
+                fontSize: `1.5rem`,
+              },
+
+              '@media (max-width: 900px)': {
+                width: `35px`,
+                height: `35px`,
+              },
+            }}
+          >
+            {notificationData?.length < 1 ? null : (
+              <Box
+                sx={{
+                  width: `10px`,
+                  height: `10px`,
+                  border: `solid 2px #fff`,
+                  borderRadius: `16px`,
                   position: `absolute`,
                   top: `0.6rem`,
-                  right: `0.5rem`,
-                },
-              }}
-            ></Box>
-          )}
-          <NotificationsIcon className="icon" />
-        </Box>
-      </Button>
-      {notificationData?.length < 0 ? null : (
+                  right: `0.6rem`,
+                  background: theme.palette.info.main,
+
+                  '@media (max-width: 900px)': {
+                    width: `9px`,
+                    height: `9px`,
+                    border: `solid 1.5px #fff`,
+                    position: `absolute`,
+                    top: `0.6rem`,
+                    right: `0.5rem`,
+                  },
+                }}
+              ></Box>
+            )}
+            <NotificationsIcon className="icon" />
+          </Box>
+        </Button>
+      </Link>
+      {/* {notificationData?.length < 0 ? null : (
         <Popper
           open={open}
           anchorEl={anchorRef.current}
@@ -177,7 +179,7 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
             </Grow>
           )}
         </Popper>
-      )}
+      )} */}
     </Stack>
   );
 };

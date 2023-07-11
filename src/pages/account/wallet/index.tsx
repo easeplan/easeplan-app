@@ -39,17 +39,17 @@ const PaymentPage = ({ token }: any) => {
 
   return (
     <DashboardLayout token={token}>
-      <Typography my={3} variant="h5" fontWeight="bold" color="primary.main">
-        Payment and Withdrawals
+      <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
+        Wallet
       </Typography>
-      <Divider sx={{ my: 2 }} />
-      <Box sx={{ flexGrow: 1, width: `100%`, mt: 6 }}>
+      <Divider sx={{ my: 1 }} />
+      <Box sx={{ flexGrow: 1, width: `100%`, mt: 4 }}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
           <Grid item xs={12} sm={6} md={6}>
             <AvailableFunds token={token} bankDetails={bankDetails} />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
-            <ManagePayment />
+            {/* <ManagePayment /> */}
           </Grid>
         </Grid>
       </Box>

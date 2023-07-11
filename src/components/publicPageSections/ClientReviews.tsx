@@ -10,9 +10,11 @@ import 'swiper/css/navigation';
 import theme from '@/styles/theme';
 
 const ClientReviews = ({ queryData }: any) => {
+  console.log(queryData);
   return (
     <Box
-      my={10}
+      mt={20}
+      mb={13}
       sx={{
         paddingBottom: {
           xs: `1rem`,
@@ -33,6 +35,7 @@ const ClientReviews = ({ queryData }: any) => {
             lg: `2rem`,
           },
           textAlign: `center`,
+          color: `primary.main`,
         }}
       >
         My Customer Reviews
@@ -50,191 +53,82 @@ const ClientReviews = ({ queryData }: any) => {
           }}
           modules={[Pagination, Navigation]}
           navigation={true}
-          slidesPerView={1}
+          slidesPerView={2}
           spaceBetween={40}
           breakpoints={{
             640: {
               spaceBetween: 30,
-              slidesPerView: 1.2,
+              slidesPerView: 1,
             },
             768: {
               spaceBetween: 30,
-              slidesPerView: 1,
+              slidesPerView: 2,
             },
             1024: {
               spaceBetween: 30,
-              slidesPerView: 1.2,
+              slidesPerView: 2,
             },
           }}
         >
-          <SwiperSlide>
-            <Box
-              sx={{
-                margin: `0 auto`,
-                textAlign: `center`,
-                backgroundColor: `primary.main`,
-                borderRadius: `10px`,
-                padding: {
-                  xs: `1.5rem`,
-                  sm: `1.5rem`,
-                  md: `3rem`,
-                  lg: `4rem 3rem`,
-                },
-                color: `#fff`,
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
-                  },
-                }}
-              >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-                consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-                sapiente sed?
-              </Typography>
+          {queryData?.ratings.map((reviews: any) => (
+            <SwiperSlide key={reviews.id}>
               <Box
                 sx={{
+                  margin: `0 auto`,
+                  // height: `200px`,
                   textAlign: `center`,
-                }}
-              >
-                <Box mt={3}>
-                  <Image
-                    src={avatarImg}
-                    alt="profileImg"
-                    width={80}
-                    height={80}
-                    style={{
-                      borderRadius: `50%`,
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                    }}
-                  />
-                  <Typography fontSize="1.1rem" fontWeight={600}>
-                    Mark Kachi
-                  </Typography>
-                </Box>
-                <Typography mt={1}>CEO of FANTACY</Typography>
-              </Box>
-            </Box>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Box
-              sx={{
-                margin: `0 auto`,
-                textAlign: `center`,
-                backgroundColor: `primary.main`,
-                borderRadius: `10px`,
-                padding: {
-                  xs: `1.5rem`,
-                  sm: `1.5rem`,
-                  md: `3rem`,
-                  lg: `4rem 3rem`,
-                },
-                color: `#fff`,
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
+                  // backgroundColor: `primary.main`,
+                  borderRadius: `10px`,
+                  padding: {
+                    xs: `1.5rem`,
+                    sm: `1.5rem`,
+                    md: `2rem`,
+                    lg: `2rem 1rem`,
                   },
+                  color: `primary.main`,
+                  // color: `#fff`,
+                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                  borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
                 }}
               >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-                consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-                sapiente sed?
-              </Typography>
-              <Box
-                sx={{
-                  textAlign: `center`,
-                }}
-              >
-                <Box mt={3}>
-                  <Image
-                    src={avatarImg}
-                    alt="profileImg"
-                    width={80}
-                    height={80}
-                    style={{
-                      borderRadius: `50%`,
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                    }}
-                  />
-                  <Typography fontSize="1.1rem" fontWeight={600}>
-                    Mark Kachi
-                  </Typography>
+                <Typography
+                  sx={{
+                    fontSize: {
+                      xs: `1rem`,
+                      sm: `1rem`,
+                      md: `1.2rem`,
+                      lg: `1.2rem`,
+                    },
+                  }}
+                >
+                  {reviews?.review}
+                </Typography>
+                <Box
+                  sx={{
+                    textAlign: `center`,
+                  }}
+                >
+                  <Box mt={3}>
+                    <Image
+                      src={reviews?.ratedBy?.picture}
+                      alt="profileImg"
+                      width={80}
+                      height={80}
+                      style={{
+                        borderRadius: `50%`,
+                        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                      }}
+                    />
+                    <Typography fontSize="1.1rem" mt={3}>
+                      {reviews?.ratedBy?.firstName}
+                      {reviews?.ratedBy?.lastName}
+                    </Typography>
+                  </Box>
+                  {/* <Typography mt={1}>CEO of FANTACY</Typography> */}
                 </Box>
-                <Typography mt={1}>CEO of FANTACY</Typography>
               </Box>
-            </Box>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Box
-              sx={{
-                margin: `0 auto`,
-                textAlign: `center`,
-                backgroundColor: `primary.main`,
-                borderRadius: `10px`,
-                padding: {
-                  xs: `1.5rem`,
-                  sm: `1.5rem`,
-                  md: `3rem`,
-                  lg: `4rem 3rem`,
-                },
-                color: `#fff`,
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
-                  },
-                }}
-              >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-                consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-                sapiente sed?
-              </Typography>
-              <Box
-                sx={{
-                  textAlign: `center`,
-                }}
-              >
-                <Box mt={3}>
-                  <Image
-                    src={avatarImg}
-                    alt="profileImg"
-                    width={80}
-                    height={80}
-                    style={{
-                      borderRadius: `50%`,
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                    }}
-                  />
-                  <Typography fontSize="1.1rem" fontWeight={600}>
-                    Mark Kachi
-                  </Typography>
-                </Box>
-                <Typography mt={1}>CEO of FANTACY</Typography>
-              </Box>
-            </Box>
-          </SwiperSlide>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </Box>
     </Box>

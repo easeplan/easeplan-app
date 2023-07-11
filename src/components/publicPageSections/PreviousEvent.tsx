@@ -1,9 +1,19 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import theme from '@/styles/theme';
 
 const PreviousEvent = ({ queryData }: any) => {
+  const [showMore, setShowMore] = useState<boolean>(false);
+  console.log(queryData);
+  function truncateString(str: string, num: any) {
+    const newStr = str.toString();
+    if (newStr.length > num) {
+      return newStr.slice(0, num) + `.....`;
+    } else {
+      return newStr;
+    }
+  }
   return (
     <Box mt={10}>
       <Typography
@@ -26,136 +36,127 @@ const PreviousEvent = ({ queryData }: any) => {
             xs: `1fr`,
             sm: `1fr`,
             md: `1fr 1fr`,
-            lg: `1fr 2fr`,
+            lg: `1fr 1fr`,
           },
+          gridTemplateAreas: `item2 item1`,
           alignItem: `center`,
-          gap: `1rem`,
+          gap: `4rem`,
           mt: `3rem`,
-          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-          borderRadius: `10px`,
-          padding: `1rem`,
-          borderLeft: `solid 1rem ${theme.palette.secondary.main}`,
         }}
       >
-        <Box
-          sx={{
-            width: `100%`,
-            p: {
-              xs: `1rem`,
-              sm: `1rem`,
-              md: `2rem`,
-              lg: `2rem`,
-              xl: `2rem`,
-            },
-          }}
-        >
-          <Typography variant="h5" fontWeight="bold">
-            Event Title
-          </Typography>
-          <Typography mt={2}>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-            consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-            sapiente sed?
-          </Typography>
-          {/* <Typography textAlign="right" mt={3}>
-            2 days ago
-          </Typography> */}
-        </Box>
-        <Box
-          sx={{
-            width: `100%`,
-            height: {
-              xs: `300px`,
-              sm: `300px`,
-              md: `100%`,
-              lg: `100%`,
-              xl: `100%`,
-            },
-            borderRadius: `10px`,
-            position: `relative`,
-          }}
-        >
-          <Image
-            src={queryData?.company?.image}
-            alt="eventname"
-            fill
-            quality={100}
-            style={{
-              borderRadius: `10px`,
-              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-              objectFit: `cover`,
+        {queryData.samples.map((data: any, i: any) => (
+          <Box
+            key={i}
+            sx={{
+              borderRadius: `1px`,
+              height: `100%`,
+              position: `relative`,
             }}
-          />
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: `grid`,
-          gridTemplateColumns: {
-            xs: `1fr`,
-            sm: `1fr`,
-            md: `1fr 1fr`,
-            lg: `2fr 1fr`,
-          },
-          alignItem: `center`,
-          gap: `1rem`,
-          mt: `3rem`,
-          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-          borderRadius: `10px`,
-          padding: `1rem`,
-          borderRight: `solid 1rem ${theme.palette.secondary.main}`,
-        }}
-      >
-        <Box
-          sx={{
-            width: `100%`,
-            height: {
-              xs: `300px`,
-              sm: `300px`,
-              md: `100%`,
-              lg: `100%`,
-              xl: `100%`,
-            },
-            borderRadius: `10px`,
-            position: `relative`,
-          }}
-        >
-          <Image
-            src={queryData?.company?.image}
-            alt="eventname"
-            fill
-            quality={100}
-            style={{
-              borderRadius: `10px`,
-              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-              objectFit: `cover`,
-            }}
-          />
-        </Box>
-        <Box
-          sx={{
-            width: `100%`,
-            p: {
-              xs: `1rem`,
-              sm: `1rem`,
-              md: `2rem`,
-              lg: `2rem`,
-              xl: `2rem`,
-            },
-          }}
-        >
-          <Typography variant="h5" fontWeight="bold">
-            Event Title
-          </Typography>
-          <Typography mt={2}>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-            consequuntur, id hic eum fugiat animi eligendi ducimus corporis
-            sapiente sed?
-          </Typography>
-          {/* <Typography textAlign="right" mt={3}>
-            2 days ago
-          </Typography> */}
-        </Box>
+          >
+            <Box
+              sx={{
+                width: `100%`,
+                height: {
+                  xs: `300px`,
+                  sm: `300px`,
+                  md: `300px`,
+                  lg: `400px`,
+                  xl: `400px`,
+                },
+                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
+                borderRadius: `10px`,
+                position: `relative`,
+
+                '.item2': {
+                  gridArea: `item2`,
+                },
+              }}
+            >
+              <Image
+                src={data?.sampleImage}
+                alt="eventname"
+                fill
+                quality={100}
+                style={{
+                  borderRadius: `10px`,
+                  objectFit: `cover`,
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                width: `100%`,
+                position: `absolute`,
+                bottom: `-2rem`,
+                zIndez: `1`,
+                color: `#fff`,
+              }}
+            >
+              <Box
+                sx={{
+                  width: `90%`,
+                  margin: `0 auto`,
+                  background: `rgba(0,0,0,0.7)`,
+                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
+                  borderRadius: `10px`,
+                  p: {
+                    xs: `1rem`,
+                    sm: `1rem`,
+                    md: `1rem`,
+                    lg: `1.5rem`,
+                    xl: `1.5rem`,
+                  },
+                }}
+              >
+                <Typography
+                  fontWeight="bold"
+                  sx={{
+                    fontSize: {
+                      xs: `1rem`,
+                      sm: `1rem`,
+                      md: `1.5rem`,
+                      lg: `1.5rem`,
+                      xl: `1.5rem`,
+                    },
+                  }}
+                >
+                  {data?.title}
+                </Typography>
+                {showMore ? (
+                  <Typography mt={2}>
+                    {data?.description}
+                    <span
+                      style={{
+                        cursor: `pointer`,
+                        marginLeft: `0.4rem`,
+                        fontWeight: `bold`,
+                        color: theme.palette.secondary.main,
+                      }}
+                      onClick={() => setShowMore(false)}
+                    >
+                      Hide
+                    </span>
+                  </Typography>
+                ) : (
+                  <Typography mt={2}>
+                    {truncateString(data?.description, 90)}
+                    <span
+                      style={{
+                        cursor: `pointer`,
+                        marginLeft: `0.4rem`,
+                        fontWeight: `bold`,
+                        color: theme.palette.secondary.main,
+                      }}
+                      onClick={() => setShowMore(true)}
+                    >
+                      Read more
+                    </span>
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

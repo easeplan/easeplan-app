@@ -31,7 +31,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   const [contractID, setContractID] = useState();
   const [recieverID, setrecieverID] = useState();
 
-  // console.log(localStorage.getItem(`contract`));
+  console.log(data.packages);
 
   const handleBasicModal = () => {
     setBasicModal(true);

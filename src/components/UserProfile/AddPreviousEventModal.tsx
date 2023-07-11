@@ -16,6 +16,10 @@ import TextArea from '../common/TextArea';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import Input from '../common/Input';
+import Image from 'next/image';
+import { styled } from '@mui/material/styles';
 
 const style = {
   position: `absolute` as const,
@@ -39,10 +43,18 @@ const style = {
 const CompanyProfileSchema = Yup.object().shape({
   title: Yup.string().required(`Name is missing`),
   description: Yup.string().required(`Description is missing`),
-  eventImg: Yup.string().required(`Image is missing`),
+  preEventImage: Yup.string().required(`Image is missing`),
 });
 
+interface updateTypes {
+  title: string;
+  description?: string;
+  image: File;
+}
+
 const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
+  const [previewImg, setPreviewImg] = useState<any>(null);
+  const [fileName, setFileName] = useState<any>(null);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
@@ -59,14 +71,14 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': `multipart/form-data`,
             Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Company Details Updated`);
+      toast.success(`Event Datails Added`);
       isClose(false);
     },
     onError: (error: any) => {
@@ -76,10 +88,10 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const handleEventSubmit = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`image`, credentials.image);
+    formData.append(`sampleImage`, credentials.preEventImage);
     const data = {
       title: credentials.title,
-      image: credentials.eventImg,
+      sampleImage: credentials.preEventImage,
       description: credentials.description,
     };
     handleUpdate(data);
@@ -115,7 +127,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                   initialValues={{
                     title: ``,
                     description: ``,
-                    image: ``,
+                    preEventImage: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -146,8 +158,54 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                         </Box>
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
-                          <DragAndDropInput type="file" name="eventImg" />
+                          <DragAndDropInput type="file" name="preEventImage" />
                         </Box>
+                        {/* <Box mb={3}>
+                          <Box
+                            sx={{
+                              display: `flex`,
+                              alignItems: `center`,
+                              justifyContent: `space-between`,
+                            }}
+                          >
+                            <AddButton htmlFor="preEventImage">
+                              <ImageOutlinedIcon className="icon" /> ADD PHOTO
+                              <Input
+                                type="file"
+                                setPreviewImg={setPreviewImg}
+                                setFileName={setFileName}
+                                name="preEventImage"
+                                accept="image/*"
+                              />
+                            </AddButton>
+                            {previewImg === null ? (
+                              <Box
+                                sx={{
+                                  width: `50px`,
+                                  height: `50px`,
+                                  border: `solid 1px #ccc`,
+                                  borderRadius: `50%`,
+                                  display: `flex`,
+                                  alignItems: `center`,
+                                  justifyContent: `center`,
+                                }}
+                              >
+                                <ImageOutlinedIcon />
+                              </Box>
+                            ) : (
+                              <Box>
+                                <Image
+                                  src={previewImg}
+                                  alt="profileImg"
+                                  height={50}
+                                  width={80}
+                                  style={{ borderRadius: `10px` }}
+                                />
+                              </Box>
+                            )}
+                          </Box>
+                          <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                        </Box> */}
                         <Box
                           mt={2}
                           sx={{
@@ -191,5 +249,31 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
     </Container>
   );
 };
+
+const AddButton = styled(`label`)(({}) => ({
+  padding: `0.8rem 2rem`,
+  cursor: `pointer`,
+  fontSize: `14px`,
+  textAlign: `center`,
+  verticalAlign: `middle`,
+  color: `#333`,
+  border: `solid 1px #ccc`,
+  width: `50%`,
+  borderRadius: `10px`,
+
+  '.icon': {
+    fontSize: `1rem`,
+    marginRight: `1rem`,
+  },
+
+  'input[type="file"]': {
+    display: `none`,
+  },
+
+  '@media (max-width: 900px)': {
+    padding: `0.5rem 1rem`,
+    width: `60%`,
+  },
+}));
 
 export default AddPreviousEventModal;

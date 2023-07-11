@@ -104,8 +104,7 @@ const PricingCard = ({ queryData, token }: any) => {
             </Grid>
           </>
         )}
-        {` `}
-        {userInfo?.role === `provider` && (
+        {/* {userInfo?.role === `provider` && (
           <>
             <EditVendorPriceModal
               token={token}
@@ -136,7 +135,7 @@ const PricingCard = ({ queryData, token }: any) => {
               </Grid>
             </Grid>
           </>
-        )}
+        )} */}
       </Box>
     </Box>
   );

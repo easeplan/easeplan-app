@@ -5,32 +5,32 @@ import { PlannerCard, VendorPricingCard } from './ServiceCard';
 const PricingSection = ({ queryData, token }: any) => {
   return (
     <Box my={10} id="pricingSection">
-      <Box
-        sx={{
-          mt: `2rem`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `space-between`,
-        }}
-      >
-        <Typography
-          fontWeight={600}
-          sx={{
-            fontSize: {
-              xs: `1.2rem`,
-              sm: `1.2rem`,
-              md: `1.5rem`,
-              lg: `2rem`,
-            },
-          }}
-        >
-          Pricing Plan
-        </Typography>
-      </Box>
-
-      <Box mt={4}>
+      <Box>
         {queryData?.role === `planner` && (
           <>
+            <Box
+              mb={4}
+              sx={{
+                mt: `2rem`,
+                display: `flex`,
+                alignItems: `center`,
+                justifyContent: `space-between`,
+              }}
+            >
+              <Typography
+                fontWeight={600}
+                sx={{
+                  fontSize: {
+                    xs: `1.2rem`,
+                    sm: `1.2rem`,
+                    md: `1.5rem`,
+                    lg: `2rem`,
+                  },
+                }}
+              >
+                Pricing Plan
+              </Typography>
+            </Box>
             <Grid
               container
               rowSpacing={5}

@@ -37,6 +37,7 @@ const PublicProfilePage = ({ data }: any) => {
           <PricingSection queryData={data?.data} />
           <Divider />
           <PreviousEvent queryData={data?.data} />
+          <Divider />
           <ClientReviews queryData={data?.data} />
         </Box>
       </Layout>

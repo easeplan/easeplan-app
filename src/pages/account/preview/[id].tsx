@@ -1,10 +1,10 @@
 import Hero from '@/components/publicPageSections/Hero';
 import DashboardLayout from '@/components/DashboardLayout';
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import React from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
-// import ClientReviews from '@/components/publicPageSections/ClientReviews';
+import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import { parseCookies } from '@/lib/parseCookies';
 import useFetch from '@/hooks/useFetch';
@@ -29,14 +29,19 @@ const PreviewProfilePage = ({ contract, token, queryData }: any) => {
   //   return <p>Error:</p>;
   // }
 
+  console.log(queryData);
+
   return (
     <>
       <DashboardLayout token={token}>
         <Box>
           <Hero queryData={queryData} token={token} />
+          <Divider />
           <PricingSection queryData={queryData} />
-          <PreviousEvent queryData={queryData?.data} />
-          {/* <ClientReviews queryData={data?.data} /> */}
+          <Divider />
+          <PreviousEvent queryData={queryData} />
+          <Divider />
+          <ClientReviews queryData={queryData} />
         </Box>
       </DashboardLayout>
     </>

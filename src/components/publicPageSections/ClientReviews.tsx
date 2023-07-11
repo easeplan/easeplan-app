@@ -10,10 +10,10 @@ import 'swiper/css/navigation';
 import theme from '@/styles/theme';
 
 const ClientReviews = ({ queryData }: any) => {
-  console.log(queryData);
+  // console.log(queryData);
   return (
     <Box
-      mt={20}
+      mt={8}
       mb={13}
       sx={{
         paddingBottom: {

@@ -5,7 +5,6 @@ import theme from '@/styles/theme';
 
 const PreviousEvent = ({ queryData }: any) => {
   const [showMore, setShowMore] = useState<boolean>(false);
-  console.log(queryData);
   function truncateString(str: string, num: any) {
     const newStr = str.toString();
     if (newStr.length > num) {
@@ -15,7 +14,7 @@ const PreviousEvent = ({ queryData }: any) => {
     }
   }
   return (
-    <Box mt={10}>
+    <Box mt={10} mb={20}>
       <Typography
         fontWeight={600}
         sx={{
@@ -26,6 +25,7 @@ const PreviousEvent = ({ queryData }: any) => {
             lg: `2rem`,
           },
         }}
+        color="primary.main"
       >
         Previous Events
       </Typography>

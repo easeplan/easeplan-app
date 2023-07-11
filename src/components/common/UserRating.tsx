@@ -3,17 +3,17 @@ import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 import { Typography } from '@mui/material';
+import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
+import customFetch from '@/utils/customFetch';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 const labels: { [index: string]: string } = {
-  0.5: `0.5`,
   1: `1`,
-  1.5: `1.5`,
   2: `2`,
-  2.5: `2.5`,
   3: `3`,
-  3.5: `3.5`,
-  4: `3`,
-  4.5: `4.5`,
+  4: `4`,
   5: `5`,
 };
 
@@ -21,11 +21,41 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? `s` : ``}, ${labels[value]}`;
 }
 
-export default function UserRating({ rate, size, fontSize }: any) {
+export default function UserRating({
+  rate,
+  size,
+  fontSize,
+  profileId,
+  role,
+  token,
+}: any) {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [value, setValue] = React.useState<number | null>(rate);
   const [hover, setHover] = React.useState(-1);
 
-  console.log(value);
+  const queryClient = useQueryClient();
+
+  const { mutate: updateRating, isLoading } = useMutation({
+    mutationFn: (credentials: any) =>
+      customFetch.post(`/ratings`, credentials, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
+    },
+  });
+
+  const handleRating = async (value: any) => {
+    const data = {
+      stars: value,
+      role: role,
+      profileId: profileId,
+    };
+    updateRating(data);
+  };
 
   return (
     <Box
@@ -42,19 +72,17 @@ export default function UserRating({ rate, size, fontSize }: any) {
         value={value}
         precision={0.5}
         getLabelText={getLabelText}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+        onChange={(event, newValue) => handleRating(newValue)}
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
-      {value !== null && (
+      {/* {value === 0 ? null : (
         <Typography fontSize={fontSize} sx={{ ml: 1 }}>
-          {labels[hover !== -1 ? hover : value]}
+          {value}
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { dateFormater } from '@/utils';
 import BannerImg from '@/public/banner.png';
 
-const Hero = ({ queryData }: any) => {
+const Hero = ({ queryData, token }: any) => {
   return (
     <Box mt={6}>
       <Box
@@ -128,8 +128,14 @@ const Hero = ({ queryData }: any) => {
             my: `0.5rem`,
           }}
         >
-          <UserRating rate={queryData?.rating} size="small" />
-          <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography>
+          <UserRating
+            rate={queryData?.rating}
+            token={token}
+            role={queryData?.role}
+            profileId={queryData?.userId}
+            size="medium"
+          />
+          {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
         </Box>
         <Box
           sx={{

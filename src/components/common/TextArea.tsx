@@ -4,6 +4,7 @@ interface TextAreaProps {
   rows?: number;
   name: string;
   placeholder?: string;
+  sx?: any;
 }
 
 const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
@@ -15,7 +16,7 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
         style={{
           width: `100%`,
           padding: `1rem`,
-          border: `solid 1px #ccc`,
+          // border: `solid 1px #ccc`,
           resize: `none`,
           overflowY: `auto`,
           fontSize: `1rem`,

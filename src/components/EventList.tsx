@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import theme from '@/styles/theme';
 import Link from 'next/link';
 import { dateFormaterAndTime, formatCurrency } from '@/utils';
 
-const EventList = () => {
+const EventList = ({ notificationData }: any) => {
   const { notifyData } = useSelector((state: RootState) => state.notifications);
 
   function getLastFiveElements(array: any) {
@@ -19,8 +19,6 @@ const EventList = () => {
 
   const resultData = getLastFiveElements(notifyData);
 
-  console.log(notifyData);
-
   return (
     <>
       <h3 className="sectionTitle">Events</h3>
@@ -29,25 +27,31 @@ const EventList = () => {
           <Typography>Your ongoing events will show here</Typography>
         </Box>
       ) : (
-        notifyData?.map((data: any) => (
+        resultData?.map((data: any) => (
           <Box
             key={data?._id}
             sx={{
-              bgcolor: `secondary.light`,
-              py: 2,
+              // bgcolor: `secondary.light`,
+              px: 2,
+              py: 1,
               my: 2,
               display: `grid`,
+              borderRadius: `10px`,
               gridTemplateColumns: `repeat(3, 1fr)`,
               alignItems: `center`,
               textAlign: `center`,
-              border: `solid 1px ${theme.palette.secondary.main}`,
+              border: `solid 1px ${theme.palette.primary.main}`,
             }}
           >
             <Typography>{formatCurrency(data?.budget)}</Typography>
             <Typography>
-              {data?.dateTime && dateFormaterAndTime(data?.dateTime)}
+              {data?.createdAt && dateFormaterAndTime(data?.createdAt)}
             </Typography>
-            <Link href={`/account/contracts/${data?._id}`}>View</Link>
+            <Link href={`/account/event/${data?._id}`}>
+              <Button variant="outlined" size="small">
+                View
+              </Button>
+            </Link>
           </Box>
         ))
       )}

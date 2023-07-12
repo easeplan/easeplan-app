@@ -39,20 +39,20 @@ const MobileSidenav = () => {
           />
         )}
         <MobileNavItems
+          icon={<StyleIcon />}
+          text="History"
+          href="/account/history"
+        />
+        <MobileNavItems
           text="Dashboard"
           icon={<DashboardIcon className="Homeicon" />}
           href="/account"
         />
         <MobileNavItems
-          icon={<StyleIcon />}
-          text="History"
-          href="/account/history"
-        />
-        {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
-        /> */}
+        />
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}

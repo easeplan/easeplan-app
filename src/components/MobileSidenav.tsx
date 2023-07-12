@@ -31,7 +31,7 @@ const MobileSidenav = () => {
             href="/account/profile"
           />
         )}
-        {queryData?.details?.role === `user` ? null : (
+        {queryData?.details?.role != `user` ? null : (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
             text="Wallet"
@@ -48,11 +48,11 @@ const MobileSidenav = () => {
           icon={<DashboardIcon className="Homeicon" />}
           href="/account"
         />
-        <MobileNavItems
+        {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
-        />
+        /> */}
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}

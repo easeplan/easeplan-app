@@ -18,6 +18,7 @@ import {
 } from '@/features/searchResultSlice';
 import bannerImg from '@/public/banner.png';
 import EventList from './EventList';
+import { toast } from 'react-toastify';
 
 const FinderSection = ({ queryData, token, notificationData }: any) => {
   const dispatch = useDispatch();
@@ -25,11 +26,13 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
     useSelector((state: RootState) => state.searchModal);
 
   const handleOpenFindPlannerModal = () => {
-    dispatch(setOpenPlannerModal(true));
+    toast.success(`This feature will be available on the 1st of August 🥰`);
+    // dispatch(setOpenPlannerModal(true));
   };
 
   const handleOpenFindVendorModal = () => {
-    dispatch(setOpenVendorModal(true));
+    toast.success(`This feature will be available on the 1st of August 🥰`);
+    // dispatch(setOpenVendorModal(true));
   };
 
   return (

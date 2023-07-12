@@ -53,7 +53,7 @@ const ClientReviews = ({ queryData }: any) => {
           }}
           modules={[Pagination, Navigation]}
           navigation={true}
-          slidesPerView={2}
+          slidesPerView={1}
           spaceBetween={40}
           breakpoints={{
             640: {
@@ -62,7 +62,7 @@ const ClientReviews = ({ queryData }: any) => {
             },
             768: {
               spaceBetween: 30,
-              slidesPerView: 2,
+              slidesPerView: 1,
             },
             1024: {
               spaceBetween: 30,
@@ -112,15 +112,15 @@ const ClientReviews = ({ queryData }: any) => {
                     <Image
                       src={reviews?.ratedBy?.picture}
                       alt="profileImg"
-                      width={80}
-                      height={80}
+                      width={60}
+                      height={60}
                       style={{
                         borderRadius: `50%`,
                         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
                       }}
                     />
-                    <Typography fontSize="1.1rem" mt={3}>
-                      {reviews?.ratedBy?.firstName}
+                    <Typography fontSize="1.1rem" mt={1}>
+                      {reviews?.ratedBy?.firstName} {` `}
                       {reviews?.ratedBy?.lastName}
                     </Typography>
                   </Box>

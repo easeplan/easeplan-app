@@ -24,7 +24,7 @@ const MobileSidenav = () => {
           icon={<EmailIcon />}
           href="/account/inbox"
         /> */}
-        {queryData?.details?.role === `user` ? null : (
+        {queryData?.details?.role != `user` ? null : (
           <MobileNavItems
             icon={<ChromeReaderModeIcon />}
             text="My Profile"

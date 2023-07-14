@@ -29,23 +29,23 @@ import { RootState } from '@/store/store';
 const ProfileSchema = Yup.object().shape({
   officeAddress: Yup.string().required(`Office Address is required`),
   phoneNumber: Yup.string().required(`Phone Number is required`),
-  idType: Yup.string().required(`ID Type is required`),
-  idDocument: Yup.mixed()
-    .required(`Document is required`)
-    .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
-      const maxFileSize = 5 * 1024 * 1024; // 5MB
-      if (value && value.size < maxFileSize) {
-        return value && value.size < maxFileSize;
-      }
-      return false;
-    })
-    .test(`type`, `We only support jpeg`, function (value: any) {
-      return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
-      );
-    }),
+  // idType: Yup.string().required(`ID Type is required`),
+  // idDocument: Yup.mixed()
+  //   .required(`Document is required`)
+  //   .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
+  //     const maxFileSize = 5 * 1024 * 1024; // 5MB
+  //     if (value && value.size < maxFileSize) {
+  //       return value && value.size < maxFileSize;
+  //     }
+  //     return false;
+  //   })
+  //   .test(`type`, `We only support jpeg`, function (value: any) {
+  //     return (
+  //       (value && value[0] && value[0].type === `image/jpeg`) ||
+  //       `image/png` ||
+  //       `image/jpg`
+  //     );
+  //   }),
 });
 
 interface PropsTypes {
@@ -84,11 +84,11 @@ const VerificationSettings = ({ token }: PropsTypes) => {
             officeAddress: credentials?.officeAddress,
           },
           phoneNumber: credentials?.phoneNumber,
-          identityVerify: {
-            idType: credentials?.idType,
-          },
-          idDocument: credentials?.idDocument,
-          role: userInfo?.role,
+          // identityVerify: {
+          //   idType: credentials?.idType,
+          // },
+          // idDocument: credentials?.idDocument,
+          // role: userInfo?.role,
         },
         {
           headers: {
@@ -227,7 +227,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                   },
                 }}
               >
-                Verify ID
+                Personal Information
               </Typography>
 
               {/* Form */}
@@ -237,8 +237,8 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                     // businessName: ``,
                     officeAddress: ``,
                     phoneNumber: ``,
-                    idType: ``,
-                    idDocument: ``,
+                    // idType: ``,
+                    // idDocument: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -261,7 +261,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                           placeholder="Office Address"
                         />
                       </Box>
-                      <Box>
+                      {/* <Box>
                         <FormInput
                           isSelect
                           ariaLabel="idType"
@@ -276,8 +276,8 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                             Drivers License
                           </MenuItem>
                         </FormInput>
-                      </Box>
-                      <Box mb={3}>
+                      </Box> */}
+                      {/* <Box mb={3}>
                         <Box
                           sx={{
                             display: `flex`,
@@ -323,7 +323,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                           )}
                         </Box>
                         <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
-                      </Box>
+                      </Box> */}
                       <Box mt={10}>
                         <CustomButton
                           type="submit"

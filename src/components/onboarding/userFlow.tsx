@@ -6,7 +6,14 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Typography } from '@mui/material';
+import {
+  MenuItem,
+  Typography,
+  Box,
+  InputLabel,
+  FormControl,
+  Select,
+} from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
@@ -231,7 +238,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                       </Box>
                       <Box>
                         <SelectState
-                          selectPlaceholder="Select State"
+                          selectPlaceholder="Select Your State"
                           name="state"
                           onChange={(e: { target: { value: string } }) => {
                             const selectedState = data?.states.find(
@@ -250,22 +257,49 @@ const UserFlow = ({ token }: PropsTypes) => {
                             );
                           })}
                         </SelectState>
+                        {/* <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Age
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            onChange={(e: { target: { value: string } }) => {
+                              const selectedState = data?.states.find(
+                                (state) => state.name === e.target.value,
+                              );
+                              setSelectedState(selectedState);
+                              setFieldValue(`state`, e.target.value);
+                              setFieldValue(`city`, ``);
+                            }}
+                          >
+                            {data?.states?.map((state: any) => {
+                              return (
+                                <MenuItem key={state?.name} value={state.name}>
+                                  {state?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl> */}
                       </Box>
-                      <Box>
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Select City"
-                          name="city"
-                        >
-                          {selectedState?.cities?.map((city: any) => {
-                            return (
-                              <MenuItem key={city} value={city}>
-                                {city}
-                              </MenuItem>
-                            );
-                          })}
-                        </FormInput>
-                      </Box>
+                      {selectedState?.cities && (
+                        <Box>
+                          <FormInput
+                            isSelect
+                            selectPlaceholder="Select  Your City"
+                            name="city"
+                          >
+                            {selectedState?.cities?.map((city: any) => {
+                              return (
+                                <MenuItem key={city} value={city}>
+                                  {city}
+                                </MenuItem>
+                              );
+                            })}
+                          </FormInput>
+                        </Box>
+                      )}
                       <Box mb={3}>
                         <Box
                           sx={{

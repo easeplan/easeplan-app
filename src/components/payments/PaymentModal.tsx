@@ -94,7 +94,7 @@ const PaymentModal = ({ isOpen, isClose }: any) => {
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
-              Confirm Or Cancel Event
+              Payment
             </Typography>
             <Typography
               sx={{

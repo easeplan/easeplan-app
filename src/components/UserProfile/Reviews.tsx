@@ -4,7 +4,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 import Image from 'next/image';
 
 const Reviews = ({ queryData }: any) => {
-  console.log(queryData);
+  // console.log(queryData);
   return (
     <Box mt={6}>
       <Typography

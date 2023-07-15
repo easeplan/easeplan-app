@@ -8,6 +8,7 @@ import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import ErrorPage from '@/components/ErrorPage';
 
 const SettingsPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -29,7 +30,7 @@ const SettingsPage = ({ token }: any) => {
   }
 
   if (error) {
-    return <p>Error:</p>;
+    return <ErrorPage />;
   }
 
   return (

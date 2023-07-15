@@ -28,7 +28,13 @@ import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIntro, setUserIntro } from '@/features/onboardingSlice';
+import {
+  setIntro,
+  setUserIntro,
+  setIntroOne,
+  setIntroTwo,
+  setIntroThree,
+} from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 
 // Form Input Schema
@@ -106,7 +112,8 @@ const UserFlow = ({ token }: PropsTypes) => {
       );
 
       if (data.status === `success`) {
-        router.push(`/account`);
+        dispatch(setUserIntro(false));
+        dispatch(setIntroTwo(true));
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,

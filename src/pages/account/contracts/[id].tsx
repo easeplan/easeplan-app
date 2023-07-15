@@ -56,14 +56,11 @@ const ContractsPage = ({ token, data }: Props) => {
         setIsLoading(false);
         setIsSuccess(true);
       }, 3000);
-      console.log(resData);
     } catch (err) {
       console.log(err);
       setIsSuccess(false);
     }
   };
-
-  console.log(data);
 
   const handleDecliendOffer = async () => {
     try {

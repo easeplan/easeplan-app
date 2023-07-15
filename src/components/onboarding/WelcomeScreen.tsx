@@ -19,13 +19,11 @@ const WelcomeScreen = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { intro } = useSelector((state: RootState) => state.onboarding);
 
-  console.log(userInfo);
-
   const handleNextSlide = () => {
     if (userInfo?.role === `user`) {
       dispatch(setUserIntro(true));
       dispatch(setIntro(false));
-    } else if (userInfo?.role === `provider`) {
+    } else if (userInfo?.role === `provider` || `planner`) {
       dispatch(setIntro(false));
       dispatch(setIntroOne(true));
     }

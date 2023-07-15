@@ -13,8 +13,6 @@ const EventPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
 
-  console.log(contracts);
-
   const fetchContracts = async () => {
     try {
       const res = await fetch(
@@ -38,8 +36,6 @@ const EventPage = ({ token }: any) => {
   useEffect(() => {
     fetchContracts();
   }, []);
-
-  console.log(contracts);
   return (
     <DashboardLayout token={token}>
       <Typography variant="h5" mt={4} mb={3} color="primary.main">

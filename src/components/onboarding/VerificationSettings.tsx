@@ -55,8 +55,8 @@ interface PropsTypes {
 interface FormTypes {
   officeAddress?: string;
   phoneNumber?: string;
-  idType?: string;
-  idDocument?: any;
+  // idType?: string;
+  // idDocument?: any;
 }
 
 const VerificationSettings = ({ token }: PropsTypes) => {
@@ -74,8 +74,8 @@ const VerificationSettings = ({ token }: PropsTypes) => {
 
   const handleFormSubmit = async (credentials: FormTypes) => {
     try {
-      const formData = new FormData();
-      formData.append(`picture`, credentials.idDocument);
+      // const formData = new FormData();
+      // formData.append(`picture`, credentials.idDocument);
       setIsLoading(true);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/verify`,
@@ -88,7 +88,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
           //   idType: credentials?.idType,
           // },
           // idDocument: credentials?.idDocument,
-          // role: userInfo?.role,
+          role: userInfo?.role,
         },
         {
           headers: {

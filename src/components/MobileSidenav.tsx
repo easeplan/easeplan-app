@@ -31,23 +31,35 @@ const MobileSidenav = () => {
             href="/account/profile"
           />
         )}
-        {queryData?.details?.role != `user` ? null : (
+        {queryData?.details?.role === `user` ? null : (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
             text="Wallet"
             href="/account/wallet"
           />
         )}
+
+        {queryData?.details?.role === `user` ? null : (
+          <MobileNavItems
+            text="Dashboard"
+            icon={<DashboardIcon className="Homeicon" />}
+            href="/account"
+          />
+        )}
+
         <MobileNavItems
           icon={<StyleIcon />}
           text="History"
           href="/account/history"
         />
-        <MobileNavItems
-          text="Dashboard"
-          icon={<DashboardIcon className="Homeicon" />}
-          href="/account"
-        />
+
+        {queryData?.details?.role === `user` ? (
+          <MobileNavItems
+            text="Dashboard"
+            icon={<DashboardIcon className="Homeicon" />}
+            href="/account"
+          />
+        ) : null}
         {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}

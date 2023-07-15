@@ -18,7 +18,12 @@ import data from '@/lib/states.json';
 import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIntro, setIntroOne, setIntroTwo } from '@/features/onboardingSlice';
+import {
+  setIntro,
+  setIntroOne,
+  setIntroTwo,
+  setUserIntro,
+} from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 
 // Form Input Schema

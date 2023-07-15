@@ -22,30 +22,16 @@ import {
   setIntroOne,
   setIntroTwo,
   setIntroThree,
+  setUserIntro,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
+import { useRouter } from 'next/router';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
   officeAddress: Yup.string().required(`Office Address is required`),
   phoneNumber: Yup.string().required(`Phone Number is required`),
-  // idType: Yup.string().required(`ID Type is required`),
-  // idDocument: Yup.mixed()
-  //   .required(`Document is required`)
-  //   .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
-  //     const maxFileSize = 5 * 1024 * 1024; // 5MB
-  //     if (value && value.size < maxFileSize) {
-  //       return value && value.size < maxFileSize;
-  //     }
-  //     return false;
-  //   })
-  //   .test(`type`, `We only support jpeg`, function (value: any) {
-  //     return (
-  //       (value && value[0] && value[0].type === `image/jpeg`) ||
-  //       `image/png` ||
-  //       `image/jpg`
-  //     );
-  //   }),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface PropsTypes {
@@ -55,11 +41,11 @@ interface PropsTypes {
 interface FormTypes {
   officeAddress?: string;
   phoneNumber?: string;
-  idType?: string;
-  idDocument?: any;
+  gender?: string;
 }
 
 const VerificationSettings = ({ token }: PropsTypes) => {
+  const router = useRouter();
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<any>(false);
@@ -68,14 +54,17 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    dispatch(setIntroOne(true));
-    dispatch(setIntroTwo(false));
+    if (userInfo?.role === `user`) {
+      dispatch(setUserIntro(true));
+      dispatch(setIntroOne(false));
+    } else {
+      dispatch(setIntroOne(true));
+      dispatch(setIntroTwo(false));
+    }
   };
 
   const handleFormSubmit = async (credentials: FormTypes) => {
     try {
-      const formData = new FormData();
-      formData.append(`picture`, credentials.idDocument);
       setIsLoading(true);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/verify`,
@@ -84,11 +73,8 @@ const VerificationSettings = ({ token }: PropsTypes) => {
             officeAddress: credentials?.officeAddress,
           },
           phoneNumber: credentials?.phoneNumber,
-          // identityVerify: {
-          //   idType: credentials?.idType,
-          // },
-          // idDocument: credentials?.idDocument,
-          // role: userInfo?.role,
+          gender: credentials?.gender,
+          role: userInfo?.role,
         },
         {
           headers: {
@@ -98,10 +84,14 @@ const VerificationSettings = ({ token }: PropsTypes) => {
         },
       );
       if (data.status === `success`) {
-        dispatch(setIntroOne(false));
-        dispatch(setIntroTwo(false));
-        dispatch(setIntroThree(true));
-        setIsLoading(false);
+        if (userInfo?.role === `user`) {
+          router.push(`/account`);
+        } else {
+          dispatch(setIntroOne(false));
+          dispatch(setIntroTwo(false));
+          dispatch(setIntroThree(true));
+          setIsLoading(false);
+        }
       }
     } catch (error) {
       setIsLoading(false);
@@ -234,11 +224,9 @@ const VerificationSettings = ({ token }: PropsTypes) => {
               <Box mt={2} mb={5}>
                 <Formik
                   initialValues={{
-                    // businessName: ``,
                     officeAddress: ``,
                     phoneNumber: ``,
-                    // idType: ``,
-                    // idDocument: ``,
+                    gender: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -261,69 +249,19 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                           placeholder="Office Address"
                         />
                       </Box>
-                      {/* <Box>
+                      <Box>
                         <FormInput
                           isSelect
-                          ariaLabel="idType"
-                          selectPlaceholder="Select passport"
-                          name="idType"
+                          selectPlaceholder="Gender"
+                          name="gender"
                         >
-                          <MenuItem value="International Passport">
-                            International Passport
-                          </MenuItem>
-                          <MenuItem value="NIN">NIN</MenuItem>
-                          <MenuItem value="Drivers License">
-                            Drivers License
+                          <MenuItem value="Male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="Prefer not say">
+                            Prefer not say
                           </MenuItem>
                         </FormInput>
-                      </Box> */}
-                      {/* <Box mb={3}>
-                        <Box
-                          sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
-                          }}
-                        >
-                          <AddButton htmlFor="idDocument">
-                            <ImageOutlinedIcon className="fileIcon" /> Upload
-                            passport
-                            <Input
-                              type="file"
-                              setPreviewImg={setPreviewImg}
-                              setFileName={setFileName}
-                              name="idDocument"
-                              accept="image/*"
-                            />
-                          </AddButton>
-                          {previewImg === null ? (
-                            <Box
-                              sx={{
-                                width: `50px`,
-                                height: `50px`,
-                                border: `solid 1px #ccc`,
-                                borderRadius: `50%`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                              }}
-                            >
-                              <ImageOutlinedIcon />
-                            </Box>
-                          ) : (
-                            <Box>
-                              <Image
-                                src={previewImg}
-                                alt="profileImg"
-                                height={50}
-                                width={80}
-                                style={{ borderRadius: `10px` }}
-                              />
-                            </Box>
-                          )}
-                        </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
-                      </Box> */}
+                      </Box>
                       <Box mt={10}>
                         <CustomButton
                           type="submit"

@@ -6,6 +6,7 @@ import FinderSection from '@/components/FinderSection';
 import { Box, Button, Typography } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
+import ErrorPage from '@/components/ErrorPage';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
@@ -69,7 +70,7 @@ const HomePage = ({ token }: Props) => {
   }
 
   if (error) {
-    return <p>Error:</p>;
+    return <ErrorPage />;
   }
 
   return (

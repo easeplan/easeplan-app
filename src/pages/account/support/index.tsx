@@ -7,6 +7,7 @@ import LoadingScreen from '@/components/common/LoadingScreen';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import ErrorPage from '@/components/ErrorPage';
 
 interface PropsTypes {
   token: string;
@@ -33,7 +34,7 @@ const SupportPage = ({ token }: PropsTypes) => {
   }
 
   if (error) {
-    return <p>Error:</p>;
+    return <ErrorPage />;
   }
   return (
     <DashboardLayout token={token}>

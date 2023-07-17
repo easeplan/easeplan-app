@@ -13,8 +13,6 @@ const EventPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
 
-  console.log(contracts);
-
   const fetchContracts = async () => {
     try {
       const res = await fetch(

@@ -26,8 +26,8 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
     useSelector((state: RootState) => state.searchModal);
 
   const handleOpenFindPlannerModal = () => {
-    toast.success(`This feature will be available on the 1st of August 🥰`);
-    // dispatch(setOpenPlannerModal(true));
+    // toast.success(`This feature will be available on the 1st of August 🥰`);
+    dispatch(setOpenPlannerModal(true));
   };
 
   const handleOpenFindVendorModal = () => {
@@ -92,7 +92,7 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
           </Grid>
         </Grid>
         <Box sx={{ mt: 10 }}>
-          <EventList notificationData={notificationData} />
+          <EventList />
         </Box>
       </DashboardWrapper>
     </>

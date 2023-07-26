@@ -6,7 +6,7 @@ import theme from '@/styles/theme';
 import Link from 'next/link';
 import { dateFormaterAndTime, formatCurrency } from '@/utils';
 
-const EventList = ({ notificationData }: any) => {
+const EventList = () => {
   const { notifyData } = useSelector((state: RootState) => state.notifications);
 
   function getLastFiveElements(array: any) {

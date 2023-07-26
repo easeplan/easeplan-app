@@ -10,6 +10,7 @@ export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import ErrorPage from '@/components/ErrorPage';
 
 const PaymentPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -37,6 +38,29 @@ const PaymentPage = ({ token }: any) => {
     fetchBankDetails();
   }, []);
 
+  const { queryData, error, isLoading } = useFetch(
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `user-profiles`
+        : `user-profiles`
+    }/${userInfo?._id}`,
+    token,
+  );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <ErrorPage />;
+  }
+
+  // console.log(queryData);
+
   return (
     <DashboardLayout token={token}>
       <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
@@ -46,7 +70,11 @@ const PaymentPage = ({ token }: any) => {
       <Box sx={{ flexGrow: 1, width: `100%`, mt: 4 }}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
           <Grid item xs={12} sm={6} md={6}>
-            <AvailableFunds token={token} bankDetails={bankDetails} />
+            <AvailableFunds
+              token={token}
+              bankDetails={bankDetails}
+              queryData={queryData}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             {/* <ManagePayment /> */}

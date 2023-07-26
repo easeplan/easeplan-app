@@ -1,12 +1,44 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import cahtImg from '@/public/avatar.png';
 import theme from '@/styles/theme';
+import { RootState } from '@/store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMessages, setActiveUserData } from '@/features/chatsSlice';
 
-const UsersCard = () => {
+const UsersCard = ({ data, token }: any) => {
+  const dispatch = useDispatch();
+  const [isSelected, setIsSelected] = useState<boolean>(true);
+  const { messages } = useSelector((state: RootState) => state.chatsData);
+
+  // console.log(messages);
+
+  const handleSelectChat = async () => {
+    const conversationID = data?._id;
+    console.log(conversationID);
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`activeUserID`, `${conversationID}`);
+    }
+    dispatch(setActiveUserData(data));
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationID}/messages`,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const messagesHistory = await res.json();
+      dispatch(setMessages(messagesHistory));
+      // console.log(messagesHistory);
+    } catch (error) {}
+  };
   return (
     <Box
+      onClick={handleSelectChat}
       sx={{
         display: `flex`,
         justifyContent: `space-between`,
@@ -15,6 +47,10 @@ const UsersCard = () => {
         borderBottom: `solid 1px #ccc`,
         '&:hover': {
           background: theme.palette.secondary.light,
+          // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+        },
+        '&::focus': {
+          background: theme.palette.primary.main,
           // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
         },
         p: `1rem`,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import RecieverMessage from './RecieverMessage';
 import SenderMessage from './SenderMessage';
@@ -8,8 +8,17 @@ import theme from '@/styles/theme';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import ChatIcon from '@mui/icons-material/Chat';
 
-const ChatBoard = () => {
+const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
+  // const [activeUserID, setActiveUserID] = useState<any>(
+  //   typeof window !== `undefined` && localStorage.getItem(`activeUserID`),
+  // );
+  const { messages, currentMessage } = useSelector(
+    (state: RootState) => state.chatsData,
+  );
   return (
     <Box sx={{ overflowY: `hidden` }}>
       <Box
@@ -66,9 +75,23 @@ const ChatBoard = () => {
             pb: `12rem`,
           }}
         >
-          <RecieverMessage />
-          <SenderMessage />
-          <RecieverMessage />
+          {/* <RecieverMessage /> */}
+          {messages?.messages?.length < 1 ? (
+            <Box sx={{ textAlign: `center`, mt: `4rem` }}>
+              <ChatIcon sx={{ fontSize: `3rem`, color: `#ccc` }} />
+              <Typography color="#ccc">You have no messages yet!</Typography>
+            </Box>
+          ) : (
+            <>
+              {messages?.messages?.map((message: any) => (
+                <SenderMessage
+                  key={message?._id}
+                  currentMessage={currentMessage}
+                  message={message}
+                />
+              ))}
+            </>
+          )}
         </Box>
         {/* Form for sending message */}
         <Box
@@ -81,7 +104,7 @@ const ChatBoard = () => {
             borderTop: `solid 1px #ccc`,
           }}
         >
-          <form>
+          <form onSubmit={sendMessage}>
             <Box sx={{ display: `flex` }}>
               <IconButton aria-label="delete" size="large">
                 <AttachFileIcon />
@@ -89,6 +112,8 @@ const ChatBoard = () => {
               <textarea
                 id="txtid"
                 name="txtname"
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
                 rows={1}
                 cols={50}
                 placeholder="Type here"
@@ -98,12 +123,14 @@ const ChatBoard = () => {
                   overflowY: `scroll`,
                   resize: `none`,
                   border: `none`,
+                  outline: `none`,
                 }}
               />
               <Button
                 variant="contained"
                 sx={{ px: 4, ml: 2 }}
                 endIcon={<SendIcon />}
+                type="submit"
               >
                 Send
               </Button>

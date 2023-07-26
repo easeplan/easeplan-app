@@ -104,20 +104,34 @@ const SelectAccountType = () => {
           {isLoading ? (
             <LoadingScreen />
           ) : (
-            <Box sx={{ flexGrow: 1 }}>
-              <h2
-                style={{
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: {
+                    xs: `1.5rem`,
+                    sm: `2rem`,
+                    md: `2.5rem`,
+                    lg: `2.5rem`,
+                  },
+                  fontWeight: `bold`,
                   color: `${theme.palette.secondary.light}`,
                 }}
               >
                 What will you like to use easeplan to do?
-              </h2>
-              <Grid container spacing={2} justifyContent="center" mt={6}>
+              </Typography>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="stretch"
+                mt={6}
+              >
                 <Grid item xs={6} sm={6} md={5}>
                   <Card
                     onClick={updateUserRole}
                     sx={{
-                      minHeight: 100,
+                      minHeight: `250px`,
+                      // height: `400px`,
                       display: `flex`,
                       alignItems: `center`,
                       justifyContent: `center`,
@@ -133,17 +147,23 @@ const SelectAccountType = () => {
                       <Image
                         src={FinderIcon}
                         alt="waitlistImg"
-                        width={70}
-                        height={70}
+                        width={100}
+                        height={100}
                       />
                       <Typography
                         sx={{
-                          fontSize: 16,
+                          fontSize: {
+                            xs: `1rem`,
+                            sm: `1rem`,
+                            md: `1.2rem`,
+                            lg: `1.2rem`,
+                          },
+                          fontWeight: `700`,
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom
                       >
-                        I need an event planner and vendors
+                        I need an Event Planner and Service Provider
                       </Typography>
                     </div>
                   </Card>
@@ -152,7 +172,7 @@ const SelectAccountType = () => {
                   <Card
                     onClick={updatePlannerRole}
                     sx={{
-                      minHeight: 100,
+                      minHeight: `250px`,
                       display: `flex`,
                       alignItems: `center`,
                       justifyContent: `center`,
@@ -168,17 +188,23 @@ const SelectAccountType = () => {
                       <Image
                         src={PlannerIcon}
                         alt="waitlistImg"
-                        width={70}
-                        height={70}
+                        width={100}
+                        height={100}
                       />
                       <Typography
                         sx={{
-                          fontSize: 16,
+                          fontSize: {
+                            xs: `1rem`,
+                            sm: `1rem`,
+                            md: `1.2rem`,
+                            lg: `1.2rem`,
+                          },
+                          fontWeight: `700`,
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom
                       >
-                        I&apos;m an event planner
+                        I&apos;m an Event Planner
                       </Typography>
                     </div>
                   </Card>
@@ -187,7 +213,7 @@ const SelectAccountType = () => {
                   <Card
                     onClick={updateVendorRole}
                     sx={{
-                      minHeight: 100,
+                      // minHeight: `200px`,
                       display: `flex`,
                       alignItems: `center`,
                       justifyContent: `center`,
@@ -203,17 +229,32 @@ const SelectAccountType = () => {
                       <Image
                         src={VendorIcon}
                         alt="waitlistImg"
-                        width={70}
-                        height={70}
+                        width={100}
+                        height={100}
                       />
                       <Typography
                         sx={{
-                          fontSize: 16,
+                          fontSize: {
+                            xs: `1rem`,
+                            sm: `1rem`,
+                            md: `1.2rem`,
+                            lg: `1.2rem`,
+                          },
+                          fontWeight: `700`,
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom
                       >
-                        I&apos;m a vendor
+                        I&apos;m a Service Provider
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: `0.7rem`,
+                          color: `${theme.palette.primary.main}`,
+                        }}
+                        gutterBottom
+                      >
+                        E.g: DJ, Cateral, MC, Bouncer, Chief...
                       </Typography>
                     </div>
                   </Card>

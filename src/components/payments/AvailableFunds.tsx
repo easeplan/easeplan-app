@@ -8,7 +8,10 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';
 import PaymentModal from './PaymentModal';
+import PaymentOtpModal from './PaymentOtpModal';
 import SelectState from '../common/SelectState';
+import AddCardIcon from '@mui/icons-material/AddCard';
+import { formatCurrency } from '@/utils';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -40,13 +43,14 @@ const banks = [
   { name: `Globus Bank Limited`, code: `103` },
 ];
 
-const AvailableFunds = ({ token, bankDetails }: any) => {
+const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();
   const [bankInfo, setBankInfo] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
+  const [isPaymentOtp, setIsPaymentOtp] = useState<boolean>(false);
 
   const submitCredentials = async (credentials: any) => {
     const newData = {
@@ -71,8 +75,6 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
       setIsSuccess(true);
       setShowUpdate(!showUpdate);
       setBankInfo(data);
-
-      console.log(data);
     } catch (error: any) {
       console.log(error);
       setIsLoading(false);
@@ -96,8 +98,16 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
   return (
     <Box>
       <PaymentModal
+        token={token}
         isOpen={paymentModal}
         isClose={() => setPaymentModal(false)}
+        setPaymentModal={setPaymentModal}
+        setIsPaymentOtp={setIsPaymentOtp}
+      />
+      <PaymentOtpModal
+        token={token}
+        isOpen={isPaymentOtp}
+        isClose={() => setIsPaymentOtp(false)}
       />
       <Box sx={{ border: `solid 1px #ccc`, p: 2 }}>
         <Typography my={2} fontWeight="bold" color="primary.main">
@@ -116,17 +126,27 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
                 sm: `1.5rem`,
                 md: `1.5rem`,
                 lg: `2rem`,
-                xl: `3rem`,
+                xl: `2rem`,
               },
             }}
           >
-            ₦0.00
+            {/* ₦ */}
+            {queryData?.balance === 0
+              ? `0.00`
+              : formatCurrency(queryData?.balance && queryData?.balance)}
           </Typography>
           <Divider sx={{ my: 2 }} />
-          <Typography my={3}>Withdraw funds to bank or card added</Typography>
-          <CustomButton onClick={() => setPaymentModal(true)} bgPrimary>
-            Withdraw Funds
-          </CustomButton>
+          <Box sx={{ textAlign: `center` }}>
+            <Typography my={3}>Withdraw funds to bank or card added</Typography>
+            <Button
+              onClick={() => setPaymentModal(true)}
+              variant="contained"
+              sx={{ px: `3rem` }}
+              endIcon={<AddCardIcon />}
+            >
+              Withdraw
+            </Button>
+          </Box>
         </Box>
         {showUpdate ? (
           <>

@@ -34,7 +34,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(queryData);
+  console.log(data);
 
   useEffect(() => {
     localStorage.setItem(`eventID`, `${id}`);
@@ -67,7 +67,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
 
       if (data?.data?.status === true) {
         router.push(data?.data?.data?.authorization_url);
-        console.log(data?.data);
       }
     } catch (error) {
       console.log(error);
@@ -249,10 +248,11 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
               <CustomButton
                 onClick={handlePayment}
                 bgPrimary
+                disabled={data?.status === `paid` ? true : false}
                 lgWidth="100%"
                 loading={isSuccess}
               >
-                Make Payment
+                {data?.status === `paid` ? `PAID` : `Make Payment`}
               </CustomButton>
             </Box>
             {queryData && (

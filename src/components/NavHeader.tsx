@@ -35,7 +35,7 @@ const NavHeader = ({ token }: any) => {
           </div>
           <h3 className="title">Welcome, {queryData?.firstName}</h3>
           <Box>
-            <Link href="/account">
+            <Link href="/account/chats">
               <Icon>
                 <InsertCommentIcon className="icon" />
               </Icon>

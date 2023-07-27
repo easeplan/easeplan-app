@@ -23,6 +23,7 @@ interface Props {
 
 const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
+  const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
@@ -189,6 +190,101 @@ const HomePage = ({ token }: Props) => {
           </Box>
         ) : null}
 
+        {userInfo?.role === `user` ? null : (
+          <>
+            {contracts?.length < 1 ? (
+              <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+                <Typography>Your ongoing events will show here</Typography>
+              </Box>
+            ) : (
+              <>
+                {contracts?.map((list: any) => (
+                  <Box key={list._id}>
+                    {list.status === `Requested` ? (
+                      <Box
+                        key={list?._id}
+                        sx={{
+                          display: `flex`,
+                          justifyContent: `space-between`,
+                          alignItems: `center`,
+                          flexDirection: {
+                            xs: `column`,
+                            sm: `column`,
+                            md: `row`,
+                            lg: `row`,
+                            xl: `row`,
+                          },
+                          p: 4,
+                          mt: 4,
+                          border: ` solid 1px #ccc`,
+                        }}
+                      >
+                        <Box>
+                          <Box>
+                            <Typography
+                              fontWeight="600"
+                              fontSize="1.2rem"
+                              color="primary.main"
+                            >
+                              Are you available for this gig?
+                            </Typography>
+                            <Typography color="grey.500" mt={1}>
+                              If you are please accept the event or decline if
+                              you are not available
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            alignItems: `center`,
+                            justifyContent: `space-between`,
+                            gap: `2rem`,
+                            mt: {
+                              xs: `2rem`,
+                              sm: `2rem`,
+                            },
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              border: `solid 1px ${theme.palette.primary.main}`,
+                              color: `primary.main`,
+                              py: 1,
+                              px: 4,
+                              fontWeight: `600`,
+                            }}
+                          >
+                            <Link href="/dashboard/support">
+                              <Typography fontSize="0.9rem">
+                                Declined offer
+                              </Typography>
+                            </Link>
+                          </Box>
+                          <Box
+                            sx={{
+                              backgroundColor: `primary.main`,
+                              color: `secondary.main`,
+                              py: 1,
+                              px: 4,
+                              fontWeight: `600`,
+                            }}
+                          >
+                            <Link href={`/account/contracts/${list?._id}`}>
+                              <Typography fontSize="0.9rem">
+                                View offer
+                              </Typography>
+                            </Link>
+                          </Box>
+                        </Box>
+                      </Box>
+                    ) : null}
+                  </Box>
+                ))}
+              </>
+            )}
+          </>
+        )}
         {userInfo?.role === `user` && (
           <FinderSection
             token={token}

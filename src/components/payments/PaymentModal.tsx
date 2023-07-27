@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Alert, Typography } from '@mui/material';
 import { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,7 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';
 import CloseIcon from '@mui/icons-material/Close';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const style = {
   position: `absolute` as const,
@@ -35,42 +36,50 @@ const PaymentSchema = Yup.object().shape({
   amount: Yup.string().required(`Amount is required`),
 });
 
-const PaymentModal = ({ isOpen, isClose }: any) => {
+const PaymentModal = ({
+  isOpen,
+  token,
+  isClose,
+  setIsPaymentOtp,
+  setPaymentModal,
+  setAmount,
+}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
   const [isError, setIsError] = useState<boolean>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
 
+  // console.log(isErrorMessage);
+
   const submitCredentials = async (credentials: any) => {
-    // try {
-    //   const budgetStructure = {
-    //     budget: {
-    //       maximum: credentials.maximum,
-    //       minimum: credentials.minimum,
-    //     },
-    //   };
-    //   setIsLoading(true);
-    //   const { data } = await axios.put(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/providers/verification/add-budget`,
-    //     budgetStructure,
-    //     {
-    //       headers: {
-    //         'Content-Type': `application/json`,
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   );
-    //   if (data.status === `success`) {
-    //     setIsLoading(false);
-    //     setIsSuccess(true);
-    //   }
-    //   setIsSuccessMessage(data.message);
-    // } catch (error: any) {
-    //   setIsLoading(false);
-    //   setIsErrorMessage(error.message);
-    //   setIsSuccess(false);
-    // }
+    setAmount(credentials.amount);
+    // setIsPaymentOtp(true);
+    // setPaymentModal(false);
+    try {
+      setIsLoading(true);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-payment-token`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        setIsLoading(false);
+        setIsSuccess(true);
+        setIsPaymentOtp(true);
+        setPaymentModal(false);
+      }
+      setIsSuccessMessage(data.message);
+    } catch (error: any) {
+      setIsLoading(false);
+      setIsErrorMessage(error.response.data.message);
+      setIsSuccess(false);
+    }
   };
 
   return (
@@ -107,6 +116,11 @@ const PaymentModal = ({ isOpen, isClose }: any) => {
             </Typography>
           </Box>
           <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+            {isErrorMessage && (
+              <Alert severity="error" sx={{ mb: 3 }}>
+                {isErrorMessage}
+              </Alert>
+            )}
             <Typography>Withdraw to your bank</Typography>
             <Box>
               <Formik
@@ -124,7 +138,7 @@ const PaymentModal = ({ isOpen, isClose }: any) => {
                         ariaLabel="amount"
                         name="amount"
                         type="text"
-                        placeholder="e.g ₦1000.00"
+                        placeholder="₦1000.00"
                       />
                       <Typography sx={{ fontSize: `0.8rem` }}>
                         Note: Payment will sent to the account details provided
@@ -136,7 +150,7 @@ const PaymentModal = ({ isOpen, isClose }: any) => {
                       loadingText="Processing..."
                       type="submit"
                     >
-                      {isSuccess ? `Paid` : `Make payment`}
+                      PROCEED
                     </CustomButton>
                   </Form>
                 )}

@@ -1,10 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
-import { Box, Button, Typography, Divider, MenuItem } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Divider,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import CustomButton from '../common/CustomButton';
-import { Form, Formik } from 'formik';
+import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
+import FormError from '../common/FormError';
 import axios from 'axios';
 import Label from '../common/Label';
 import PaymentModal from './PaymentModal';
@@ -12,6 +22,8 @@ import PaymentOtpModal from './PaymentOtpModal';
 import SelectState from '../common/SelectState';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import { formatCurrency } from '@/utils';
+import CircularProgress from '@mui/material/CircularProgress';
+import { styled } from '@mui/material/styles';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -737,14 +749,57 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [bankInfo, setBankInfo] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
+  const [isFetchBank, setIsFetchBank] = useState<boolean>(false);
   const [isPaymentOtp, setIsPaymentOtp] = useState<boolean>(false);
   const [amount, setAmount] = useState<string>(``);
+  const [accountName, setAccountName] = useState<string>(``);
+  const [accountNumber, setAccountNumber] = useState<any>(``);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<any>(``);
 
-  const submitCredentials = async (credentials: any) => {
+  const handleValidationAcc = async (e: any) => {
+    const target = e.target as typeof e.target & {
+      accountNumber: { value: string };
+    };
+    setAccountNumber(target?.value);
+    if (e.target.value.length >= 10) {
+      try {
+        setIsFetchBank(true);
+        setSuccess(true);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_DOJAH_URL}?bank_code=${selectedState?.code}&account_number=${target?.value}`,
+          {
+            headers: {
+              Accept: `application/json`,
+              Authorization: `${process.env.NEXT_PUBLIC_DOJAH_AUTH}`,
+              AppId: `${process.env.NEXT_PUBLIC_APPID}`,
+            },
+          },
+        );
+        if (res.status === 200) {
+          const data = await res.json();
+          setAccountName(data.entity.account_name);
+          setIsFetchBank(false);
+          setSuccess(true);
+          setErrMsg(``);
+        } else {
+          setErrMsg(`Incorrect Account Number`);
+          setAccountName(``);
+          setIsFetchBank(false);
+          setSuccess(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const submitCredentials = async (e: any) => {
+    e.preventDefault();
     const newData = {
-      name: credentials?.accountName,
-      accountNumber: credentials?.accountNumber,
-      bank: credentials?.bank,
+      name: accountName,
+      accountNumber: accountNumber,
+      bank: selectedState?.name,
       bankCode: selectedState?.code,
     };
     try {
@@ -781,6 +836,22 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
 
   const toggleUpdateState = () => {
     setShowUpdate(!showUpdate);
+  };
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  const handleSelect = (e: { target: { value: string } }) => {
+    const selectedState = banks?.find((bank) => bank.name === e.target.value);
+    setSelectedState(selectedState);
   };
 
   return (
@@ -854,85 +925,116 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 Add bank details to recieve payment
               </Typography>
               <Box>
-                <Formik
-                  initialValues={{
-                    accountName: ``,
-                    bank: ``,
-                    accountNumber: ``,
-                  }}
-                  onSubmit={(values) => submitCredentials(values)}
-                  validationSchema={PaymentSchema}
-                >
-                  {({ setFieldValue }) => (
-                    <Form>
-                      <Box>
-                        <Label text="Select Bank" />
-                        <SelectState
-                          selectPlaceholder="Select Bank"
-                          name="bank"
-                          onChange={(e: { target: { value: string } }) => {
-                            const selectedState = banks?.find(
-                              (bank) => bank.name === e.target.value,
-                            );
-                            setSelectedState(selectedState);
-                            setFieldValue(`bank`, e.target.value);
+                <form onSubmit={submitCredentials}>
+                  <Box>
+                    <Label text="Select Bank" />
+                    <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select Bank
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        name="bank"
+                        onChange={handleSelect}
+                        sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                        // displayEmpty
+                        inputProps={{ 'aria-label': `Without label` }}
+                        MenuProps={MenuProps}
+                      >
+                        {banks?.map((bank: any) => {
+                          return (
+                            <MenuItem key={bank?.name} value={bank?.name}>
+                              {bank?.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box sx={{ mb: 2 }}>
+                    <Label text="Account Number" />
+                    <Input
+                      name="accountNumber"
+                      maxLength={10}
+                      required
+                      value={accountNumber}
+                      type="text"
+                      onChange={handleValidationAcc}
+                      placeholder="1748-9938-948"
+                    />
+                  </Box>
+                  {success && (
+                    <Box
+                      sx={{
+                        mb: 2,
+                        backgroundColor: `secondary.light`,
+                        p: 2,
+                        borderRadius: `6px`,
+                      }}
+                    >
+                      {isFetchBank ? (
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            justifyContent: `center`,
+                            alignItems: `center`,
                           }}
                         >
-                          {banks?.map((bank: any) => {
-                            return (
-                              <MenuItem key={bank?.name} value={bank?.name}>
-                                {bank?.name}
-                              </MenuItem>
-                            );
-                          })}
-                        </SelectState>
-                      </Box>
-                      <Box sx={{ mb: 2 }}>
-                        <Label text="Account Number" />
-                        <FormInput
-                          ariaLabel="accountNumber"
-                          name="accountNumber"
-                          type="text"
-                          placeholder="1748-9938-948"
-                        />
-                      </Box>
-                      <Box sx={{ mb: 2 }}>
-                        <Label text="Account Holder Name" />
-                        <FormInput
-                          ariaLabel="accountName"
-                          name="accountName"
-                          type="text"
-                          placeholder="Account Full Name"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: `flex`,
-                          justifyContent: `space-between`,
-                          flexDirection: {
-                            xs: `column`,
-                            sm: `column`,
-                            md: `column`,
-                            lg: `row`,
-                          },
-                          gap: `1rem`,
-                        }}
-                      >
-                        <CustomButton
-                          bgPrimary
-                          loading={isLoading}
-                          loadingText="Add..."
-                          type="submit"
-                        >
-                          {isSuccess ? `Added` : `Add Bank`}
-                        </CustomButton>
-                        <Button onClick={toggleUpdateState} variant="outlined">
-                          Cancel
-                        </Button>
-                      </Box>
-                    </Form>
+                          <CircularProgress
+                            sx={{ color: `primary.main` }}
+                            size="1rem"
+                          />
+                        </Box>
+                      ) : (
+                        <Typography color="primary.main" fontSize="0.9rem">
+                          {accountName}
+                        </Typography>
+                      )}
+                    </Box>
                   )}
-                </Formik>
+
+                  {errMsg && (
+                    <Box
+                      sx={{
+                        mb: 2,
+                        border: `1px solid red`,
+                        px: 2,
+                        py: 1,
+                        borderRadius: `6px`,
+                      }}
+                    >
+                      <Typography color="error.main" fontSize="0.9rem">
+                        {errMsg}
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      justifyContent: `space-between`,
+                      flexDirection: {
+                        xs: `column`,
+                        sm: `column`,
+                        md: `column`,
+                        lg: `row`,
+                      },
+                      gap: `1rem`,
+                    }}
+                  >
+                    <CustomButton
+                      bgPrimary
+                      loading={isLoading}
+                      loadingText="Add..."
+                      type="submit"
+                    >
+                      {isSuccess ? `Added` : `Add Bank`}
+                    </CustomButton>
+                    <Button onClick={toggleUpdateState} variant="outlined">
+                      Cancel
+                    </Button>
+                  </Box>
+                </form>
               </Box>
             </Box>
           </>
@@ -983,68 +1085,116 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     Add bank details to recieve payment
                   </Typography>
                   <Box>
-                    <Formik
-                      initialValues={{
-                        accountName: ``,
-                        bank: ``,
-                        accountNumber: ``,
-                      }}
-                      onSubmit={(values) => submitCredentials(values)}
-                      validationSchema={PaymentSchema}
-                    >
-                      {({ setFieldValue }) => (
-                        <Form>
-                          <Box>
-                            <Label text="Select Bank" />
-                            <SelectState
-                              selectPlaceholder="Select Bank"
-                              name="bank"
-                              onChange={(e: { target: { value: string } }) => {
-                                const selectedState = banks?.find(
-                                  (bank) => bank.name === e.target.value,
-                                );
-                                setSelectedState(selectedState);
-                                setFieldValue(`bank`, e.target.value);
+                    <form onSubmit={submitCredentials}>
+                      <Box>
+                        <Label text="Select Bank" />
+                        <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                          <InputLabel id="demo-simple-select-label">
+                            Select Bank
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            name="bank"
+                            onChange={handleSelect}
+                            sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                            // displayEmpty
+                            inputProps={{ 'aria-label': `Without label` }}
+                            MenuProps={MenuProps}
+                          >
+                            {banks?.map((bank: any) => {
+                              return (
+                                <MenuItem key={bank?.name} value={bank?.name}>
+                                  {bank?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Box>
+                      <Box sx={{ mb: 2 }}>
+                        <Label text="Account Number" />
+                        <Input
+                          name="accountNumber"
+                          maxLength={10}
+                          required
+                          value={accountNumber}
+                          type="text"
+                          onChange={handleValidationAcc}
+                          placeholder="1748-9938-948"
+                        />
+                      </Box>
+                      {success && (
+                        <Box
+                          sx={{
+                            mb: 2,
+                            backgroundColor: `secondary.light`,
+                            p: 2,
+                            borderRadius: `6px`,
+                          }}
+                        >
+                          {isFetchBank ? (
+                            <Box
+                              sx={{
+                                display: `flex`,
+                                justifyContent: `center`,
+                                alignItems: `center`,
                               }}
                             >
-                              {banks?.map((bank: any) => {
-                                return (
-                                  <MenuItem key={bank?.name} value={bank?.name}>
-                                    {bank?.name}
-                                  </MenuItem>
-                                );
-                              })}
-                            </SelectState>
-                          </Box>
-                          <Box sx={{ mb: 2 }}>
-                            <Label text="Account Number" />
-                            <FormInput
-                              ariaLabel="accountNumber"
-                              name="accountNumber"
-                              type="text"
-                              placeholder="1748-9938-948"
-                            />
-                          </Box>
-                          <Box sx={{ mb: 2 }}>
-                            <Label text="Account Holder Name" />
-                            <FormInput
-                              ariaLabel="accountName"
-                              name="accountName"
-                              type="text"
-                              placeholder="Account Full Name"
-                            />
-                          </Box>
-                          <CustomButton
-                            bgPrimary
-                            loading={isLoading}
-                            loadingText="Add..."
-                            type="submit"
-                          >
-                            {isSuccess ? `Added` : `Add Bank`}
-                          </CustomButton>
-                        </Form>
+                              <CircularProgress
+                                sx={{ color: `primary.main` }}
+                                size="1rem"
+                              />
+                            </Box>
+                          ) : (
+                            <Typography color="primary.main" fontSize="0.9rem">
+                              {accountName}
+                            </Typography>
+                          )}
+                        </Box>
                       )}
-                    </Formik>
+
+                      {errMsg && (
+                        <Box
+                          sx={{
+                            mb: 2,
+                            border: `1px solid red`,
+                            px: 2,
+                            py: 1,
+                            borderRadius: `6px`,
+                          }}
+                        >
+                          <Typography color="error.main" fontSize="0.9rem">
+                            {errMsg}
+                          </Typography>
+                        </Box>
+                      )}
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          justifyContent: `space-between`,
+                          flexDirection: {
+                            xs: `column`,
+                            sm: `column`,
+                            md: `column`,
+                            lg: `row`,
+                          },
+                          gap: `1rem`,
+                        }}
+                      >
+                        <CustomButton
+                          bgPrimary
+                          loading={isLoading}
+                          loadingText="Add..."
+                          type="submit"
+                        >
+                          {isSuccess ? `Added` : `Add Bank`}
+                        </CustomButton>
+                        <Button onClick={toggleUpdateState} variant="outlined">
+                          Cancel
+                        </Button>
+                      </Box>
+                    </form>
                   </Box>
                 </Box>
               </>
@@ -1055,5 +1205,25 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     </Box>
   );
 };
+
+const Input = styled(`input`)({
+  padding: `1rem 1rem`,
+  outline: `none`,
+  width: `100%`,
+  borderRadius: `10px`,
+  fontSize: `1rem`,
+  border: `solid 1px #ccc;`,
+  marginTop: `0.5rem`,
+  background: `transparent`,
+
+  '@media (max-width: 1020px)': {
+    fontSize: `1rem`,
+    padding: `1rem 1rem`,
+  },
+
+  '&:-webkit-autofill': {
+    BackgroundColor: `transparent`,
+  },
+});
 
 export default AvailableFunds;

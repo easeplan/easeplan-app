@@ -19,15 +19,12 @@ type Message = {
 
 const InboxPage = ({ token }: any) => {
   const dispatch = useDispatch();
-  const { messages, activeUserData, currentMessage } = useSelector(
+  const { messages, activeUserData } = useSelector(
     (state: RootState) => state.chatsData,
   );
   const [conversationList, setConversationList] = useState<any>();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [chatMessage, setChatMessage] = useState(``);
-  // const [currentMessage, setCurrentMessage] = useState<any>(``);
-
-  // console.log(currentMessage);
+  const [chatMessage, setChatMessage] = useState<any>(``);
 
   useEffect(() => {
     const socket = io(`https://apiv3.easeplan.io`, {
@@ -59,27 +56,11 @@ const InboxPage = ({ token }: any) => {
 
   useEffect(() => {
     fetchConversations();
-  }, [currentMessage]);
+  }, [chatMessage]);
 
   // Send Message
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    // try {
-    //   console.log(activeUserData?._id);
-    //   const res = await fetch(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/conversations/${activeUserData?._id}/messages`,
-    //     {
-    //       headers: {
-    //         'Content-Type': `application/json`,
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   );
-    //   const messagesHistory = await res.json();
-    //   dispatch(setMessages(messagesHistory));
-    //   console.log(messagesHistory);
-    // } catch (error) {}
 
     const socket = io(`https://apiv3.easeplan.io`, {
       auth: {

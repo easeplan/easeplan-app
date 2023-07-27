@@ -33,20 +33,20 @@ const style = {
 };
 
 const PaymentSchema = Yup.object().shape({
-  amount: Yup.string().required(`Amount is required`),
+  token: Yup.string().required(`Amount is required`),
 });
 
-const PaymentOptModal = ({ isOpen, token, isClose }: any) => {
+const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
-  const [isError, setIsError] = useState<boolean>();
+  const [isError, setIsError] = useState<boolean>(false);
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
 
   // console.log(isErrorMessage);
 
   const submitCredentials = async (credentials: any) => {
-    // setIsSuccess(true);
+    setIsSuccess(true);
     try {
       setIsLoading(true);
       const { data } = await axios.put(
@@ -55,18 +55,30 @@ const PaymentOptModal = ({ isOpen, token, isClose }: any) => {
         {
           headers: {
             'Content-Type': `application/json`,
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
       if (data.status === `success`) {
         setIsLoading(false);
-        setIsSuccess(true);
+        // setIsSuccess(true);
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/withdraw/create`,
+          {
+            amount: amount,
+          },
+          {
+            headers: {
+              'Content-Type': `application/json`,
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
       }
       setIsSuccessMessage(data.message);
     } catch (error: any) {
       setIsLoading(false);
-      setIsErrorMessage(error.message);
+      setIsErrorMessage(error.response.data.message);
       setIsSuccess(false);
     }
   };
@@ -123,13 +135,15 @@ const PaymentOptModal = ({ isOpen, token, isClose }: any) => {
             ) : (
               <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
                 {isErrorMessage && (
-                  <Alert severity="error">{isErrorMessage}</Alert>
+                  <Alert severity="error" sx={{ mb: 3 }}>
+                    {isErrorMessage}
+                  </Alert>
                 )}
                 <Box>
                   <Typography>An OTP has been send to your email</Typography>
                   <Formik
                     initialValues={{
-                      amount: ``,
+                      token: ``,
                     }}
                     onSubmit={(values) => submitCredentials(values)}
                     validationSchema={PaymentSchema}
@@ -139,8 +153,8 @@ const PaymentOptModal = ({ isOpen, token, isClose }: any) => {
                         <Box sx={{ mb: 5, pt: 2 }}>
                           <Label text="Enter OTP" />
                           <FormInput
-                            ariaLabel="otp"
-                            name="otp"
+                            ariaLabel="token"
+                            name="token"
                             type="text"
                             placeholder="Enter OTP"
                           />

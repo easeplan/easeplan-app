@@ -16,10 +16,6 @@ const UsersCard = ({ data, token }: any) => {
 
   const handleSelectChat = async () => {
     const conversationID = data?._id;
-    console.log(conversationID);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`activeUserID`, `${conversationID}`);
-    }
     dispatch(setActiveUserData(data));
     try {
       const res = await fetch(

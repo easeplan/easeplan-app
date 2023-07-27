@@ -160,7 +160,7 @@ const LoginForm = () => {
                     LOGIN
                   </CustomButton>
                   <RememberDiv>
-                    <CheckLabel>
+                    {/* <CheckLabel>
                       <Checkbox
                         sx={{
                           color: `grey`,
@@ -170,7 +170,7 @@ const LoginForm = () => {
                         }}
                       />
                       <span> Remember Me</span>
-                    </CheckLabel>
+                    </CheckLabel> */}
                     <Link href="/" className="forgotPassword">
                       Forgot Password?
                     </Link>

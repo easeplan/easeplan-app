@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Alert, Typography } from '@mui/material';
 import { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,7 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';
 import CloseIcon from '@mui/icons-material/Close';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const style = {
   position: `absolute` as const,
@@ -41,6 +42,7 @@ const PaymentModal = ({
   isClose,
   setIsPaymentOtp,
   setPaymentModal,
+  setAmount,
 }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
@@ -51,6 +53,7 @@ const PaymentModal = ({
   // console.log(isErrorMessage);
 
   const submitCredentials = async (credentials: any) => {
+    setAmount(credentials.amount);
     // setIsPaymentOtp(true);
     // setPaymentModal(false);
     try {
@@ -74,7 +77,7 @@ const PaymentModal = ({
       setIsSuccessMessage(data.message);
     } catch (error: any) {
       setIsLoading(false);
-      setIsErrorMessage(error.message);
+      setIsErrorMessage(error.response.data.message);
       setIsSuccess(false);
     }
   };
@@ -113,6 +116,11 @@ const PaymentModal = ({
             </Typography>
           </Box>
           <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+            {isErrorMessage && (
+              <Alert severity="error" sx={{ mb: 3 }}>
+                {isErrorMessage}
+              </Alert>
+            )}
             <Typography>Withdraw to your bank</Typography>
             <Box>
               <Formik

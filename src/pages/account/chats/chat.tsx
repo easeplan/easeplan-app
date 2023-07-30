@@ -1,78 +1,56 @@
-import { DefaultEventsMap } from '@socket.io/component-emitter';
-import React, { useEffect, useState } from 'react';
-import io, { Socket } from 'socket.io-client';
+import React, { useState, useEffect } from 'react';
+import socketIOClient from 'socket.io-client';
 
-let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
+const SOCKET_SERVER_URL = `https://apiv3.easeplan.io`;
 
-type Message = {
-  message: string;
-  username: string;
-};
-
-const Home = () => {
+const App = () => {
+  const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState(``);
-  const [username, setUsername] = useState(``);
-  const [allMessages, setAllMessages] = useState<Array<Message>>([]);
+  const [newmessage, setNewMessage] = useState(``);
+  const [conversationId, setConversationId] = useState(
+    `64c3b2ee15fa590aff35262b`,
+  ); // You might want to set this based on user's current conversation
+  const [from, setFrom] = useState(`64be37770991c96a1a941de6`); // This could be the current user's ID or name
+  const [to, setTo] = useState(`64c3abec15fa590aff352536`); // This could be the recipient's ID or name
 
   useEffect(() => {
-    socketInitializer();
-
-    return () => {
-      // socket.disconnect();
-    };
-  }, []);
-
-  async function socketInitializer() {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/socket`);
-
-    socket = io();
-
-    socket.on(`receive-message`, (data) => {
-      setAllMessages((pre) => [...pre, data]);
+    const newSocket = socketIOClient(SOCKET_SERVER_URL, {
+      auth: { userId: `64c3abec15fa590aff352536` },
     });
-  }
 
-  function handleSubmit(e: { preventDefault: () => void }) {
-    e.preventDefault();
+    setSocket(newSocket);
 
-    socket.emit(`send-message`, {
-      username,
-      message,
+    newSocket.on(`conversation-${conversationId}`, (incomingMessage) => {
+      setNewMessage(incomingMessage?.message);
+      console.log(`New Message:`, incomingMessage);
     });
-    setMessage(``);
-  }
+    return () => newSocket.close();
+  }, [setSocket]);
+
+  const sendMessage = () => {
+    if (socket) {
+      socket.emit(`message`, {
+        from,
+        to,
+        conversationId,
+        message,
+        image: ``, // Set this if you're planning to send images
+      });
+    }
+  };
 
   return (
     <div>
-      <h1>Chat app</h1>
-      <h1>Enter a username</h1>
+      <input
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Type your message..."
+      />
+      <button onClick={sendMessage}>Send</button>
 
-      <input value={username} onChange={(e) => setUsername(e.target.value)} />
-
-      <br />
-      <br />
-
-      <div>
-        {allMessages.map(({ username, message }, index) => (
-          <div key={index}>
-            {username}: {message}
-          </div>
-        ))}
-
-        <br />
-
-        <form onSubmit={handleSubmit}>
-          <input
-            name="message"
-            placeholder="enter your message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            autoComplete={`off`}
-          />
-        </form>
-      </div>
+      <p>{newmessage}</p>
     </div>
   );
 };
 
-export default Home;
+export default App;

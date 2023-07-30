@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { Box, MenuItem, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Image from 'next/image';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { Field, FieldProps } from 'formik';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';

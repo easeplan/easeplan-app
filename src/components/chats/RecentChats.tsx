@@ -13,6 +13,7 @@ const RecentChats = ({
   return (
     <>
       <Box
+        className="mobileRecentChat"
         sx={{
           // borderRight: `solid 1px #ccc`,
           overflowY: `hidden`,

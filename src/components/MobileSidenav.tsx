@@ -20,11 +20,11 @@ const MobileSidenav = () => {
   return (
     <MobileStyle>
       <FlexContainer>
-        {/* <MobileNavItems
+        <MobileNavItems
           text="Inbox"
           icon={<EmailIcon />}
           href="/account/inbox"
-        /> */}
+        />
         {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<ChromeReaderModeIcon />}
@@ -61,11 +61,11 @@ const MobileSidenav = () => {
             href="/account"
           />
         ) : null}
-        {/* <MobileNavItems
+        <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
-        /> */}
+        />
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}

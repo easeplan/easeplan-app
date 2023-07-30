@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -12,6 +12,9 @@ import NotificationDropdown from './NotificationDropdown';
 
 const NavHeader = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { allUnreadConversationMessagesCount } = useSelector(
+    (state: RootState) => state.chatsData,
+  );
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { queryData } = useFetch(
     `/${
@@ -34,10 +37,51 @@ const NavHeader = ({ token }: any) => {
             <Logo />
           </div>
           <h3 className="title">Welcome, {queryData?.firstName}</h3>
-          <Box>
+          <Box
+            sx={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `space-between`,
+              position: `relative`,
+
+              '.linkButton': {
+                backgroundColor: `primary.main`,
+                color: `secondary.main`,
+                padding: `0.9rem 2.5rem`,
+                fontWeight: `700`,
+                transition: `all 0.5s ease`,
+
+                '&:hover': {
+                  opacity: `0.8`,
+                },
+              },
+            }}
+          >
             <Link href="/account/chats">
               <Icon>
+                <Box
+                  sx={{
+                    width: `12px`,
+                    height: `12px`,
+                    border: `solid 2px #fff`,
+                    borderRadius: `16px`,
+                    position: `absolute`,
+                    top: `0.2rem`,
+                    left: `-0rem`,
+                    backgroundColor: `info.main`,
+
+                    '@media (max-width: 900px)': {
+                      width: `9px`,
+                      height: `9px`,
+                      border: `solid 1.5px #fff`,
+                      position: `absolute`,
+                      top: `0.6rem`,
+                      right: `0.5rem`,
+                    },
+                  }}
+                ></Box>
                 <InsertCommentIcon className="icon" />
+                {allUnreadConversationMessagesCount}
               </Icon>
             </Link>
             <NotificationDropdown
@@ -93,24 +137,6 @@ const Flex = styled(`div`)(({ theme }) => ({
   },
 }));
 
-const Box = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
-
-  '.linkButton': {
-    background: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
-    padding: `0.9rem 2.5rem`,
-    fontWeight: `700`,
-    transition: `all 0.5s ease`,
-
-    '&:hover': {
-      opacity: `0.8`,
-    },
-  },
-}));
-
 const Icon = styled(`div`)(({ theme }) => ({
   position: `relative`,
   display: `flex`,
@@ -133,25 +159,4 @@ const Icon = styled(`div`)(({ theme }) => ({
     height: `35px`,
   },
 }));
-
-const Dot = styled(`div`)(({ theme }) => ({
-  width: `10px`,
-  height: `10px`,
-  border: `solid 2px #fff`,
-  borderRadius: `16px`,
-  position: `absolute`,
-  top: `0.6rem`,
-  right: `0.6rem`,
-  background: theme.palette.info.main,
-
-  '@media (max-width: 900px)': {
-    width: `9px`,
-    height: `9px`,
-    border: `solid 1.5px #fff`,
-    position: `absolute`,
-    top: `0.6rem`,
-    right: `0.5rem`,
-  },
-}));
-
 export default NavHeader;

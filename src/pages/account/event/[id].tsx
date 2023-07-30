@@ -34,7 +34,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(data);
+  console.log(queryData);
 
   useEffect(() => {
     localStorage.setItem(`eventID`, `${id}`);

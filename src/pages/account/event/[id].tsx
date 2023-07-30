@@ -17,11 +17,12 @@ import Image from 'next/image';
 import UserRating from '@/components/common/UserRating';
 import ReviewForm from '@/components/ReviewForm';
 import { dateFormater } from '@/utils';
+import { Data, QueryData } from '@/lib/types';
 
 interface Props {
   token: string;
-  data: any;
-  queryData: any;
+  data: Data;
+  queryData: QueryData;
 }
 
 const EventDetailsPage = ({ token, data, queryData }: Props) => {
@@ -34,7 +35,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(data);
+  console.log(`data =>`, data);
+  console.log(`queryData =>`, queryData);
 
   useEffect(() => {
     localStorage.setItem(`eventID`, `${id}`);
@@ -73,6 +75,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
     }
   };
 
+  // TODO: If there is a dispute, display the dispute red card/ ab green for the completed
   return (
     <DashboardLayout token={token}>
       <section>
@@ -411,6 +414,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                     }}
                   >
                     <Link href={`/account/preview/${data?._id}`}>
+                      {/* TODO: Add a cancel button once the person has been requested */}
                       <Button variant="outlined" size="small">
                         View Details
                       </Button>
@@ -503,9 +507,17 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
               fontWeight: `600`,
             }}
           >
+            {/* TODO: Design The Resolution Center */}
             <Link href="/dashboard/support">Resolution center</Link>
           </Box>
         </Box>
+
+        <ReviewForm
+          rating={queryData?.rating}
+          token={token}
+          profileId={queryData?.userId}
+          role={queryData?.role}
+        />
       </section>
     </DashboardLayout>
   );

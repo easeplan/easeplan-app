@@ -53,7 +53,7 @@ const ReviewFormSchema = Yup.object().shape({
 
 interface PropsTypes {
   token: string;
-  rating: string;
+  rating: string | number;
   profileId: string;
   role: string;
 }

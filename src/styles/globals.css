@@ -132,7 +132,7 @@ a {
   height: 100%;
   z-index: 9;
   display: flex;
-  alignitems: center;
+  align-items: center;
   justify-content: center;
 }
 
@@ -236,7 +236,7 @@ a {
 }
 
 .share-button:hover {
-  box-shadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1) `;
+  box-shadow: 0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1);
 }
 
 .share-text {
@@ -286,7 +286,7 @@ a {
   opacity: 1;
   display: flex;
   justify-content: space-between;
-  alignitems: end;
+  align-items: end;
   overflow: hidden;
   color: #174e64;
   transition: 0.3s;

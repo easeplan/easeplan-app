@@ -6,8 +6,9 @@ const ChatLayout = ({ children }: any) => {
     <Box
       sx={{
         // border: `solid 1px #ccc`,
+        position: `relative`,
         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-        p: 2,
+        // p: 2,
         borderRadius: `8px`,
         mt: `1rem`,
         display: `grid`,

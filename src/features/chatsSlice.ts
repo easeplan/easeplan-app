@@ -7,7 +7,7 @@ interface chatsState {
 }
 
 const initialState: chatsState = {
-  messages: null,
+  messages: [],
   activeUserData: null,
   currentMessage: null,
 };

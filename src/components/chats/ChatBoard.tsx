@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import RecieverMessage from './RecieverMessage';
-import SenderMessage from './SenderMessage';
+import Messages from './Messages';
 import cahtImg from '@/public/avatar.png';
 import Image from 'next/image';
 import theme from '@/styles/theme';
@@ -13,24 +12,20 @@ import { useSelector } from 'react-redux';
 import ChatIcon from '@mui/icons-material/Chat';
 
 const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
-  // const [activeUserID, setActiveUserID] = useState<any>(
-  //   typeof window !== `undefined` && localStorage.getItem(`activeUserID`),
-  // );
-  const { messages, currentMessage } = useSelector(
-    (state: RootState) => state.chatsData,
-  );
+  const { messages } = useSelector((state: RootState) => state.chatsData);
+
   return (
     <Box sx={{ overflowY: `hidden` }}>
       <Box
         sx={{
-          // borderTop: `solid 1px #ccc`,
           position: `relative`,
+          width: `100%`,
           height: `100%`,
+          backgroundColor: `secondary.light`,
+          borderRadius: `8px`,
         }}
       >
-        <Box
-          sx={{ p: `1rem`, borderBottom: `solid 1px #ccc`, background: `#fff` }}
-        >
+        <Box sx={{ p: `1rem`, background: `#fff` }}>
           {/* Active User at Header */}
           <Box
             sx={{
@@ -59,7 +54,11 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
               />
             </Box>
             <Box sx={{ width: `95%` }}>
-              <Typography fontWeight="bold" fontSize="0.8rem">
+              <Typography
+                fontWeight="bold"
+                fontSize="0.8rem"
+                color="primary.main"
+              >
                 John Doe
               </Typography>
             </Box>
@@ -75,21 +74,14 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
             pb: `12rem`,
           }}
         >
-          {/* <RecieverMessage /> */}
-          {messages?.messages?.length < 1 ? (
+          {messages?.length < 1 ? (
             <Box sx={{ textAlign: `center`, mt: `4rem` }}>
               <ChatIcon sx={{ fontSize: `3rem`, color: `#ccc` }} />
               <Typography color="#ccc">You have no messages yet!</Typography>
             </Box>
           ) : (
             <>
-              {messages?.messages?.map((message: any) => (
-                <SenderMessage
-                  key={message?._id}
-                  currentMessage={currentMessage}
-                  message={message}
-                />
-              ))}
+              <Messages />
             </>
           )}
         </Box>

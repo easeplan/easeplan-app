@@ -107,52 +107,52 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </h4>
                 <ul>
                   <li>
-                    <strong>&apos;Account&apos;</strong> means an account on
-                    Easeplan website.
+                    <strong>Account</strong> means an account on Easeplan
+                    website.
                   </li>
                   <li>
-                    <strong>&apos;Device Information&apos;</strong> means data
-                    that can be automatically collected from any device used to
-                    access the Sites or Services. Such information may include,
-                    but is not limited to, your device type; your device`s
-                    network connections; your device`s name; your device`s IP
-                    address; information about your device`s web browser and the
-                    internet connection being used to access the Site or
-                    Services; Geolocation Information; and information about
-                    apps downloaded to your device;
+                    <strong>Device Information</strong> means data that can be
+                    automatically collected from any device used to access the
+                    Sites or Services. Such information may include, but is not
+                    limited to, your device type; your device`s network
+                    connections; your device`s name; your device`s IP address;
+                    information about your device`s web browser and the internet
+                    connection being used to access the Site or Services;
+                    Geolocation Information; and information about apps
+                    downloaded to your device;
                   </li>
                   <li>
-                    <strong>&apos;Geolocation Information&apos;</strong> means
-                    information that identifies with reasonable specificity your
-                    location by using, for instance, longitude and latitude
-                    coordinates obtained through GPS, Wi-Fi, or cell site
-                    triangulation. Some of our Services may ask you for
-                    permission to share your current location. Some of the Sites
-                    and Services require this information to provide a specific
-                    product or online Service. If you do not agree to our
-                    collection of the geolocation information, our Sites or
-                    Services may not function properly when you try to use them.
+                    <strong>Geolocation Information</strong> means information
+                    that identifies with reasonable specificity your location by
+                    using, for instance, longitude and latitude coordinates
+                    obtained through GPS, Wi-Fi, or cell site triangulation.
+                    Some of our Services may ask you for permission to share
+                    your current location. Some of the Sites and Services
+                    require this information to provide a specific product or
+                    online Service. If you do not agree to our collection of the
+                    geolocation information, our Sites or Services may not
+                    function properly when you try to use them.
                   </li>
                   <li>
-                    <strong>&apos;Easeplan&apos;</strong> means Easeplan Ltd.
-                    and affiliates. In this Privacy Statement, Easeplan is
-                    sometimes referred to as “we,” “us,” or “our,” depending on
-                    the context.
+                    <strong>Easeplan</strong> means Easeplan Ltd. and
+                    affiliates. In this Privacy Statement, Easeplan is sometimes
+                    referred to as “we,” “us,” or “our,” depending on the
+                    context.
                   </li>
                   <li>
-                    <strong>&apos;Personal Data&apos;</strong> means personal
-                    information that can be associated with an identified or
-                    identifiable person. “Personal Data” can include name,
-                    postal address (including billing and shipping addresses),
-                    telephone number, email address, payment card number, email
-                    other account information, account number, date of birth,
-                    and government-issued credentials (e.g., driver`s license
+                    <strong>Personal Data</strong> means personal information
+                    that can be associated with an identified or identifiable
+                    person. “Personal Data” can include name, postal address
+                    (including billing and shipping addresses), telephone
+                    number, email address, payment card number, email other
+                    account information, account number, date of birth, and
+                    government-issued credentials (e.g., driver`s license
                     number, national ID, passport, Social Security number and
                     Taxpayer ID). Personal Data does not include information
                     that does not identify a specific User.
                   </li>
                   <li>
-                    <strong>`Process`</strong> means any method or way that we
+                    <strong>Process</strong> means any method or way that we
                     handle Personal Data or sets of Personal Data, whether or
                     not by automated means, such as collection, recording,
                     organization, structuring, storage, adaptation or
@@ -162,31 +162,30 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                     destruction of Personal Data.
                   </li>
                   <li>
-                    <strong>&apos;Services&apos;</strong> means any products,
-                    services, content, features, technologies, or functions, and
-                    all related websites, applications and services offered to
-                    you by Easeplan.
+                    <strong>Services</strong> means any products, services,
+                    content, features, technologies, or functions, and all
+                    related websites, applications and services offered to you
+                    by Easeplan.
                   </li>
                   <li>
-                    <strong>&apos;Site&apos;</strong> means this website through
-                    which Easeplan offers the Services and which has posted this
+                    <strong>Site</strong> means this website through which
+                    Easeplan offers the Services and which has posted this
                     Privacy Policy.
                   </li>
                   <li>
-                    <strong>&apos;Technical Usage Data&apos;</strong> means
-                    information we collect from your phone, computer or other
-                    device that you use to access the Sites or Services.
-                    Technical Usage Data tells us how you use the Sites and
-                    Services, such as what you have searched for and viewed on
-                    the Sites and the way you use our Services, including your
-                    IP address, statistics regarding how pages are loaded or
-                    viewed, the websites you visited before coming to the Sites
-                    and other usage and browsing information collected through
-                    Cookies.
+                    <strong>Technical Usage Data</strong> means information we
+                    collect from your phone, computer or other device that you
+                    use to access the Sites or Services. Technical Usage Data
+                    tells us how you use the Sites and Services, such as what
+                    you have searched for and viewed on the Sites and the way
+                    you use our Services, including your IP address, statistics
+                    regarding how pages are loaded or viewed, the websites you
+                    visited before coming to the Sites and other usage and
+                    browsing information collected through Cookies.
                   </li>
                   <li>
-                    <strong>&apos;User&apos;</strong> means an individual who
-                    uses the Services or accesses this Site.
+                    <strong>User</strong> means an individual who uses the
+                    Services or accesses this Site.
                   </li>
                 </ul>
               </section>
@@ -345,6 +344,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
                   SHARING PERSONAL DATA
                 </h4>
+
                 <p>
                   We may share your Personal Data or other information about you
                   with others in a variety of ways as described in this section
@@ -704,6 +704,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
                   Changes to This Privacy Statement:
                 </h4>
+
                 <ol>
                   <li>
                     We may revise this Privacy Statement from time to time to
@@ -737,17 +738,18 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                     Send a email here
                     {` `}
                     <a href="mailto:easeplan.team@gmail.com">
-                      easeplan.team@gmail.com
+                      <strong>easeplan.team@gmail.com</strong>
                     </a>
                     {` `}
                     to contact us about your Easeplan account or transaction, or
                     a payment made to a vendor.
                   </li>
+
                   <li>
                     Our Data Protection Officer can be contacted via;
                     <address>Rumuekini, Portharcourt Rivers State.</address>
                     {` `}
-                    <a href="mailto:clinton@gmail.com">clinton@gmail.com</a>
+                    <a href="mailto:clinton@gmail.com">clinton@easeplan.io</a>
                     {` `}
                     <p>
                       Please mark your letter “to the Data Protection Officer”.

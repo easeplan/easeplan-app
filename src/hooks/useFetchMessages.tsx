@@ -6,12 +6,12 @@ interface Props {
   token: string;
 }
 
-const useFetchMessages = (url: string, token: string) => {
+const useFetchMessages = (token: string) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: [`allMessages`],
+    queryKey: [`allConversations`],
     queryFn: async () => {
       const { data } = await customFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/conversations`,
         {
           headers: {
             'Content-Type': `application/json`,
@@ -23,7 +23,7 @@ const useFetchMessages = (url: string, token: string) => {
     },
   });
 
-  return { allMessages: data, error, isLoading };
+  return { conversations: data, error, isLoading };
 };
 
 export default useFetchMessages;

@@ -428,7 +428,9 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                         View Details
                       </Button>
                     </Link>
-                    <Button sx={{ marginLeft: 2 }} variant="text">Cancel</Button>
+                    <Button sx={{ marginLeft: 2 }} variant="text">
+                      Cancel
+                    </Button>
                   </Box>
                   {/* <Box
                     sx={{

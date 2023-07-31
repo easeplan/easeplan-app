@@ -319,3 +319,17 @@ a {
 .show-links .button-links {
   translate: 0 -100%;
 }
+
+.ea-heading-2 {
+  color: #0F3443;
+  font-size: 1.6rem;
+  margin-bottom: .6rem;
+}
+.ea-center {
+  text-align: center;
+}
+
+.ea-center > div {
+  display: inline-block;
+  margin-bottom: 1rem;
+}

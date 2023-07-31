@@ -15,9 +15,10 @@ import AcceptOfferConfirmModal from '@/components/AcceptOfferConfirmModal';
 import CustomButton from '@/components/common/CustomButton';
 import Image from 'next/image';
 import UserRating from '@/components/common/UserRating';
-import ReviewForm from '@/components/ReviewForm';
+import ReviewFormFull from '@/components/ReviewFormFull';
 import { dateFormater } from '@/utils';
 import { Data, QueryData } from '@/lib/types';
+import EventAlert from '@/components/EventAlert';
 
 interface Props {
   token: string;
@@ -76,6 +77,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
   };
 
   // TODO: If there is a dispute, display the dispute red card/ ab green for the completed
+  // [*] DONE
   return (
     <DashboardLayout token={token}>
       <section>
@@ -104,6 +106,10 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
           }}
         >
           <Box>
+            {queryData?.events[id as string] &&
+              queryData?.events[id as string].status !== `Accepted` && (
+                <EventAlert event={queryData?.events[id as string]} />
+              )}
             <Box
               key={data?._id}
               sx={{
@@ -414,11 +420,15 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                     }}
                   >
                     <Link href={`/account/preview/${data?._id}`}>
-                      {/* TODO: Add a cancel button once the person has been requested */}
+                      {/* 
+                        TODO: Add a cancel button once the person has been requested 
+                        DONE: almost complete. Ask what this button does
+                      */}
                       <Button variant="outlined" size="small">
                         View Details
                       </Button>
                     </Link>
+                    <Button sx={{ marginLeft: 2 }} variant="text">Cancel</Button>
                   </Box>
                   {/* <Box
                     sx={{
@@ -512,7 +522,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
           </Box>
         </Box>
 
-        <ReviewForm
+        <ReviewFormFull
           rating={queryData?.rating}
           token={token}
           profileId={queryData?.userId}

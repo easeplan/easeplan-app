@@ -191,7 +191,8 @@ const Hero = ({ queryData, token }: Props) => {
         >
           {/* 
             TODO: Add a condition that toggles to Chat based on queryData; 
-            the chat links to the chat section
+            the chat links to the chat section 
+            [*] DONE
           */}
           {queryData && !queryData.currentlyHiredBy ? (
             <Link href="#pricingSection">

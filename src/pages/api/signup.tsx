@@ -3,7 +3,6 @@ import axios from 'axios';
 import cookie from 'cookie';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  // console.log(req.body);
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,

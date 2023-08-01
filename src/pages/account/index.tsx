@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
 import FinderSection from '@/components/FinderSection';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Alert } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
@@ -16,6 +16,7 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 interface Props {
   token: string;
@@ -23,6 +24,7 @@ interface Props {
 
 const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
+  const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
@@ -76,6 +78,41 @@ const HomePage = ({ token }: Props) => {
   return (
     <>
       <DashboardLayout token={token}>
+        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
+          <>
+            {queryData?.verified === false && (
+              <Alert
+                severity="error"
+                sx={{
+                  mt: {
+                    xs: 2,
+                    md: 3,
+                    lg: 3,
+                  },
+                  mb: 4,
+                  p: 3,
+                }}
+              >
+                <Typography mb={2}>
+                  Verify your account to start getting bookings from client
+                </Typography>
+                <Link href="/account/settings/verify">
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      marginLeft: `1rem`,
+                      fontSize: `0.7rem`,
+                    }}
+                    startIcon={<AdminPanelSettingsIcon />}
+                  >
+                    Start Verification
+                  </Button>
+                </Link>
+              </Alert>
+            )}
+          </>
+        ) : null}
+
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <Dashboard data={queryData} />
         ) : null}
@@ -189,6 +226,101 @@ const HomePage = ({ token }: Props) => {
           </Box>
         ) : null}
 
+        {userInfo?.role === `user` ? null : (
+          <>
+            {contracts?.length < 1 ? (
+              <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+                <Typography>Your ongoing events will show here</Typography>
+              </Box>
+            ) : (
+              <>
+                {contracts?.map((list: any) => (
+                  <Box key={list._id}>
+                    {list.status === `Requested` ? (
+                      <Box
+                        key={list?._id}
+                        sx={{
+                          display: `flex`,
+                          justifyContent: `space-between`,
+                          alignItems: `center`,
+                          flexDirection: {
+                            xs: `column`,
+                            sm: `column`,
+                            md: `row`,
+                            lg: `row`,
+                            xl: `row`,
+                          },
+                          p: 4,
+                          mt: 4,
+                          border: ` solid 1px #ccc`,
+                        }}
+                      >
+                        <Box>
+                          <Box>
+                            <Typography
+                              fontWeight="600"
+                              fontSize="1.2rem"
+                              color="primary.main"
+                            >
+                              Are you available for this gig?
+                            </Typography>
+                            <Typography color="grey.500" mt={1}>
+                              If you are please accept the event or decline if
+                              you are not available
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            alignItems: `center`,
+                            justifyContent: `space-between`,
+                            gap: `2rem`,
+                            mt: {
+                              xs: `2rem`,
+                              sm: `2rem`,
+                            },
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              border: `solid 1px ${theme.palette.primary.main}`,
+                              color: `primary.main`,
+                              py: 1,
+                              px: 4,
+                              fontWeight: `600`,
+                            }}
+                          >
+                            <Link href="/dashboard/support">
+                              <Typography fontSize="0.9rem">
+                                Declined offer
+                              </Typography>
+                            </Link>
+                          </Box>
+                          <Box
+                            sx={{
+                              backgroundColor: `primary.main`,
+                              color: `secondary.main`,
+                              py: 1,
+                              px: 4,
+                              fontWeight: `600`,
+                            }}
+                          >
+                            <Link href={`/account/contracts/${list?._id}`}>
+                              <Typography fontSize="0.9rem">
+                                View offer
+                              </Typography>
+                            </Link>
+                          </Box>
+                        </Box>
+                      </Box>
+                    ) : null}
+                  </Box>
+                ))}
+              </>
+            )}
+          </>
+        )}
         {userInfo?.role === `user` && (
           <FinderSection
             token={token}

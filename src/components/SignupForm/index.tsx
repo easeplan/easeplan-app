@@ -9,9 +9,13 @@ import CustomButton from '../common/CustomButton';
 import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
-import { Alert } from '@mui/material';
+import { Alert, Box, Typography } from '@mui/material';
 import FormError from '../common/FormError';
 import { useSignupMutation } from '@/features/usersApiSlice';
+import TermsAndConditionModal from '../TermsAndConditionModal';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
@@ -28,6 +32,9 @@ const SignupForm = () => {
   const [emailErr, setEmailErr] = useState<string>(``);
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isCheckedMsg, setIsCheckedMsg] = useState(``);
+  const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
 
   const getPasswordStrength = (password: string) => {
     let strengthIndicators = -1,
@@ -78,7 +85,12 @@ const SignupForm = () => {
       setEmailErr(`email is required`);
     } else if (!password) {
       setPassErr(`password is required`);
+    } else if (!isChecked) {
+      setIsCheckedMsg(`Terms and Condition is required`);
     } else {
+      setIsCheckedMsg(``);
+      setPassErr(``);
+      setEmailErr(``);
       try {
         setIsLoading(true);
         await signup(credentials).unwrap();
@@ -97,8 +109,16 @@ const SignupForm = () => {
     }
   };
 
+  const handleTermModal = () => {
+    setTermsAndCondition(!termAndCondition);
+  };
+
   return (
     <>
+      <TermsAndConditionModal
+        isOpen={termAndCondition}
+        isClose={() => setTermsAndCondition(false)}
+      />
       {otpSuccessful ? (
         <SelectAccountType />
       ) : (
@@ -164,9 +184,29 @@ const SignupForm = () => {
                     SIGN UP
                   </CustomButton>
                   <RememberDiv>
-                    <Link href="/" className="forgotPassword">
-                      Forgot Password?
-                    </Link>
+                    <Box>
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          cursor: `pointer`,
+                        }}
+                      >
+                        <Checkbox
+                          onChange={(e) => setIsChecked(e.target.checked)}
+                        />
+                        <Typography
+                          fontSize="0.8rem"
+                          color="primary.main"
+                          onClick={handleTermModal}
+                        >
+                          Privacy Policy & Terms and Condition
+                        </Typography>
+                      </Box>
+                      {isCheckedMsg && (
+                        <FormError text={isCheckedMsg}></FormError>
+                      )}
+                    </Box>
                   </RememberDiv>
                   <Footer>
                     Already a member?{` `}
@@ -233,9 +273,9 @@ const InputControl = styled(`div`)({
 
 const RememberDiv = styled(`div`)(({ theme }: any) => ({
   display: `flex`,
-  alignItems: `end`,
+  alignItems: `center`,
   marginTop: `1rem`,
-  justifyContent: `end`,
+  justifyContent: `space-between`,
   fontSize: `0.9rem`,
   fontWeight: `600`,
 

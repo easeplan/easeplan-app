@@ -26,8 +26,6 @@ const ErrorPage = ({ token }: Props) => {
     setEventID(localStorage.getItem(`eventID`));
   }, []);
 
-  console.log(eventID);
-
   return (
     <DashboardLayout token={token}>
       <section>

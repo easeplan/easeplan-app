@@ -7,10 +7,33 @@ import Icon4 from '@/public/svgs/Icon(3).svg';
 import Icon6 from '@/public/graph.png';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { formatCurrency } from '@/utils';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 const Dashboard = ({ data }: any) => {
+  function filterOutAcceptedEvents(events: any) {
+    let acceptedCount = 0;
+    let completedCount = 0;
+
+    for (const key in events) {
+      const event = events[key];
+
+      if (event.status === `Accepted`) {
+        acceptedCount++;
+      } else if (event.status === `Completed`) {
+        completedCount++;
+      }
+    }
+
+    return {
+      accepted: acceptedCount,
+      completed: completedCount,
+    };
+  }
+
+  const { accepted, completed } = filterOutAcceptedEvents(data.events);
+
   return (
     <DashboardWrapper>
       <h3 className="head">Today’s Summary</h3>
@@ -31,18 +54,21 @@ const Dashboard = ({ data }: any) => {
           },
           1024: {
             spaceBetween: 30,
-            slidesPerView: 4,
+            slidesPerView: 3,
           },
         }}
         className="mySwiper"
       >
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <Card>
             <Image src={Icon2} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
                 <small>₦</small>
-                <h2 className="title">00.00</h2>
+                <h2 className="title">{data?.balance === 0
+              ? `0.00`
+                    : formatCurrency(data?.balance && data?.balance)}
+                </h2>
               </div>
               <p>Total Amount Made</p>
             </div>
@@ -54,30 +80,18 @@ const Dashboard = ({ data }: any) => {
               width={200}
             />
           </Card>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card>
-            <Image src={Icon1} alt="EventIcon" height={40} width={40} />
-            <div>
-              <h2 className="title">0</h2>
-              <p>Number of events</p>
-            </div>
-            <Image
-              src={Icon6}
-              alt="EventIcon"
-              className="shape"
-              height={200}
-              width={200}
-            />
-          </Card>
-        </SwiperSlide>
+        </SwiperSlide> */}
         <SwiperSlide>
           <Card>
             <Image src={Icon3} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
                 <small>₦</small>
-                <h2 className="title">00.00</h2>
+                <h2 className="title">
+                  {data?.balance === 0
+                    ? `0.00`
+                    : formatCurrency(data?.balance && data?.balance)}
+                </h2>
               </div>
               <p>Available Balance</p>
             </div>
@@ -92,9 +106,25 @@ const Dashboard = ({ data }: any) => {
         </SwiperSlide>
         <SwiperSlide>
           <Card>
+            <Image src={Icon1} alt="EventIcon" height={40} width={40} />
+            <div>
+              <h2 className="title">{completed}</h2>
+              <p>Number of events</p>
+            </div>
+            <Image
+              src={Icon6}
+              alt="EventIcon"
+              className="shape"
+              height={200}
+              width={200}
+            />
+          </Card>
+        </SwiperSlide>
+        <SwiperSlide>
+          <Card>
             <Image src={Icon4} alt="EventIcon" height={40} width={40} />
             <div>
-              <h2 className="title">0</h2>
+              <h2 className="title">{accepted}</h2>
               <p>Event on Cue</p>
             </div>
             <Image
@@ -178,6 +208,11 @@ const Card = styled(`div`)(({ theme }: any) => ({
     position: `absolute`,
     top: `-4rem`,
     right: `-4rem`,
+
+    '@media (max-width: 900px)': {
+      top: `-6rem`,
+      right: `-5rem`,
+    },
   },
 
   small: {

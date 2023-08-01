@@ -36,6 +36,7 @@ const CustomButton = ({
   bgPrimary,
   bgSecondary,
   fontSize,
+  disabled,
   p,
   mb,
   mt,
@@ -46,6 +47,7 @@ const CustomButton = ({
 }: any) => {
   return (
     <Button
+      disabled={disabled}
       sx={{
         width: {
           xs: smWidth || `100%`,

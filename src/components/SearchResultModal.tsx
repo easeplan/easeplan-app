@@ -19,9 +19,9 @@ const style = {
   width: {
     xs: `100%`,
     sm: `100%`,
-    md: `95%`,
-    lg: `95%`,
-    xl: `95%`,
+    md: `65%`,
+    lg: `65%`,
+    xl: `65%`,
   },
   height: `100vh`,
   bgcolor: `#fff`,
@@ -41,8 +41,6 @@ const SearchResultModal = ({
     (state: RootState) => state.searchModal,
   );
 
-  // console.log(queryData);
-
   return (
     <Container fixed>
       <Modal
@@ -56,9 +54,9 @@ const SearchResultModal = ({
             <>
               <Box
                 sx={{
-                  py: 2,
+                  py: 0,
                   px: 4,
-                  backgroundColor: `primary.main`,
+                  // backgroundColor: `primary.main`,
                   borderTopRightRadius: `1rem`,
                   borderTopLeftRadius: `1rem`,
                   display: `flex`,
@@ -71,13 +69,14 @@ const SearchResultModal = ({
                   variant="h5"
                   fontWeight={600}
                 >
-                  Plan Your Event
+                  {/* Plan Your Event */}
                 </Typography>
                 <Typography
                   sx={{
                     cursor: `pointer`,
                     textAlign: `center`,
-                    color: `secondary.light`,
+                    color: `primary.main`,
+                    mt: 3,
                   }}
                 >
                   <CloseIcon onClick={closeResult} />
@@ -119,11 +118,12 @@ const SearchResultModal = ({
                         lg: 10,
                       },
                       pb: 10,
+                      marginTop: `-2rem`,
                     }}
                   >
                     {queryData ? (
                       <Box>
-                        <Hero queryData={queryData} />
+                        <Hero queryData={queryData} token={token} />
                         <PricingSection token={token} queryData={queryData} />
                         <Divider />
                         <PreviousEvent token={token} queryData={queryData} />
@@ -149,6 +149,7 @@ const SearchResultModal = ({
                             <Box>
                               <Box>
                                 <Hero
+                                  token={token}
                                   queryData={
                                     errorMsg?.matchedServiceProviders[0]
                                   }

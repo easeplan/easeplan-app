@@ -16,6 +16,8 @@ import {
   setCurrentMessage,
   setMessages,
   setMobileChatModal,
+  setAllUnreadConversationMessagesCount,
+  setUnreadConversationMessagesCount,
 } from '@/features/chatsSlice';
 import useFetchMessages from '@/hooks/useFetchMessages';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -53,6 +55,14 @@ const InboxPage = ({ token }: any) => {
         userId: `${userInfo?._id}`,
       },
     });
+
+    socket.on(`unreadConversationMessagesCount`, (count) =>
+      dispatch(setUnreadConversationMessagesCount(count)),
+    );
+
+    socket.on(`allUnreadConversationMessagesCount`, (count) =>
+      dispatch(setAllUnreadConversationMessagesCount(count)),
+    );
 
     return () => {
       socket.disconnect();
@@ -370,6 +380,7 @@ const InboxPage = ({ token }: any) => {
                     onChange={(e) => setChatMessage(e.target.value)}
                     rows={1}
                     cols={50}
+                    required
                     placeholder="Type here"
                     style={{
                       width: `100%`,

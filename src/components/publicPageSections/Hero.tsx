@@ -20,7 +20,7 @@ const Hero = ({ queryData, token }: any) => {
             sm: `130px`,
             md: `200px`,
             lg: `200px`,
-            xl: `300px`,
+            xl: `250px`,
           },
           my: `1rem`,
           borderRadius: `10px`,

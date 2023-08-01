@@ -114,6 +114,9 @@ export default function AvatarMenu({
           placement="bottom-start"
           transition
           disablePortal
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
         >
           {({ TransitionProps, placement }) => (
             <Grow

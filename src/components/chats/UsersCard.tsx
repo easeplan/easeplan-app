@@ -9,21 +9,15 @@ import {
   setMessages,
   setActiveUserData,
   setMobileChatModal,
-  setAllUnreadConversationMessagesCount,
 } from '@/features/chatsSlice';
 import io from 'socket.io-client';
 
 const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [isSelected, setIsSelected] = useState<boolean>(true);
   const { messages } = useSelector((state: RootState) => state.chatsData);
   const [localConversation, setLocalConversation] = useState<any>(null);
   const [localUser, setLocalUser] = useState<any>(null);
-  const [unreadConversationMessagesCount, setUnreadConversationMessagesCount] =
-    useState();
-
-  console.log(unreadConversationMessagesCount);
 
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
@@ -36,10 +30,6 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
 
   const activeConversation = activeUser(data?.participants);
 
-  const newUpdate = activeConversation?.map((conversation: any) => {
-    return conversation;
-  });
-
   const handleSelectChat = async () => {
     dispatch(setMobileChatModal(true));
     const conversationID = data?._id;
@@ -51,12 +41,13 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
       },
     });
 
-    socket.on(`unreadConversationMessagesCount`, (count) =>
-      setUnreadConversationMessagesCount(count),
-    );
-    socket.on(`allUnreadConversationMessagesCount`, (count) =>
-      dispatch(setAllUnreadConversationMessagesCount(count)),
-    );
+    // socket.on(`unreadConversationMessagesCount`, (count) =>
+    //   dispatch(setUnreadConversationMessagesCount(count)),
+    // );
+
+    // socket.on(`allUnreadConversationMessagesCount`, (count) =>
+    //   dispatch(setAllUnreadConversationMessagesCount(count)),
+    // );
 
     socket.emit(`markAsRead`, {
       conversationId: conversationID,
@@ -92,8 +83,6 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
     }
   };
 
-  console.log(activeConversation);
-
   useEffect(() => {
     fetchAllConversation();
   }, [messages]);
@@ -115,7 +104,6 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
           justifyContent: `space-between`,
           cursor: `pointer`,
           transition: `all 0.5s ease`,
-          // borderBottom: `solid 1px #ccc`,
           boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
           mt: {
             xs: 0,
@@ -128,7 +116,6 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
           },
           '&::focus': {
             background: theme.palette.primary.main,
-            // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
           },
           p: `1rem`,
         }}
@@ -153,34 +140,39 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
           />
         </Box>
         <Box sx={{ width: `82%`, position: `relative` }}>
-          <Box
+          {/* <Box
             sx={{
-              width: `15px`,
-              height: `15px`,
-              border: `solid 2px #fff`,
+              width: `20px`,
+              height: `20px`,
               borderRadius: `16px`,
               position: `absolute`,
-              top: `-0.5rem`,
-              left: `-3rem`,
-              background: theme.palette.info.main,
+              top: `0.8rem`,
+              right: `1rem`,
+              backgroundColor: `info.main`,
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
 
               '@media (max-width: 900px)': {
-                width: `9px`,
-                height: `9px`,
-                border: `solid 1.5px #fff`,
+                width: `18px`,
+                height: `18px`,
                 position: `absolute`,
                 top: `0.6rem`,
                 right: `0.5rem`,
               },
             }}
-          ></Box>
+          >
+            <Typography fontSize="0.8rem" color="#fff">
+              4
+            </Typography>
+            <Typography>{allUnreadConversationMessagesCount}</Typography>
+          </Box> */}
           <Typography fontWeight="bold" fontSize="0.8rem" color="primary.main">
             {localUser?.profile?.firstName} {localUser?.profile?.lastName}
           </Typography>
           <Typography fontSize="0.8rem">
             {truncateWords(localConversation?.lastMessage?.message)}
           </Typography>
-          <Typography>{unreadConversationMessagesCount}</Typography>
         </Box>
       </Box>
     </>

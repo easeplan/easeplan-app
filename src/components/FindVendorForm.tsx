@@ -13,39 +13,12 @@ import SelectState from './common/SelectState';
 import data from '@/lib/states.json';
 import { RootState } from '@/store/store';
 import { useSelector, useDispatch } from 'react-redux';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   setOpenSearchModal,
   setUpdateData,
   setLoadingResult,
   setErrorMsg,
 } from '@/features/searchResultSlice';
-
-const style = {
-  position: `absolute` as const,
-  bottom: `-1%`,
-  left: {
-    xs: `0%`,
-    sm: `0%`,
-    md: `10%`,
-    lg: `10%`,
-    xl: `10%`,
-  },
-  // transform: `translate(-50%, -50%)`,
-  width: {
-    xs: `100%`,
-    sm: `100%`,
-    md: `50%`,
-    lg: `35%`,
-    xl: `35%`,
-  },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
-  boxShadow: 24,
-  borderTopRightRadius: `1rem`,
-  borderTopLeftRadius: `1rem`,
-};
 
 const services = [
   `Dj`,
@@ -66,12 +39,11 @@ const services = [
 const FormSchema = Yup.object().shape({
   state: Yup.string().required(`State is missing`),
   city: Yup.string().required(`City is missing`),
-  guest: Yup.string().required(`Guest is missing`),
   eventDate: Yup.string().required(`Date is missing`),
   selectedService: Yup.string().required(`Service Type is missing`),
 });
 
-const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
+const FindVendorModal = ({ token }: any) => {
   const dispatch = useDispatch();
   const { errorMsg } = useSelector((state: RootState) => state.searchModal);
   const [selectedState, setSelectedState] = useState<any>();
@@ -126,11 +98,11 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
         <Box
           sx={{
             py: {
-              xs: 4,
+              xs: 3,
               lg: 4,
             },
             px: {
-              xs: 3,
+              xs: 0,
               lg: 4,
             },
           }}
@@ -140,7 +112,6 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
               initialValues={{
                 state: ``,
                 city: ``,
-                guest: ``,
                 eventDate: ``,
                 selectedService: ``,
               }}
@@ -158,9 +129,9 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
                       </Box>
                     )}
                     <Box>
-                      <Label text="State" />
+                      <Label text="Select State" />
                       <SelectState
-                        selectPlaceholder="Select State"
+                        // selectPlaceholder="Select State"
                         name="state"
                         onChange={(e: { target: { value: string } }) => {
                           const selectedState = data?.states.find(
@@ -180,66 +151,46 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
                         })}
                       </SelectState>
                     </Box>
-                    {selectedState && (
-                      <Box>
-                        <Label text="City" />
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Select City"
-                          name="city"
-                        >
-                          {selectedState?.cities?.map((city: any) => {
+                    <Box>
+                      <Label text="Select City" />
+                      <FormInput
+                        isSelect
+                        // selectPlaceholder="Select City"
+                        name="city"
+                      >
+                        {selectedState &&
+                          selectedState?.cities?.map((city: any) => {
                             return (
                               <MenuItem key={city} value={city}>
                                 {city}
                               </MenuItem>
                             );
                           })}
-                        </FormInput>
-                      </Box>
-                    )}
-                    <Box
-                      sx={{
-                        display: `flex`,
-                        gap: `10px`,
-                        alignItems: `center`,
-                      }}
-                    >
-                      <Box sx={{ width: `50%` }}>
-                        <Label text="Number Of Guests" />
-                        <FormInput
-                          ariaLabel="guest"
-                          name="guest"
-                          type="text"
-                          placeholder="430"
-                        />
-                      </Box>
-                      <Box sx={{ width: `50%` }}>
-                        <Label text="Event Date" />
-                        <FormInput
-                          ariaLabel="eventDate"
-                          name="eventDate"
-                          type="date"
-                        />
-                      </Box>
+                      </FormInput>
                     </Box>
                     <Box
                       sx={{
                         display: `flex`,
                         gap: `10px`,
                         alignItems: `center`,
+                        flexDirection: {
+                          xs: `column`,
+                          sm: `column`,
+                          md: `row`,
+                          lg: `row`,
+                        },
                       }}
                     >
-                      <Box sx={{ width: `50%` }}>
-                        <Label text="Minimum Budget" />
-                        <FormInput
-                          ariaLabel="budget"
-                          name="budget"
-                          type="text"
-                          placeholder="NGN 54,000"
-                        />
-                      </Box>
-                      <Box sx={{ width: `50%` }}>
+                      <Box
+                        sx={{
+                          width: {
+                            xs: `100%`,
+                            sm: `100%`,
+                            md: `50%`,
+                            lg: `50%`,
+                          },
+                        }}
+                      >
                         <Label text="Select Event Type" />
                         <FormInput
                           isSelect
@@ -254,6 +205,32 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
                           ))}
                         </FormInput>
                       </Box>
+                      <Box
+                        sx={{
+                          width: {
+                            xs: `100%`,
+                            sm: `100%`,
+                            md: `50%`,
+                            lg: `50%`,
+                          },
+                        }}
+                      >
+                        <Label text="Event Date" />
+                        <FormInput
+                          ariaLabel="eventDate"
+                          name="eventDate"
+                          type="date"
+                        />
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Label text="Enter Budget" />
+                      <FormInput
+                        ariaLabel="budget"
+                        name="budget"
+                        type="number"
+                        placeholder="NGN 54,000"
+                      />
                     </Box>
                     <Box
                       mt={3}

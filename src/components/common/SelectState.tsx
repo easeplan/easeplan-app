@@ -6,7 +6,7 @@ import { InputLabel, FormControl, Select } from '@mui/material';
 interface SelectProps {
   onChange: (e: any) => void;
   name: string;
-  selectPlaceholder: string;
+  selectPlaceholder?: string;
   children: React.ReactNode | React.ReactElement;
 }
 

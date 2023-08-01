@@ -11,6 +11,7 @@ import StyleIcon from '@mui/icons-material/Style';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 export { getServerSideProps } from '@/context/contextStore';
 
@@ -20,18 +21,13 @@ const MobileSidenav = () => {
   return (
     <MobileStyle>
       <FlexContainer>
-        <MobileNavItems
-          text="Inbox"
-          icon={<EmailIcon />}
-          href="/account/inbox"
-        />
-        {userInfo?.role === `user` ? null : (
+        {/* {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<ChromeReaderModeIcon />}
             text="My Profile"
             href="/account/profile"
           />
-        )}
+        )} */}
         {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
@@ -49,10 +45,16 @@ const MobileSidenav = () => {
         )}
 
         <MobileNavItems
+          text="Chat"
+          icon={<InsertCommentIcon />}
+          href="/account/chats"
+        />
+
+        {/* <MobileNavItems
           icon={<StyleIcon />}
           text="History"
           href="/account/history"
-        />
+        /> */}
 
         {userInfo?.role === `user` ? (
           <MobileNavItems
@@ -61,7 +63,7 @@ const MobileSidenav = () => {
             href="/account"
           />
         ) : null}
-        <MobileNavItems
+        {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
@@ -70,7 +72,7 @@ const MobileSidenav = () => {
           text="support"
           icon={<PermPhoneMsgIcon />}
           href="/account/support"
-        />
+        /> */}
       </FlexContainer>
     </MobileStyle>
   );

@@ -41,7 +41,7 @@ const Dashboard = ({ data }: any) => {
       <p className="subTitle">Activities</p>
 
       <Swiper
-        slidesPerView={3}
+        slidesPerView={1.3}
         spaceBetween={30}
         breakpoints={{
           640: {
@@ -86,7 +86,7 @@ const Dashboard = ({ data }: any) => {
             <Image src={Icon3} alt="EventIcon" height={40} width={40} />
             <div>
               <div className="cardFlex">
-                {/* <small>₦</small> */}
+                <small>₦</small>
                 <h2 className="title">
                   {data?.balance === 0
                     ? `0.00`
@@ -208,6 +208,11 @@ const Card = styled(`div`)(({ theme }: any) => ({
     position: `absolute`,
     top: `-4rem`,
     right: `-4rem`,
+
+    '@media (max-width: 900px)': {
+      top: `-6rem`,
+      right: `-5rem`,
+    },
   },
 
   small: {

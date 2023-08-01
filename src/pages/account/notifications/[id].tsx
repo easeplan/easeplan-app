@@ -144,8 +144,6 @@ export async function getServerSideProps({ req, params }: any) {
   const { id } = params;
   const { token } = parseCookies(req);
 
-  console.log(token);
-
   if (!token) {
     return {
       redirect: {

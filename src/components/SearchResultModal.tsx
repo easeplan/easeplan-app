@@ -41,8 +41,6 @@ const SearchResultModal = ({
     (state: RootState) => state.searchModal,
   );
 
-  // console.log(queryData);
-
   return (
     <Container fixed>
       <Modal
@@ -151,6 +149,7 @@ const SearchResultModal = ({
                             <Box>
                               <Box>
                                 <Hero
+                                  token={token}
                                   queryData={
                                     errorMsg?.matchedServiceProviders[0]
                                   }

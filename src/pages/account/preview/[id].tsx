@@ -29,8 +29,6 @@ const PreviewProfilePage = ({ contract, token, queryData }: any) => {
   //   return <p>Error:</p>;
   // }
 
-  console.log(queryData);
-
   return (
     <>
       <DashboardLayout token={token}>

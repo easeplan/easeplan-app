@@ -105,7 +105,6 @@ const ContractsPage = ({ token, data }: Props) => {
         setIsSuccess(true);
         router.push(`/account/`);
       }, 2000);
-      console.log(resData);
     } catch (err) {
       console.log(err);
       setIsSuccess(false);
@@ -552,8 +551,6 @@ const ContractsPage = ({ token, data }: Props) => {
 export async function getServerSideProps({ req, params }: any) {
   const { id } = params;
   const { token } = parseCookies(req);
-
-  console.log(token);
 
   if (!token) {
     return {

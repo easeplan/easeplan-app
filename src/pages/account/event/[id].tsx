@@ -52,7 +52,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
       contractId: id,
       role: userInfo?.role,
     };
-    console.log(credentials);
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/payments/create`,

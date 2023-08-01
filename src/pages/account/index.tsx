@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
 import FinderSection from '@/components/FinderSection';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Alert } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
@@ -77,6 +77,16 @@ const HomePage = ({ token }: Props) => {
   return (
     <>
       <DashboardLayout token={token}>
+        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
+          <>
+            {queryData?.verified === false && (
+              <Alert severity="error" sx={{ mt: 3, p: 3 }}>
+                Verify your account to start getting bookings from client
+              </Alert>
+            )}
+          </>
+        ) : null}
+
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <Dashboard data={queryData} />
         ) : null}

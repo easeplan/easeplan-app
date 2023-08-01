@@ -163,12 +163,12 @@ const SelectAccountType = () => {
                         }}
                         gutterBottom
                       >
-                        I need an Event Planner and Service Provider
+                        I need a Service Provider
                       </Typography>
                     </div>
                   </Card>
                 </Grid>
-                <Grid item xs={6} sm={6} md={5}>
+                {/* <Grid item xs={6} sm={6} md={5}>
                   <Card
                     onClick={updatePlannerRole}
                     sx={{
@@ -208,7 +208,7 @@ const SelectAccountType = () => {
                       </Typography>
                     </div>
                   </Card>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={8} sm={6} md={6}>
                   <Card
                     onClick={updateVendorRole}

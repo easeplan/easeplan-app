@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Typography } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -12,9 +12,10 @@ import NotificationDropdown from './NotificationDropdown';
 
 const NavHeader = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { allUnreadConversationMessagesCount } = useSelector(
-    (state: RootState) => state.chatsData,
-  );
+  // const {
+  //   allUnreadConversationMessagesCount,
+  //   unreadConversationMessagesCount,
+  // } = useSelector((state: RootState) => state.chatsData);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { queryData } = useFetch(
     `/${
@@ -59,29 +60,31 @@ const NavHeader = ({ token }: any) => {
           >
             <Link href="/account/chats">
               <Icon>
-                <Box
+                {/* <Box
                   sx={{
-                    width: `12px`,
-                    height: `12px`,
-                    border: `solid 2px #fff`,
+                    width: `20px`,
+                    height: `20px`,
                     borderRadius: `16px`,
                     position: `absolute`,
-                    top: `0.2rem`,
-                    left: `-0rem`,
+                    top: `0rem`,
+                    left: `0rem`,
                     backgroundColor: `info.main`,
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `center`,
 
                     '@media (max-width: 900px)': {
-                      width: `9px`,
-                      height: `9px`,
-                      border: `solid 1.5px #fff`,
+                      width: `17px`,
+                      height: `17px`,
                       position: `absolute`,
-                      top: `0.6rem`,
-                      right: `0.5rem`,
+                      top: `-0.2rem`,
+                      right: `1rem`,
                     },
                   }}
-                ></Box>
+                >
+                  <Typography>{allUnreadConversationMessagesCount}</Typography>
+                </Box> */}
                 <InsertCommentIcon className="icon" />
-                {allUnreadConversationMessagesCount}
               </Icon>
             </Link>
             <NotificationDropdown

@@ -6,6 +6,7 @@ interface chatsState {
   currentMessage: any;
   mobileChatModal: boolean;
   allUnreadConversationMessagesCount: any;
+  unreadConversationMessagesCount: any;
 }
 
 const initialState: chatsState = {
@@ -14,6 +15,7 @@ const initialState: chatsState = {
   currentMessage: null,
   mobileChatModal: false,
   allUnreadConversationMessagesCount: null,
+  unreadConversationMessagesCount: null,
 };
 
 export const chatsSlice = createSlice({
@@ -35,6 +37,9 @@ export const chatsSlice = createSlice({
     setAllUnreadConversationMessagesCount: (state, action) => {
       state.allUnreadConversationMessagesCount = action.payload;
     },
+    setUnreadConversationMessagesCount: (state, action) => {
+      state.unreadConversationMessagesCount = action.payload;
+    },
   },
 });
 
@@ -44,6 +49,7 @@ export const {
   setCurrentMessage,
   setMobileChatModal,
   setAllUnreadConversationMessagesCount,
+  setUnreadConversationMessagesCount,
 } = chatsSlice.actions;
 
 export default chatsSlice.reducer;

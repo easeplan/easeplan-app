@@ -79,8 +79,6 @@ const VerifiactionModal = ({
     }
   };
 
-  // console.log(userEmail);
-
   const resendHandler = async () => {
     try {
       // setIsResendLoading(true);

@@ -18,8 +18,6 @@ const PricingCard = ({ queryData, token }: any) => {
   const [openStandardModal, setOpenStandardModal] = useState(false);
   const [openPremiumModal, setOpenPremiumModal] = useState(false);
 
-  // console.log(queryData);
-
   const handleOpenModal = () => {
     setOpenModal(true);
   };

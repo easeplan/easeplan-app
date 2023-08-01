@@ -10,7 +10,6 @@ import 'swiper/css/navigation';
 import theme from '@/styles/theme';
 
 const ClientReviews = ({ queryData }: any) => {
-  // console.log(queryData);
   return (
     <Box
       mt={8}

@@ -71,8 +71,6 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
       setIsSuccess(true);
       setShowUpdate(!showUpdate);
       setBankInfo(data);
-
-      console.log(data);
     } catch (error: any) {
       console.log(error);
       setIsLoading(false);

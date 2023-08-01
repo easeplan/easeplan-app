@@ -31,8 +31,6 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   const [contractID, setContractID] = useState();
   const [recieverID, setrecieverID] = useState();
 
-  console.log(data.packages);
-
   const handleBasicModal = () => {
     setBasicModal(true);
   };
@@ -157,7 +155,6 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         },
       );
       if (data.status === `success`) {
-        console.log(data?.data);
         localStorage.setItem(`contractID`, `${data?.data?._id}`);
         localStorage.setItem(`contractRole`, `${data?.data?._id}`);
         localStorage.setItem(

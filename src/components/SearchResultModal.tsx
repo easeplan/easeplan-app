@@ -41,8 +41,6 @@ const SearchResultModal = ({
     (state: RootState) => state.searchModal,
   );
 
-  // console.log(queryData);
-
   return (
     <Container fixed>
       <Modal

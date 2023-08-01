@@ -34,8 +34,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(queryData);
-
   useEffect(() => {
     localStorage.setItem(`eventID`, `${id}`);
     localStorage.setItem(`contract`, `${data}`);
@@ -52,7 +50,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
       contractId: id,
       role: userInfo?.role,
     };
-    console.log(credentials);
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/payments/create`,
@@ -67,7 +64,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
 
       if (data?.data?.status === true) {
         router.push(data?.data?.data?.authorization_url);
-        console.log(data?.data);
       }
     } catch (error) {
       console.log(error);

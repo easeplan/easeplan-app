@@ -46,7 +46,11 @@ const VerifyPage = ({ token }: any) => {
     <DashboardLayout token={token}>
       <Flex>
         <Link href="/account/settings">
-          <Button variant="outlined" startIcon={<AdminPanelSettingsIcon />}>
+          <Button
+            variant="outlined"
+            sx={{ fontSize: `0.7rem` }}
+            startIcon={<AdminPanelSettingsIcon />}
+          >
             Profile Settings
           </Button>
         </Link>
@@ -54,10 +58,10 @@ const VerifyPage = ({ token }: any) => {
           <Link href="/account/settings/verify">
             <Button
               variant="contained"
-              sx={{ marginLeft: `1rem` }}
+              sx={{ marginLeft: `1rem`, fontSize: `0.7rem` }}
               startIcon={<AdminPanelSettingsIcon />}
             >
-              Verification Settings
+              Verification
             </Button>
           </Link>
         )}
@@ -68,7 +72,11 @@ const VerifyPage = ({ token }: any) => {
           display: `flex`,
           alignItems: `center`,
           justifyContent: `center`,
-          marginTop: 40,
+          marginTop: {
+            xs: 20,
+            md: 20,
+            lg: 40,
+          },
         }}
       >
         <Box>
@@ -81,7 +89,7 @@ const VerifyPage = ({ token }: any) => {
                 <VerifiedUserIcon
                   sx={{ fontSize: `4rem`, color: `secondary.main` }}
                 />
-                <Typography color="primary.main" mt={4}>
+                <Typography color="primary.main" fontWeight={500} mt={4}>
                   Your account has been verified
                 </Typography>
               </Box>

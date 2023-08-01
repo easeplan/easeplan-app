@@ -16,6 +16,7 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 interface Props {
   token: string;
@@ -80,8 +81,33 @@ const HomePage = ({ token }: Props) => {
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <>
             {queryData?.verified === false && (
-              <Alert severity="error" sx={{ mt: 3, p: 3 }}>
-                Verify your account to start getting bookings from client
+              <Alert
+                severity="error"
+                sx={{
+                  mt: {
+                    xs: 2,
+                    md: 3,
+                    lg: 3,
+                  },
+                  mb: 4,
+                  p: 3,
+                }}
+              >
+                <Typography mb={2}>
+                  Verify your account to start getting bookings from client
+                </Typography>
+                <Link href="/account/settings/verify">
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      marginLeft: `1rem`,
+                      fontSize: `0.7rem`,
+                    }}
+                    startIcon={<AdminPanelSettingsIcon />}
+                  >
+                    Start Verification
+                  </Button>
+                </Link>
               </Alert>
             )}
           </>

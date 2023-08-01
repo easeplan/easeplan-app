@@ -16,6 +16,9 @@ import AvatarImg from '@/public/avatar.png';
 import { clearCredentials } from '@/features/authSlice';
 import { useDispatch } from 'react-redux';
 import { useLogoutMutation } from '@/features/usersApiSlice';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import { Divider } from '@mui/material';
 
 interface AvatarMenuProps {
   imgSrc: any;
@@ -34,6 +37,7 @@ export default function AvatarMenu({
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch();
   // const [logout] = useLogoutMutation();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -136,14 +140,75 @@ export default function AvatarMenu({
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <Link href="/account/settings">
-                      <MenuItem onClick={handleClose}>Settings</MenuItem>
+                    {userInfo?.role === `user` ? null : (
+                      <Link href="/account/profile">
+                        <MenuItem
+                          sx={{
+                            color: `primary.main`,
+                            fontWeight: `500`,
+                            px: 6,
+                            py: 2,
+                          }}
+                          onClick={handleClose}
+                        >
+                          My Profile
+                        </MenuItem>
+                      </Link>
+                    )}
+                    <Divider />
+                    <Link href="/account/history">
+                      <MenuItem
+                        sx={{
+                          color: `primary.main`,
+                          fontWeight: `500`,
+                          px: 6,
+                          py: 2,
+                        }}
+                        onClick={handleClose}
+                      >
+                        History
+                      </MenuItem>
                     </Link>
-                    {/* <MenuItem onClick={handleClose}>History</MenuItem>
-                    <MenuItem onClick={() => router.push(`/account/profile`)}>
-                      My account
-                    </MenuItem> */}
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <Divider />
+                    <Link href="/account/settings">
+                      <MenuItem
+                        sx={{
+                          color: `primary.main`,
+                          fontWeight: `500`,
+                          px: 6,
+                          py: 2,
+                        }}
+                        onClick={handleClose}
+                      >
+                        Settings
+                      </MenuItem>
+                    </Link>
+                    <Divider />
+                    <Link href="/account/support">
+                      <MenuItem
+                        sx={{
+                          color: `primary.main`,
+                          fontWeight: `500`,
+                          px: 6,
+                          py: 2,
+                        }}
+                        onClick={handleClose}
+                      >
+                        Support
+                      </MenuItem>
+                    </Link>
+                    <Divider />
+                    <MenuItem
+                      sx={{
+                        color: `primary.main`,
+                        fontWeight: `500`,
+                        px: 6,
+                        py: 2,
+                      }}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

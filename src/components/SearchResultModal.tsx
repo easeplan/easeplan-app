@@ -123,7 +123,7 @@ const SearchResultModal = ({
                   >
                     {queryData ? (
                       <Box>
-                        <Hero queryData={queryData} />
+                        <Hero queryData={queryData} token={token} />
                         <PricingSection token={token} queryData={queryData} />
                         <Divider />
                         <PreviousEvent token={token} queryData={queryData} />

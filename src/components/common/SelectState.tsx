@@ -1,9 +1,7 @@
 import React from 'react';
 import { useField } from 'formik';
 import FormError from './FormError';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { MenuItem } from '@mui/material';
+import { InputLabel, FormControl, Select } from '@mui/material';
 
 interface SelectProps {
   onChange: (e: any) => void;
@@ -31,12 +29,15 @@ const SelectState = ({
   const [field, meta] = useField(props);
   return (
     <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+      <InputLabel id="demo-simple-select-label">{selectPlaceholder}</InputLabel>
       <Select
         {...field}
         {...props}
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
         onChange={onChange}
-        sx={{ py: `0.4rem`, borderRadius: `10px` }}
-        displayEmpty
+        sx={{ py: `0.3rem`, borderRadius: `10px` }}
+        // displayEmpty
         inputProps={{ 'aria-label': `Without label` }}
         className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
         MenuProps={MenuProps}

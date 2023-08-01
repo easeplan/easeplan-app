@@ -6,53 +6,66 @@ import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
-import { useAuthUser } from '@/context/contextStore';
 import EmailIcon from '@mui/icons-material/Email';
 import StyleIcon from '@mui/icons-material/Style';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 export { getServerSideProps } from '@/context/contextStore';
 
 const MobileSidenav = () => {
-  const { queryData } = useAuthUser();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   return (
     <MobileStyle>
       <FlexContainer>
-        {/* <MobileNavItems
+        <MobileNavItems
           text="Inbox"
           icon={<EmailIcon />}
           href="/account/inbox"
-        /> */}
-        {queryData?.details?.role != `user` ? null : (
+        />
+        {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<ChromeReaderModeIcon />}
             text="My Profile"
             href="/account/profile"
           />
         )}
-        {queryData?.details?.role != `user` ? null : (
+        {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
             text="Wallet"
             href="/account/wallet"
           />
         )}
+
+        {userInfo?.role === `user` ? null : (
+          <MobileNavItems
+            text="Dashboard"
+            icon={<DashboardIcon className="Homeicon" />}
+            href="/account"
+          />
+        )}
+
         <MobileNavItems
           icon={<StyleIcon />}
           text="History"
           href="/account/history"
         />
+
+        {userInfo?.role === `user` ? (
+          <MobileNavItems
+            text="Dashboard"
+            icon={<DashboardIcon className="Homeicon" />}
+            href="/account"
+          />
+        ) : null}
         <MobileNavItems
-          text="Dashboard"
-          icon={<DashboardIcon className="Homeicon" />}
-          href="/account"
-        />
-        {/* <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
-        /> */}
+        />
         <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}

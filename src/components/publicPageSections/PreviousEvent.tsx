@@ -6,9 +6,9 @@ import theme from '@/styles/theme';
 const PreviousEvent = ({ queryData }: any) => {
   const [showMore, setShowMore] = useState<boolean>(false);
   function truncateString(str: string, num: any) {
-    const newStr = str.toString();
-    if (newStr.length > num) {
-      return newStr.slice(0, num) + `.....`;
+    const newStr = str?.toString();
+    if (newStr?.length > num) {
+      return newStr?.slice(0, num) + `.....`;
     } else {
       return newStr;
     }
@@ -63,7 +63,7 @@ const PreviousEvent = ({ queryData }: any) => {
                   lg: `400px`,
                   xl: `400px`,
                 },
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
+                // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
                 borderRadius: `10px`,
                 position: `relative`,
 
@@ -96,8 +96,8 @@ const PreviousEvent = ({ queryData }: any) => {
                 sx={{
                   width: `90%`,
                   margin: `0 auto`,
-                  background: `rgba(0,0,0,0.7)`,
-                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
+                  // background: `rgba(0,0,0,0.7)`,
+                  // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
                   borderRadius: `10px`,
                   p: {
                     xs: `1rem`,

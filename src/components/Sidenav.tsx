@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 export { getServerSideProps } from '@/context/contextStore';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 const Sidenav = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -42,13 +43,13 @@ const Sidenav = () => {
             href="/account"
           />
         </Links>
-        {/* <Links>
+        <Links>
           <SidebarItem
-            icon={<EmailIcon />}
+            icon={<InsertCommentIcon />}
             text="Inbox"
-            href="/account/inbox"
+            href="/account/chats"
           />
-        </Links> */}
+        </Links>
         <Links>
           <SidebarItem
             icon={<StyleIcon />}

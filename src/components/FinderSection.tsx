@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Box, Grid, Typography } from '@mui/material';
 import FindPlannerModal from './FindPlannerModal';
 import FindVendorModal from './FindVendorModal';
+import FindVendorForm from './FindVendorForm';
 import SearchResultModal from './SearchResultModal';
 import { RootState } from '@/store/store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -64,7 +65,7 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
           queryData={data}
           token={token}
         />
-        <h3 className="sectionTitle">Act Swiftly</h3>
+        {/* <h3 className="sectionTitle">Act Swiftly</h3> */}
         <FindPlannerModal
           isOpen={openPlannerModal}
           isClose={() => dispatch(setOpenPlannerModal(false))}
@@ -77,7 +78,7 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
           queryData={queryData}
           token={token}
         />
-        <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 4, md: 5 }}>
+        {/* <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 4, md: 5 }}>
           <Grid item xs={6} sm={6} md={6}>
             <Card onClick={handleOpenFindPlannerModal}>
               <Image src={FinderIcon} alt="EventIcon" height={80} width={80} />
@@ -90,7 +91,11 @@ const FinderSection = ({ queryData, token, notificationData }: any) => {
               <h3 className="title">Find Vendor</h3>
             </Card>
           </Grid>
-        </Grid>
+        </Grid> */}
+        <Box>
+          <h3 className="sectionTitle">Find Vendor</h3>
+          <FindVendorForm queryData={queryData} token={token} />
+        </Box>
         <Box sx={{ mt: 10 }}>
           <EventList />
         </Box>

@@ -61,10 +61,13 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
             >
               <>
                 <Paper
+                  id="message"
                   sx={{
                     py: 1,
-                    px: 2,
-                    maxWidth: `60%`,
+                    pl: 2,
+                    pr: 2,
+                    maxWidth: `80%`,
+                    borderRadius: `10px`,
                     backgroundColor: isCurrentUser ? `#fff` : `primary.light`,
                     color: isCurrentUser ? `primary.main` : `#fff`,
                   }}

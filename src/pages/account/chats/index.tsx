@@ -12,7 +12,13 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
-import { setCurrentMessage, setMessages } from '@/features/chatsSlice';
+import {
+  setCurrentMessage,
+  setMessages,
+  setMobileChatModal,
+  setAllUnreadConversationMessagesCount,
+  setUnreadConversationMessagesCount,
+} from '@/features/chatsSlice';
 import useFetchMessages from '@/hooks/useFetchMessages';
 import ChatIcon from '@mui/icons-material/Chat';
 import SendIcon from '@mui/icons-material/Send';
@@ -28,10 +34,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import axios from 'axios';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const InboxPage = ({ token }: any) => {
   const dispatch = useDispatch();
-  const { messages, activeUserData } = useSelector(
+  const divRef = useRef<HTMLDivElement>(null);
+  const { messages, activeUserData, mobileChatModal } = useSelector(
     (state: RootState) => state.chatsData,
   );
   const [conversationList, setConversationList] = useState<any>();
@@ -40,10 +48,6 @@ const InboxPage = ({ token }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
-  const [newMessages, setNewMessages] = useState<any[]>([]);
-  const [activeUserID, setActiveUserID] = useState(
-    typeof window !== `undefined` ? localStorage.getItem(`activeUserID`) : ``,
-  );
 
   useEffect(() => {
     const socket = io(`https://apiv3.easeplan.io`, {
@@ -51,6 +55,14 @@ const InboxPage = ({ token }: any) => {
         userId: `${userInfo?._id}`,
       },
     });
+
+    socket.on(`unreadConversationMessagesCount`, (count) =>
+      dispatch(setUnreadConversationMessagesCount(count)),
+    );
+
+    socket.on(`allUnreadConversationMessagesCount`, (count) =>
+      dispatch(setAllUnreadConversationMessagesCount(count)),
+    );
 
     return () => {
       socket.disconnect();
@@ -70,24 +82,6 @@ const InboxPage = ({ token }: any) => {
       );
       const conversationData = await res.json();
       setConversationList(conversationData);
-
-      // const newUpdate = conversationData?.conversations?.map(
-      //   (conversation: any) => {
-      //     return conversation;
-      //   },
-      // );
-
-      // const activeUser = (arr: any) => {
-      //   const activeUsers: any = [];
-      //   arr
-      //     .filter((user: any) => user._id != userInfo?._id)
-      //     .map((user: any) => activeUsers.push(user));
-
-      //   return activeUsers;
-      // };
-
-      // const activeConversation = activeUser(newUpdate?.participants);
-      // console.log(newUpdate?.map((conversation: any) => conversation));
     } catch (error) {}
   };
 
@@ -104,9 +98,10 @@ const InboxPage = ({ token }: any) => {
     }
   };
 
+  // Trigger the file selection dialog function
   const handleUploadButtonClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // Trigger the file selection dialog
+      fileInputRef.current.click();
     }
   };
 
@@ -190,6 +185,15 @@ const InboxPage = ({ token }: any) => {
 
   const activeConversation = activeUser(activeUserData?.participants);
 
+  {
+    /* Smooth Scroll to the last Message */
+  }
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current!.scrollTop = divRef.current!.scrollHeight;
+    }
+  }, [messages]);
+
   const { queryData, error, isLoading } = useFetch(
     `/${
       userInfo?.role === `provider`
@@ -216,51 +220,67 @@ const InboxPage = ({ token }: any) => {
       <ChatLayout>
         <RecentChats token={token} conversationList={conversationList} />
         {activeUserData ? (
-          <Box sx={{ overflowY: `hidden` }}>
-            <Box
-              sx={{
-                position: `relative`,
-                width: `100%`,
-                height: `100%`,
-                backgroundColor: `secondary.light`,
-                borderRadius: `8px`,
-              }}
-            >
-              {/* The Image Preview Modal */}
-              <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
-                {/* <DialogTitle>Selected Image</DialogTitle> */}
-                <DialogContent>
-                  {selectedImage && (
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Selected Preview"
-                      style={{ width: `100%` }}
-                    />
-                  )}
-                </DialogContent>
-                <DialogActions>
+          <Box
+            className={`${
+              mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
+            }`}
+            sx={{
+              position: `relative`,
+              width: `100%`,
+              overflowY: `hidden`,
+              backgroundColor: `secondary.light`,
+              borderRadius: `8px`,
+              height: {
+                xs: `50vh`,
+                sm: `50vh`,
+                md: `80vh`,
+                lg: `80vh`,
+                xl: `100%`,
+              },
+            }}
+          >
+            {/* The Image Preview Modal */}
+            <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
+              {/* <DialogTitle>Selected Image</DialogTitle> */}
+              <DialogContent>
+                {selectedImage && (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Selected Preview"
+                    style={{ width: `100%` }}
+                  />
+                )}
+              </DialogContent>
+              <DialogActions>
+                <Box
+                  sx={{
+                    display: `flex`,
+                    // alignItems: `center`,
+                    justifyContent: `space-between`,
+                    width: `100%`,
+                  }}
+                >
+                  <Button onClick={handleClosePreview} color="primary">
+                    Close
+                  </Button>
+                  <Button onClick={handleUploadImage} variant="contained">
+                    Upload
+                  </Button>
+                </Box>
+              </DialogActions>
+            </Dialog>
+            <Box sx={{ p: `1rem`, backgroundColor: `#fff` }}>
+              {/* Active User at Header */}
+              {activeConversation?.map((user: any) => (
+                <Box
+                  key={user?._id}
+                  sx={{
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `space-between`,
+                  }}
+                >
                   <Box
-                    sx={{
-                      display: `flex`,
-                      // alignItems: `center`,
-                      justifyContent: `space-between`,
-                      width: `100%`,
-                    }}
-                  >
-                    <Button onClick={handleClosePreview} color="primary">
-                      Close
-                    </Button>
-                    <Button onClick={handleUploadImage} variant="contained">
-                      Upload
-                    </Button>
-                  </Box>
-                </DialogActions>
-              </Dialog>
-              <Box sx={{ p: `1rem`, background: `#fff` }}>
-                {/* Active User at Header */}
-                {activeConversation?.map((user: any) => (
-                  <Box
-                    key={user?._id}
                     sx={{
                       display: `flex`,
                       alignItems: `center`,
@@ -297,81 +317,104 @@ const InboxPage = ({ token }: any) => {
                       </Typography>
                     </Box>
                   </Box>
-                ))}
-              </Box>
-              {/*  Chats */}
-              <Box
-                sx={{
-                  overflowY: `scroll`,
-                  height: `100%`,
-                  px: `1rem`,
-                  pt: `2rem`,
-                  pb: `12rem`,
-                }}
-              >
-                <Box>
-                  <ChatComponent userInfoId={queryData} messages={messages} />
+                  <ArrowForwardIosIcon
+                    onClick={() => dispatch(setMobileChatModal(false))}
+                    className="mobileCloseIcon"
+                  />
                 </Box>
+              ))}
+            </Box>
+            {/*  Chats */}
+            <Box
+              ref={divRef}
+              sx={{
+                overflowY: `auto`,
+                height: `100%`,
+                scrollBehavior: `smooth`,
+                px: `1rem`,
+                pt: `2rem`,
+                pb: `12rem`,
+              }}
+            >
+              <Box>
+                <ChatComponent userInfoId={queryData} messages={messages} />
               </Box>
-              {/* Form for sending message */}
-              <Box
-                sx={{
-                  position: `absolute`,
-                  bottom: `0`,
-                  width: `100%`,
-                  p: `1rem`,
-                  background: theme.palette.secondary.light,
-                  borderTop: `solid 1px #ccc`,
-                }}
-              >
-                <form onSubmit={handleSubmit}>
-                  <Box sx={{ display: `flex` }}>
-                    <IconButton
-                      aria-label="upload-image"
-                      size="large"
-                      onClick={handleUploadButtonClick}
-                    >
-                      <input
-                        type="file"
-                        accept="image/*"
-                        style={{ display: `none` }}
-                        ref={fileInputRef}
-                        onChange={handleFileInputChange}
-                      />
-                      <AttachFileIcon />
-                    </IconButton>
-                    <textarea
-                      id="txtid"
-                      name="txtname"
-                      value={chatMessage}
-                      onChange={(e) => setChatMessage(e.target.value)}
-                      rows={1}
-                      cols={50}
-                      placeholder="Type here"
-                      style={{
-                        width: `100%`,
-                        padding: `1rem`,
-                        overflowY: `scroll`,
-                        resize: `none`,
-                        border: `none`,
-                        outline: `none`,
-                      }}
+            </Box>
+            {/* Form for sending message */}
+            <Box
+              sx={{
+                position: `absolute`,
+                bottom: `0`,
+                width: `100%`,
+                p: `1rem`,
+                background: theme.palette.secondary.light,
+                borderTop: `solid 1px #ccc`,
+              }}
+            >
+              <form onSubmit={handleSubmit}>
+                <Box
+                  sx={{
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `space-between`,
+                  }}
+                >
+                  <IconButton
+                    aria-label="upload-image"
+                    size="medium"
+                    onClick={handleUploadButtonClick}
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: `none` }}
+                      ref={fileInputRef}
+                      onChange={handleFileInputChange}
                     />
-                    <Button
-                      variant="contained"
-                      sx={{ px: 4, ml: 2 }}
-                      endIcon={<SendIcon />}
-                      type="submit"
-                    >
-                      Send
-                    </Button>
-                  </Box>
-                </form>
-              </Box>
+                    <AttachFileIcon />
+                  </IconButton>
+                  <textarea
+                    id="txtid"
+                    name="txtname"
+                    value={chatMessage}
+                    onChange={(e) => setChatMessage(e.target.value)}
+                    rows={1}
+                    cols={50}
+                    required
+                    placeholder="Type here"
+                    style={{
+                      width: `100%`,
+                      padding: `1rem`,
+                      overflowY: `scroll`,
+                      resize: `none`,
+                      border: `none`,
+                      outline: `none`,
+                    }}
+                  />
+                  <IconButton
+                    type="submit"
+                    sx={{
+                      display: `flex`,
+                      alignItems: `center`,
+                      justifyContent: `center`,
+                      width: `40px`,
+                      height: `40px`,
+                      borderRadius: `50%`,
+                      backgroundColor: `primary.main`,
+                      ml: 2,
+                    }}
+                  >
+                    <SendIcon sx={{ mx: 1, color: `secondary.main` }} />
+                  </IconButton>
+                </Box>
+              </form>
             </Box>
           </Box>
         ) : (
           <Box
+            className={`${
+              mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
+            }`}
             sx={{
               position: `relative`,
               width: `100%`,

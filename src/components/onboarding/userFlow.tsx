@@ -31,9 +31,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setIntro,
   setUserIntro,
-  setIntroOne,
   setIntroTwo,
-  setIntroThree,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 
@@ -59,6 +57,7 @@ const ProfileSchema = Yup.object().shape({
         `image/jpg`
       );
     }),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface PropsTypes {
@@ -71,6 +70,7 @@ interface FormTypes {
   lastname?: string;
   city?: string;
   picture?: any;
+  gender?: string;
 }
 
 const UserFlow = ({ token }: PropsTypes) => {
@@ -101,6 +101,7 @@ const UserFlow = ({ token }: PropsTypes) => {
           lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
+          gender: credentials?.gender,
           role: userInfo?.role,
         },
         {
@@ -112,8 +113,10 @@ const UserFlow = ({ token }: PropsTypes) => {
       );
 
       if (data.status === `success`) {
-        dispatch(setUserIntro(false));
-        dispatch(setIntroTwo(true));
+        if (userInfo?.role === `user`) {
+          dispatch(setUserIntro(false));
+          router.push(`/account`);
+        }
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,
@@ -221,6 +224,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                     lastname: ``,
                     city: ``,
                     picture: ``,
+                    gender: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -242,6 +246,19 @@ const UserFlow = ({ token }: PropsTypes) => {
                           type="text"
                           placeholder="Last Name"
                         />
+                      </Box>
+                      <Box>
+                        <FormInput
+                          isSelect
+                          selectPlaceholder="Gender"
+                          name="gender"
+                        >
+                          <MenuItem value="Male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="Prefer not say">
+                            Prefer not say
+                          </MenuItem>
+                        </FormInput>
                       </Box>
                       <Box>
                         <SelectState

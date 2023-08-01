@@ -147,6 +147,7 @@ const SearchResultModal = ({
                             <Box>
                               <Box>
                                 <Hero
+                                  token={token}
                                   queryData={
                                     errorMsg?.matchedServiceProviders[0]
                                   }

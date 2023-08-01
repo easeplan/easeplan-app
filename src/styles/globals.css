@@ -132,7 +132,7 @@ a {
   height: 100%;
   z-index: 9;
   display: flex;
-  alignitems: center;
+  align-items: center;
   justify-content: center;
 }
 
@@ -236,7 +236,7 @@ a {
 }
 
 .share-button:hover {
-  box-shadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1) `;
+  box-shadow: 0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1);
 }
 
 .share-text {
@@ -286,7 +286,7 @@ a {
   opacity: 1;
   display: flex;
   justify-content: space-between;
-  alignitems: end;
+  align-items: end;
   overflow: hidden;
   color: #174e64;
   transition: 0.3s;
@@ -318,6 +318,50 @@ a {
 
 .show-links .button-links {
   translate: 0 -100%;
+}
+
+.ea-heading-2, .ea-heading-1 {
+  color: #0F3443;
+  font-size: 1.6rem;
+  margin-bottom: .6rem;
+}
+.ea-heading-1 {
+  font-size: 2.2rem;
+}
+.ea-center {
+  text-align: center;
+}
+
+.ea-center > div {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.ea-input {
+  appearance: none;
+  border: none;
+  padding-top: 9px;
+  padding-right: 9px;
+  padding-left: 40px;
+  padding-bottom: 10px;
+}
+.ea-input-icon {
+  position: absolute;
+  top: 0%;
+  transform: translateY(25%);
+  left: 10px;
+}
+
+.ea-form-control {
+  position: relative;
+}
+
+.MuiPaper-elevation{
+  box-shadow: none !important;
+}
+
+.ea-line {
+  border-bottom: 1px solid #BDC7C1;
 }
 .mobileCloseIcon {
   display: none;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Formik, useField } from 'formik';
 import * as Yup from 'yup';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Button, Typography } from '@mui/material';
+import { Box, MenuItem, Button, Typography, Rating } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import Image from 'next/image';
 import logoImg from '@/public/logo.png';
@@ -14,6 +14,8 @@ import theme from '@/styles/theme';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
+import StarIcon from '@mui/icons-material/Star';
+import React from 'react';
 
 interface TextAreaProps {
   rows?: number;
@@ -53,7 +55,7 @@ const ReviewFormSchema = Yup.object().shape({
 
 interface PropsTypes {
   token: string;
-  rating: string | number;
+  rating: number;
   profileId: string;
   role: string;
 }
@@ -62,7 +64,9 @@ interface FormTypes {
   review?: any;
 }
 
-const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
+const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
+  const [hover, setHover] = React.useState(-1);
+  const [$rating, setRating] = React.useState(rating);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
@@ -83,9 +87,21 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
     },
   });
 
+  const labels: { [index: string]: string } = {
+    1: `1`,
+    2: `2`,
+    3: `3`,
+    4: `4`,
+    5: `5`,
+  };
+
+  function getLabelText(value: number) {
+    return `${value} Star${value !== 1 ? `s` : ``}, ${labels[value]}`;
+  }
+
   const handleFormSubmit = async (credentials: FormTypes) => {
     const data = {
-      stars: rating,
+      stars: $rating,
       role: role,
       profileId: profileId,
       review: credentials.review,
@@ -93,18 +109,45 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
     updateReview(data);
   };
 
+  // const handleRating = async (value: any) => {
+  //   const data = {
+  //     stars: value,
+  //     role: role,
+  //     profileId: profileId,
+  //   };
+  //   updateRating(data);
+  // };
+
   return (
     <Box sx={{ display: `flex` }}>
       {/* Form */}
       <Box
         sx={{
-          border: `solid 1px #ccc`,
           width: `100%`,
           mt: 8,
         }}
       >
-        <Box sx={{ p: 2, borderBottom: `solid 1px #cccc` }}>
-          <Typography>Send message</Typography>
+        <div className="ea-center">
+          <div>
+            <h3 className="ea-heading-2">Rate event Planner</h3>
+            <Rating
+              name="hover-feedback"
+              size={`large`}
+              value={$rating}
+              precision={0.5}
+              getLabelText={getLabelText}
+              onChange={(event, newValue) => setRating(newValue || 0)}
+              onChangeActive={(event, newHover) => {
+                setHover(newHover);
+              }}
+              emptyIcon={
+                <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+              }
+            />
+          </div>
+        </div>
+        <Box sx={{ p: 2, border: `solid 1px #cccc` }}>
+          <p>Write your comments</p>
         </Box>
         <Formik
           initialValues={{
@@ -115,7 +158,7 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
         >
           {({}) => (
             <Form>
-              <Box>
+              <Box sx={{ p: 2, border: `solid 1px #cccc`, borderTop: `0px` }}>
                 <TextArea
                   placeholder="Type Message Here!"
                   name="review"
@@ -123,16 +166,14 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
                   rows={6}
                 />
               </Box>
-              <Box
-                sx={{ textAlign: `right`, p: 2, borderTop: `solid 1px #ccc` }}
-              >
+              <Box sx={{ textAlign: `right`, p: 2, mt: 4 }}>
                 <Button
                   color="primary"
                   style={{ color: theme.palette.secondary.main }}
                   variant="contained"
                   type="submit"
                 >
-                  Send Message
+                  Review
                 </Button>
               </Box>
             </Form>
@@ -143,4 +184,4 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
   );
 };
 
-export default ReviewForm;
+export default ReviewFormFull;

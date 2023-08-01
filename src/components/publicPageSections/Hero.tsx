@@ -7,8 +7,15 @@ import BannerImg from '@/public/banner.png';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import RatingStar from '../common/RatingStar';
+import { QueryData } from '@/lib/types';
 
-const Hero = ({ queryData, token }: any) => {
+type Props = {
+  queryData: QueryData;
+  token: string;
+};
+
+const Hero = ({ queryData, token }: Props) => {
+  console.log(` ==> `, queryData);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   return (
     <Box mt={6}>
@@ -182,9 +189,20 @@ const Hero = ({ queryData, token }: any) => {
             },
           }}
         >
-          <Link href="#pricingSection">
-            <button className="preview-btn btn">Hire Me</button>
-          </Link>
+          {/* 
+            TODO: Add a condition that toggles to Chat based on queryData; 
+            the chat links to the chat section 
+            [*] DONE
+          */}
+          {queryData && !queryData.currentlyHiredBy ? (
+            <Link href="#pricingSection">
+              <button className="preview-btn btn">Hire Me</button>
+            </Link>
+          ) : (
+            <Link href="/account/chats">
+              <button className="preview-btn btn">Chat</button>
+            </Link>
+          )}
         </Box>
         <Box
           sx={{

@@ -11,11 +11,10 @@ import { QueryData } from '@/lib/types';
 
 type Props = {
   queryData: QueryData;
-  token: string;
+  token?: string;
 };
 
 const Hero = ({ queryData, token }: Props) => {
-  console.log(` ==> `, queryData);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   return (
     <Box mt={6}>

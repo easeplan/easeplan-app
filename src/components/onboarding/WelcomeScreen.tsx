@@ -23,7 +23,7 @@ const WelcomeScreen = () => {
     if (userInfo?.role === `user`) {
       dispatch(setUserIntro(true));
       dispatch(setIntro(false));
-    } else {
+    } else if (userInfo?.role === `provider` || `planner`) {
       dispatch(setIntro(false));
       dispatch(setIntroOne(true));
     }

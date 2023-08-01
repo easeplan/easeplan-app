@@ -7,6 +7,7 @@ import { Box, Typography } from '@mui/material';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import ErrorPage from '@/components/ErrorPage';
 
 const HistoryPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -29,7 +30,7 @@ const HistoryPage = ({ token }: any) => {
   }
 
   if (error) {
-    return <p>Error:</p>;
+    return <ErrorPage />;
   }
   return (
     <DashboardLayout token={token}>

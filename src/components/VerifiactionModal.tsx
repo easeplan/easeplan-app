@@ -11,6 +11,7 @@ import CustomButton from './common/CustomButton';
 import FormInput from '@/components/common/FormInput';
 import Image from 'next/image';
 import EmailImg from '@/public/email.svg';
+import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
@@ -81,11 +82,16 @@ const VerifiactionModal = ({
 
   const resendHandler = async () => {
     try {
-      // setIsResendLoading(true);
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-email`,
+      setIsResendLoading(true);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-token`,
         { email: userEmail },
       );
+      if (data.status === `success`) {
+        console.log(data);
+        setIsResendLoading(false);
+        toast.success(`Check your email for your token`);
+      }
     } catch (error: any) {
       setIsResendLoading(false);
       const { data } = error.response;

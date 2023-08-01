@@ -6,7 +6,14 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Typography } from '@mui/material';
+import {
+  MenuItem,
+  Typography,
+  Box,
+  InputLabel,
+  FormControl,
+  Select,
+} from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
@@ -21,7 +28,11 @@ import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIntro, setUserIntro } from '@/features/onboardingSlice';
+import {
+  setIntro,
+  setUserIntro,
+  setIntroTwo,
+} from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 
 // Form Input Schema
@@ -46,6 +57,7 @@ const ProfileSchema = Yup.object().shape({
         `image/jpg`
       );
     }),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface PropsTypes {
@@ -58,6 +70,7 @@ interface FormTypes {
   lastname?: string;
   city?: string;
   picture?: any;
+  gender?: string;
 }
 
 const UserFlow = ({ token }: PropsTypes) => {
@@ -88,6 +101,7 @@ const UserFlow = ({ token }: PropsTypes) => {
           lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
+          gender: credentials?.gender,
           role: userInfo?.role,
         },
         {
@@ -99,7 +113,10 @@ const UserFlow = ({ token }: PropsTypes) => {
       );
 
       if (data.status === `success`) {
-        router.push(`/account`);
+        if (userInfo?.role === `user`) {
+          dispatch(setUserIntro(false));
+          router.push(`/account`);
+        }
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,
@@ -207,6 +224,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                     lastname: ``,
                     city: ``,
                     picture: ``,
+                    gender: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -230,8 +248,21 @@ const UserFlow = ({ token }: PropsTypes) => {
                         />
                       </Box>
                       <Box>
+                        <FormInput
+                          isSelect
+                          selectPlaceholder="Gender"
+                          name="gender"
+                        >
+                          <MenuItem value="Male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="Prefer not say">
+                            Prefer not say
+                          </MenuItem>
+                        </FormInput>
+                      </Box>
+                      <Box>
                         <SelectState
-                          selectPlaceholder="Select State"
+                          selectPlaceholder="Select Your State"
                           name="state"
                           onChange={(e: { target: { value: string } }) => {
                             const selectedState = data?.states.find(
@@ -250,22 +281,49 @@ const UserFlow = ({ token }: PropsTypes) => {
                             );
                           })}
                         </SelectState>
+                        {/* <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Age
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            onChange={(e: { target: { value: string } }) => {
+                              const selectedState = data?.states.find(
+                                (state) => state.name === e.target.value,
+                              );
+                              setSelectedState(selectedState);
+                              setFieldValue(`state`, e.target.value);
+                              setFieldValue(`city`, ``);
+                            }}
+                          >
+                            {data?.states?.map((state: any) => {
+                              return (
+                                <MenuItem key={state?.name} value={state.name}>
+                                  {state?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl> */}
                       </Box>
-                      <Box>
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Select City"
-                          name="city"
-                        >
-                          {selectedState?.cities?.map((city: any) => {
-                            return (
-                              <MenuItem key={city} value={city}>
-                                {city}
-                              </MenuItem>
-                            );
-                          })}
-                        </FormInput>
-                      </Box>
+                      {selectedState?.cities && (
+                        <Box>
+                          <FormInput
+                            isSelect
+                            selectPlaceholder="Select  Your City"
+                            name="city"
+                          >
+                            {selectedState?.cities?.map((city: any) => {
+                              return (
+                                <MenuItem key={city} value={city}>
+                                  {city}
+                                </MenuItem>
+                              );
+                            })}
+                          </FormInput>
+                        </Box>
+                      )}
                       <Box mb={3}>
                         <Box
                           sx={{

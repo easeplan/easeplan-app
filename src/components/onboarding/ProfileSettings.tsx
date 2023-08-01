@@ -18,7 +18,11 @@ import data from '@/lib/states.json';
 import SelectState from '../common/SelectState';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIntro, setIntroOne, setIntroTwo } from '@/features/onboardingSlice';
+import {
+  setIntro,
+  setIntroOne,
+  setIntroThree,
+} from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 
 // Form Input Schema
@@ -43,6 +47,7 @@ const ProfileSchema = Yup.object().shape({
         `image/jpg`
       );
     }),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface PropsTypes {
@@ -55,6 +60,7 @@ interface FormTypes {
   lastname?: string;
   city?: string;
   picture?: any;
+  gender?: string;
 }
 
 const ProfileSettings = ({ token }: PropsTypes) => {
@@ -84,6 +90,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
           lastName: credentials.lastname,
           city: credentials.city,
           picture: credentials.picture,
+          gender: credentials?.gender,
           role: userInfo?.role,
         },
         {
@@ -95,7 +102,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       );
       if (data.status === `success`) {
         dispatch(setIntroOne(false));
-        dispatch(setIntroTwo(true));
+        dispatch(setIntroThree(true));
         setIsLoading(false);
         if (typeof window !== `undefined`) {
           localStorage.setItem(
@@ -242,6 +249,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     lastname: ``,
                     city: ``,
                     picture: ``,
+                    gender: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -263,6 +271,19 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           type="text"
                           placeholder="Last Name"
                         />
+                      </Box>
+                      <Box>
+                        <FormInput
+                          isSelect
+                          selectPlaceholder="Gender"
+                          name="gender"
+                        >
+                          <MenuItem value="Male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="Prefer not say">
+                            Prefer not say
+                          </MenuItem>
+                        </FormInput>
                       </Box>
                       <Box>
                         <SelectState

@@ -8,6 +8,10 @@ import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import ErrorPage from '@/components/ErrorPage';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 const SettingsPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -29,19 +33,28 @@ const SettingsPage = ({ token }: any) => {
   }
 
   if (error) {
-    return <p>Error:</p>;
+    return <ErrorPage />;
   }
 
   return (
     <DashboardLayout token={token}>
       <Flex>
         <Link href="/account/settings">
-          <h3 className="title active">Profile Settings</h3>
+          <Button variant="contained" startIcon={<AdminPanelSettingsIcon />}>
+            Profile Settings
+          </Button>
         </Link>
-        <h3 className="title">{`/`}</h3>
+        {/* <h3 className="title">{`||`}</h3> */}
         {queryData?.role !== `user` && (
           <Link href="/account/settings/verify">
-            <h3 className="title">Verification</h3>
+            <Button
+              variant="outlined"
+              size="large"
+              sx={{ marginLeft: `1rem` }}
+              startIcon={<AdminPanelSettingsIcon />}
+            >
+              Verification Settings
+            </Button>
           </Link>
         )}
       </Flex>

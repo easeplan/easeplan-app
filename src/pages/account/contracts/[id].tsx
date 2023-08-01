@@ -16,9 +16,27 @@ import CustomButton from '@/components/common/CustomButton';
 import DangerButton from '@/components/common/DangerButton';
 import customFetch from '@/utils/customFetch';
 
+/* TODO:
+ *
+ * Accepted == Awaiting Payment
+ * Paid == Work in progress
+ * Declined == Declined (make red)
+ * Disputed == Disputed (Red)
+ */
 interface Props {
   token: string;
   data: any;
+}
+
+enum EventStatus {
+  REQUESTED = `Requested`,
+  ACCEPTED = `Accepted`,
+  DECLINED = `Declined`,
+  CANCELLED = `Cancelled`,
+  COMPLETED = `Completed`,
+  DISPUTED = `Disputed`,
+  RESOLVED = `Resolved`,
+  PAID = `Paid`,
 }
 
 const ContractsPage = ({ token, data }: Props) => {
@@ -93,6 +111,118 @@ const ContractsPage = ({ token, data }: Props) => {
     }
   };
 
+  const RenderStatusUI = {
+    [EventStatus.COMPLETED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `primary.main`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Event Completed
+      </Typography>
+    ),
+    [EventStatus.ACCEPTED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `primary.main`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Awaiting Payment
+      </Typography>
+    ),
+    [EventStatus.RESOLVED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `primary.main`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Dispute Resolved
+      </Typography>
+    ),
+    [EventStatus.REQUESTED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `primary.main`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Pending
+      </Typography>
+    ),
+    [EventStatus.PAID]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `primary.main`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Work in Progress
+      </Typography>
+    ),
+    [EventStatus.CANCELLED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `yellow`,
+          color: `red`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Cancelled
+      </Typography>
+    ),
+    [EventStatus.DECLINED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `red`,
+          color: `white`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Declined
+      </Typography>
+    ),
+    [EventStatus.DISPUTED]: () => (
+      <Typography
+        sx={{
+          padding: `0.3rem 1rem`,
+          backgroundColor: `red`,
+          color: `white`,
+        }}
+        fontWeight="600"
+        fontSize="1rem"
+        color="secondary.main"
+      >
+        Disputed
+      </Typography>
+    ),
+  };
+
+  // data.status = EventStatus.CANCELLED;
+
   return (
     <DashboardLayout token={token}>
       <section>
@@ -140,7 +270,7 @@ const ContractsPage = ({ token, data }: Props) => {
           <Box sx={{ p: 4, textAlign: `center` }}>
             {isSuccess ? (
               <Typography mb={4} variant="h6">
-                Decliend 😥😥😥
+                Declined 😥😥😥
               </Typography>
             ) : (
               <Typography mb={4} variant="h6">
@@ -231,31 +361,8 @@ const ContractsPage = ({ token, data }: Props) => {
               <Typography fontWeight="600" fontSize="1rem" color="primary.main">
                 Basic
               </Typography>
-              {data.status === `Accepted` ? (
-                <Typography
-                  sx={{
-                    padding: `0.3rem 1rem`,
-                    backgroundColor: `primary.main`,
-                  }}
-                  fontWeight="600"
-                  fontSize="1rem"
-                  color="secondary.main"
-                >
-                  Work in Progress
-                </Typography>
-              ) : (
-                <Typography
-                  sx={{
-                    padding: `0.3rem 1rem`,
-                    backgroundColor: `primary.main`,
-                  }}
-                  fontWeight="600"
-                  fontSize="1rem"
-                  color="secondary.main"
-                >
-                  Pending
-                </Typography>
-              )}
+              {RenderStatusUI[data.status as EventStatus] &&
+                RenderStatusUI[data.status as EventStatus]()}
             </Box>
             {userServiceObj?.service?.map((list: any) => (
               <Typography

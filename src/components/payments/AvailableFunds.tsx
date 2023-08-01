@@ -1,14 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
-import { Box, Button, Typography, Divider, MenuItem } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Divider,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import CustomButton from '../common/CustomButton';
-import { Form, Formik } from 'formik';
+import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
+import FormError from '../common/FormError';
 import axios from 'axios';
 import Label from '../common/Label';
 import PaymentModal from './PaymentModal';
+import PaymentOtpModal from './PaymentOtpModal';
 import SelectState from '../common/SelectState';
+import AddCardIcon from '@mui/icons-material/AddCard';
+import { formatCurrency } from '@/utils';
+import CircularProgress from '@mui/material/CircularProgress';
+import { styled } from '@mui/material/styles';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -17,42 +32,774 @@ const PaymentSchema = Yup.object().shape({
 });
 
 const banks = [
-  { name: `Access Bank Plc`, code: `044` },
-  { name: `Fidelity Bank Plc`, code: `070` },
-  { name: `First City Monument Bank Limited`, code: `214` },
-  { name: `First Bank of Nigeria Limited`, code: `011` },
-  { name: `Guaranty Trust Bank Plc`, code: `058` },
-  { name: `Union Bank of Nigeria Plc`, code: `032` },
-  { name: `United Bank for Africa Plc`, code: `033` },
-  { name: `Zenith Bank Plc`, code: `057` },
-  { name: `Ecobank Nigeria Limited`, code: `050` },
-  { name: `Heritage Banking Company Limited`, code: `030` },
-  { name: `Keystone Bank Limited`, code: `082` },
-  { name: `Polaris Bank Limited`, code: `076` },
-  { name: `Stanbic IBTC Bank Plc`, code: `221` },
-  { name: `Sterling Bank Plc`, code: `232` },
-  { name: `Wema Bank Plc`, code: `035` },
-  { name: `Unity Bank Plc`, code: `215` },
-  { name: `Jaiz Bank Plc`, code: `301` },
-  { name: `SunTrust Bank Nigeria Limited`, code: `100` },
-  { name: `Providus Bank Limited`, code: `101` },
-  { name: `Titan Trust Bank Limited`, code: `102` },
-  { name: `Globus Bank Limited`, code: `103` },
+  {
+    name: `9mobile 9Payment Service Bank`,
+    slug: `9mobile-9payment-service-bank-ng`,
+    code: `120001`,
+    active: true,
+  },
+  {
+    name: `Abbey Mortgage Bank`,
+    slug: `abbey-mortgage-bank`,
+    code: `801`,
+    active: true,
+  },
+  {
+    name: `Above Only MFB`,
+    slug: `above-only-mfb`,
+    code: `51204`,
+    active: true,
+  },
+  {
+    name: `Abulesoro MFB`,
+    slug: `abulesoro-mfb-ng`,
+    code: `51312`,
+    active: true,
+  },
+  {
+    name: `Access Bank`,
+    slug: `access-bank`,
+    code: `044`,
+    active: true,
+  },
+  {
+    name: `Accion Microfinance Bank`,
+    slug: `accion-microfinance-bank-ng`,
+    code: `602`,
+    active: true,
+  },
+  {
+    name: `Ahmadu Bello University Microfinance Bank`,
+    slug: `ahmadu-bello-university-microfinance-bank-ng`,
+    code: `50036`,
+    active: true,
+  },
+  {
+    name: `Airtel Smartcash PSB`,
+    slug: `airtel-smartcash-psb-ng`,
+    code: `120004`,
+    active: true,
+  },
+  {
+    name: `AKU Microfinance Bank`,
+    slug: `aku-mfb`,
+    code: `51336`,
+    active: true,
+  },
+  {
+    name: `ALAT by WEMA`,
+    slug: `alat-by-wema`,
+    code: `035A`,
+    active: true,
+  },
+  {
+    name: `Amegy Microfinance Bank`,
+    slug: `amegy-microfinance-bank-ng`,
+    code: `090629`,
+    active: true,
+  },
+  {
+    name: `Amju Unique MFB`,
+    slug: `amju-unique-mfb`,
+    code: `50926`,
+    active: true,
+  },
+  {
+    name: `AMPERSAND MICROFINANCE BANK`,
+    slug: `ampersand-microfinance-bank-ng`,
+    code: `51341`,
+    active: true,
+  },
+  {
+    name: `Aramoko MFB`,
+    slug: `aramoko-mfb`,
+    code: `50083`,
+    active: true,
+  },
+  {
+    name: `ASO Savings and Loans`,
+    slug: `asosavings`,
+    code: `401`,
+    active: true,
+  },
+  {
+    name: `Astrapolaris MFB LTD`,
+    slug: `astrapolaris-mfb`,
+    code: `MFB50094`,
+    active: true,
+  },
+  {
+    name: `Bainescredit MFB`,
+    slug: `bainescredit-mfb`,
+    code: `51229`,
+    active: true,
+  },
+  {
+    name: `Banc Corp Microfinance Bank`,
+    slug: `banc-corp-microfinance-bank-ng`,
+    code: `50117`,
+    active: true,
+  },
+  {
+    name: `Bowen Microfinance Bank`,
+    slug: `bowen-microfinance-bank`,
+    code: `50931`,
+    active: true,
+  },
+  {
+    name: `Branch International Financial Services Limited`,
+    slug: `branch`,
+    code: `FC40163`,
+    active: true,
+  },
+  {
+    name: `CASHCONNECT MFB`,
+    slug: `cashconnect-mfb-ng`,
+    code: `865`,
+    active: true,
+  },
+  {
+    name: `CEMCS Microfinance Bank`,
+    slug: `cemcs-microfinance-bank`,
+    code: `50823`,
+    active: true,
+  },
+  {
+    name: `Chanelle Microfinance Bank Limited`,
+    slug: `chanelle-microfinance-bank-limited-ng`,
+    code: `50171`,
+    active: true,
+  },
+  {
+    name: `Chikum Microfinance bank`,
+    slug: `chikum-microfinance-bank-ng`,
+    code: `312`,
+    active: true,
+  },
+  {
+    name: `Citibank Nigeria`,
+    slug: `citibank-nigeria`,
+    code: `023`,
+    active: true,
+  },
+  {
+    name: `Consumer Microfinance Bank`,
+    slug: `consumer-microfinance-bank-ng`,
+    code: `50910`,
+    active: true,
+  },
+  {
+    name: `Corestep MFB`,
+    slug: `corestep-mfb`,
+    code: `50204`,
+    active: true,
+  },
+  {
+    name: `Coronation Merchant Bank`,
+    slug: `coronation-merchant-bank-ng`,
+    code: `559`,
+    active: true,
+  },
+  {
+    name: `County Finance Limited`,
+    slug: `county-finance-limited`,
+    code: `FC40128`,
+    active: true,
+  },
+  {
+    name: `Crescent MFB`,
+    slug: `crescent-mfb`,
+    code: `51297`,
+    active: true,
+  },
+  {
+    name: `Dot Microfinance Bank`,
+    slug: `dot-microfinance-bank-ng`,
+    code: `50162`,
+    active: true,
+  },
+  {
+    name: `Ecobank Nigeria`,
+    slug: `ecobank-nigeria`,
+    code: `050`,
+    active: true,
+  },
+  {
+    name: `Ekimogun MFB`,
+    slug: `ekimogun-mfb-ng`,
+    code: `50263`,
+    active: true,
+  },
+  {
+    name: `Ekondo Microfinance Bank`,
+    slug: `ekondo-microfinance-bank-ng`,
+    code: `098`,
+    active: true,
+  },
+  {
+    name: `Fairmoney Microfinance Bank`,
+    slug: `fairmoney-microfinance-bank-ng`,
+    code: `51318`,
+    active: true,
+  },
+  {
+    name: `Fidelity Bank`,
+    slug: `fidelity-bank`,
+    code: `070`,
+    active: true,
+  },
+  {
+    name: `Firmus MFB`,
+    slug: `firmus-mfb`,
+    code: `51314`,
+    active: true,
+  },
+  {
+    name: `First City Monument Bank`,
+    slug: `first-city-monument-bank`,
+    code: `214`,
+    active: true,
+  },
+  {
+    name: `FirstTrust Mortgage Bank Nigeria`,
+    slug: `firsttrust-mortgage-bank-nigeria-ng`,
+    code: `413`,
+    active: true,
+  },
+  {
+    name: `FLOURISH MFB`,
+    slug: `flourish-mfb-ng`,
+    code: `50315`,
+    active: true,
+  },
+  {
+    name: `FSDH Merchant Bank Limited`,
+    slug: `fsdh-merchant-bank-limited`,
+    code: `501`,
+    active: true,
+  },
+  {
+    name: `Gateway Mortgage Bank LTD`,
+    slug: `gateway-mortgage-bank`,
+    code: `812`,
+    active: true,
+  },
+  {
+    name: `Globus Bank`,
+    slug: `globus-bank`,
+    code: `00103`,
+    active: true,
+  },
+  {
+    name: `GoMoney`,
+    slug: `gomoney`,
+    code: `100022`,
+    active: true,
+  },
+  {
+    name: `Goodnews Microfinance Bank`,
+    slug: `goodnews-microfinance-bank-ng`,
+    code: `50739`,
+    active: true,
+  },
+  {
+    name: `Greenwich Merchant Bank`,
+    slug: `greenwich-merchant-bank-ng`,
+    code: `562`,
+    active: true,
+  },
+  {
+    name: `Guaranty Trust Bank`,
+    slug: `guaranty-trust-bank`,
+    code: `058`,
+    active: true,
+  },
+  {
+    name: `Hackman Microfinance Bank`,
+    slug: `hackman-microfinance-bank`,
+    code: `51251`,
+    active: true,
+  },
+  {
+    name: `Hasal Microfinance Bank`,
+    slug: `hasal-microfinance-bank`,
+    code: `50383`,
+    active: true,
+  },
+  {
+    name: `Heritage Bank`,
+    slug: `heritage-bank`,
+    code: `030`,
+    active: true,
+  },
+  {
+    name: `HopePSB`,
+    slug: `hopepsb-ng`,
+    code: `120002`,
+    active: true,
+  },
+  {
+    name: `Ibile Microfinance Bank`,
+    slug: `ibile-mfb`,
+    code: `51244`,
+    active: true,
+  },
+  {
+    name: `Ikoyi Osun MFB`,
+    slug: `ikoyi-osun-mfb`,
+    code: `50439`,
+    active: true,
+  },
+  {
+    name: `Ilaro Poly Microfinance Bank`,
+    slug: `ilaro-poly-microfinance-bank-ng`,
+    code: `50442`,
+    active: true,
+  },
+  {
+    name: `Imowo MFB`,
+    slug: `imowo-mfb-ng`,
+    code: `50453`,
+    active: true,
+  },
+  {
+    name: `Infinity MFB`,
+    slug: `infinity-mfb`,
+    code: `50457`,
+    active: true,
+  },
+  {
+    name: `Jaiz Bank`,
+    slug: `jaiz-bank`,
+    code: `301`,
+    active: true,
+  },
+  {
+    name: `Kadpoly MFB`,
+    slug: `kadpoly-mfb`,
+    code: `50502`,
+    active: true,
+  },
+  {
+    name: `Keystone Bank`,
+    slug: `keystone-bank`,
+    code: `082`,
+    active: true,
+  },
+  {
+    name: `Kredi Money MFB LTD`,
+    slug: `kredi-money-mfb`,
+    code: `50200`,
+    active: true,
+  },
+  {
+    name: `Lagos Building Investment Company Plc.`,
+    slug: `lbic-plc`,
+    code: `90052`,
+    active: true,
+  },
+  {
+    name: `Links MFB`,
+    slug: `links-mfb`,
+    code: `50549`,
+    active: true,
+  },
+  {
+    name: `Living Trust Mortgage Bank`,
+    slug: `living-trust-mortgage-bank`,
+    code: `031`,
+    active: true,
+  },
+  {
+    name: `Lotus Bank`,
+    slug: `lotus-bank`,
+    code: `303`,
+    active: true,
+  },
+  {
+    name: `Mayfair MFB`,
+    slug: `mayfair-mfb`,
+    code: `50563`,
+    active: true,
+  },
+  {
+    name: `Mint MFB`,
+    slug: `mint-mfb`,
+    code: `50304`,
+    active: true,
+  },
+  {
+    name: `Moniepoint MFB`,
+    slug: `moniepoint-mfb-ng`,
+    code: `50515`,
+    active: true,
+  },
+  {
+    name: `MTN Momo PSB`,
+    slug: `mtn-momo-psb-ng`,
+    code: `120003`,
+    active: true,
+  },
+  {
+    name: `Optimus Bank Limited`,
+    slug: `optimus-bank-ltd`,
+    code: `107`,
+    active: true,
+  },
+  {
+    name: `Paga`,
+    slug: `paga`,
+    code: `100002`,
+    active: true,
+  },
+  {
+    name: `Parallex Bank`,
+    slug: `parallex-bank`,
+    code: `104`,
+    active: true,
+  },
+  {
+    name: `Parkway - ReadyCash`,
+    slug: `parkway-ready-cash`,
+    code: `311`,
+    active: true,
+  },
+  {
+    name: `Paycom`,
+    slug: `paycom`,
+    code: `999992`,
+    active: true,
+  },
+  {
+    name: `Peace Microfinance Bank`,
+    slug: `peace-microfinance-bank-ng`,
+    code: `50743`,
+    active: true,
+  },
+  {
+    name: `Personal Trust MFB`,
+    slug: `personal-trust-mfb-ng`,
+    code: `51146`,
+    active: true,
+  },
+  {
+    name: `Petra Mircofinance Bank Plc`,
+    slug: `petra-microfinance-bank-plc`,
+    code: `50746`,
+    active: true,
+  },
+  {
+    name: `Platinum Mortgage Bank`,
+    slug: `platinum-mortgage-bank-ng`,
+    code: `268`,
+    active: true,
+  },
+  {
+    name: `Polaris Bank`,
+    slug: `polaris-bank`,
+    code: `076`,
+    active: true,
+  },
+  {
+    name: `Polyunwana MFB`,
+    slug: `polyunwana-mfb-ng`,
+    code: `50864`,
+    active: true,
+  },
+  {
+    name: `PremiumTrust Bank`,
+    slug: `premiumtrust-bank-ng`,
+    code: `105`,
+    active: true,
+  },
+  {
+    name: `Providus Bank`,
+    slug: `providus-bank`,
+    code: `101`,
+    active: true,
+  },
+  {
+    name: `QuickFund MFB`,
+    slug: `quickfund-mfb`,
+    code: `51293`,
+    active: true,
+  },
+  {
+    name: `Rand Merchant Bank`,
+    slug: `rand-merchant-bank`,
+    code: `502`,
+    active: true,
+  },
+  {
+    name: `Refuge Mortgage Bank`,
+    slug: `refuge-mortgage-bank`,
+    code: `90067`,
+    active: true,
+  },
+  {
+    name: `Rigo Microfinance Bank Limited`,
+    slug: `rigo-microfinance-bank-limited-ng`,
+    code: `51286`,
+    active: true,
+  },
+  {
+    name: `ROCKSHIELD MICROFINANCE BANK`,
+    slug: `rockshield-microfinance-bank-ng`,
+    code: `50767`,
+    active: true,
+  },
+  {
+    name: `Rubies MFB`,
+    slug: `rubies-mfb`,
+    code: `125`,
+    active: true,
+  },
+  {
+    name: `Safe Haven MFB`,
+    slug: `safe-haven-mfb-ng`,
+    code: `51113`,
+    active: true,
+  },
+  {
+    name: `Safe Haven Microfinance Bank Limited`,
+    slug: `safe-haven-microfinance-bank-limited-ng`,
+    code: `951113`,
+    active: true,
+  },
+  {
+    name: `SAGE GREY FINANCE LIMITED`,
+    slug: `sage-grey-finance-limited-ng`,
+    code: `40165`,
+    active: true,
+  },
+  {
+    name: `Shield MFB`,
+    slug: `shield-mfb-ng`,
+    code: `50582`,
+    active: true,
+  },
+  {
+    name: `Solid Allianze MFB`,
+    slug: `solid-allianze-mfb`,
+    code: `51062`,
+    active: true,
+  },
+  {
+    name: `Solid Rock MFB`,
+    slug: `solid-rock-mfb`,
+    code: `50800`,
+    active: true,
+  },
+  {
+    name: `Sparkle Microfinance Bank`,
+    slug: `sparkle-microfinance-bank`,
+    code: `51310`,
+    active: true,
+  },
+  {
+    name: `Stanbic IBTC Bank`,
+    slug: `stanbic-ibtc-bank`,
+    code: `221`,
+    active: true,
+  },
+  {
+    name: `Standard Chartered Bank`,
+    slug: `standard-chartered-bank`,
+    code: `068`,
+    active: true,
+  },
+  {
+    name: `Stellas MFB`,
+    slug: `stellas-mfb`,
+    code: `51253`,
+    active: true,
+  },
+  {
+    name: `Sterling Bank`,
+    slug: `sterling-bank`,
+    code: `232`,
+    active: true,
+  },
+  {
+    name: `Suntrust Bank`,
+    slug: `suntrust-bank`,
+    code: `100`,
+    active: true,
+  },
+  {
+    name: `Supreme MFB`,
+    slug: `supreme-mfb-ng`,
+    code: `50968`,
+    active: true,
+  },
+  {
+    name: `TAJ Bank`,
+    slug: `taj-bank`,
+    code: `302`,
+    active: true,
+  },
+  {
+    name: `Tanadi Microfinance Bank`,
+    slug: `tanadi-microfinance-bank-ng`,
+    code: `090560`,
+    active: true,
+  },
+  {
+    name: `Tangerine Money`,
+    slug: `tangerine-money`,
+    code: `51269`,
+    active: true,
+  },
+  {
+    name: `TCF MFB`,
+    slug: `tcf-mfb`,
+    code: `51211`,
+    active: true,
+  },
+  {
+    name: `Titan Bank`,
+    slug: `titan-bank`,
+    code: `102`,
+    active: true,
+  },
+  {
+    name: `Titan Paystack`,
+    slug: `titan-paystack`,
+    code: `100039`,
+    active: true,
+  },
+  {
+    name: `U&C Microfinance Bank Ltd (U AND C MFB)`,
+    slug: `uc-microfinance-bank-ltd-u-and-c-mfb-ng`,
+    code: `50840`,
+    active: true,
+  },
+  {
+    name: `Uhuru MFB`,
+    slug: `uhuru-mfb-ng`,
+    code: `MFB51322`,
+    active: true,
+  },
+  {
+    name: `Unaab Microfinance Bank Limited`,
+    slug: `unaab-microfinance-bank-limited-ng`,
+    code: `50870`,
+    active: true,
+  },
+  {
+    name: `Unical MFB`,
+    slug: `unical-mfb`,
+    code: `50871`,
+    active: true,
+  },
+  {
+    name: `Unilag Microfinance Bank`,
+    slug: `unilag-microfinance-bank-ng`,
+    code: `51316`,
+    active: true,
+  },
+  {
+    name: `Union Bank of Nigeria`,
+    slug: `union-bank-of-nigeria`,
+    code: `032`,
+    active: true,
+  },
+  {
+    name: `United Bank For Africa`,
+    slug: `united-bank-for-africa`,
+    code: `033`,
+    active: true,
+  },
+  {
+    name: `Unity Bank`,
+    slug: `unity-bank`,
+    code: `215`,
+    active: true,
+  },
+  {
+    name: `VFD Microfinance Bank Limited`,
+    slug: `vfd`,
+    code: `566`,
+    active: true,
+  },
+  {
+    name: `Waya Microfinance Bank`,
+    slug: `waya-microfinance-bank-ng`,
+    code: `51355`,
+    active: true,
+  },
+  {
+    name: `Wema Bank`,
+    slug: `wema-bank`,
+    code: `035`,
+    active: true,
+  },
+  {
+    name: `Zenith Bank`,
+    slug: `zenith-bank`,
+    code: `057`,
+    active: true,
+  },
 ];
 
-const AvailableFunds = ({ token, bankDetails }: any) => {
+const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();
   const [bankInfo, setBankInfo] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
   const [showUpdate, setShowUpdate] = useState<boolean>(false);
+  const [isFetchBank, setIsFetchBank] = useState<boolean>(false);
+  const [isPaymentOtp, setIsPaymentOtp] = useState<boolean>(false);
+  const [amount, setAmount] = useState<string>(``);
+  const [accountName, setAccountName] = useState<string>(``);
+  const [accountNumber, setAccountNumber] = useState<any>(``);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<any>(``);
 
-  const submitCredentials = async (credentials: any) => {
+  const handleValidationAcc = async (e: any) => {
+    const target = e.target as typeof e.target & {
+      accountNumber: { value: string };
+    };
+    setAccountNumber(target?.value);
+    if (e.target.value.length >= 10) {
+      try {
+        setIsFetchBank(true);
+        setSuccess(true);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_DOJAH_URL}?bank_code=${selectedState?.code}&account_number=${target?.value}`,
+          {
+            headers: {
+              Accept: `application/json`,
+              Authorization: `${process.env.NEXT_PUBLIC_DOJAH_AUTH}`,
+              AppId: `${process.env.NEXT_PUBLIC_APPID}`,
+            },
+          },
+        );
+        if (res.status === 200) {
+          const data = await res.json();
+          setAccountName(data.entity.account_name);
+          setIsFetchBank(false);
+          setSuccess(true);
+          setErrMsg(``);
+        } else {
+          setErrMsg(`Incorrect Account Number`);
+          setAccountName(``);
+          setIsFetchBank(false);
+          setSuccess(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const submitCredentials = async (e: any) => {
+    e.preventDefault();
     const newData = {
-      name: credentials?.accountName,
-      accountNumber: credentials?.accountNumber,
-      bank: credentials?.bank,
+      name: accountName,
+      accountNumber: accountNumber,
+      bank: selectedState?.name,
       bankCode: selectedState?.code,
     };
     try {
@@ -91,11 +838,37 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
     setShowUpdate(!showUpdate);
   };
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  const handleSelect = (e: { target: { value: string } }) => {
+    const selectedState = banks?.find((bank) => bank.name === e.target.value);
+    setSelectedState(selectedState);
+  };
+
   return (
     <Box>
       <PaymentModal
+        token={token}
         isOpen={paymentModal}
         isClose={() => setPaymentModal(false)}
+        setPaymentModal={setPaymentModal}
+        setIsPaymentOtp={setIsPaymentOtp}
+        setAmount={setAmount}
+      />
+      <PaymentOtpModal
+        token={token}
+        isOpen={isPaymentOtp}
+        isClose={() => setIsPaymentOtp(false)}
+        amount={amount}
       />
       <Box sx={{ border: `solid 1px #ccc`, p: 2 }}>
         <Typography my={2} fontWeight="bold" color="primary.main">
@@ -114,17 +887,27 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
                 sm: `1.5rem`,
                 md: `1.5rem`,
                 lg: `2rem`,
-                xl: `3rem`,
+                xl: `2rem`,
               },
             }}
           >
-            ₦0.00
+            {/* ₦ */}
+            {queryData?.balance === 0
+              ? `0.00`
+              : formatCurrency(queryData?.balance && queryData?.balance)}
           </Typography>
           <Divider sx={{ my: 2 }} />
-          <Typography my={3}>Withdraw funds to bank or card added</Typography>
-          <CustomButton onClick={() => setPaymentModal(true)} bgPrimary>
-            Withdraw Funds
-          </CustomButton>
+          <Box sx={{ textAlign: `center` }}>
+            <Typography my={3}>Withdraw funds to bank or card added</Typography>
+            <Button
+              onClick={() => setPaymentModal(true)}
+              variant="contained"
+              sx={{ px: `3rem` }}
+              endIcon={<AddCardIcon />}
+            >
+              Withdraw
+            </Button>
+          </Box>
         </Box>
         {showUpdate ? (
           <>
@@ -142,85 +925,116 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
                 Add bank details to recieve payment
               </Typography>
               <Box>
-                <Formik
-                  initialValues={{
-                    accountName: ``,
-                    bank: ``,
-                    accountNumber: ``,
-                  }}
-                  onSubmit={(values) => submitCredentials(values)}
-                  validationSchema={PaymentSchema}
-                >
-                  {({ setFieldValue }) => (
-                    <Form>
-                      <Box sx={{ mb: 2 }}>
-                        <Label text="Account Holder Name" />
-                        <FormInput
-                          ariaLabel="accountName"
-                          name="accountName"
-                          type="text"
-                          placeholder="Account Full Name"
-                        />
-                      </Box>
-                      <Box>
-                        <Label text="Select Bank" />
-                        <SelectState
-                          selectPlaceholder="Select Bank"
-                          name="bank"
-                          onChange={(e: { target: { value: string } }) => {
-                            const selectedState = banks?.find(
-                              (bank) => bank.name === e.target.value,
-                            );
-                            setSelectedState(selectedState);
-                            setFieldValue(`bank`, e.target.value);
+                <form onSubmit={submitCredentials}>
+                  <Box>
+                    <Label text="Select Bank" />
+                    <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select Bank
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        name="bank"
+                        onChange={handleSelect}
+                        sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                        // displayEmpty
+                        inputProps={{ 'aria-label': `Without label` }}
+                        MenuProps={MenuProps}
+                      >
+                        {banks?.map((bank: any) => {
+                          return (
+                            <MenuItem key={bank?.name} value={bank?.name}>
+                              {bank?.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box sx={{ mb: 2 }}>
+                    <Label text="Account Number" />
+                    <Input
+                      name="accountNumber"
+                      maxLength={10}
+                      required
+                      value={accountNumber}
+                      type="text"
+                      onChange={handleValidationAcc}
+                      placeholder="1748-9938-948"
+                    />
+                  </Box>
+                  {success && (
+                    <Box
+                      sx={{
+                        mb: 2,
+                        backgroundColor: `secondary.light`,
+                        p: 2,
+                        borderRadius: `6px`,
+                      }}
+                    >
+                      {isFetchBank ? (
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            justifyContent: `center`,
+                            alignItems: `center`,
                           }}
                         >
-                          {banks?.map((bank: any) => {
-                            return (
-                              <MenuItem key={bank?.name} value={bank?.name}>
-                                {bank?.name}
-                              </MenuItem>
-                            );
-                          })}
-                        </SelectState>
-                      </Box>
-                      <Box sx={{ mb: 2 }}>
-                        <Label text="Account Number" />
-                        <FormInput
-                          ariaLabel="accountNumber"
-                          name="accountNumber"
-                          type="text"
-                          placeholder="1748-9938-948"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: `flex`,
-                          justifyContent: `space-between`,
-                          flexDirection: {
-                            xs: `column`,
-                            sm: `column`,
-                            md: `column`,
-                            lg: `row`,
-                          },
-                          gap: `1rem`,
-                        }}
-                      >
-                        <CustomButton
-                          bgPrimary
-                          loading={isLoading}
-                          loadingText="Add..."
-                          type="submit"
-                        >
-                          {isSuccess ? `Added` : `Add Bank`}
-                        </CustomButton>
-                        <Button onClick={toggleUpdateState} variant="outlined">
-                          Cancel
-                        </Button>
-                      </Box>
-                    </Form>
+                          <CircularProgress
+                            sx={{ color: `primary.main` }}
+                            size="1rem"
+                          />
+                        </Box>
+                      ) : (
+                        <Typography color="primary.main" fontSize="0.9rem">
+                          {accountName}
+                        </Typography>
+                      )}
+                    </Box>
                   )}
-                </Formik>
+
+                  {errMsg && (
+                    <Box
+                      sx={{
+                        mb: 2,
+                        border: `1px solid red`,
+                        px: 2,
+                        py: 1,
+                        borderRadius: `6px`,
+                      }}
+                    >
+                      <Typography color="error.main" fontSize="0.9rem">
+                        {errMsg}
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      justifyContent: `space-between`,
+                      flexDirection: {
+                        xs: `column`,
+                        sm: `column`,
+                        md: `column`,
+                        lg: `row`,
+                      },
+                      gap: `1rem`,
+                    }}
+                  >
+                    <CustomButton
+                      bgPrimary
+                      loading={isLoading}
+                      loadingText="Add..."
+                      type="submit"
+                    >
+                      {isSuccess ? `Added` : `Add Bank`}
+                    </CustomButton>
+                    <Button onClick={toggleUpdateState} variant="outlined">
+                      Cancel
+                    </Button>
+                  </Box>
+                </form>
               </Box>
             </Box>
           </>
@@ -271,68 +1085,116 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
                     Add bank details to recieve payment
                   </Typography>
                   <Box>
-                    <Formik
-                      initialValues={{
-                        accountName: ``,
-                        bank: ``,
-                        accountNumber: ``,
-                      }}
-                      onSubmit={(values) => submitCredentials(values)}
-                      validationSchema={PaymentSchema}
-                    >
-                      {({ setFieldValue }) => (
-                        <Form>
-                          <Box sx={{ mb: 2 }}>
-                            <Label text="Account Holder Name" />
-                            <FormInput
-                              ariaLabel="accountName"
-                              name="accountName"
-                              type="text"
-                              placeholder="Account Full Name"
-                            />
-                          </Box>
-                          <Box>
-                            <Label text="Select Bank" />
-                            <SelectState
-                              selectPlaceholder="Select Bank"
-                              name="bank"
-                              onChange={(e: { target: { value: string } }) => {
-                                const selectedState = banks?.find(
-                                  (bank) => bank.name === e.target.value,
-                                );
-                                setSelectedState(selectedState);
-                                setFieldValue(`bank`, e.target.value);
+                    <form onSubmit={submitCredentials}>
+                      <Box>
+                        <Label text="Select Bank" />
+                        <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                          <InputLabel id="demo-simple-select-label">
+                            Select Bank
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            name="bank"
+                            onChange={handleSelect}
+                            sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                            // displayEmpty
+                            inputProps={{ 'aria-label': `Without label` }}
+                            MenuProps={MenuProps}
+                          >
+                            {banks?.map((bank: any) => {
+                              return (
+                                <MenuItem key={bank?.name} value={bank?.name}>
+                                  {bank?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Box>
+                      <Box sx={{ mb: 2 }}>
+                        <Label text="Account Number" />
+                        <Input
+                          name="accountNumber"
+                          maxLength={10}
+                          required
+                          value={accountNumber}
+                          type="text"
+                          onChange={handleValidationAcc}
+                          placeholder="1748-9938-948"
+                        />
+                      </Box>
+                      {success && (
+                        <Box
+                          sx={{
+                            mb: 2,
+                            backgroundColor: `secondary.light`,
+                            p: 2,
+                            borderRadius: `6px`,
+                          }}
+                        >
+                          {isFetchBank ? (
+                            <Box
+                              sx={{
+                                display: `flex`,
+                                justifyContent: `center`,
+                                alignItems: `center`,
                               }}
                             >
-                              {banks?.map((bank: any) => {
-                                return (
-                                  <MenuItem key={bank?.name} value={bank?.name}>
-                                    {bank?.name}
-                                  </MenuItem>
-                                );
-                              })}
-                            </SelectState>
-                          </Box>
-                          <Box sx={{ mb: 2 }}>
-                            <Label text="Account Number" />
-                            <FormInput
-                              ariaLabel="accountNumber"
-                              name="accountNumber"
-                              type="text"
-                              placeholder="1748-9938-948"
-                            />
-                          </Box>
-                          <CustomButton
-                            bgPrimary
-                            loading={isLoading}
-                            loadingText="Add..."
-                            type="submit"
-                          >
-                            {isSuccess ? `Added` : `Add Bank`}
-                          </CustomButton>
-                        </Form>
+                              <CircularProgress
+                                sx={{ color: `primary.main` }}
+                                size="1rem"
+                              />
+                            </Box>
+                          ) : (
+                            <Typography color="primary.main" fontSize="0.9rem">
+                              {accountName}
+                            </Typography>
+                          )}
+                        </Box>
                       )}
-                    </Formik>
+
+                      {errMsg && (
+                        <Box
+                          sx={{
+                            mb: 2,
+                            border: `1px solid red`,
+                            px: 2,
+                            py: 1,
+                            borderRadius: `6px`,
+                          }}
+                        >
+                          <Typography color="error.main" fontSize="0.9rem">
+                            {errMsg}
+                          </Typography>
+                        </Box>
+                      )}
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          justifyContent: `space-between`,
+                          flexDirection: {
+                            xs: `column`,
+                            sm: `column`,
+                            md: `column`,
+                            lg: `row`,
+                          },
+                          gap: `1rem`,
+                        }}
+                      >
+                        <CustomButton
+                          bgPrimary
+                          loading={isLoading}
+                          loadingText="Add..."
+                          type="submit"
+                        >
+                          {isSuccess ? `Added` : `Add Bank`}
+                        </CustomButton>
+                        <Button onClick={toggleUpdateState} variant="outlined">
+                          Cancel
+                        </Button>
+                      </Box>
+                    </form>
                   </Box>
                 </Box>
               </>
@@ -343,5 +1205,25 @@ const AvailableFunds = ({ token, bankDetails }: any) => {
     </Box>
   );
 };
+
+const Input = styled(`input`)({
+  padding: `1rem 1rem`,
+  outline: `none`,
+  width: `100%`,
+  borderRadius: `10px`,
+  fontSize: `1rem`,
+  border: `solid 1px #ccc;`,
+  marginTop: `0.5rem`,
+  background: `transparent`,
+
+  '@media (max-width: 1020px)': {
+    fontSize: `1rem`,
+    padding: `1rem 1rem`,
+  },
+
+  '&:-webkit-autofill': {
+    BackgroundColor: `transparent`,
+  },
+});
 
 export default AvailableFunds;

@@ -2,6 +2,7 @@ import notificationSlice from '@/features/notificationsSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/features/authSlice';
 import onboardingSlice from '@/features/onboardingSlice';
+import chatsSlice from '@/features/chatsSlice';
 import { apiSlice } from '@/features/apiSlice';
 import searchResultSlice from '@/features/searchResultSlice';
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authSlice,
     onboarding: onboardingSlice,
     notifications: notificationSlice,
+    chatsData: chatsSlice,
     searchModal: searchResultSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

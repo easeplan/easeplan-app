@@ -128,7 +128,7 @@ const SupportPage = ({ token }: PropsTypes) => {
   }
   return (
     <DashboardLayout token={token}>
-      <Box
+      {/* <Box
         sx={{
           paddingTop: 8,
         }}
@@ -267,6 +267,9 @@ const SupportPage = ({ token }: PropsTypes) => {
             </TabPanel>
           </Box>
         </Box>
+      </Box> */}
+      <Box>
+        <SendMessage userId="lol" token={token} />
       </Box>
     </DashboardLayout>
   );

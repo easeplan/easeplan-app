@@ -263,7 +263,7 @@ a {
   opacity: 1;
   display: flex;
   justify-content: space-between;
-  alignitems: end;
+  align-items: flex-end;
   overflow: hidden;
   color: #174e64;
   transition: 0.3s;
@@ -286,7 +286,7 @@ a {
   opacity: 1;
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   overflow: hidden;
   color: #174e64;
   transition: 0.3s;
@@ -370,10 +370,11 @@ a {
 @media (max-width: 900px) {
   .mobileOpenSlider {
     position: fixed;
-    width: 100%;
+    /* width: 100%; */
     /* background: red; */
     height: 75vh;
     left: 0%;
+    right: 0%;
     bottom: 6rem;
     transition: all 0.5s ease-in;
   }
@@ -382,7 +383,7 @@ a {
     width: 100%;
     /* background: red; */
     height: 75vh;
-    left: 100%;
+    /* left: 100%; */
     bottom: 6rem;
     transition: all 0.5s ease-in;
   }

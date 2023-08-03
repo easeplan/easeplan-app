@@ -32,7 +32,7 @@ const Dashboard = ({ data }: any) => {
     };
   }
 
-  const { accepted, completed } = filterOutAcceptedEvents(data.events);
+  const { accepted, completed } = filterOutAcceptedEvents(data?.events);
 
   return (
     <DashboardWrapper>

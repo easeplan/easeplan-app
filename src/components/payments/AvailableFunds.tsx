@@ -11,10 +11,7 @@ import {
   FormControl,
 } from '@mui/material';
 import CustomButton from '../common/CustomButton';
-import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import FormInput from '../common/FormInput';
-import FormError from '../common/FormError';
 import axios from 'axios';
 import Label from '../common/Label';
 import PaymentModal from './PaymentModal';
@@ -24,6 +21,7 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import { formatCurrency } from '@/utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import { styled } from '@mui/material/styles';
+// import { AvailableFundsProps } from '@/lib/types';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -743,6 +741,7 @@ const banks = [
 ];
 
 const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
+  console.log(bankDetails);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();

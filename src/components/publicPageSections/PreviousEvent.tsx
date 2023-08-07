@@ -16,7 +16,7 @@ const PreviousEvent = ({ queryData }: any) => {
   return (
     <Box mt={10} mb={20}>
       <Typography
-        fontWeight={600}
+        fontWeight={800}
         sx={{
           fontSize: {
             xs: `1.2rem`,
@@ -35,12 +35,12 @@ const PreviousEvent = ({ queryData }: any) => {
           gridTemplateColumns: {
             xs: `1fr`,
             sm: `1fr`,
-            md: `1fr 1fr`,
-            lg: `1fr 1fr`,
+            md: `1fr 1fr 1fr`,
+            lg: `1fr 1fr 1fr`,
           },
           gridTemplateAreas: `item2 item1`,
           alignItem: `center`,
-          gap: `4rem`,
+          gap: `0.5rem`,
           mt: `3rem`,
         }}
       >
@@ -78,79 +78,80 @@ const PreviousEvent = ({ queryData }: any) => {
                 fill
                 quality={100}
                 style={{
-                  borderRadius: `10px`,
                   objectFit: `cover`,
                 }}
               />
             </Box>
             <Box
               sx={{
-                width: `100%`,
-                position: `absolute`,
-                bottom: `-2rem`,
+                width: `95%`,
+                margin: `0 auto`,
+                // position: `absolute`,
+                // bottom: `-2rem`,
                 zIndez: `1`,
                 color: `#fff`,
               }}
             >
               <Box
                 sx={{
-                  width: `90%`,
+                  width: `100%`,
                   margin: `0 auto`,
                   // background: `rgba(0,0,0,0.7)`,
                   // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.6)`,
                   borderRadius: `10px`,
-                  p: {
+                  py: {
                     xs: `1rem`,
                     sm: `1rem`,
                     md: `1rem`,
-                    lg: `1.5rem`,
-                    xl: `1.5rem`,
+                    lg: `1rem`,
+                    xl: `1rem`,
                   },
                 }}
               >
-                <Typography
+                {/* <Typography
                   fontWeight="bold"
+                  color="primary.main"
                   sx={{
                     fontSize: {
                       xs: `1rem`,
                       sm: `1rem`,
-                      md: `1.5rem`,
-                      lg: `1.5rem`,
-                      xl: `1.5rem`,
+                      md: `1rem`,
+                      lg: `1rem`,
+                      xl: `1rem`,
                     },
                   }}
                 >
                   {data?.title}
-                </Typography>
+                </Typography> */}
                 {showMore ? (
-                  <Typography mt={2}>
+                  <Typography color="primary.main">
                     {data?.description}
-                    <span
+                    {/* <span
                       style={{
                         cursor: `pointer`,
-                        marginLeft: `0.4rem`,
+                        // marginLeft: `0.4rem`,
                         fontWeight: `bold`,
-                        color: theme.palette.secondary.main,
+                        color: theme.palette.primary.main,
                       }}
                       onClick={() => setShowMore(false)}
                     >
                       Hide
-                    </span>
+                    </span> */}
                   </Typography>
                 ) : (
-                  <Typography mt={2}>
+                  <Typography color="primary.main">
                     {truncateString(data?.description, 90)}
-                    <span
+                    {/* <span
                       style={{
                         cursor: `pointer`,
-                        marginLeft: `0.4rem`,
+                        // marginLeft: `0.4rem`,
                         fontWeight: `bold`,
-                        color: theme.palette.secondary.main,
+                        color: theme.palette.primary.main,
                       }}
                       onClick={() => setShowMore(true)}
                     >
                       Read more
-                    </span>
+                    </span> */}
                   </Typography>
                 )}
               </Box>

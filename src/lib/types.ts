@@ -84,3 +84,47 @@ export interface Basic {
   service: string[];
   price: number;
 }
+
+export interface AvailableFundsProps {
+  token: string;
+  bankDetails: {
+    accountNumber: string;
+    bank: string;
+    bankCode: string;
+    createdAt: string;
+    name: string;
+    updatedAt: string;
+    user: string;
+    __v: string;
+    _id: string;
+  };
+  queryData: {
+    _id: string;
+    userId: string;
+    firstName: string;
+    lastName: string;
+    rating: number;
+    events: { [key: string]: Event };
+    state: string;
+    city: string;
+    verified: boolean;
+    balance: number;
+    role: string;
+    clients: any[];
+    responseTimes: number[];
+    ratings: any[];
+    selections: any[];
+    samples: any[];
+    createdAt: Date;
+    __v: number;
+    currentlyHiredBy?: boolean;
+    business: Business;
+    gender: string;
+    identityVerify: IdentityVerify;
+    phoneNumber: string;
+    company: Company;
+    publicId: string;
+    picture: string;
+    averageResponseTime: number;
+  };
+}

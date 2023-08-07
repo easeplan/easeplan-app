@@ -5,7 +5,7 @@ import Footer from '../Footer';
 
 const Layout = ({ children }: any) => {
   return (
-    <>
+    <Box sx={{ background: `#fafafa` }}>
       <Header />
       <Box
         sx={{
@@ -21,7 +21,7 @@ const Layout = ({ children }: any) => {
         {children}
       </Box>
       <Footer />
-    </>
+    </Box>
   );
 };
 

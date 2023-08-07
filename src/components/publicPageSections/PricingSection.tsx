@@ -4,7 +4,7 @@ import { PlannerCard, VendorPricingCard } from './ServiceCard';
 
 const PricingSection = ({ queryData, token }: any) => {
   return (
-    <Box my={10} id="pricingSection">
+    <Box mb={10} id="pricingSection">
       <Box>
         {queryData?.role === `planner` && (
           <>
@@ -18,7 +18,8 @@ const PricingSection = ({ queryData, token }: any) => {
               }}
             >
               <Typography
-                fontWeight={600}
+                fontWeight={800}
+                color="primary.main"
                 sx={{
                   fontSize: {
                     xs: `1.2rem`,

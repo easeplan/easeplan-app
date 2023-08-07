@@ -41,13 +41,13 @@ const style = {
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  title: Yup.string().required(`Name is missing`),
+  // title: Yup.string().required(`Name is missing`),
   description: Yup.string().required(`Description is missing`),
   preEventImage: Yup.string().required(`Image is missing`),
 });
 
 interface updateTypes {
-  title: string;
+  // title: string;
   description?: string;
   image: File;
 }
@@ -120,7 +120,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
               }}
             >
               <Typography mb={4} fontWeight={600} color="primary.main">
-                Add Previous Event
+                Add Previous Jobs
               </Typography>
               <Box>
                 <Formik
@@ -135,7 +135,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                   {({}) => (
                     <Form>
                       <Box>
-                        <Box>
+                        {/* <Box>
                           <div>
                             <Label text="Enter Name of company" />
                           </div>
@@ -145,7 +145,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                             type="text"
                             placeholder="e.g Jammers Planning"
                           />
-                        </Box>
+                        </Box> */}
                         <Box>
                           <div>
                             <Label text="Short Description" />

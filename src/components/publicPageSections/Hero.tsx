@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
@@ -8,6 +8,8 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import RatingStar from '../common/RatingStar';
 import { QueryData } from '@/lib/types';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 type Props = {
   queryData: QueryData;
@@ -17,7 +19,7 @@ type Props = {
 const Hero = ({ queryData, token }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   return (
-    <Box mt={6}>
+    <Box pt={15}>
       <Box
         sx={{
           width: `100%`,
@@ -154,7 +156,8 @@ const Hero = ({ queryData, token }: Props) => {
               display: `flex`,
               alignItems: `center`,
               justifyContent: `center`,
-              my: `0.5rem`,
+              mt: `0.5rem`,
+              mb: `1rem`,
             }}
           >
             <RatingStar
@@ -188,14 +191,19 @@ const Hero = ({ queryData, token }: Props) => {
             },
           }}
         >
-          {/* 
-            TODO: Add a condition that toggles to Chat based on queryData; 
-            the chat links to the chat section 
+          {/*
+            TODO: Add a condition that toggles to Chat based on queryData;
+            the chat links to the chat section
             [*] DONE
           */}
           {queryData && !queryData.currentlyHiredBy ? (
             <Link href="#pricingSection">
-              <button className="preview-btn btn">Hire Me</button>
+              <Button
+                variant="contained"
+                sx={{ color: `secondary.main`, px: 6 }}
+              >
+                Hire Me
+              </Button>
             </Link>
           ) : (
             <Link href="/account/chats">
@@ -209,61 +217,115 @@ const Hero = ({ queryData, token }: Props) => {
             display: `flex`,
             alignItems: `center`,
             justifyContent: `space-between`,
+            gap: {
+              xs: `0.7rem`,
+              sm: `0.7rem`,
+              md: `1rem`,
+              lg: `6rem`,
+              xl: `6rem`,
+            },
+            flexDirection: {
+              xs: `column`,
+              sm: `column`,
+              md: `row`,
+              lg: `row`,
+              xl: `row`,
+            },
           }}
         >
+          {/* About Section */}
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
+              mb: {
+                xs: `1rem`,
+                sm: `1rem`,
+                nd: `2rem`,
+                lg: `3rem`,
+                xl: `3rem`,
+              },
+              width: {
+                xs: `auto`,
+                sm: `auto`,
+                md: `70%`,
+                lg: `70%`,
+                xl: `70%`,
+              },
+              background: `#fff`,
+              padding: 4,
+              boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+              border: `solid 1px #3333`,
+              borderRadius: `6px`,
             }}
           >
-            <Box>
-              <Typography fontWeight={600}>Location:</Typography>
-              <Typography>
-                {queryData?.state} {queryData?.city}
+            <Box
+              sx={{
+                display: `flex`,
+                alignItems: `center`,
+                justifyContent: `space-between`,
+              }}
+            >
+              <Typography
+                fontWeight={600}
+                sx={{
+                  fontSize: {
+                    xs: `1.2rem`,
+                    sm: `1.2rem`,
+                    md: `1.4rem`,
+                    lg: `1.5rem`,
+                  },
+                  color: `primary.main`,
+                  mb: `1rem`,
+                }}
+              >
+                About {queryData?.company?.name}
               </Typography>
             </Box>
+            <Box>
+              <Typography>{queryData?.company?.description}</Typography>
+            </Box>
           </Box>
-          <Box>
-            <Typography fontWeight={600}>Member Since:</Typography>
-            <Typography>{dateFormater(queryData?.createdAt)}</Typography>
-          </Box>
-        </Box>
-      </Box>
-      {/* About Section */}
-      <Box
-        sx={{
-          mt: `5rem`,
-          mb: `3rem`,
-          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-          padding: `1.5rem`,
-          borderRadius: `10px`,
-        }}
-      >
-        <Box
-          sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
-          }}
-        >
-          <Typography
-            fontWeight={600}
+          <Box
             sx={{
-              fontSize: {
-                xs: `1.2rem`,
-                sm: `1.2rem`,
-                md: `1.4rem`,
-                lg: `1.5rem`,
+              // display: `flex`,
+              // alignItems: `center`,
+              width: {
+                xs: `100%`,
+                sm: `100%`,
+                md: `30%`,
+                lg: `20%`,
+                xl: `20%`,
               },
-              mb: `1rem`,
             }}
           >
-            About {queryData?.company?.name}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography>{queryData?.company?.description}</Typography>
+            <Box
+              sx={{
+                background: `#fff`,
+                padding: 4,
+                boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+                border: `solid 1px #3333`,
+                borderRadius: `6px`,
+              }}
+            >
+              <Box>
+                <Typography fontWeight={600} color="primary.main">
+                  <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
+                  Location:
+                </Typography>
+                <Typography fontWeight={500} color="primary.main">
+                  {queryData?.state} {queryData?.city}
+                </Typography>
+              </Box>
+              <Box mt={4}>
+                <Typography fontWeight={600} color="primary.main">
+                  <BadgeIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} /> Member
+                  Since:
+                </Typography>
+                <Typography fontWeight={500} color="primary.main">
+                  {dateFormater(queryData?.createdAt)}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

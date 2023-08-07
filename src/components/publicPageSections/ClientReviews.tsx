@@ -25,7 +25,7 @@ const ClientReviews = ({ queryData }: any) => {
       }}
     >
       <Typography
-        fontWeight={600}
+        fontWeight={800}
         sx={{
           fontSize: {
             xs: `1.5rem`,
@@ -76,7 +76,7 @@ const ClientReviews = ({ queryData }: any) => {
                   margin: `0 auto`,
                   // height: `200px`,
                   textAlign: `center`,
-                  // backgroundColor: `primary.main`,
+                  backgroundColor: `#fff`,
                   borderRadius: `10px`,
                   padding: {
                     xs: `1.5rem`,
@@ -87,7 +87,7 @@ const ClientReviews = ({ queryData }: any) => {
                   color: `primary.main`,
                   // color: `#fff`,
                   boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                  borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
+                  borderBottom: `solid 1rem ${theme.palette.primary.main}`,
                 }}
               >
                 <Typography

@@ -86,7 +86,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
         }}
       >
         <Typography
-          fontWeight={600}
+          fontWeight={800}
           sx={{
             fontSize: {
               xs: `1.2rem`,
@@ -94,9 +94,10 @@ const PreviousEvent = ({ queryData, token }: any) => {
               md: `1.4rem`,
               lg: `1.5rem`,
             },
+            color: `primary.main`,
           }}
         >
-          Activities
+          Previous Jobs
         </Typography>
         <Box
           sx={{
@@ -109,11 +110,13 @@ const PreviousEvent = ({ queryData, token }: any) => {
             justifyContent: `center`,
             cursor: `pointer`,
             verticalAlign: `middle`,
-            borderRadius: `50%`,
+            borderRadius: `30px`,
             color: theme.palette.primary.main,
             height: `40px`,
-            width: `40px`,
+            width: `auto`,
             transition: `all 0.3s ease`,
+            px: 5,
+            fontWeight: `800`,
 
             '&:hover': {
               transform: `scale(1.1)`,
@@ -126,7 +129,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
           }}
           onClick={handleOpenModal}
         >
-          <AddIcon className="icon" />
+          Add Photos <AddIcon className="icon" sx={{ ml: 2 }} />
         </Box>
       </Box>
       <Box
@@ -135,12 +138,12 @@ const PreviousEvent = ({ queryData, token }: any) => {
           gridTemplateColumns: {
             xs: `1fr`,
             sm: `1fr`,
-            md: `1fr 1fr`,
-            lg: `1fr 1fr`,
+            md: `1fr 1fr 1fr`,
+            lg: `1fr 1fr 1fr`,
           },
           gridTemplateAreas: `item2 item1`,
           alignItem: `center`,
-          gap: `2rem`,
+          gap: `1rem`,
           mt: `3rem`,
         }}
       >

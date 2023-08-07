@@ -63,12 +63,12 @@ const MobileSidenav = () => {
             href="/account"
           />
         ) : null}
-        {/* <MobileNavItems
+        <MobileNavItems
           text="Settings"
           icon={<SettingsIcon />}
           href="/account/settings"
         />
-        <MobileNavItems
+        {/* <MobileNavItems
           text="support"
           icon={<PermPhoneMsgIcon />}
           href="/account/support"

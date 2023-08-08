@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
@@ -10,6 +11,8 @@ import RatingStar from '../common/RatingStar';
 import { QueryData } from '@/lib/types';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { useRouter } from 'next/router';
+import CreateContractModal from './CreateContract';
 
 type Props = {
   queryData: QueryData;
@@ -17,9 +20,31 @@ type Props = {
 };
 
 const Hero = ({ queryData, token }: Props) => {
+  const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const [openModal, setOpenModal] = useState(false);
+
+  // console.log(queryData);
+
+  const handledHireMe = () => {
+    if (!token || !userInfo?._id) {
+      router.push(`/login`);
+    } else {
+      setOpenModal(true);
+      // Create a new modal to send contract that has budget, date
+      // Send a contract
+      // Redirect to public profile after login
+    }
+  };
+
   return (
     <Box pt={15}>
+      <CreateContractModal
+        isOpen={openModal}
+        isClose={() => setOpenModal(false)}
+        token={token}
+        queryData={queryData}
+      />
       <Box
         sx={{
           width: `100%`,
@@ -197,14 +222,13 @@ const Hero = ({ queryData, token }: Props) => {
             [*] DONE
           */}
           {queryData && !queryData.currentlyHiredBy ? (
-            <Link href="#pricingSection">
-              <Button
-                variant="contained"
-                sx={{ color: `secondary.main`, px: 6 }}
-              >
-                Hire Me
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              sx={{ color: `secondary.main`, px: 6 }}
+              onClick={handledHireMe}
+            >
+              Hire Me
+            </Button>
           ) : (
             <Link href="/account/chats">
               <button className="preview-btn btn">Chat</button>

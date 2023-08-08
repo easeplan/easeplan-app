@@ -741,7 +741,6 @@ const banks = [
 ];
 
 const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
-  console.log(bankDetails);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();

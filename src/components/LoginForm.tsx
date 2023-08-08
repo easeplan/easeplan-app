@@ -160,18 +160,7 @@ const LoginForm = () => {
                     LOGIN
                   </CustomButton>
                   <RememberDiv>
-                    {/* <CheckLabel>
-                      <Checkbox
-                        sx={{
-                          color: `grey`,
-                          '&.Mui-checked': {
-                            color: `primary`,
-                          },
-                        }}
-                      />
-                      <span> Remember Me</span>
-                    </CheckLabel> */}
-                    <Link href="/" className="forgotPassword">
+                    <Link href="/forgetpassword" className="forgotPassword">
                       Forgot Password?
                     </Link>
                   </RememberDiv>

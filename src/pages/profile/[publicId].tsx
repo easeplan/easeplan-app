@@ -1,13 +1,16 @@
 import Hero from '@/components/publicPageSections/Hero';
 import Layout from '@/components/publicPageSections/Layout';
 import { Box, Divider } from '@mui/material';
+import { parseCookies } from '@/lib/parseCookies';
 import React from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
 import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
+import { GetServerSidePropsContext } from 'next';
+import type { NextApiRequest } from 'next';
 
-const PublicProfilePage = ({ data }: any) => {
+const PublicProfilePage = ({ data, token }: any) => {
   return (
     <>
       <Head>
@@ -33,7 +36,7 @@ const PublicProfilePage = ({ data }: any) => {
       </Head>
       <Layout>
         <Box>
-          <Hero queryData={data?.data} />
+          <Hero queryData={data?.data} token={token} />
           <PricingSection queryData={data?.data} />
           <Divider />
           <PreviousEvent queryData={data?.data} />
@@ -45,10 +48,15 @@ const PublicProfilePage = ({ data }: any) => {
   );
 };
 
-export async function getServerSideProps(context: {
-  query: { publicId: any };
-}) {
-  const { publicId } = context.query;
+export async function getServerSideProps(
+  context: GetServerSidePropsContext & { req: NextApiRequest },
+) {
+  const {
+    req,
+    query: { publicId },
+  } = context;
+  const { token } = parseCookies(req);
+  // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,
@@ -58,6 +66,7 @@ export async function getServerSideProps(context: {
 
   return {
     props: {
+      token: token,
       data: data?.data,
     },
   };

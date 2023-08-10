@@ -1,8 +1,8 @@
-import { Box, Typography, MenuItem, Alert } from '@mui/material';
+import { Box, MenuItem, Alert } from '@mui/material';
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import Modal from '@mui/material/Modal';
+// import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
@@ -76,9 +76,6 @@ const FindVendorModal = ({ token }: any) => {
       setIsLoading(false);
       if (data?.data?.msg) {
         setShowError(true);
-        // setTimeout(() => {
-        //   setShowError(false);
-        // }, 6000);
       }
       if (data?.data[0] || data?.data?.matchedServiceProviders[0]) {
         dispatch(setOpenSearchModal(true));
@@ -131,7 +128,6 @@ const FindVendorModal = ({ token }: any) => {
                     <Box>
                       <Label text="Select State" />
                       <SelectState
-                        // selectPlaceholder="Select State"
                         name="state"
                         onChange={(e: { target: { value: string } }) => {
                           const selectedState = data?.states.find(
@@ -153,11 +149,7 @@ const FindVendorModal = ({ token }: any) => {
                     </Box>
                     <Box>
                       <Label text="Select City" />
-                      <FormInput
-                        isSelect
-                        // selectPlaceholder="Select City"
-                        name="city"
-                      >
+                      <FormInput isSelect name="city">
                         {selectedState &&
                           selectedState?.cities?.map((city: any) => {
                             return (

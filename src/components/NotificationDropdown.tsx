@@ -1,24 +1,13 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState, useEffect, useRef, Key } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Box } from '@mui/material';
 import theme from '@/styles/theme';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
-import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import { dateFormater } from '@/utils';
 
-const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
+const NotificationDropdown = ({ notificationData }: any) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -26,25 +15,25 @@ const NotificationDropdown = ({ token, notificationData, queryData }: any) => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
+  // const handleClose = (event: Event | React.SyntheticEvent) => {
+  //   if (
+  //     anchorRef.current &&
+  //     anchorRef.current.contains(event.target as HTMLElement)
+  //   ) {
+  //     return;
+  //   }
 
-    setOpen(false);
-  };
+  //   setOpen(false);
+  // };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === `Tab`) {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === `Escape`) {
-      setOpen(false);
-    }
-  }
+  // function handleListKeyDown(event: React.KeyboardEvent) {
+  //   if (event.key === `Tab`) {
+  //     event.preventDefault();
+  //     setOpen(false);
+  //   } else if (event.key === `Escape`) {
+  //     setOpen(false);
+  //   }
+  // }
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);

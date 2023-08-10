@@ -3,7 +3,6 @@ import React from 'react';
 import { useField } from 'formik';
 import FormError from './FormError';
 import { styled } from '@mui/material/styles';
-import { MenuItem } from '@mui/material';
 import { InputLabel, FormControl, Select } from '@mui/material';
 
 type InputProps = {
@@ -40,10 +39,7 @@ const FormInput = ({
   ariaLabel,
   min,
   max,
-  form,
-  options,
   selectPlaceholder,
-  // disabled,
   ...props
 }: InputProps) => {
   const [field, meta] = useField(props);

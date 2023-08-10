@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import logoImg from '@/public/logo.png';
 import errImg from '@/public/404/404.png';
-import errImg2 from '@/public/404/404Img.png';
 import Image from 'next/image';
 
 const ErrorPage = () => {

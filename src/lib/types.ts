@@ -39,7 +39,8 @@ export interface QueryData {
   samples: any[];
   createdAt: Date;
   __v: number;
-  currentlyHiredBy?: boolean;
+  currentlyHiredBy?: any[];
+  currentlyRequestedBy?: any[];
   business: Business;
   gender: string;
   identityVerify: IdentityVerify;

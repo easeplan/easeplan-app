@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-import { Typography } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
-import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
@@ -24,18 +23,16 @@ function getLabelText(value: number) {
 export default function UserRating({
   rate,
   size,
-  fontSize,
   profileId,
   role,
   token,
 }: any) {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [value, setValue] = React.useState<number | null>(rate);
+  const [value] = React.useState<number | null>(rate);
   const [hover, setHover] = React.useState(-1);
 
   const queryClient = useQueryClient();
 
-  const { mutate: updateRating, isLoading } = useMutation({
+  const { mutate: updateRating } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.post(`/ratings`, credentials, {
         headers: {

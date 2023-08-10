@@ -1,24 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
-import cahtImg from '@/public/banner.png';
-import Image from 'next/image';
-import theme from '@/styles/theme';
-import { RootState } from '@/store/store';
-import { useSelector, useDispatch } from 'react-redux';
-import { setMessages } from '@/features/chatsSlice';
+import React from 'react';
+import { Box } from '@mui/material';
 
 const Messages = () => {
-  const dispatch = useDispatch();
-  const { messages, currentMessage } = useSelector(
-    (state: RootState) => state.chatsData,
-  );
-  // const [newMessages, setMessages] = useState(messages?.messages);
-
-  // const addNewObject = () => {
-  //   setMessages((prevMessages: any) => [...prevMessages, currentMessage]);
-  // };
-
-  console.log(currentMessage);
   return (
     <>
       {

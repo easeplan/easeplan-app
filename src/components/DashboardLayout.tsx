@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Sidenav from './Sidenav';
 import NavHeader from './NavHeader';

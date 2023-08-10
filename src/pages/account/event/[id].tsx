@@ -41,8 +41,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
     localStorage.setItem(`contract`, `${data}`);
   }, []);
 
-  const userServiceObj =
-    typeof window !== `undefined` && JSON?.parse(data?.package);
+  // const userServiceObj =
+  //   typeof window !== `undefined` && JSON?.parse(data?.package);
 
   const handlePayment = async () => {
     setIsSuccess(true);
@@ -162,7 +162,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                 {data?.budget && formatCurrency(data?.budget)}
               </Typography>
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 p: 4,
                 mt: 4,
@@ -200,66 +200,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                   {list}
                 </Typography>
               ))}
-            </Box>
-          </Box>
-          <Box key={data?._id}>
-            <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                border: `solid 1px ${theme.palette.secondary.main}`,
-              }}
-            >
-              <Typography
-                fontSize="1rem"
-                color="primary.main"
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
-                  },
-                }}
-              >
-                Package payment
-              </Typography>
-              <Typography
-                fontWeight="600"
-                sx={{
-                  fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
-                  },
-                }}
-                color="primary.main"
-              >
-                {data.budget && formatCurrency(data?.budget)}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-              }}
-            >
-              <CustomButton
-                onClick={handlePayment}
-                bgPrimary
-                disabled={data?.status === `paid` ? true : false}
-                lgWidth="100%"
-                loading={isSuccess}
-              >
-                {data?.status === `paid` ? `PAID` : `Make Payment`}
-              </CustomButton>
-            </Box>
+            </Box> */}
             {queryData && (
               <Box>
                 <Box
@@ -466,6 +407,65 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                 /> */}
               </Box>
             )}
+          </Box>
+          <Box>
+            <Box
+              sx={{
+                p: 4,
+                mt: 4,
+                border: `solid 1px ${theme.palette.secondary.main}`,
+              }}
+            >
+              <Typography
+                fontSize="1rem"
+                color="primary.main"
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  fontSize: {
+                    xs: `0.8rem`,
+                    sm: `0.8rem`,
+                    md: `1rem`,
+                    lg: `1rem`,
+                    lx: `1rem`,
+                  },
+                }}
+              >
+                Package payment
+              </Typography>
+              <Typography
+                fontWeight="600"
+                sx={{
+                  fontSize: {
+                    xs: `1rem`,
+                    sm: `1rem`,
+                    md: `1.3rem`,
+                    lg: `1.5rem`,
+                    lx: `1.5rem`,
+                  },
+                }}
+                color="primary.main"
+              >
+                {data.budget && formatCurrency(data?.budget)}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                p: 4,
+                mt: 4,
+                backgroundColor: `secondary.light`,
+              }}
+            >
+              <CustomButton
+                onClick={handlePayment}
+                bgPrimary
+                disabled={data?.status === `paid` ? true : false}
+                lgWidth="100%"
+                loading={isSuccess}
+              >
+                {data?.status === `paid` ? `PAID` : `Make Payment`}
+              </CustomButton>
+            </Box>
           </Box>
         </Box>
 

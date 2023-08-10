@@ -9,12 +9,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Alert, Checkbox, Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '@/features/usersApiSlice';
 import { setCredentials } from '@/features/authSlice';
+import useLastVisitedURL from '@/hooks/useLastVisitedURL';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
@@ -32,6 +33,7 @@ const LoginForm = () => {
   const [userName] = useState<any>(
     typeof window !== `undefined` ? localStorage.getItem(`userName`) : ``,
   );
+  const lastVisitedURL = useLastVisitedURL();
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -50,7 +52,12 @@ const LoginForm = () => {
           if (data.data?.onboardStage < 1) {
             router.push(`/onboarding`);
           } else {
-            router.push(`/account`);
+            // Redirect to the last visited URL or a default route
+            if (lastVisitedURL) {
+              router.push(lastVisitedURL);
+            } else {
+              router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
+            }
           }
         }
         if (data?.data?.role === `planner` || data?.data?.role === `provider`) {
@@ -58,7 +65,12 @@ const LoginForm = () => {
           if (data?.data?.onboardStage < 3) {
             router.push(`/onboarding`);
           } else {
-            router.push(`/account`);
+            // Redirect to the last visited URL or a default route
+            if (lastVisitedURL) {
+              router.push(lastVisitedURL);
+            } else {
+              router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
+            }
           }
         }
       } else {

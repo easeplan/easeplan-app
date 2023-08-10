@@ -2,7 +2,7 @@ import Hero from '@/components/publicPageSections/Hero';
 import Layout from '@/components/publicPageSections/Layout';
 import { Box, Divider } from '@mui/material';
 import { parseCookies } from '@/lib/parseCookies';
-import React from 'react';
+import { useEffect } from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
 import ClientReviews from '@/components/publicPageSections/ClientReviews';
@@ -11,6 +11,11 @@ import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
 
 const PublicProfilePage = ({ data, token }: any) => {
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      localStorage.removeItem(`lastVisitedURL`);
+    }
+  }, []);
   return (
     <>
       <Head>

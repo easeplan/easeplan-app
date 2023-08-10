@@ -111,18 +111,18 @@ const BottomFooter = styled(`section`)(({ theme }) => ({
   color: theme.palette.common.white,
 }));
 
-const Newsletter = styled(`div`)(({}) => ({
-  backgroundColor: `#73877B`,
-  padding: `3rem`,
+// const Newsletter = styled(`div`)(({}) => ({
+//   backgroundColor: `#73877B`,
+//   padding: `3rem`,
 
-  '@media (max-width: 1020px)': {
-    padding: `2rem`,
-  },
+//   '@media (max-width: 1020px)': {
+//     padding: `2rem`,
+//   },
 
-  '@media (max-width: 900px)': {
-    padding: `1rem`,
-  },
-}));
+//   '@media (max-width: 900px)': {
+//     padding: `1rem`,
+//   },
+// }));
 
 const FooterContent = styled(`div`)(({}) => ({
   padding: `2rem 0`,
@@ -209,42 +209,42 @@ const List = styled(`div`)(({ theme }) => ({
   },
 }));
 
-const Title = styled(`h2`)(({ theme }) => ({
-  fontWeight: `3rem`,
-  color: theme.palette.primary.main,
-  textAlign: `center`,
+// const Title = styled(`h2`)(({ theme }) => ({
+//   fontWeight: `3rem`,
+//   color: theme.palette.primary.main,
+//   textAlign: `center`,
 
-  '@media (max-width: 1020px)': {
-    fontSize: `1.5rem`,
-  },
+//   '@media (max-width: 1020px)': {
+//     fontSize: `1.5rem`,
+//   },
 
-  '@media (max-width: 900px)': {
-    fontSize: `1rem`,
-  },
-}));
+//   '@media (max-width: 900px)': {
+//     fontSize: `1rem`,
+//   },
+// }));
 
-const FormWrapper = styled(`div`)(({}) => ({
-  backgroundColor: `#73877B`,
-  padding: `3rem`,
-  width: `70%`,
-  margin: `0 auto`,
-  display: `flex`,
-  flexDirection: `row`,
+// const FormWrapper = styled(`div`)(({}) => ({
+//   backgroundColor: `#73877B`,
+//   padding: `3rem`,
+//   width: `70%`,
+//   margin: `0 auto`,
+//   display: `flex`,
+//   flexDirection: `row`,
 
-  '@media (max-width: 1020px)': {
-    flexDirection: `column`,
-    width: `100%`,
-    padding: `0`,
-    marginTop: `2rem`,
-  },
+//   '@media (max-width: 1020px)': {
+//     flexDirection: `column`,
+//     width: `100%`,
+//     padding: `0`,
+//     marginTop: `2rem`,
+//   },
 
-  '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    width: `100%`,
-    padding: `0`,
-    marginTop: `1rem`,
-  },
-}));
+//   '@media (max-width: 900px)': {
+//     flexDirection: `column`,
+//     width: `100%`,
+//     padding: `0`,
+//     marginTop: `1rem`,
+//   },
+// }));
 
 const Input = styled(`input`)(({ theme }) => ({
   padding: `1rem`,

@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import Navbar from './Navbar';
-import { styled } from '@mui/material/styles';
 
 type LayoutProps = {
   description: string;

@@ -2,12 +2,12 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
-import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
+// import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+// import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
-import EmailIcon from '@mui/icons-material/Email';
-import StyleIcon from '@mui/icons-material/Style';
+// import EmailIcon from '@mui/icons-material/Email';
+// import StyleIcon from '@mui/icons-material/Style';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';

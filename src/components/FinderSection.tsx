@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import FinderIcon from '@/public/finder.gif';
-import EventCenterIcon from '@/public/eventCenter.gif';
-import VendorIcon from '@/public/vendor.gif';
+// import FinderIcon from '@/public/finder.gif';
+// import EventCenterIcon from '@/public/eventCenter.gif';
+// import VendorIcon from '@/public/vendor.gif';
 import Image from 'next/image';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import FindPlannerModal from './FindPlannerModal';
 import FindVendorModal from './FindVendorModal';
 import FindVendorForm from './FindVendorForm';
@@ -21,20 +21,20 @@ import bannerImg from '@/public/banner.png';
 import EventList from './EventList';
 import { toast } from 'react-toastify';
 
-const FinderSection = ({ queryData, token, notificationData }: any) => {
+const FinderSection = ({ queryData, token }: any) => {
   const dispatch = useDispatch();
   const { openSearchModal, openPlannerModal, openVendorModal, data } =
     useSelector((state: RootState) => state.searchModal);
 
-  const handleOpenFindPlannerModal = () => {
-    // toast.success(`This feature will be available on the 1st of August 🥰`);
-    dispatch(setOpenPlannerModal(true));
-  };
+  // const handleOpenFindPlannerModal = () => {
+  //   toast.success(`This feature will be available on the 1st of August 🥰`);
+  //   dispatch(setOpenPlannerModal(true));
+  // };
 
-  const handleOpenFindVendorModal = () => {
-    toast.success(`This feature will be available on the 1st of August 🥰`);
-    // dispatch(setOpenVendorModal(true));
-  };
+  // const handleOpenFindVendorModal = () => {
+  //   toast.success(`This feature will be available on the 1st of August 🥰`);
+  //   dispatch(setOpenVendorModal(true));
+  // };
 
   return (
     <>
@@ -121,41 +121,41 @@ const DashboardWrapper = styled(`section`)(({ theme }) => ({
   },
 }));
 
-const Card = styled(`div`)(({ theme }) => ({
-  borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
-  padding: `2rem`,
-  width: `100%`,
-  color: theme.palette.secondary.main,
-  background: theme.palette.primary.main,
-  marginTop: `1.3rem`,
-  textAlign: `center`,
-  cursor: `pointer`,
-  transition: `all 0.5s ease`,
-  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-  borderRadius: `10px`,
+// const Card = styled(`div`)(({ theme }) => ({
+//   borderBottom: `solid 1rem ${theme.palette.secondary.main}`,
+//   padding: `2rem`,
+//   width: `100%`,
+//   color: theme.palette.secondary.main,
+//   background: theme.palette.primary.main,
+//   marginTop: `1.3rem`,
+//   textAlign: `center`,
+//   cursor: `pointer`,
+//   transition: `all 0.5s ease`,
+//   boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+//   borderRadius: `10px`,
 
-  '&:hover': {
-    background: theme.palette.primary.light,
-  },
+//   '&:hover': {
+//     background: theme.palette.primary.light,
+//   },
 
-  '&:hover .title': {
-    transition: `all 0.5s ease`,
-    transform: `scale(1.3)`,
-  },
+//   '&:hover .title': {
+//     transition: `all 0.5s ease`,
+//     transform: `scale(1.3)`,
+//   },
 
-  '.title': {
-    margin: `0.3rem 0`,
-    transition: `all 0.5s ease`,
-  },
+//   '.title': {
+//     margin: `0.3rem 0`,
+//     transition: `all 0.5s ease`,
+//   },
 
-  '@media (max-width: 900px)': {
-    padding: `0.5rem`,
+//   '@media (max-width: 900px)': {
+//     padding: `0.5rem`,
 
-    '.title': {
-      margin: `0 0 0.5rem 0`,
-      fontSize: `0.8rem`,
-    },
-  },
-}));
+//     '.title': {
+//       margin: `0 0 0.5rem 0`,
+//       fontSize: `0.8rem`,
+//     },
+//   },
+// }));
 
 export default FinderSection;

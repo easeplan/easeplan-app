@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Messages from './Messages';
 import cahtImg from '@/public/avatar.png';

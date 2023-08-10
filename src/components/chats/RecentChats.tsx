@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import UsersCard from './UsersCard';
-import cahtImg from '@/public/avatar.png';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 
 const RecentChats = ({

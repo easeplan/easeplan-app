@@ -1,10 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
-import CustomButton from '../common/CustomButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 const style = {

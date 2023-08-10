@@ -104,9 +104,6 @@ const FindVendorModal = ({ isOpen, isClose, token, queryData }: any) => {
       setIsLoading(false);
       if (data?.data?.msg) {
         setShowError(true);
-        // setTimeout(() => {
-        //   setShowError(false);
-        // }, 6000);
       }
       if (data?.data[0] || data?.data?.matchedServiceProviders[0]) {
         dispatch(setOpenSearchModal(true));

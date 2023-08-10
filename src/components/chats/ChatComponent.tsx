@@ -1,4 +1,4 @@
-import { Grid, Paper, Box, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
 

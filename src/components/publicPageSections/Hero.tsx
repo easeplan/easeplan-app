@@ -13,6 +13,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import CreateContractModal from './CreateContract';
+import ChatIcon from '@mui/icons-material/Chat';
 
 type Props = {
   queryData: QueryData;
@@ -24,18 +25,20 @@ const Hero = ({ queryData, token }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
 
-  // console.log(queryData);
-
   const handledHireMe = () => {
-    if (!token || !userInfo?._id) {
+    if (!userInfo) {
       router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, router.asPath);
+      }
     } else {
       setOpenModal(true);
-      // Create a new modal to send contract that has budget, date
-      // Send a contract
-      // Redirect to public profile after login
     }
   };
+
+  const loggedUserId = userInfo?._id;
+
+  console.log(queryData);
 
   return (
     <Box pt={15}>
@@ -221,7 +224,7 @@ const Hero = ({ queryData, token }: Props) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData && !queryData.currentlyHiredBy ? (
+          {queryData && queryData.currentlyHiredBy?.includes(loggedUserId) ? (
             <Button
               variant="contained"
               sx={{ color: `secondary.main`, px: 6 }}
@@ -229,9 +232,20 @@ const Hero = ({ queryData, token }: Props) => {
             >
               Hire Me
             </Button>
+          ) : queryData &&
+            queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
+            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
+              Pending Request
+            </Button>
           ) : (
             <Link href="/account/chats">
-              <button className="preview-btn btn">Chat</button>
+              <Button
+                startIcon={<ChatIcon />}
+                variant="contained"
+                sx={{ color: `secondary.main`, px: 6 }}
+              >
+                Chat
+              </Button>
             </Link>
           )}
         </Box>
@@ -239,14 +253,13 @@ const Hero = ({ queryData, token }: Props) => {
           sx={{
             mt: `5rem`,
             display: `flex`,
-            alignItems: `center`,
             justifyContent: `space-between`,
             gap: {
               xs: `0.7rem`,
               sm: `0.7rem`,
               md: `1rem`,
-              lg: `6rem`,
-              xl: `6rem`,
+              lg: `4rem`,
+              xl: `4rem`,
             },
             flexDirection: {
               xs: `column`,
@@ -316,8 +329,8 @@ const Hero = ({ queryData, token }: Props) => {
                 xs: `100%`,
                 sm: `100%`,
                 md: `30%`,
-                lg: `20%`,
-                xl: `20%`,
+                lg: `30%`,
+                xl: `30%`,
               },
             }}
           >

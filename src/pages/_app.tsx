@@ -24,13 +24,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    // posthog.init(`${process.env.NEXT_PUBLIC_POSTHOG_INIT}`, {
-    //   api_host: `https://app.posthog.com`,
-    //   session_recording: {
-    //     inlineStylesheet: false,
-    //   },
-    // });
-    // posthog.capture(`my event`, { property: `value` });
+    posthog.init(`${process.env.NEXT_PUBLIC_POSTHOG_INIT}`, {
+      api_host: `https://app.posthog.com`,
+      session_recording: {
+        inlineStylesheet: false,
+      },
+    });
+    posthog.capture(`my event`, { property: `value` });
 
     const handleRouteChange = (url: URL) => {
       /* invoke analytics function only for production */

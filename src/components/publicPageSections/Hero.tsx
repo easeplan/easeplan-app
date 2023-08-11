@@ -38,8 +38,6 @@ const Hero = ({ queryData, token }: Props) => {
 
   const loggedUserId = userInfo?._id;
 
-  console.log(queryData);
-
   return (
     <Box pt={15}>
       <CreateContractModal
@@ -224,20 +222,7 @@ const Hero = ({ queryData, token }: Props) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData && queryData.currentlyHiredBy?.includes(loggedUserId) ? (
-            <Button
-              variant="contained"
-              sx={{ color: `secondary.main`, px: 6 }}
-              onClick={handledHireMe}
-            >
-              Hire Me
-            </Button>
-          ) : queryData &&
-            queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
-            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
-              Pending Request
-            </Button>
-          ) : (
+          {queryData.currentlyHiredBy?.includes(loggedUserId) ? (
             <Link href="/account/chats">
               <Button
                 startIcon={<ChatIcon />}
@@ -247,6 +232,18 @@ const Hero = ({ queryData, token }: Props) => {
                 Chat
               </Button>
             </Link>
+          ) : queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
+            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
+              Pending Request
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{ color: `secondary.main`, px: 6 }}
+              onClick={handledHireMe}
+            >
+              Hire Me
+            </Button>
           )}
         </Box>
         <Box

@@ -47,8 +47,8 @@ const ContractsPage = ({ token, data }: Props) => {
   const [confirm, setConfirm] = useState(false);
   const [declined, setDecliend] = useState(false);
 
-  const userServiceObj =
-    typeof window !== `undefined` && JSON?.parse(data?.package);
+  // const userServiceObj =
+  //   typeof window !== `undefined` && JSON?.parse(data?.package);
 
   const handleAcceptOffer = async () => {
     try {
@@ -344,7 +344,7 @@ const ContractsPage = ({ token, data }: Props) => {
               {data.budget && formatCurrency(data?.budget)}
             </Typography>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               p: 4,
               mt: 4,
@@ -378,7 +378,7 @@ const ContractsPage = ({ token, data }: Props) => {
                 {list}
               </Typography>
             ))}
-          </Box>
+          </Box> */}
           {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
             <>
               {data.status === `Accepted` ? (

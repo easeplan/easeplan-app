@@ -377,13 +377,15 @@ a {
     right: 0%;
     bottom: 6rem;
     transition: all 0.5s ease-in;
+    transform: translateX(00%);
   }
   .mobileCloseSlider {
     position: fixed;
     width: 100%;
-    /* background: red; */
     height: 75vh;
-    /* left: 100%; */
+    left: 0;
+    right: 0;
+    transform: translateX(100%);
     bottom: 6rem;
     transition: all 0.5s ease-in;
   }

@@ -74,6 +74,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
         },
       );
       router.push(`/account/event/${data?.data?._id}`);
+      console.log(data);
     } catch (error) {
       setIsLoading(false);
       console.log(error);

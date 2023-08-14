@@ -224,20 +224,20 @@ const InboxPage = ({ token }: any) => {
             className={`${
               mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
             }`}
-            sx={{
-              position: `relative`,
-              width: `100%`,
-              overflowY: `hidden`,
-              backgroundColor: `secondary.light`,
-              borderRadius: `8px`,
-              height: {
-                xs: `50vh`,
-                sm: `50vh`,
-                md: `80vh`,
-                lg: `80vh`,
-                xl: `100%`,
-              },
-            }}
+            // sx={{
+            //   position: `relative`,
+            //   width: `100%`,
+            //   overflowY: `hidden`,
+            //   backgroundColor: `secondary.light`,
+            //   borderRadius: `8px`,
+            //   height: {
+            //     xs: `50vh`,
+            //     sm: `50vh`,
+            //     md: `80vh`,
+            //     lg: `80vh`,
+            //     xl: `100%`,
+            //   },
+            // }}
           >
             {/* The Image Preview Modal */}
             <Dialog open={isPreviewOpen} onClose={handleClosePreview}>

@@ -16,12 +16,12 @@ body::-webkit-scrollbar {
   width: 12px; /* width of the entire scrollbar */
 }
 body::-webkit-scrollbar-track {
-  background: #174E64; /* color of the tracking area */
+  background: #174e64; /* color of the tracking area */
 }
 body::-webkit-scrollbar-thumb {
-  background-color: #71F79F; /* color of the scroll thumb */
+  background-color: #71f79f; /* color of the scroll thumb */
   border-radius: 20px; /* roundness of the scroll thumb */
-  border: 3px solid #174E64; /* creates padding around scroll thumb */
+  border: 3px solid #174e64; /* creates padding around scroll thumb */
 }
 
 /* width */
@@ -320,10 +320,11 @@ a {
   translate: 0 -100%;
 }
 
-.ea-heading-2, .ea-heading-1 {
-  color: #0F3443;
+.ea-heading-2,
+.ea-heading-1 {
+  color: #0f3443;
   font-size: 1.6rem;
-  margin-bottom: .6rem;
+  margin-bottom: 0.6rem;
 }
 .ea-heading-1 {
   font-size: 2.2rem;
@@ -356,15 +357,36 @@ a {
   position: relative;
 }
 
-.MuiPaper-elevation{
+.MuiPaper-elevation {
   box-shadow: none !important;
 }
 
 .ea-line {
-  border-bottom: 1px solid #BDC7C1;
+  border-bottom: 1px solid #bdc7c1;
 }
 .mobileCloseIcon {
   display: none;
+}
+
+.mobileRecentChat {
+  overflowy: hidden;
+  height: 90%;
+}
+
+.mobileOpenSlider {
+  position: relative;
+  width: 100%;
+  overflowY: hidden;
+  background: #ECFEF2;
+  borderRadius: 8px;
+  height: 100%;
+  /* {
+    xs: `50vh`,
+    sm: `50vh`,
+    md: `80vh`,
+    lg: `80vh`,
+    xl: `100%`,
+  }, */
 }
 
 @media (max-width: 900px) {
@@ -394,11 +416,13 @@ a {
     width: 82%;
     borderradius: 8px;
     position: fixed;
+    overflowy: hidden;
+    height: 90%;
   }
 
   .mobileCloseIcon {
     display: block;
-    color: #174E64;
+    color: #174e64;
     cursor: pointer;
     font-size: 1.2rem;
   }

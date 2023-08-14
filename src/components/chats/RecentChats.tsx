@@ -11,14 +11,7 @@ const RecentChats = ({
 }: any) => {
   return (
     <>
-      <Box
-        className="mobileRecentChat"
-        sx={{
-          // borderRight: `solid 1px #ccc`,
-          overflowY: `hidden`,
-          height: `90%`,
-        }}
-      >
+      <Box className="mobileRecentChat">
         <Box sx={{ p: `1rem` }}>
           <Typography
             fontWeight="bold"

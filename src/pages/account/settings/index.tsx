@@ -40,7 +40,11 @@ const SettingsPage = ({ token }: any) => {
     <DashboardLayout token={token}>
       <Flex>
         <Link href="/account/settings">
-          <Button variant="contained" startIcon={<AdminPanelSettingsIcon />}>
+          <Button
+            variant="outlined"
+            sx={{ fontSize: `0.7rem` }}
+            startIcon={<AdminPanelSettingsIcon />}
+          >
             Profile Settings
           </Button>
         </Link>
@@ -48,12 +52,11 @@ const SettingsPage = ({ token }: any) => {
         {queryData?.role !== `user` && (
           <Link href="/account/settings/verify">
             <Button
-              variant="outlined"
-              size="large"
-              sx={{ marginLeft: `1rem` }}
+              variant="contained"
+              sx={{ marginLeft: `1rem`, fontSize: `0.7rem` }}
               startIcon={<AdminPanelSettingsIcon />}
             >
-              Verification Settings
+              Verification
             </Button>
           </Link>
         )}

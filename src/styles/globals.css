@@ -375,7 +375,7 @@ a {
 
 .mobileOpenSlider {
   position: relative;
-  width: 100%;
+  width: 90%;
   overflowY: hidden;
   background: #ECFEF2;
   borderRadius: 8px;
@@ -394,7 +394,7 @@ a {
     position: fixed;
     width: 90%;
     /* background: red; */
-    height: 78%;
+    height: 77%;
     width: 100%;
     margin-top: 4rem;
     top: 0;
@@ -403,7 +403,7 @@ a {
   }
   .mobileCloseSlider {
     position: fixed;
-    width: 100%;
+    width: 90%;
     height: 75vh;
     left: 0;
     right: 0;

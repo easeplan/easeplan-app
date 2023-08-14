@@ -394,14 +394,12 @@ a {
     position: fixed;
     width: 100%;
     /* background: red; */
-    height: 75vh;
-    width: 90vw;
+    height: 85%;
+    width: 100%;
+    margin-top: 4rem;
     top: 0;
-    left: 0%;
-    right: 0%;
-    bottom: 6rem;
     transition: all 0.5s ease-in;
-    transform: translateX(00%);
+    transform: translateX(0%);
   }
   .mobileCloseSlider {
     position: fixed;
@@ -409,7 +407,7 @@ a {
     height: 75vh;
     left: 0;
     right: 0;
-    transform: translateX(100%);
+    transform: translateX(150%);
     bottom: 6rem;
     transition: all 0.5s ease-in;
   }

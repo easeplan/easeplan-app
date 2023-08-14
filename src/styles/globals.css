@@ -392,9 +392,11 @@ a {
 @media (max-width: 900px) {
   .mobileOpenSlider {
     position: fixed;
-    /* width: 100%; */
+    width: 100%;
     /* background: red; */
     height: 75vh;
+    width: 90vw;
+    top: 0;
     left: 0%;
     right: 0%;
     bottom: 6rem;

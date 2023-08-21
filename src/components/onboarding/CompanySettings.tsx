@@ -175,7 +175,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
                 </Box>
                 <Box>
                   <Typography fontWeight={600} color="primary.main">
-                    Step 3 of 3
+                    Step 2 of 2
                   </Typography>
                 </Box>
               </Box>

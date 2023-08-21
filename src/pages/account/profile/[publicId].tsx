@@ -1,6 +1,7 @@
-import Hero from '@/components/publicPageSections/Hero';
-import Layout from '@/components/publicPageSections/Layout';
+import Hero from '@/components/UserProfile/Hero';
+import DashboardLayout from '@/components/DashboardLayout';
 import { Box, Divider } from '@mui/material';
+import { parseCookies } from '@/lib/parseCookies';
 import { useEffect } from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
@@ -9,7 +10,7 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
 
-const PublicProfilePage = ({ data, publicId }: any) => {
+const ViewProfilePage = ({ data, token }: any) => {
   useEffect(() => {
     if (typeof window !== `undefined`) {
       localStorage.removeItem(`lastVisitedURL`);
@@ -38,16 +39,16 @@ const PublicProfilePage = ({ data, publicId }: any) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={data?.data?.company?.image}></meta>
       </Head>
-      <Layout publicId={publicId}>
+      <DashboardLayout token={token}>
         <Box>
-          <Hero queryData={data?.data} publicId={publicId} />
+          <Hero queryData={data?.data} token={token} />
           <PricingSection queryData={data?.data} />
           <Divider />
           <PreviousEvent queryData={data?.data} />
           <Divider />
           <ClientReviews queryData={data?.data} />
         </Box>
-      </Layout>
+      </DashboardLayout>
     </>
   );
 };
@@ -59,6 +60,7 @@ export async function getServerSideProps(
     req,
     query: { publicId },
   } = context;
+  const { token } = parseCookies(req);
   // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
   const res = await fetch(
@@ -69,10 +71,10 @@ export async function getServerSideProps(
 
   return {
     props: {
+      token: token,
       data: data?.data,
-      publicId: publicId,
     },
   };
 }
 
-export default PublicProfilePage;
+export default ViewProfilePage;

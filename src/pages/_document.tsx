@@ -58,6 +58,10 @@ export default class MyDocument extends Document {
               />
             </>
           )}
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          />
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon-192x192.png" />
           <meta name="theme-color" content="#134153" />

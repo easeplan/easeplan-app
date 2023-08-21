@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
 import ClientReviews from '@/components/publicPageSections/ClientReviews';
-import Hero from '@/components/publicPageSections/Hero';
+import Hero from '@/components/UserProfile/Hero';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import Spinner from './common/Spinner';

@@ -1,10 +1,9 @@
 {
   "services": [
-    "Dj",
+    "DJ",
     "Catering",
     "Photographer",
     "MC",
-    "Event Planner",
     "Make-up Artist",
     "Venue manager",
     "Event decorator",
@@ -12,7 +11,7 @@
     "Security personnel",
     "Videographer",
     "Print vendor",
-    "Userhing",
+    "Ushering",
     "Entertainer"
   ]
 }

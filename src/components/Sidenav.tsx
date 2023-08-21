@@ -53,7 +53,7 @@ const Sidenav = () => {
         <Links>
           <SidebarItem
             icon={<StyleIcon />}
-            text="History"
+            text="Events"
             href="/account/history"
           />
         </Links>

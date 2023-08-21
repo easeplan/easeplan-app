@@ -141,7 +141,7 @@ const VerifiactionModal = ({
                   lgWidth="100%"
                   mdWidth="100%"
                   loading={isLoading}
-                  loadingText="VERIFING..."
+                  loadingText="VERIFYING..."
                   type="submit"
                   mb={4}
                 >

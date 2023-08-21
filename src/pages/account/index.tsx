@@ -250,7 +250,12 @@ const HomePage = ({ token }: Props) => {
                             lg: `row`,
                             xl: `row`,
                           },
-                          p: 4,
+                          p: {
+                            xs: 3,
+                            sm: 3,
+                            md: 3,
+                            lg: 4,
+                          },
                           mt: 4,
                           border: ` solid 1px #ccc`,
                         }}
@@ -273,45 +278,47 @@ const HomePage = ({ token }: Props) => {
                         <Box
                           sx={{
                             display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            // alignItems: `start`,
+                            justifyContent: `start`,
                             gap: `2rem`,
+                            textAlign: `center`,
+                            width: {
+                              xs: `100%`,
+                              sm: `100%`,
+                              lg: `auto`,
+                            },
                             mt: {
                               xs: `2rem`,
                               sm: `2rem`,
                             },
                           }}
                         >
-                          <Box
-                            sx={{
-                              border: `solid 1px ${theme.palette.primary.main}`,
-                              color: `primary.main`,
-                              py: 1,
-                              px: 4,
-                              fontWeight: `600`,
-                            }}
+                          <Link
+                            href="/dashboard/support"
+                            style={{ marginRight: `0.3rem` }}
                           >
-                            <Link href="/dashboard/support">
-                              <Typography fontSize="0.9rem">
-                                Declined offer
-                              </Typography>
-                            </Link>
-                          </Box>
-                          <Box
-                            sx={{
-                              backgroundColor: `primary.main`,
-                              color: `secondary.main`,
-                              py: 1,
-                              px: 4,
-                              fontWeight: `600`,
-                            }}
-                          >
-                            <Link href={`/account/contracts/${list?._id}`}>
-                              <Typography fontSize="0.9rem">
-                                View offer
-                              </Typography>
-                            </Link>
-                          </Box>
+                            <Button
+                              type="button"
+                              variant="outlined"
+                              sx={{
+                                textTransform: `capitalize`,
+                              }}
+                            >
+                              Declined offer
+                            </Button>
+                          </Link>
+                          <Link href={`/account/contracts/${list?._id}`}>
+                            <Button
+                              type="button"
+                              variant="contained"
+                              sx={{
+                                textTransform: `capitalize`,
+                                color: `secondary.main`,
+                              }}
+                            >
+                              View offer
+                            </Button>
+                          </Link>
                         </Box>
                       </Box>
                     ) : null}

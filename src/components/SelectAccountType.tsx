@@ -254,7 +254,8 @@ const SelectAccountType = () => {
                         }}
                         gutterBottom
                       >
-                        E.g: DJ, Cateral, MC, Bouncer, Chief...
+                        E.g: DJ, Catering, MC, Bouncer, Make-up Artist,
+                        Photographer
                       </Typography>
                     </div>
                   </Card>

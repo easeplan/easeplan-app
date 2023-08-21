@@ -14,6 +14,7 @@ import { AuthProvider } from '@/context/contextStore';
 import 'react-toastify/dist/ReactToastify.css';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
+import Head from 'next/head';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
 
@@ -43,19 +44,32 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <Provider store={store}>
-      <AnimatePresence mode={`wait`}>
-        <AuthProvider queryData={pageProps.queryData}>
-          <QueryClientProvider client={queryClient}>
-            <ToastContainer position="top-center" />
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Component key={router.pathname} {...pageProps} />
-            </ThemeProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </QueryClientProvider>
-        </AuthProvider>
-      </AnimatePresence>
-    </Provider>
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+      </Head>
+
+      <Provider store={store}>
+        <AnimatePresence mode={`wait`}>
+          <AuthProvider queryData={pageProps.queryData}>
+            <QueryClientProvider client={queryClient}>
+              <ToastContainer position="top-center" />
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Component key={router.pathname} {...pageProps} />
+              </ThemeProvider>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </QueryClientProvider>
+          </AuthProvider>
+        </AnimatePresence>
+      </Provider>
+    </>
   );
 }

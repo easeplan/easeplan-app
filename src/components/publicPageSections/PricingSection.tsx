@@ -4,7 +4,7 @@ import { PlannerCard, VendorPricingCard } from './ServiceCard';
 
 const PricingSection = ({ queryData, token }: any) => {
   return (
-    <Box mb={10} id="pricingSection">
+    <Box mb={5} id="pricingSection">
       <Box>
         {queryData?.role === `planner` && (
           <>

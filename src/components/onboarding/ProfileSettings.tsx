@@ -195,7 +195,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 </Box>
                 <Box>
                   <Typography color="primary.main" fontWeight={600}>
-                    Step 1 of 3
+                    Step 1 of 2
                   </Typography>
                 </Box>
               </Box>
@@ -219,7 +219,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
                 }}
               >
-                Let&apos;s get you started in 3 quick and easy steps
+                Let&apos;s get you started in 2 quick and easy steps
               </Typography>
               <Typography
                 component={motion.h5}

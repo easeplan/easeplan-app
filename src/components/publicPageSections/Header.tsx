@@ -2,32 +2,39 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Logo from '../Logo';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Button } from '@mui/material';
 import NavItem from '../NavItem';
 import MobileNav from '../MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomButton from '../common/CustomButton';
 import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
-import axios from 'axios';
+import { useRouter } from 'next/router';
 
-const Header = () => {
+const Header = ({ publicId }: any) => {
+  const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleClick = () => {
     setToggleMenu(!toggleMenu);
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      dispatch(clearCredentials());
-    } catch (error: any) {}
+  // const handleLogout = async () => {
+  //   try {
+  //     await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+  //     dispatch(clearCredentials());
+  //   } catch (error: any) {}
+  // };
+
+  const handledLogin = () => {
+    router.push(`/login`);
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+    }
   };
 
   return (
@@ -47,8 +54,11 @@ const Header = () => {
             </NavItemWrapper>
           ) : (
             <NavItemWrapper>
-              <NavItem href="#" text="Logout" onClick={handleLogout} />
-              <NavItem href="/account" text="Dashboard" />
+              {/* <NavItem href="#" text="Logout" onClick={handleLogout} />
+              <NavItem href="/account" text="Dashboard" /> */}
+              <Button type="button" color="secondary" onClick={handledLogin}>
+                Login
+              </Button>
             </NavItemWrapper>
           )}
           <MenuIcon className="menuIcon" onClick={handleClick} />

@@ -9,7 +9,7 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
 
-const PublicProfilePage = ({ data }: any) => {
+const PublicProfilePage = ({ data, publicId }: any) => {
   useEffect(() => {
     if (typeof window !== `undefined`) {
       localStorage.removeItem(`lastVisitedURL`);
@@ -38,9 +38,9 @@ const PublicProfilePage = ({ data }: any) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={data?.data?.company?.image}></meta>
       </Head>
-      <Layout>
+      <Layout publicId={publicId}>
         <Box>
-          <Hero queryData={data?.data} />
+          <Hero queryData={data?.data} publicId={publicId} />
           <PricingSection queryData={data?.data} />
           <Divider />
           <PreviousEvent queryData={data?.data} />
@@ -70,6 +70,7 @@ export async function getServerSideProps(
   return {
     props: {
       data: data?.data,
+      publicId: publicId,
     },
   };
 }

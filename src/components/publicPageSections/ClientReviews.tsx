@@ -12,7 +12,7 @@ import theme from '@/styles/theme';
 const ClientReviews = ({ queryData }: any) => {
   return (
     <>
-      {queryData?.ratings.length < 0 && (
+      {queryData?.ratings.length > 0 && (
         <Box
           mt={8}
           mb={13}

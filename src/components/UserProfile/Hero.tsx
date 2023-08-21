@@ -26,12 +26,7 @@ const Hero = ({ queryData, token }: Props) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handledHireMe = () => {
-    if (!userInfo) {
-      router.push(`/login`);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, router.asPath);
-      }
-    } else {
+    if (userInfo) {
       setOpenModal(true);
     }
   };
@@ -39,7 +34,7 @@ const Hero = ({ queryData, token }: Props) => {
   const loggedUserId = userInfo?._id;
 
   return (
-    <Box pt={15}>
+    <Box>
       <CreateContractModal
         isOpen={openModal}
         isClose={() => setOpenModal(false)}

@@ -30,3 +30,12 @@ export function formatCurrency(input: number | string): string {
 
   return parts.join(`.`);
 }
+
+export function truncateString(str: string, num: any) {
+  const newStr = str?.toString();
+  if (newStr?.length > num) {
+    return newStr?.slice(0, num) + `.....`;
+  } else {
+    return newStr;
+  }
+}

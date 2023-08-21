@@ -6,7 +6,7 @@ const PreviousEvent = ({ queryData }: any) => {
   return (
     <>
       {queryData.samples.length > 0 && (
-        <Box mt={10} mb={20}>
+        <Box mt={5} mb={20}>
           <Typography
             fontWeight={800}
             sx={{

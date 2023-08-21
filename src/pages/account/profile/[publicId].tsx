@@ -1,5 +1,5 @@
-import Hero from '@/components/publicPageSections/Hero';
-import Layout from '@/components/publicPageSections/Layout';
+import Hero from '@/components/UserProfile/Hero';
+import DashboardLayout from '@/components/DashboardLayout';
 import { Box, Divider } from '@mui/material';
 import { parseCookies } from '@/lib/parseCookies';
 import { useEffect } from 'react';
@@ -39,7 +39,7 @@ const ViewProfilePage = ({ data, token }: any) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={data?.data?.company?.image}></meta>
       </Head>
-      <Layout>
+      <DashboardLayout token={token}>
         <Box>
           <Hero queryData={data?.data} token={token} />
           <PricingSection queryData={data?.data} />
@@ -48,7 +48,7 @@ const ViewProfilePage = ({ data, token }: any) => {
           <Divider />
           <ClientReviews queryData={data?.data} />
         </Box>
-      </Layout>
+      </DashboardLayout>
     </>
   );
 };

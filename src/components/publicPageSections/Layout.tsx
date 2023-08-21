@@ -3,10 +3,10 @@ import React from 'react';
 import Header from './Header';
 import Footer from '../Footer';
 
-const Layout = ({ children }: any) => {
+const Layout = ({ children, publicId }: any) => {
   return (
     <Box sx={{ background: `#fafafa` }}>
-      <Header />
+      <Header publicId={publicId} />
       <Box
         sx={{
           width: {
@@ -20,7 +20,7 @@ const Layout = ({ children }: any) => {
       >
         {children}
       </Box>
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 };

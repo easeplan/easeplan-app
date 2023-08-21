@@ -12,40 +12,29 @@ import { QueryData } from '@/lib/types';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
-import CreateContractModal from './CreateContract';
 import ChatIcon from '@mui/icons-material/Chat';
 
 type Props = {
   queryData: QueryData;
   token?: string;
+  publicId: string;
 };
 
-const Hero = ({ queryData, token }: Props) => {
+const Hero = ({ queryData, token, publicId }: Props) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [openModal, setOpenModal] = useState(false);
 
   const handledHireMe = () => {
-    if (!userInfo) {
-      router.push(`/login`);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, router.asPath);
-      }
-    } else {
-      setOpenModal(true);
+    router.push(`/login`);
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
     }
   };
 
   const loggedUserId = userInfo?._id;
 
   return (
-    <Box pt={15}>
-      <CreateContractModal
-        isOpen={openModal}
-        isClose={() => setOpenModal(false)}
-        token={token}
-        queryData={queryData}
-      />
+    <Box pt={10}>
       <Box
         sx={{
           width: `100%`,
@@ -311,7 +300,7 @@ const Hero = ({ queryData, token }: Props) => {
                   mb: `1rem`,
                 }}
               >
-                About {queryData?.company?.name}
+                {queryData?.company?.name}
               </Typography>
             </Box>
             <Box>
@@ -320,8 +309,6 @@ const Hero = ({ queryData, token }: Props) => {
           </Box>
           <Box
             sx={{
-              // display: `flex`,
-              // alignItems: `center`,
               width: {
                 xs: `100%`,
                 sm: `100%`,

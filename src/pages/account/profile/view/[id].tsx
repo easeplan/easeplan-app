@@ -1,6 +1,7 @@
 import Hero from '@/components/publicPageSections/Hero';
 import Layout from '@/components/publicPageSections/Layout';
 import { Box, Divider } from '@mui/material';
+import { parseCookies } from '@/lib/parseCookies';
 import { useEffect } from 'react';
 import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
@@ -9,7 +10,7 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
 
-const PublicProfilePage = ({ data }: any) => {
+const ViewProfilePage = ({ data, token }: any) => {
   useEffect(() => {
     if (typeof window !== `undefined`) {
       localStorage.removeItem(`lastVisitedURL`);
@@ -40,7 +41,7 @@ const PublicProfilePage = ({ data }: any) => {
       </Head>
       <Layout>
         <Box>
-          <Hero queryData={data?.data} />
+          <Hero queryData={data?.data} token={token} />
           <PricingSection queryData={data?.data} />
           <Divider />
           <PreviousEvent queryData={data?.data} />
@@ -59,6 +60,7 @@ export async function getServerSideProps(
     req,
     query: { publicId },
   } = context;
+  const { token } = parseCookies(req);
   // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
   const res = await fetch(
@@ -69,9 +71,10 @@ export async function getServerSideProps(
 
   return {
     props: {
+      token: token,
       data: data?.data,
     },
   };
 }
 
-export default PublicProfilePage;
+export default ViewProfilePage;

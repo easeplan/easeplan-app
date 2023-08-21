@@ -1,4 +1,4 @@
-import Hero from '@/components/publicPageSections/Hero';
+import Hero from '@/components/UserProfile/Hero';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Box, Divider } from '@mui/material';
 import React from 'react';

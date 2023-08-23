@@ -89,25 +89,41 @@ const HomePage = ({ token }: Props) => {
                     md: 3,
                     lg: 3,
                   },
-                  mb: 4,
-                  p: 3,
+                  py: 1,
                 }}
               >
-                <Typography mb={2}>
-                  Verify your account to start getting bookings from client
-                </Typography>
-                <Link href="/account/settings/verify">
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      marginLeft: `1rem`,
-                      fontSize: `0.7rem`,
-                    }}
-                    startIcon={<AdminPanelSettingsIcon />}
-                  >
-                    Start Verification
-                  </Button>
-                </Link>
+                <Box
+                  sx={{
+                    display: `flex`,
+                    flexDirection: {
+                      xs: `column`,
+                      sm: `row`,
+                      md: `row`,
+                    },
+                    alignItems: `start`,
+                  }}
+                >
+                  <Typography fontWeight={300}>
+                    Verify your account to start getting bookings from client
+                  </Typography>
+                  <Link href="/account/settings/verify">
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        ml: {
+                          xs: `0rem`,
+                          sm: `0rem`,
+                          md: `1rem`,
+                          lg: `1rem`,
+                        },
+                        fontSize: `0.7rem`,
+                      }}
+                      startIcon={<AdminPanelSettingsIcon />}
+                    >
+                      Start Verification
+                    </Button>
+                  </Link>
+                </Box>
               </Alert>
             )}
           </>

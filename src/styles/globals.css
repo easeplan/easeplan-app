@@ -12,8 +12,9 @@ button {
   font-family: 'Raleway', sans-serif !important;
 }
 
-body::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
+*::-webkit-scrollbar {
+  width: 6px !important; /* width of the entire scrollbar */
+  height: 6px !important; /* width of the entire scrollbar */
 }
 body::-webkit-scrollbar-track {
   background: #174e64; /* color of the tracking area */

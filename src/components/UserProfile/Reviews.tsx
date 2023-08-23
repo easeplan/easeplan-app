@@ -1,20 +1,23 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Divider } from '@mui/material';
 import ForumIcon from '@mui/icons-material/Forum';
 import Image from 'next/image';
 
 const Reviews = ({ queryData }: any) => {
   return (
-    <Box mt={6}>
+    <Box mt={10}>
+      <Divider />
       <Typography
         fontWeight={600}
         sx={{
+          mt: 3,
           fontSize: {
             xs: `1.2rem`,
             sm: `1.2rem`,
             md: `1.4rem`,
             lg: `1.5rem`,
           },
+          color: `primary.main`,
         }}
       >
         Reviews

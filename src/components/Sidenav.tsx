@@ -46,7 +46,7 @@ const Sidenav = () => {
         <Links>
           <SidebarItem
             icon={<InsertCommentIcon />}
-            text="Inbox"
+            text="Chat"
             href="/account/chats"
           />
         </Links>

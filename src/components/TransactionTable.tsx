@@ -41,11 +41,17 @@ export default function TransactionTable({ data }: any) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((row: any) => (
+          {[1, 3, 4, 5, 5, 6]?.map((row: any, i: any) => (
             <TableRow
-              key={row._id}
+              key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            ></TableRow>
+            >
+              <TableCell align="right">34,000</TableCell>
+              <TableCell align="right">34,000</TableCell>
+              <TableCell align="right">34,000</TableCell>
+              <TableCell align="right">34,000</TableCell>
+              <TableCell align="right">34,000</TableCell>
+            </TableRow>
           ))}
         </TableBody>
       </Table>

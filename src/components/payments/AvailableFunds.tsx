@@ -795,6 +795,8 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     }
   };
 
+  console.log(token);
+
   const submitCredentials = async (e: any) => {
     e.preventDefault();
     const newData = {
@@ -803,9 +805,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
       bank: selectedState?.name,
       bankCode: selectedState?.code,
     };
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`bankData`, JSON.stringify(newData));
-    }
+    // if (typeof window !== `undefined`) {
+    //   localStorage.setItem(`bankData`, JSON.stringify(newData));
+    // }
     try {
       setIsLoading(true);
       const { data } = await axios.post(
@@ -881,10 +883,11 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         setPaymentModal={setPaymentModal}
         setIsPaymentOtp={setIsPaymentOtp}
         setAmount={setAmount}
-        accountName={accountName}
-        bank={selectedState?.name}
-        bankCode={selectedState?.code}
-        accountNumber={accountNumber}
+        queryData={queryData}
+        // accountName={accountName}
+        // bank={selectedState?.name}
+        // bankCode={selectedState?.code}
+        // accountNumber={accountNumber}
       />
       <PaymentOtpModal
         token={token}
@@ -906,9 +909,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 xl: `1fr 1fr`,
               },
               gap: {
-                xs: `3rem`,
-                sm: `3rem`,
-                md: `3rem`,
+                xs: `1rem`,
+                sm: `1rem`,
+                md: `1rem`,
                 lg: `6rem`,
                 xl: `6rem`,
               },
@@ -1196,11 +1199,17 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 <Box
                   sx={{
                     display: `grid`,
-                    gridTemplateColumns: `2fr 1fr`,
+                    gridTemplateColumns: {
+                      xs: `1fr`,
+                      sm: `1fr`,
+                      md: `1fr`,
+                      lg: `2fr 1fr`,
+                      xl: `2fr 1fr`,
+                    },
                     gap: `6rem`,
                   }}
                 >
-                  <Box>
+                  {/* <Box sx={{ width: `100%`, margin: `2rem auto` }}>
                     <Typography
                       mb={2}
                       mt={4}
@@ -1211,10 +1220,8 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                       Recent Transactions
                     </Typography>
                     <Divider sx={{ my: 1 }} />
-                    <Box>
-                      <TransactionTable />
-                    </Box>
-                  </Box>
+                    <TransactionTable />
+                  </Box> */}
                   <Box>
                     <Typography
                       mb={2}

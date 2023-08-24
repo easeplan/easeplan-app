@@ -183,15 +183,26 @@ const VendorPricingCard = ({ amount, title }: any) => {
       sx={{
         borderRadius: `10px`,
         boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-        backgroundColor: theme.palette.primary.main,
+        // backgroundColor: theme.palette.primary.main,
       }}
     >
       <Box p={4}>
-        <Typography color="background.paper">{title}</Typography>
-        <Typography color="background.paper" mt={2} fontWeight={600}>
+        <Typography
+          color="primary.main"
+          sx={{ fontWeight: `700`, fontSize: `1rem` }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          color="primary.main"
+          mt={2}
+          fontWeight={800}
+          sx={{ fontSize: `2rem` }}
+        >
+          <small>₦</small>
+          {` `}
           {formatCurrency(amount)}
         </Typography>
-        <Divider color="white" sx={{ marginTop: `2rem` }} />
       </Box>
     </Box>
   );

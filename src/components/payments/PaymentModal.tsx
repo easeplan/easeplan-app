@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Box, Alert, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +12,6 @@ import FormInput from '../common/FormInput';
 import axios from 'axios';
 import Label from '../common/Label';
 import CloseIcon from '@mui/icons-material/Close';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const style = {
   position: `absolute` as const,
@@ -43,42 +43,66 @@ const PaymentModal = ({
   setIsPaymentOtp,
   setPaymentModal,
   setAmount,
+  queryData,
 }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
   const [isError, setIsError] = useState<boolean>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
+  const [bankData, setBankData] = useState(
+    typeof window !== `undefined` && localStorage.getItem(`bankData`)
+      ? JSON.parse(localStorage.getItem(`bankData`)!)
+      : null,
+  );
 
-  // console.log(isErrorMessage);
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      localStorage.getItem(`bankData`)
+        ? setBankData(JSON.parse(localStorage.getItem(`bankData`)!))
+        : null;
+    }
+  }, []);
 
   const submitCredentials = async (credentials: any) => {
     setAmount(credentials.amount);
     // setIsPaymentOtp(true);
     // setPaymentModal(false);
-    try {
-      setIsLoading(true);
-      const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-payment-token`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer ${token}`,
+    const newData = {
+      name: bankData.name,
+      accountNumber: bankData.accountNumber,
+      bank: bankData.bank,
+      amount: Number(credentials.amount),
+      bankCode: bankData?.bankCode,
+    };
+    if (newData?.amount > queryData?.balance) {
+      setIsErrorMessage(`Insuffient Funds!!`);
+    } else {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/withdraw/create`,
+          newData,
+          {
+            headers: {
+              'Content-Type': `application/json`,
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      if (data.status === `success`) {
+        );
+        console.log(data);
+        if (data.status === `success`) {
+          setIsLoading(false);
+          setIsSuccess(true);
+          setIsPaymentOtp(true);
+          setPaymentModal(false);
+        }
+        setIsSuccessMessage(data.message);
+      } catch (error: any) {
         setIsLoading(false);
-        setIsSuccess(true);
-        setIsPaymentOtp(true);
-        setPaymentModal(false);
+        setIsErrorMessage(error.response.data.message);
+        setIsSuccess(false);
       }
-      setIsSuccessMessage(data.message);
-    } catch (error: any) {
-      setIsLoading(false);
-      setIsErrorMessage(error.response.data.message);
-      setIsSuccess(false);
     }
   };
 
@@ -103,7 +127,7 @@ const PaymentModal = ({
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
-              Payment
+              Withdraw to your bank
             </Typography>
             <Typography
               sx={{

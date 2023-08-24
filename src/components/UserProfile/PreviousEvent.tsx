@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Divider } from '@mui/material';
 import Image from 'next/image';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import AddIcon from '@mui/icons-material/Add';
@@ -64,7 +64,8 @@ const PreviousEvent = ({ queryData, token }: any) => {
   };
 
   return (
-    <Box mt={15}>
+    <Box mt={10}>
+      <Divider />
       <AddPreviousEventModal
         isOpen={openModal}
         isClose={() => setOpenModal(false)}
@@ -83,6 +84,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
           display: `flex`,
           alignItems: `center`,
           justifyContent: `space-between`,
+          mt: 4,
         }}
       >
         <Typography
@@ -192,28 +194,26 @@ const PreviousEvent = ({ queryData, token }: any) => {
                 p: {
                   xs: `1rem`,
                   sm: `1rem`,
-                  md: `2rem`,
-                  lg: `2rem`,
-                  xl: `2rem`,
+                  md: `1rem`,
+                  lg: `1rem`,
+                  xl: `1rem`,
                 },
                 position: `absolute`,
                 bottom: `0`,
                 zIndez: `1`,
-                background: `rgba(0,0,0,0.5)`,
+                background: `#ffff`,
                 color: `#fff`,
                 borderRadius: `10px`,
               }}
             >
               <Typography fontWeight="bold">{data?.title}</Typography>
               {/* <Typography mt={2}>{data?.description}</Typography> */}
-              <Box
-                sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}
-                mt={2}
-              >
+              <Box sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}>
                 <Button
                   onClick={() => handleEdit(data)}
                   variant="contained"
                   color="secondary"
+                  size="small"
                   startIcon={<CreateOutlinedIcon />}
                 >
                   Edit
@@ -222,6 +222,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
                   onClick={() => handleEventDelete(data?._id)}
                   variant="contained"
                   color="error"
+                  size="small"
                   startIcon={<DeleteIcon />}
                 >
                   Delete

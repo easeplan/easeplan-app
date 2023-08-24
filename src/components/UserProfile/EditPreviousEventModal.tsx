@@ -38,8 +38,6 @@ const style = {
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  title: Yup.string().required(`Name is missing`),
-  description: Yup.string().required(`Description is missing`),
   editeventImage: Yup.string().required(`Image is missing`),
 });
 
@@ -85,9 +83,7 @@ const EditPreviousEventModal = ({
     const formData = new FormData();
     formData.append(`sampleImage`, credentials.editeventImage);
     const data = {
-      title: credentials.title,
       sampleImage: credentials.editeventImage,
-      description: credentials.description,
     };
     handleUpdate(data);
   };
@@ -120,10 +116,6 @@ const EditPreviousEventModal = ({
               <Box>
                 <Formik
                   initialValues={{
-                    title: queryData?.title ? queryData?.title : ``,
-                    description: queryData?.description
-                      ? queryData?.description
-                      : ``,
                     editeventImage: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
@@ -132,27 +124,6 @@ const EditPreviousEventModal = ({
                   {({}) => (
                     <Form>
                       <Box>
-                        <Box>
-                          <div>
-                            <Label text="Enter Name of company" />
-                          </div>
-                          <FormInput
-                            ariaLabel="title"
-                            name="title"
-                            type="text"
-                            placeholder="e.g Jammers Planning"
-                          />
-                        </Box>
-                        <Box>
-                          <div>
-                            <Label text="Short Description" />
-                          </div>
-                          <TextArea
-                            rows={4}
-                            name="description"
-                            placeholder="Write...."
-                          />
-                        </Box>
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
                           <DragAndDropInput type="file" name="editeventImage" />

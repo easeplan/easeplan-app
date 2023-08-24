@@ -11,17 +11,20 @@ import { AnyNsRecord } from 'dns';
 import Link from 'next/link';
 import { formatCurrency } from '@/utils';
 
-export default function BasicTable({ data }: any) {
+export default function TransactionTable({ data }: any) {
   return (
-    <TableContainer
-      component={Paper}
-      sx={{ border: `solid 1px #ccc`, px: `1rem`, pb: `1rem` }}
-    >
+    <TableContainer component={Paper} sx={{ px: `1rem`, pb: `1rem` }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: `800`, color: `primary.main` }}>
-              Budget
+              Amount
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{ fontWeight: `800`, color: `primary.main` }}
+            >
+              Date
             </TableCell>
             <TableCell
               align="right"
@@ -33,19 +36,7 @@ export default function BasicTable({ data }: any) {
               align="right"
               sx={{ fontWeight: `800`, color: `primary.main` }}
             >
-              State
-            </TableCell>
-            <TableCell
-              align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
-            >
-              City
-            </TableCell>
-            <TableCell
-              align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
-            >
-              Action
+              Type
             </TableCell>
           </TableRow>
         </TableHead>
@@ -54,31 +45,7 @@ export default function BasicTable({ data }: any) {
             <TableRow
               key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell
-                component="th"
-                scope="row"
-                sx={{ fontWeight: `700`, color: `primary.main` }}
-              >
-                <small>₦</small>
-                {` `} {formatCurrency(row?.budget)}
-              </TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">{row.state}</TableCell>
-              <TableCell align="right">{row.city}</TableCell>
-              <TableCell
-                align="right"
-                sx={{ fontWeight: `700`, color: `secondary.main` }}
-              >
-                <Link href={`/account/contracts/${row?._id}`}>
-                  <Button
-                    sx={{ fontSize: `1rem`, textTransform: `capitalize` }}
-                  >
-                    View
-                  </Button>
-                </Link>
-              </TableCell>
-            </TableRow>
+            ></TableRow>
           ))}
         </TableBody>
       </Table>

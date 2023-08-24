@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Box, Alert, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -49,8 +50,20 @@ const PaymentModal = ({
   const [isSuccessMessage, setIsSuccessMessage] = useState<any>();
   const [isError, setIsError] = useState<boolean>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
+  // const [bankData, setBankData] = useState(
+  //   typeof window !== `undefined` && localStorage.getItem(`bankData`)
+  //     ? JSON.parse(localStorage.getItem(`bankData`)!)
+  //     : null,
+  // );
 
-  // console.log(isErrorMessage);
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      // const storedBankData = localStorage.getItem(`bankData`);
+      // setBankData(JSON.parse(localStorage.getItem(`bankData`)));
+    }
+  }, []);
+
+  // console.log(bankData);
 
   const submitCredentials = async (credentials: any) => {
     setAmount(credentials.amount);
@@ -59,7 +72,7 @@ const PaymentModal = ({
     try {
       setIsLoading(true);
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/request-payment-token`,
+        `${process.env.NEXT_PUBLIC_API_URL}/withdraw/create`,
         credentials,
         {
           headers: {

@@ -16,6 +16,8 @@ import TermsAndConditionModal from '../TermsAndConditionModal';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import GoogleButton from '../common/GoogleButton';
+import FacebookButton from '../common/FacebookButton';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
@@ -113,6 +115,16 @@ const SignupForm = () => {
     setTermsAndCondition(!termAndCondition);
   };
 
+  // GOOGLE Auth Login
+  const handleGoogleSignup = () => {
+    console.log(`Hello World google`);
+  };
+
+  // FACEBOOK Auth Login
+  const handleFacebookSignup = () => {
+    console.log(`Hello World facebook`);
+  };
+
   return (
     <>
       <TermsAndConditionModal
@@ -130,8 +142,56 @@ const SignupForm = () => {
             />
           ) : (
             <FormWrapper>
-              <FormBody>
-                <Title>Sign up to Easeplan</Title>
+              <Box
+                sx={{
+                  width: {
+                    xs: `80%`,
+                    sm: `90%`,
+                    md: `50%`,
+                    lg: `45%`,
+                    xl: `45%`,
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: `700`,
+                    fontSize: {
+                      xs: `1.2rem`,
+                      sm: `1.2rem`,
+                      md: `1.5rem`,
+                      lg: `1.5rem`,
+                    },
+                    color: `primary.main`,
+                    marginBottom: `2rem`,
+                    textTransform: `capitalize`,
+                    textAlign: `center`,
+                  }}
+                >
+                  Sign up to Easeplan
+                </Typography>
+                <Box sx={{ display: `flex`, flexDirection: `column` }}>
+                  <GoogleButton
+                    onClick={handleGoogleSignup}
+                    text="Sign up with Google"
+                  />
+                  <FacebookButton
+                    onClick={handleFacebookSignup}
+                    text="Sign up with facebook"
+                  />
+                  <Box
+                    sx={{
+                      textAlign: `center`,
+                      mt: 1,
+                      mb: 1,
+                      fontWeight: `bold`,
+                      fontSize: `0.8rem`,
+                      color: `primary.main`,
+                    }}
+                  >
+                    OR
+                  </Box>
+                </Box>
                 <form onSubmit={submitCredentials}>
                   {errorMsg && (
                     <Alert sx={{ mb: 2 }} severity="error">
@@ -140,23 +200,17 @@ const SignupForm = () => {
                   )}
                   <InputControl>
                     <div>
-                      <div>
-                        <Label text="Email address" />
-                      </div>
                       <InputField
                         onChange={handleEmailChange}
                         name="email"
                         value={email}
-                        placeholder="Example@gmail.com"
+                        placeholder="Email Address"
                         type="email"
                       />
                     </div>
                     {emailErr && <FormError text={emailErr}></FormError>}
                   </InputControl>
                   <InputControl>
-                    <div>
-                      <Label text="Password" />
-                    </div>
                     <PasswordControl>
                       <InputField
                         name="password"
@@ -179,7 +233,6 @@ const SignupForm = () => {
                     loading={isLoading}
                     loadingText="SIGNING UP..."
                     type="submit"
-                    mt={6}
                   >
                     SIGN UP
                   </CustomButton>
@@ -215,7 +268,7 @@ const SignupForm = () => {
                     </Link>
                   </Footer>
                 </form>
-              </FormBody>
+              </Box>
             </FormWrapper>
           )}
         </>
@@ -254,7 +307,6 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
     position: `absolute`,
     top: `1.2rem`,
     right: `1rem`,
-    fontSize: `1.3rem`,
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
@@ -262,13 +314,12 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
       position: `absolute`,
       top: `1.3rem`,
       right: `1rem`,
-      fontSize: `1rem`,
     },
   },
 }));
 
 const InputControl = styled(`div`)({
-  marginBottom: `1rem`,
+  marginBottom: `0.3rem`,
 });
 
 const RememberDiv = styled(`div`)(({ theme }: any) => ({

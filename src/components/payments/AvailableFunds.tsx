@@ -22,6 +22,8 @@ import { formatCurrency } from '@/utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import { styled } from '@mui/material/styles';
 // import { AvailableFundsProps } from '@/lib/types';
+import { IoWallet } from 'react-icons/io5';
+import TransactionTable from '../TransactionTable';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -746,7 +748,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [paymentModal, setPaymentModal] = useState<any>();
   const [bankInfo, setBankInfo] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
-  const [showUpdate, setShowUpdate] = useState<boolean>(false);
+  const [showUpdate, setShowUpdate] = useState<boolean>(true);
   const [isFetchBank, setIsFetchBank] = useState<boolean>(false);
   const [isPaymentOtp, setIsPaymentOtp] = useState<boolean>(false);
   const [amount, setAmount] = useState<string>(``);
@@ -754,6 +756,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [accountNumber, setAccountNumber] = useState<any>(``);
   const [success, setSuccess] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<any>(``);
+  const [editBank, setEditBank] = useState<boolean>(false);
 
   const handleValidationAcc = async (e: any) => {
     const target = e.target as typeof e.target & {
@@ -800,6 +803,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
       bank: selectedState?.name,
       bankCode: selectedState?.code,
     };
+    // if (typeof window !== `undefined`) {
+    //   localStorage.setItem(`bankData`, JSON.stringify(newData));
+    // }
     try {
       setIsLoading(true);
       const { data } = await axios.post(
@@ -812,9 +818,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
           },
         },
       );
+      // console.log(data);
       setIsLoading(false);
       setIsSuccess(true);
-      setShowUpdate(!showUpdate);
+      setShowUpdate(true);
       setBankInfo(data);
     } catch (error: any) {
       console.log(error);
@@ -833,7 +840,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   }
 
   const toggleUpdateState = () => {
-    setShowUpdate(!showUpdate);
+    // setShowUpdate(!showUpdate);
+    setEditBank(!editBank);
+    setBankInfo(null);
   };
 
   const ITEM_HEIGHT = 48;
@@ -853,7 +862,18 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: {
+          xs: `100%`,
+          sm: `100%`,
+          md: `100%`,
+          lg: `100%`,
+          xl: `100%`,
+        },
+        margin: `0rem auto`,
+      }}
+    >
       <PaymentModal
         token={token}
         isOpen={paymentModal}
@@ -861,6 +881,11 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         setPaymentModal={setPaymentModal}
         setIsPaymentOtp={setIsPaymentOtp}
         setAmount={setAmount}
+        queryData={queryData}
+        // accountName={accountName}
+        // bank={selectedState?.name}
+        // bankCode={selectedState?.code}
+        // accountNumber={accountNumber}
       />
       <PaymentOtpModal
         token={token}
@@ -868,46 +893,174 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         isClose={() => setIsPaymentOtp(false)}
         amount={amount}
       />
-      <Box sx={{ border: `solid 1px #ccc`, p: 2 }}>
-        <Typography my={2} fontWeight="bold" color="primary.main">
-          Available Balance
-        </Typography>
+      <Box>
         {/* Balance card */}
-        <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
-          <Typography
-            my={1}
-            fontWeight="bold"
-            color="primary.main"
-            textAlign="center"
+        <Box>
+          <Box
             sx={{
-              fontSize: {
-                xs: `1.5rem`,
-                sm: `1.5rem`,
-                md: `1.5rem`,
-                lg: `2rem`,
-                xl: `2rem`,
+              display: `grid`,
+              gridTemplateColumns: {
+                xs: `1fr`,
+                sm: `1fr`,
+                md: `1fr 1fr`,
+                lg: `1fr 1fr`,
+                xl: `1fr 1fr`,
+              },
+              gap: {
+                xs: `1rem`,
+                sm: `1rem`,
+                md: `1rem`,
+                lg: `6rem`,
+                xl: `6rem`,
               },
             }}
           >
-            {/* ₦ */}
-            {queryData?.balance === 0
-              ? `0.00`
-              : formatCurrency(queryData?.balance && queryData?.balance)}
-          </Typography>
-          <Divider sx={{ my: 2 }} />
-          <Box sx={{ textAlign: `center` }}>
-            <Typography my={3}>Withdraw funds to bank or card added</Typography>
-            <Button
-              onClick={() => setPaymentModal(true)}
-              variant="contained"
-              sx={{ px: `3rem` }}
-              endIcon={<AddCardIcon />}
+            <Box
+              className="linearGradient"
+              sx={{
+                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                px: 6,
+                pb: 2,
+                pt: 2,
+                borderRadius: `2rem`,
+                position: `relative`,
+              }}
             >
-              Withdraw
-            </Button>
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  justifyContent: `space-between`,
+
+                  '.walletIcon': {
+                    fontSize: `2rem`,
+                    color: `white`,
+                  },
+                }}
+              >
+                <Typography
+                  mt={2}
+                  fontSize="0.9rem"
+                  fontWeight="bold"
+                  color="white"
+                  // sx={{ position: `absolute`, top: `0.5rem` }}
+                >
+                  Available Balance
+                </Typography>
+                <IoWallet className="walletIcon" />
+              </Box>
+              <Typography
+                mt={4}
+                fontWeight="bold"
+                color="white"
+                sx={{
+                  fontSize: {
+                    xs: `1.5rem`,
+                    sm: `1.5rem`,
+                    md: `1.5rem`,
+                    lg: `2rem`,
+                    xl: `2rem`,
+                  },
+                }}
+              >
+                <small>₦</small>
+                {queryData?.balance === 0
+                  ? `0.00`
+                  : formatCurrency(queryData?.balance && queryData?.balance)}
+              </Typography>
+              <Box sx={{ textAlign: `right` }}>
+                <Button
+                  onClick={() => setPaymentModal(true)}
+                  sx={{
+                    color: `primary.main`,
+                    textTransform: `capitalize`,
+                    backgroundColor: `white`,
+                    ':hover': {
+                      backgroundColor: `#fafafa`,
+                    },
+                    borderRadius: `30px`,
+                    px: 4,
+                  }}
+                  variant="contained"
+                >
+                  Withdraw
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              className="linearGradient"
+              sx={{
+                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                px: 6,
+                pb: 2,
+                pt: 2,
+                borderRadius: `2rem`,
+                position: `relative`,
+              }}
+            >
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  justifyContent: `space-between`,
+
+                  '.walletIcon': {
+                    fontSize: `2rem`,
+                    color: `white`,
+                  },
+                }}
+              >
+                <Typography
+                  mt={2}
+                  fontSize="0.9rem"
+                  fontWeight="bold"
+                  color="white"
+                  // sx={{ position: `absolute`, top: `0.5rem` }}
+                >
+                  Total Balance
+                </Typography>
+                <IoWallet className="walletIcon" />
+              </Box>
+              <Typography
+                mt={4}
+                fontWeight="bold"
+                color="white"
+                sx={{
+                  fontSize: {
+                    xs: `1.5rem`,
+                    sm: `1.5rem`,
+                    md: `1.5rem`,
+                    lg: `2rem`,
+                    xl: `2rem`,
+                  },
+                }}
+              >
+                <small>₦</small>
+                {queryData?.balance === 0
+                  ? `0.00`
+                  : formatCurrency(queryData?.balance && queryData?.balance)}
+              </Typography>
+              <Typography
+                sx={{
+                  md: 1,
+                  color: `white`,
+                  fontSize: {
+                    xs: `0.5rem`,
+                    sm: `0.5rem`,
+                    md: `0.5rem`,
+                    lg: `0.8rem`,
+                    xl: `0.8rem`,
+                  },
+                }}
+              >
+                10% Charge will be deducted
+              </Typography>
+            </Box>
           </Box>
         </Box>
-        {showUpdate ? (
+        {/* This update bank details need more attention on the logic */}
+        {/* ADD BANK SECTION*/}
+        {!bankDetails && !bankInfo ? (
           <>
             <Typography
               mb={2}
@@ -918,6 +1071,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
             >
               Add Bank Details
             </Typography>
+            {/* ADD BANK FORM */}
             <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
               <Typography mb={3}>
                 Add bank details to recieve payment
@@ -1038,35 +1192,70 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
           </>
         ) : (
           <>
-            {bankDetails ? (
-              <>
-                <Typography
-                  mb={2}
-                  mt={4}
-                  variant="h6"
-                  fontWeight="bold"
-                  color="primary.main"
-                >
-                  Bank Details
-                </Typography>
+            {!editBank ? (
+              <Box mt={10}>
                 <Box
                   sx={{
-                    backgroundColor: `primary.main`,
-                    p: 3,
-                    color: `#fff`,
-                    mb: 2,
+                    display: `grid`,
+                    gridTemplateColumns: {
+                      xs: `1fr`,
+                      sm: `1fr`,
+                      md: `1fr`,
+                      lg: `2fr 1fr`,
+                      xl: `2fr 1fr`,
+                    },
+                    gap: `6rem`,
                   }}
                 >
-                  <Typography>{bankDetails.name}</Typography>
-                  <Typography my={2}>
-                    {truncateString(bankDetails?.accountNumber, 6)}
-                  </Typography>
-                  <Typography>{bankDetails.bank}</Typography>
+                  {/* <Box sx={{ width: `100%`, margin: `2rem auto` }}>
+                    <Typography
+                      mb={2}
+                      mt={4}
+                      variant="h6"
+                      fontWeight="bold"
+                      color="primary.main"
+                    >
+                      Recent Transactions
+                    </Typography>
+                    <Divider sx={{ my: 1 }} />
+                    <TransactionTable />
+                  </Box> */}
+                  <Box>
+                    <Typography
+                      mb={2}
+                      mt={4}
+                      variant="h6"
+                      fontWeight="bold"
+                      color="primary.main"
+                    >
+                      Bank Details
+                    </Typography>
+                    <Divider sx={{ my: 1 }} />
+                    <Box
+                      className="linearGradient"
+                      sx={{
+                        p: 3,
+                        color: `#fff`,
+                        mb: 2,
+                        borderRadius: `2rem`,
+                      }}
+                    >
+                      <Typography>{bankDetails.name}</Typography>
+                      <Typography my={2}>
+                        {truncateString(bankDetails?.accountNumber, 6)}
+                      </Typography>
+                      <Typography>{bankDetails.bank}</Typography>
+                    </Box>
+                    <Button
+                      onClick={toggleUpdateState}
+                      variant="outlined"
+                      sx={{ textTransform: `capitalize`, borderRadius: `30px` }}
+                    >
+                      Change
+                    </Button>
+                  </Box>
                 </Box>
-                <Button onClick={toggleUpdateState} variant="outlined">
-                  Update Bank Details
-                </Button>
-              </>
+              </Box>
             ) : (
               <>
                 <Typography

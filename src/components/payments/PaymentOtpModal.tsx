@@ -159,14 +159,16 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
                             placeholder="Enter OTP"
                           />
                         </Box>
-                        <CustomButton
-                          bgPrimary
-                          loading={isLoading}
-                          loadingText="Processing..."
-                          type="submit"
-                        >
-                          COMPLETE PAYMENT
-                        </CustomButton>
+                        <Box sx={{ textAlign: `center` }}>
+                          <CustomButton
+                            bgPrimary
+                            loading={isLoading}
+                            loadingText="Processing..."
+                            type="submit"
+                          >
+                            COMPLETE PAYMENT
+                          </CustomButton>
+                        </Box>
                       </Form>
                     )}
                   </Formik>

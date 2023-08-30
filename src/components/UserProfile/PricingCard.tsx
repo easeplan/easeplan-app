@@ -32,7 +32,7 @@ const PricingCard = ({ queryData, token }: any) => {
         }}
       >
         <Typography
-          fontWeight={600}
+          fontWeight={700}
           sx={{
             fontSize: {
               xs: `1.2rem`,

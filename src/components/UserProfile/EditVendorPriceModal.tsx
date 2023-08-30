@@ -142,8 +142,8 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
                               <FormInput
                                 ariaLabel="maximum"
                                 name="maximum"
-                                type="text"
-                                placeholder="100,000"
+                                type="number"
+                                placeholder="Minimum amount"
                               />
                             </Box>
                             <Box sx={{ mb: 2 }}>
@@ -151,8 +151,8 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
                               <FormInput
                                 ariaLabel="minimum"
                                 name="minimum"
-                                type="text"
-                                placeholder="100,000"
+                                type="number"
+                                placeholder="Minimum amount"
                               />
                             </Box>
                           </InputController>

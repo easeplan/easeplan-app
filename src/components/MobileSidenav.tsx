@@ -2,6 +2,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import StyleIcon from '@mui/icons-material/Style';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -24,6 +25,11 @@ const MobileSidenav = () => {
             href="/account/wallet"
           />
         )}
+        <MobileNavItems
+          icon={<StyleIcon />}
+          text="Events"
+          href="/account/history"
+        />
 
         {userInfo?.role === `user` ? null : (
           <MobileNavItems

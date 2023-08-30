@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
@@ -16,9 +15,6 @@ import TextArea from '../common/TextArea';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import Input from '../common/Input';
-import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
 const style = {
@@ -41,20 +37,14 @@ const style = {
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  // title: Yup.string().required(`Name is missing`),
-  description: Yup.string().required(`Description is missing`),
   preEventImage: Yup.string().required(`Image is missing`),
 });
 
 interface updateTypes {
-  // title: string;
-  description?: string;
   image: File;
 }
 
 const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
-  const [previewImg, setPreviewImg] = useState<any>(null);
-  const [fileName, setFileName] = useState<any>(null);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
@@ -90,9 +80,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
     const formData = new FormData();
     formData.append(`sampleImage`, credentials.preEventImage);
     const data = {
-      title: credentials.title,
       sampleImage: credentials.preEventImage,
-      description: credentials.description,
     };
     handleUpdate(data);
   };
@@ -125,8 +113,6 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    title: ``,
-                    description: ``,
                     preEventImage: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
@@ -137,17 +123,6 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                       <Box>
                         {/* <Box>
                           <div>
-                            <Label text="Enter Name of company" />
-                          </div>
-                          <FormInput
-                            ariaLabel="title"
-                            name="title"
-                            type="text"
-                            placeholder="e.g Jammers Planning"
-                          />
-                        </Box> */}
-                        <Box>
-                          <div>
                             <Label text="Short Description" />
                           </div>
                           <TextArea
@@ -155,57 +130,11 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                             name="description"
                             placeholder="Write...."
                           />
-                        </Box>
+                        </Box> */}
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
                           <DragAndDropInput type="file" name="preEventImage" />
                         </Box>
-                        {/* <Box mb={3}>
-                          <Box
-                            sx={{
-                              display: `flex`,
-                              alignItems: `center`,
-                              justifyContent: `space-between`,
-                            }}
-                          >
-                            <AddButton htmlFor="preEventImage">
-                              <ImageOutlinedIcon className="icon" /> ADD PHOTO
-                              <Input
-                                type="file"
-                                setPreviewImg={setPreviewImg}
-                                setFileName={setFileName}
-                                name="preEventImage"
-                                accept="image/*"
-                              />
-                            </AddButton>
-                            {previewImg === null ? (
-                              <Box
-                                sx={{
-                                  width: `50px`,
-                                  height: `50px`,
-                                  border: `solid 1px #ccc`,
-                                  borderRadius: `50%`,
-                                  display: `flex`,
-                                  alignItems: `center`,
-                                  justifyContent: `center`,
-                                }}
-                              >
-                                <ImageOutlinedIcon />
-                              </Box>
-                            ) : (
-                              <Box>
-                                <Image
-                                  src={previewImg}
-                                  alt="profileImg"
-                                  height={50}
-                                  width={80}
-                                  style={{ borderRadius: `10px` }}
-                                />
-                              </Box>
-                            )}
-                          </Box>
-                          <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
-                        </Box> */}
                         <Box
                           mt={2}
                           sx={{
@@ -249,31 +178,5 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
     </Container>
   );
 };
-
-const AddButton = styled(`label`)(({}) => ({
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  border: `solid 1px #ccc`,
-  width: `50%`,
-  borderRadius: `10px`,
-
-  '.icon': {
-    fontSize: `1rem`,
-    marginRight: `1rem`,
-  },
-
-  'input[type="file"]': {
-    display: `none`,
-  },
-
-  '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
-  },
-}));
 
 export default AddPreviousEventModal;

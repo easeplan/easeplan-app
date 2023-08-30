@@ -37,6 +37,7 @@ const services = [
 ];
 
 const FormSchema = Yup.object().shape({
+  budget: Yup.string().required(`Budget is missing`),
   state: Yup.string().required(`State is missing`),
   city: Yup.string().required(`City is missing`),
   eventDate: Yup.string().required(`Date is missing`),
@@ -51,6 +52,14 @@ const FindVendorModal = ({ token }: any) => {
   const [showError, setShowError] = useState<boolean>(false);
 
   const handleSubmit = async (credentials: any) => {
+    console.log(credentials);
+    const findVendorData = {
+      budget: credentials.budget,
+      eventDate: credentials.eventDate,
+    };
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`findVendorData`, JSON.stringify(findVendorData));
+    }
     setIsLoading(true);
     const queryString = Object.keys(credentials)
       .map(

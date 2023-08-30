@@ -59,27 +59,18 @@ const PaymentPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
-  // console.log(queryData);
-
   return (
     <DashboardLayout token={token}>
-      <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
+      {/* <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
         Wallet
       </Typography>
-      <Divider sx={{ my: 1 }} />
-      <Box sx={{ flexGrow: 1, width: `100%`, mt: 4 }}>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-          <Grid item xs={12} sm={6} md={6}>
-            <AvailableFunds
-              token={token}
-              bankDetails={bankDetails}
-              queryData={queryData}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            {/* <ManagePayment /> */}
-          </Grid>
-        </Grid>
+      <Divider sx={{ my: 1 }} /> */}
+      <Box sx={{ flexGrow: 1, width: `100%`, mt: 2 }}>
+        <AvailableFunds
+          token={token}
+          bankDetails={bankDetails}
+          queryData={queryData}
+        />
       </Box>
     </DashboardLayout>
   );

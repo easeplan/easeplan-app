@@ -795,8 +795,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     }
   };
 
-  console.log(token);
-
   const submitCredentials = async (e: any) => {
     e.preventDefault();
     const newData = {
@@ -897,7 +895,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
       />
       <Box>
         {/* Balance card */}
-        <Box sx={{}}>
+        <Box>
           <Box
             sx={{
               display: `grid`,

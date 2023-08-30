@@ -41,6 +41,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
     localStorage.setItem(`contract`, `${data}`);
   }, []);
 
+  console.log(data);
+
   // const userServiceObj =
   //   typeof window !== `undefined` && JSON?.parse(data?.package);
 
@@ -145,21 +147,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                   }}
                 />
                 {data?.state}, {data?.city}
-              </Typography>
-              <Typography
-                fontWeight="600"
-                sx={{
-                  fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
-                  },
-                }}
-                color="primary.main"
-              >
-                {data?.budget && formatCurrency(data?.budget)}
               </Typography>
             </Box>
             {/* <Box
@@ -357,8 +344,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                     }}
                   >
                     <Link href={`/account/preview/${data?._id}`}>
-                      {/* 
-                        TODO: Add a cancel button once the person has been requested 
+                      {/*
+                        TODO: Add a cancel button once the person has been requested
                         DONE: almost complete. Ask what this button does
                       */}
                       <Button variant="outlined" size="small">
@@ -454,17 +441,24 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                 p: 4,
                 mt: 4,
                 backgroundColor: `secondary.light`,
+                textAlign: `center`,
               }}
             >
-              <CustomButton
-                onClick={handlePayment}
-                bgPrimary
-                disabled={data?.status === `paid` ? true : false}
-                lgWidth="100%"
-                loading={isSuccess}
-              >
-                {data?.status === `paid` ? `PAID` : `Make Payment`}
-              </CustomButton>
+              {data.status === `Requested` ? (
+                <Typography sx={{ fontWeight: `700`, color: `primary.main` }}>
+                  Awaiting Request
+                </Typography>
+              ) : (
+                <CustomButton
+                  onClick={handlePayment}
+                  bgPrimary
+                  disabled={data?.status === `paid` ? true : false}
+                  lgWidth="100%"
+                  loading={isSuccess}
+                >
+                  {data?.status === `paid` ? `PAID` : `Make Payment`}
+                </CustomButton>
+              )}
             </Box>
           </Box>
         </Box>

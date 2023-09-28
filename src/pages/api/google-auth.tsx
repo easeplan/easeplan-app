@@ -1,23 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
 import cookie from 'cookie';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API1_URL}/auth/signup`,
-      req.body,
+    const result = await fetch(
+      `http://easeplan-env-1.eba-3mynfvmg.us-east-1.elasticbeanstalk.com/api/v2/auth/verify_google`,
+      {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        body: JSON.stringify({ token: req.body.token }),
+      },
     );
-    if (!data) {
-      res.status(401).json({ error: `Invalid credentials` });
-      return;
-    }
 
-    const token = data?.token;
-
+    const data = await result.json();
     res.setHeader(
       `Set-Cookie`,
-      cookie.serialize(`token`, token, {
+      cookie.serialize(`token`, data.token, {
         httpOnly: true,
         secure: process.env.NEXT_PUBLIC_NODE_ENV !== `development`,
         maxAge: 60 * 60 * 24 * 1, // 1 day
@@ -25,7 +25,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         path: `/`,
       }),
     );
-
     res.status(200).json(data);
   } catch (error) {
     return error;

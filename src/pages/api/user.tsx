@@ -20,7 +20,7 @@ export default async (
   }
 
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
+    `${process.env.NEXT_PUBLIC_API1_URL}/providers/profile`,
     {
       headers: {
         'Content-Type': `application/json`,

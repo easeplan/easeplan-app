@@ -2,5 +2,7 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "cSpell.words": [
     "Caretdown"
-  ]
+  ],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true
 }

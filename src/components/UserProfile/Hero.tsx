@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
@@ -14,20 +14,65 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import CreateContractModal from '../publicPageSections/CreateContract';
 import ChatIcon from '@mui/icons-material/Chat';
+import axios from 'axios';
 
 type Props = {
   queryData: QueryData;
   token?: string;
+  searchResult?: boolean;
 };
 
-const Hero = ({ queryData, token }: Props) => {
+const Hero = ({ queryData, token, searchResult }: Props) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
+  const [vendorData, setVendorData] = useState(
+    typeof window !== `undefined`
+      ? JSON.parse(localStorage.getItem(`findVendorData`)!)
+      : null,
+  );
+
+  // useEffect(() => {
+  //   if (typeof window !== `undefined`) {
+  //     localStorage.getItem(`findVendorData`)
+  //       ? setVendorData(JSON.parse(localStorage.getItem(`findVendorData`)!))
+  //       : null;
+  //   }
+  // }, []);
+
+  console.log(vendorData);
 
   const handledHireMe = () => {
     if (userInfo) {
       setOpenModal(true);
+    }
+  };
+  const handledSendContract = async () => {
+    setIsLoading(true);
+    const credentials = {
+      budget: vendorData.budget,
+      eventDate: vendorData.eventDate,
+      profileId: queryData?.userId,
+      role: queryData?.role,
+      city: queryData?.city,
+      state: queryData.state,
+    };
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/provider-profiles/create-offer`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      router.push(`/account/event/${data?.data?._id}`);
+    } catch (error) {
+      setIsLoading(false);
     }
   };
 
@@ -235,7 +280,7 @@ const Hero = ({ queryData, token }: Props) => {
             <Button
               variant="contained"
               sx={{ color: `secondary.main`, px: 6 }}
-              onClick={handledHireMe}
+              onClick={searchResult ? handledSendContract : handledHireMe}
             >
               Hire Me
             </Button>

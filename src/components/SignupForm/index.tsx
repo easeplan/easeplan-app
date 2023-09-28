@@ -325,7 +325,6 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
     position: `absolute`,
     top: `1.2rem`,
     right: `1rem`,
-    fontSize: `1.3rem`,
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
@@ -333,13 +332,12 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
       position: `absolute`,
       top: `1.3rem`,
       right: `1rem`,
-      fontSize: `1rem`,
     },
   },
 }));
 
 const InputControl = styled(`div`)({
-  marginBottom: `1rem`,
+  marginBottom: `0.3rem`,
 });
 
 const RememberDiv = styled(`div`)(({ theme }: any) => ({

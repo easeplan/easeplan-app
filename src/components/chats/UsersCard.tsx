@@ -83,9 +83,25 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
     }
   };
 
+  // const fetchLastMessages = () => {
+  //   const lastMessages = conversations.map((conversation: any) => {
+  //     return (
+  //       conversation?.messages[conversation?.messages?.length - 1]?.message ||
+  //       ``
+  //     );
+  //   });
+  //   return lastMessages;
+  // };
+
+  // const lastMessages = fetchLastMessages();
+
+  // console.log(lastMessages);
+
   useEffect(() => {
     fetchAllConversation();
   }, [messages]);
+
+  // console.log(conversations);
 
   function truncateWords(sentence: any, limit = 5) {
     const words = sentence?.split(` `);
@@ -171,7 +187,8 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
             {localUser?.profile?.firstName} {localUser?.profile?.lastName}
           </Typography>
           <Typography fontSize="0.8rem">
-            {truncateWords(localConversation?.lastMessage?.message)}
+            {/* {truncateWords(localConversation?.lastMessage?.message)} */}
+            {/* {truncateWords(lastMessages[i])} */}
           </Typography>
         </Box>
       </Box>

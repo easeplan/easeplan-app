@@ -14,6 +14,7 @@ import EmailImg from '@/public/email.svg';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 const OtpSchema = Yup.object().shape({
   token: Yup.string()
@@ -30,6 +31,7 @@ const VerifiactionModal = ({
   setVerificationModal,
   setOtpSuccessful,
 }: verificationTypes) => {
+  const router = useRouter();
   const [loginSuccess, setLoginSuccess] = useState<any>();
   const [loginError, setLoginError] = useState<any>();
   const [userEmail, setUserEmail] = useState<string | null>();
@@ -63,15 +65,16 @@ const VerifiactionModal = ({
     try {
       setIsLoading(true);
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/auth/verify-email`,
         { email: userEmail, token },
       );
-      setLoginSuccess(data.message);
-      setLoginError(``);
-      setTimeout(() => {
-        setVerificationModal(false);
-        setOtpSuccessful(true);
-      }, 2000);
+      if (data.status === `success`) {
+        setLoginSuccess(data.message);
+        toast.success(`Email verified successfully`);
+        setIsLoading(false);
+        setLoginError(``);
+        router.push(`/account`);
+      }
     } catch (error: any) {
       setIsLoading(false);
       const { data } = error.response;

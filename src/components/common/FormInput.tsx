@@ -99,7 +99,7 @@ const Input = styled(`input`)({
   padding: `0.9rem 1.5rem`,
   outline: `none`,
   width: `100%`,
-  borderRadius: `30px`,
+  borderRadius: `10px`,
   fontSize: `1rem`,
   border: `solid 1px #ccc;`,
   marginTop: `0.3rem`,

@@ -75,7 +75,7 @@ const CustomButton = ({
           : bgSecondary
           ? theme.palette.primary.main
           : `#fff`,
-        borderRadius: `30px`,
+        borderRadius: `10px`,
         padding: p,
         boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
         fontWeight: `600`,

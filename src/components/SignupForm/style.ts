@@ -54,7 +54,7 @@ export const Input = styled(`input`)`
   padding: 0.9rem 1.5rem;
   background: #fff;
   color: #1e1e64;
-  border-radius: 30px;
+  border-radius: 10px;
   margin: 4px 0;
   text-align: left;
   font-size: 1rem;

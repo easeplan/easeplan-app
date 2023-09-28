@@ -245,16 +245,18 @@ const SignupForm = () => {
                   </PasswordControl>
                   {passErr && <FormError text={passErr}></FormError>}
                 </InputControl>
-                <CustomButton
-                  bgPrimary
-                  lgWidth="100%"
-                  mdWidth="100%"
-                  loading={isLoading}
-                  loadingText="SIGNING UP..."
-                  type="submit"
-                >
-                  SIGN UP
-                </CustomButton>
+                <Box sx={{ mt: 6 }}>
+                  <CustomButton
+                    bgPrimary
+                    lgWidth="100%"
+                    mdWidth="100%"
+                    loading={isLoading}
+                    loadingText="SIGNING UP..."
+                    type="submit"
+                  >
+                    SIGN UP
+                  </CustomButton>
+                </Box>
                 <RememberDiv>
                   <Box>
                     <Box

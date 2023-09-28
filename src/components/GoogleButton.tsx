@@ -78,8 +78,8 @@ const GoogleButton = ({ text, onClick, href }: Props) => {
             alignItems: `center`,
             justifyContent: `center`,
             py: {
-              xs: 1,
-              sm: 1,
+              xs: 2,
+              sm: 2,
               md: 2,
               lg: 2,
               xl: 2,

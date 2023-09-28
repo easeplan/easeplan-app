@@ -194,16 +194,18 @@ const LoginForm = () => {
                     </div>
                   </PasswordControl>
                 </InputControl>
-                <CustomButton
-                  bgPrimary
-                  lgWidth="100%"
-                  mdWidth="100%"
-                  loading={isLoading}
-                  loadingText="Logging In..."
-                  type="submit"
-                >
-                  LOGIN
-                </CustomButton>
+                <Box sx={{ mt: 6 }}>
+                  <CustomButton
+                    bgPrimary
+                    lgWidth="100%"
+                    mdWidth="100%"
+                    loading={isLoading}
+                    loadingText="Logging In..."
+                    type="submit"
+                  >
+                    LOGIN
+                  </CustomButton>
+                </Box>
                 <RememberDiv>
                   <Link href="/forgetpassword" className="forgotPassword">
                     Forgot Password?

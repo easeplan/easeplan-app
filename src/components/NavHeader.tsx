@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Container, Box, Typography } from '@mui/material';
+import { Container, Box, Typography, Button } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -17,18 +17,9 @@ const NavHeader = ({ token }: any) => {
   //   unreadConversationMessagesCount,
   // } = useSelector((state: RootState) => state.chatsData);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
-  const { queryData } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `user-profiles`
-        : `user-profiles`
-    }/${userInfo?._id}`,
-    token,
-  );
+  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+
+  console.log(queryData);
 
   return (
     <Navbar>
@@ -37,7 +28,9 @@ const NavHeader = ({ token }: any) => {
           <div className="logoWrapper">
             <Logo />
           </div>
-          <h3 className="title">Welcome, {queryData?.firstName}</h3>
+          <Typography fontWeight={700} color="primary.main">
+            🥰 Nice to have you here {queryData?.profile?.firstName}
+          </Typography>
           <Box
             sx={{
               display: `flex`,
@@ -58,42 +51,28 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            <Link href="/account/chats">
-              <Icon>
-                {/* <Box
+            {queryData?.providerProfile ? null : (
+              <Link href="/account/onboard">
+                <Button
+                  variant="outlined"
                   sx={{
-                    width: `20px`,
-                    height: `20px`,
-                    borderRadius: `16px`,
-                    position: `absolute`,
-                    top: `0rem`,
-                    left: `0rem`,
-                    backgroundColor: `info.main`,
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
-
-                    '@media (max-width: 900px)': {
-                      width: `17px`,
-                      height: `17px`,
-                      position: `absolute`,
-                      top: `-0.2rem`,
-                      right: `1rem`,
-                    },
+                    textTransform: `capitalize`,
+                    fontWeight: `700`,
+                    paddingX: `0.9rem`,
+                    paddingY: `0.6rem`,
                   }}
                 >
-                  <Typography>{allUnreadConversationMessagesCount}</Typography>
-                </Box> */}
-                <InsertCommentIcon className="icon" />
-              </Icon>
-            </Link>
+                  Become a Vendor
+                </Button>
+              </Link>
+            )}
             <NotificationDropdown
               token={token}
               notificationData={notifyData}
               queryData={queryData}
             />
             <AvatarMenu
-              imgSrc={queryData?.picture}
+              imgSrc={queryData?.profile?.picture}
               alt="userImage"
               height={100}
               width={100}

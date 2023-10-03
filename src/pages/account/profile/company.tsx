@@ -9,19 +9,6 @@ import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const CompanyPage = ({ token }: any) => {
-  // const { queryData, error, isLoading } = useFetch(
-  //   `/providers/profile`,
-  //   `${token}`,
-  // );
-
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
-
-  // if (error) {
-  //   return <p>Error:</p>;
-  // }
-
   return (
     <DashboardLayout token={token}>
       <Flex>

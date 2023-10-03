@@ -758,6 +758,8 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [errMsg, setErrMsg] = useState<any>(``);
   const [editBank, setEditBank] = useState<boolean>(false);
 
+  // console.log(queryData);
+
   const handleValidationAcc = async (e: any) => {
     const target = e.target as typeof e.target & {
       accountNumber: { value: string };
@@ -795,8 +797,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     }
   };
 
-  console.log(token);
-
   const submitCredentials = async (e: any) => {
     e.preventDefault();
     const newData = {
@@ -820,7 +820,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
           },
         },
       );
-      // console.log(data);
+      console.log(data);
       setIsLoading(false);
       setIsSuccess(true);
       setShowUpdate(true);
@@ -833,9 +833,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   };
 
   function truncateString(str: string, num: any) {
-    const newStr = str.toString();
-    if (newStr.length > num) {
-      return newStr.slice(0, num) + `****`;
+    const newStr = str?.toString();
+    if (newStr?.length > num) {
+      return newStr?.slice(0, num) + `****`;
     } else {
       return newStr;
     }
@@ -968,7 +968,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 <small>₦</small>
                 {queryData?.balance === 0
                   ? `0.00`
-                  : formatCurrency(queryData?.balance && queryData?.balance)}
+                  : formatCurrency(
+                      queryData?.providerProfile?.balance &&
+                        queryData?.providerProfile?.balance,
+                    )}
               </Typography>
               <Box sx={{ textAlign: `right` }}>
                 <Button
@@ -1040,7 +1043,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 <small>₦</small>
                 {queryData?.balance === 0
                   ? `0.00`
-                  : formatCurrency(queryData?.balance && queryData?.balance)}
+                  : formatCurrency(
+                      queryData?.providerProfile?.balance &&
+                        queryData?.providerProfile?.balance,
+                    )}
               </Typography>
               <Typography
                 sx={{
@@ -1242,11 +1248,11 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                         borderRadius: `2rem`,
                       }}
                     >
-                      <Typography>{bankDetails.name}</Typography>
+                      <Typography>{bankDetails?.name}</Typography>
                       <Typography my={2}>
                         {truncateString(bankDetails?.accountNumber, 6)}
                       </Typography>
-                      <Typography>{bankDetails.bank}</Typography>
+                      <Typography>{bankDetails?.bank}</Typography>
                     </Box>
                     <Button
                       onClick={toggleUpdateState}

@@ -19,7 +19,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
-const Sidenav = () => {
+const Sidenav = ({ data }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
@@ -57,7 +57,7 @@ const Sidenav = () => {
             href="/account/history"
           />
         </Links>
-        {userInfo?.role === `user` ? null : (
+        {data?.providerProfile ? (
           <Links>
             <SidebarItem
               icon={<AccountBalanceWalletIcon />}
@@ -65,8 +65,8 @@ const Sidenav = () => {
               href="/account/wallet"
             />
           </Links>
-        )}
-        {userInfo?.role === `user` ? null : (
+        ) : null}
+        {data?.providerProfile ? (
           <Links>
             <SidebarItem
               icon={<ChromeReaderModeIcon />}
@@ -74,7 +74,7 @@ const Sidenav = () => {
               href="/account/profile"
             />
           </Links>
-        )}
+        ) : null}
         <Links>
           <SidebarItem
             icon={<PermPhoneMsgIcon />}

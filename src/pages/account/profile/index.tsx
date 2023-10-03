@@ -11,15 +11,7 @@ import ErrorPage from '@/components/ErrorPage';
 const ProfilePage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
 

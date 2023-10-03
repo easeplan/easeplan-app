@@ -39,15 +39,7 @@ const PaymentPage = ({ token }: any) => {
   }, []);
 
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `user-profiles`
-        : `user-profiles`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
 
@@ -59,12 +51,14 @@ const PaymentPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
+  console.log(queryData);
+
   return (
     <DashboardLayout token={token}>
-      {/* <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
+      <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
         Wallet
       </Typography>
-      <Divider sx={{ my: 1 }} /> */}
+      <Divider sx={{ my: 1 }} />
       <Box sx={{ flexGrow: 1, width: `100%`, mt: 2 }}>
         <AvailableFunds
           token={token}

@@ -4,6 +4,9 @@ import Sidenav from './Sidenav';
 import NavHeader from './NavHeader';
 import MobileSidenav from './MobileSidenav';
 import { Container } from '@mui/material';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import useFetch from '@/hooks/useFetch';
 
 interface ILayout {
   children: React.ReactElement | React.ReactNode;
@@ -12,9 +15,15 @@ interface ILayout {
 }
 
 const DashboardLayout = ({ children, token }: ILayout) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { queryData, error, isLoading } = useFetch(
+    `/profiles/${userInfo}`,
+    token,
+  );
+
   return (
     <Layout>
-      <Sidenav />
+      <Sidenav data={queryData} />
       <Main>
         <NavHeader token={token} />
         <Container fixed>{children}</Container>

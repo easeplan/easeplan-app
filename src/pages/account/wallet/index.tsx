@@ -3,8 +3,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import AvailableFunds from '@/components/payments/AvailableFunds';
-import ManagePayment from '@/components/payments/ManagePayment';
-import { Grid, Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
@@ -50,8 +49,6 @@ const PaymentPage = ({ token }: any) => {
   if (error) {
     return <ErrorPage />;
   }
-
-  console.log(queryData);
 
   return (
     <DashboardLayout token={token}>

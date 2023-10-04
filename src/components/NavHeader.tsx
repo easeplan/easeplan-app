@@ -19,8 +19,6 @@ const NavHeader = ({ token }: any) => {
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
-  console.log(queryData);
-
   return (
     <Navbar>
       <Container fixed>

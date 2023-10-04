@@ -23,7 +23,7 @@ const DashboardLayout = ({ children, token }: ILayout) => {
 
   return (
     <Layout>
-      <Sidenav data={queryData} />
+      <Sidenav data={queryData?.provider} />
       <Main>
         <NavHeader token={token} />
         <Container fixed>{children}</Container>

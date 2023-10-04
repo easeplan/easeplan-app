@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
 import { Container, Box, Typography, Button } from '@mui/material';
-import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Link from 'next/link';
 import Logo from './Logo';
 import AvatarMenu from './AvatarMenu';
@@ -27,7 +26,7 @@ const NavHeader = ({ token }: any) => {
             <Logo />
           </div>
           <Typography fontWeight={700} color="primary.main">
-            🥰 Nice to have you here {queryData?.profile?.firstName}
+            🥰 Nice to have you here {queryData?.provider?.profile?.firstName}
           </Typography>
           <Box
             sx={{
@@ -49,7 +48,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            {queryData?.providerProfile ? null : (
+            {queryData?.provider?.providerProfile ? null : (
               <Link href="/account/onboard">
                 <Button
                   variant="outlined"
@@ -70,7 +69,7 @@ const NavHeader = ({ token }: any) => {
               queryData={queryData}
             />
             <AvatarMenu
-              imgSrc={queryData?.profile?.picture}
+              imgSrc={queryData?.provider?.profile?.picture}
               alt="userImage"
               height={100}
               width={100}

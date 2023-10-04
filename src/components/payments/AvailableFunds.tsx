@@ -886,10 +886,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         setIsPaymentOtp={setIsPaymentOtp}
         setAmount={setAmount}
         queryData={queryData}
-        // accountName={accountName}
-        // bank={selectedState?.name}
-        // bankCode={selectedState?.code}
-        // accountNumber={accountNumber}
       />
       <PaymentOtpModal
         token={token}
@@ -947,7 +943,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                   fontSize="0.9rem"
                   fontWeight="bold"
                   color="white"
-                  // sx={{ position: `absolute`, top: `0.5rem` }}
                 >
                   Available Balance
                 </Typography>
@@ -968,7 +963,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 }}
               >
                 <small>₦</small>
-                {queryData?.balance === 0
+                {queryData?.providerProfile?.balance === 0
                   ? `00.00`
                   : formatCurrency(
                       queryData?.providerProfile?.balance &&
@@ -1042,7 +1037,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 }}
               >
                 <small>₦</small>
-                {queryData?.balance === 0
+                {queryData?.providerProfile?.balance === 0
                   ? `00.00`
                   : formatCurrency(
                       queryData?.providerProfile?.balance &&

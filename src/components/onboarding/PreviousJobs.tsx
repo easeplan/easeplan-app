@@ -9,8 +9,6 @@ const PreviousJobs = ({ queryData, token }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(queryData);
-
   const handleNextSlide = () => {
     dispatch(setIntroThree(false));
     dispatch(setIntroFour(true));

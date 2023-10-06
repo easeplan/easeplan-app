@@ -32,7 +32,7 @@ const services = [
   `Security personnel`,
   `Videographer`,
   `Print vendor`,
-  `Userhing`,
+  `Ushering`,
   `Entertainer`,
 ];
 
@@ -52,9 +52,11 @@ const FindVendorModal = ({ token }: any) => {
   const [showError, setShowError] = useState<boolean>(false);
 
   const handleSubmit = async (credentials: any) => {
-    console.log(credentials);
     const findVendorData = {
       budget: credentials.budget,
+      city: credentials?.city,
+      state: credentials?.state,
+      service: credentials?.selectedService,
       eventDate: credentials.eventDate,
     };
     if (typeof window !== `undefined`) {
@@ -70,7 +72,7 @@ const FindVendorModal = ({ token }: any) => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/search?${queryString}`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/provider/search?${queryString}`,
         {
           method: `GET`,
           headers: {

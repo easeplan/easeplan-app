@@ -25,7 +25,19 @@ const NavHeader = ({ token }: any) => {
           <div className="logoWrapper">
             <Logo />
           </div>
-          <Typography fontWeight={700} color="primary.main">
+          <Typography
+            fontWeight={700}
+            color="primary.main"
+            sx={{
+              display: {
+                xs: `none`,
+                sm: `none`,
+                md: `block`,
+                lg: `block`,
+                xl: `block`,
+              },
+            }}
+          >
             🥰 Nice to have you here {queryData?.provider?.profile?.firstName}
           </Typography>
           <Box

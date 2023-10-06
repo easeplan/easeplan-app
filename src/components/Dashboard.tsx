@@ -35,10 +35,24 @@ const Dashboard = ({ data }: any) => {
 
   // const { accepted, completed } = filterOutAcceptedEvents(data?.events);
 
-  console.log(data);
-
   return (
     <DashboardWrapper>
+      <Typography
+        fontWeight={700}
+        my={2}
+        color="primary.main"
+        sx={{
+          display: {
+            xs: `block`,
+            sm: `block`,
+            md: `none`,
+            lg: `none`,
+            xl: `none`,
+          },
+        }}
+      >
+        🥰 Nice to have you here {data?.provider?.profile?.firstName}
+      </Typography>
       <Swiper
         slidesPerView={1.3}
         spaceBetween={30}

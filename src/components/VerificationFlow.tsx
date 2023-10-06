@@ -34,7 +34,6 @@ const VerifiactionFlow = ({ setIsVerified }: any) => {
    * This is the data from doja
    */
   const response = (type: string, data: string) => {
-    console.log(type, data);
     if (type === `success`) {
       setIsVerified(true);
     } else if (type === `error`) {

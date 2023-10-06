@@ -45,11 +45,9 @@ const PricingCard = ({ queryData, token }: any) => {
         >
           Pricing
         </Typography>
-        {userInfo?.role === `provider` && (
-          <EditButton onClick={handleOpenModal}>
-            <CreateOutlinedIcon className="icon" />
-          </EditButton>
-        )}
+        <EditButton onClick={handleOpenModal}>
+          <CreateOutlinedIcon className="icon" />
+        </EditButton>
       </Box>
 
       <Box mt={4}>

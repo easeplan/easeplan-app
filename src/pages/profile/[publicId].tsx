@@ -15,7 +15,6 @@ const PublicProfilePage = ({ data, publicId }: any) => {
       localStorage.removeItem(`lastVisitedURL`);
     }
   }, []);
-  console.log(data);
   return (
     <>
       <Head>

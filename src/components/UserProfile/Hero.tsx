@@ -15,6 +15,9 @@ import { useRouter } from 'next/router';
 import CreateContractModal from '../publicPageSections/CreateContract';
 import ChatIcon from '@mui/icons-material/Chat';
 import axios from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
+import customFetch from '@/utils/customFetch';
+import { toast } from 'react-toastify';
 
 type Props = {
   queryData: QueryData;
@@ -22,17 +25,35 @@ type Props = {
   searchResult?: boolean;
 };
 
-const Hero = ({ queryData, token, searchResult }: Props) => {
+const Hero = ({ queryData, token, searchResult }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [vendorData, setVendorData] = useState(
     typeof window !== `undefined`
       ? JSON.parse(localStorage.getItem(`findVendorData`)!)
       : null,
   );
+
+  const queryClient = useQueryClient();
+
+  const { mutate: handleUpdateContract, isLoading } = useMutation({
+    mutationFn: (credentials: any) =>
+      customFetch.post(`/profiles/create-offer`, credentials, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
+      toast.success(`Contract send successfully`);
+    },
+    onError: (error: any) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   // useEffect(() => {
   //   if (typeof window !== `undefined`) {
@@ -42,26 +63,24 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
   //   }
   // }, []);
 
-  console.log(vendorData);
-
-  const handledHireMe = () => {
-    if (userInfo) {
-      setOpenModal(true);
-    }
-  };
+  // const handledHireMe = () => {
+  //   if (userInfo) {
+  //     setOpenModal(true);
+  //   }
+  // };
   const handledSendContract = async () => {
-    setIsLoading(true);
     const credentials = {
       budget: vendorData.budget,
-      eventDate: vendorData.eventDate,
-      profileId: queryData?.userId,
-      role: queryData?.role,
-      city: queryData?.city,
-      state: queryData.state,
+      dateTime: vendorData.eventDate,
+      profileId: queryData?._id,
+      city: vendorData?.city,
+      state: vendorData.state,
+      service: vendorData.service,
     };
     try {
+      handleUpdateContract(credentials);
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/provider-profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/create-offer`,
         credentials,
         {
           headers: {
@@ -72,11 +91,11 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
       );
       router.push(`/account/event/${data?.data?._id}`);
     } catch (error) {
-      setIsLoading(false);
+      console.log(error);
     }
   };
 
-  const loggedUserId = userInfo?._id;
+  const loggedUserId = userInfo;
 
   return (
     <Box>
@@ -109,7 +128,9 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
         <Box>
           <Image
             src={
-              queryData?.company?.image ? queryData?.company?.image : BannerImg
+              queryData?.providerProfile?.company?.image
+                ? queryData?.providerProfile?.company?.image
+                : BannerImg
             }
             alt="bannerImage"
             fill
@@ -153,7 +174,7 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
         >
           <Box>
             <Image
-              src={queryData?.picture}
+              src={queryData?.profile?.picture}
               alt="bannerImage"
               fill
               style={{
@@ -195,7 +216,7 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.firstName} {` `} {queryData?.lastName}
+            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
           </Typography>
         </Box>
         {userInfo && userInfo.role === `user` ? (
@@ -262,7 +283,9 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData.currentlyHiredBy?.includes(loggedUserId) ? (
+          {queryData.providerProfile?.currentlyHiredBy?.includes(
+            loggedUserId,
+          ) ? (
             <Link href="/account/chats">
               <Button
                 startIcon={<ChatIcon />}
@@ -272,7 +295,9 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
                 Chat
               </Button>
             </Link>
-          ) : queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
+          ) : queryData.providerProfile?.currentlyRequestedBy?.includes(
+              loggedUserId,
+            ) ? (
             <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
               Pending Request
             </Button>
@@ -280,9 +305,9 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
             <Button
               variant="contained"
               sx={{ color: `secondary.main`, px: 6 }}
-              onClick={searchResult ? handledSendContract : handledHireMe}
+              onClick={handledSendContract}
             >
-              Hire Me
+              {isLoading ? `Loading...` : `Hire Me`}
             </Button>
           )}
         </Box>
@@ -351,11 +376,13 @@ const Hero = ({ queryData, token, searchResult }: Props) => {
                   mb: `1rem`,
                 }}
               >
-                About {queryData?.company?.name}
+                About {queryData?.providerProfile?.company?.name}
               </Typography>
             </Box>
             <Box>
-              <Typography>{queryData?.company?.description}</Typography>
+              <Typography>
+                {queryData?.providerProfile?.company?.description}
+              </Typography>
             </Box>
           </Box>
           <Box

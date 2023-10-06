@@ -140,7 +140,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
           },
         },
       );
-      console.log(data);
       if (data.status === `success`) {
         dispatch(setIntroOne(false));
         dispatch(setIntroThree(true));

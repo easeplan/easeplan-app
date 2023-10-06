@@ -25,7 +25,7 @@ const ProfilePage = ({ token }: any) => {
 
   return (
     <DashboardLayout token={token}>
-      <UserProfile token={token} queryData={queryData} />
+      <UserProfile token={token} queryData={queryData.provider} />
     </DashboardLayout>
   );
 };

@@ -66,12 +66,12 @@ const FinderSection = ({ queryData, token }: any) => {
           token={token}
         />
         {/* <h3 className="sectionTitle">Act Swiftly</h3> */}
-        <FindPlannerModal
+        {/* <FindPlannerModal
           isOpen={openPlannerModal}
           isClose={() => dispatch(setOpenPlannerModal(false))}
           queryData={queryData}
           token={token}
-        />
+        /> */}
         <FindVendorModal
           isOpen={openVendorModal}
           isClose={() => dispatch(setOpenVendorModal(false))}
@@ -94,7 +94,10 @@ const FinderSection = ({ queryData, token }: any) => {
         </Grid> */}
         <Box mt={8}>
           <Typography
-            sx={{ textAlign: `center`, fontSize: { sm: `1rem`, lg: `2rem` } }}
+            sx={{
+              textAlign: `center`,
+              fontSize: { xs: `1.5rem`, sm: `1.5rem`, lg: `2rem` },
+            }}
           >
             Hello {queryData?.data?.profile?.firstName}, Let`s help you find a
             vendor for your event

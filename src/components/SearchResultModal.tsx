@@ -20,9 +20,9 @@ const style = {
   width: {
     xs: `100%`,
     sm: `100%`,
-    md: `65%`,
-    lg: `65%`,
-    xl: `65%`,
+    md: `85%`,
+    lg: `85%`,
+    xl: `85%`,
   },
   height: `100vh`,
   bgcolor: `#fff`,
@@ -125,7 +125,7 @@ const SearchResultModal = ({
                     {queryData ? (
                       <Box>
                         <Hero queryData={queryData} token={token} />
-                        <PricingSection token={token} queryData={queryData} />
+                        {/* <PricingSection token={token} queryData={queryData} /> */}
                         <Divider />
                         <PreviousEvent token={token} queryData={queryData} />
                         <Divider />

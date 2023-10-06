@@ -24,20 +24,11 @@ const PreviousEvent = ({ queryData, token }: any) => {
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: (sampleId: string) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}/delete-sample/${sampleId}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}/delete-sample/${sampleId}`
-            : null
-        }`,
-        {
-          headers: {
-            // Authorization: `Bearer ${token}`,
-          },
+      customFetch.put(`profiles/${userInfo?._id}/delete-sample/${sampleId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Deleted`);
@@ -112,7 +103,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
             justifyContent: `center`,
             cursor: `pointer`,
             verticalAlign: `middle`,
-            borderRadius: `30px`,
+            borderRadius: `10px`,
             color: theme.palette.primary.main,
             height: `40px`,
             width: `auto`,
@@ -149,11 +140,10 @@ const PreviousEvent = ({ queryData, token }: any) => {
           mt: `3rem`,
         }}
       >
-        {queryData.samples.map((data: any, i: any) => (
+        {queryData?.providerProfile?.samples.map((data: any, i: any) => (
           <Box
             key={i}
             sx={{
-              borderRadius: `10px`,
               height: `100%`,
               position: `relative`,
             }}
@@ -201,32 +191,31 @@ const PreviousEvent = ({ queryData, token }: any) => {
                 position: `absolute`,
                 bottom: `0`,
                 zIndez: `1`,
-                background: `#ffff`,
                 color: `#fff`,
-                borderRadius: `10px`,
               }}
             >
               <Typography fontWeight="bold">{data?.title}</Typography>
-              {/* <Typography mt={2}>{data?.description}</Typography> */}
-              <Box sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}>
-                <Button
+              <Box sx={{ display: `flex`, gap: `0.5rem`, cursor: `pointer` }}>
+                <CreateOutlinedIcon
+                  sx={{
+                    color: `primary.main`,
+                    background: `#ffff`,
+                    padding: `0.5rem`,
+                    fontSize: `2.5rem`,
+                    borderRadius: `10px`,
+                  }}
                   onClick={() => handleEdit(data)}
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  startIcon={<CreateOutlinedIcon />}
-                >
-                  Edit
-                </Button>
-                <Button
+                />
+                <DeleteIcon
+                  sx={{
+                    color: `red`,
+                    background: `#ffff`,
+                    padding: `0.5rem`,
+                    fontSize: `2.5rem`,
+                    borderRadius: `10px`,
+                  }}
                   onClick={() => handleEventDelete(data?._id)}
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  startIcon={<DeleteIcon />}
-                >
-                  Delete
-                </Button>
+                />
               </Box>
             </Box>
           </Box>

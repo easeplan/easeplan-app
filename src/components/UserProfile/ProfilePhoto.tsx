@@ -53,7 +53,7 @@ const ProfilePhoto = ({ token, queryData }: any) => {
           <AddAPhotoOutlinedIcon onClick={handleOpenModal} className="icon" />
         </ChangeCoverImg>
         <Image
-          src={queryData?.picture}
+          src={queryData?.profile?.picture}
           alt="bannerImage"
           fill
           style={{

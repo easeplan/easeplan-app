@@ -45,15 +45,13 @@ const PricingCard = ({ queryData, token }: any) => {
         >
           Pricing
         </Typography>
-        {userInfo?.role === `provider` && (
-          <EditButton onClick={handleOpenModal}>
-            <CreateOutlinedIcon className="icon" />
-          </EditButton>
-        )}
+        <EditButton onClick={handleOpenModal}>
+          <CreateOutlinedIcon className="icon" />
+        </EditButton>
       </Box>
 
       <Box mt={4}>
-        {userInfo?.role === `planner` && (
+        {/* {userInfo?.role === `planner` && (
           <>
             <EditBasicModal
               token={token}
@@ -102,39 +100,41 @@ const PricingCard = ({ queryData, token }: any) => {
               </Grid>
             </Grid>
           </>
-        )}
-        {userInfo?.role === `provider` && (
-          <>
-            <EditVendorPriceModal
-              token={token}
-              queryData={queryData}
-              isOpen={openModal}
-              isClose={() => setOpenModal(false)}
-            />
-            <Grid
-              container
-              rowSpacing={5}
-              columnSpacing={{ xs: 1, sm: 4, md: 5 }}
-            >
-              <Grid item xs={12} sm={6} md={6}>
-                <VendorPricingCard
-                  title="Minimum Amount"
-                  amount={
-                    queryData?.budget ? queryData?.budget?.minimum : `0.00`
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <VendorPricingCard
-                  title="Maximum Amount"
-                  amount={
-                    queryData?.budget ? queryData?.budget?.maximum : `0.00`
-                  }
-                />
-              </Grid>
+        )} */}
+        <>
+          <EditVendorPriceModal
+            token={token}
+            queryData={queryData}
+            isOpen={openModal}
+            isClose={() => setOpenModal(false)}
+          />
+          <Grid
+            container
+            rowSpacing={5}
+            columnSpacing={{ xs: 1, sm: 4, md: 5 }}
+          >
+            <Grid item xs={12} sm={6} md={6}>
+              <VendorPricingCard
+                title="Minimum Amount"
+                amount={
+                  queryData?.providerProfile?.budget
+                    ? queryData?.providerProfile?.budget?.minimum
+                    : `0.00`
+                }
+              />
             </Grid>
-          </>
-        )}
+            <Grid item xs={12} sm={6} md={6}>
+              <VendorPricingCard
+                title="Maximum Amount"
+                amount={
+                  queryData?.providerProfile?.budget
+                    ? queryData?.providerProfile?.budget?.maximum
+                    : `0.00`
+                }
+              />
+            </Grid>
+          </Grid>
+        </>
       </Box>
     </Box>
   );

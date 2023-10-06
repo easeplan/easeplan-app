@@ -67,14 +67,12 @@ const HomePage = ({ token }: Props) => {
     return <ErrorPage />;
   }
 
-  console.log(queryData);
-
   return (
     <>
       <DashboardLayout token={token}>
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <>
-            {queryData?.emailVerified === false && (
+            {queryData?.provider?.emailVerified === false && (
               <Alert
                 severity="error"
                 sx={{
@@ -123,9 +121,7 @@ const HomePage = ({ token }: Props) => {
           </>
         ) : null}
 
-        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
-          <Dashboard data={queryData} />
-        ) : null}
+        {queryData?.provider?.providerProfile && <Dashboard data={queryData} />}
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <>
             {contracts
@@ -236,6 +232,12 @@ const HomePage = ({ token }: Props) => {
           </Box>
         ) : null}
 
+        <FinderSection
+          token={token}
+          queryData={queryData?.provider}
+          notificationData={notificationData}
+        />
+
         <>
           {contracts?.length < 1 ? (
             <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
@@ -336,12 +338,6 @@ const HomePage = ({ token }: Props) => {
             </>
           )}
         </>
-
-        <FinderSection
-          token={token}
-          queryData={queryData}
-          notificationData={notificationData}
-        />
       </DashboardLayout>
     </>
   );

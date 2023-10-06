@@ -8,14 +8,11 @@ import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
-import FormInput from '../common/FormInput';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
-import TextArea from '../common/TextArea';
+import DragAndDropInput from '../common/DragAndDropInput';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import DragAndDropInput from '../common/DragAndDropInput';
-import { styled } from '@mui/material/styles';
 
 const style = {
   position: `absolute` as const,
@@ -37,20 +34,16 @@ const style = {
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  preEventImage: Yup.string().required(`Image is missing`),
+  sampleImage: Yup.string().required(`Image is missing`),
 });
 
-interface updateTypes {
-  image: File;
-}
-
-const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
+const AddPreviousEventModal = ({ isOpen, isClose, token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`profiles/${userInfo}/add-sample`, credentials, {
+      customFetch.put(`/${`profiles/${userInfo}/add-sample`}`, credentials, {
         headers: {
           'Content-Type': `multipart/form-data`,
           Authorization: `Bearer ${token}`,
@@ -70,7 +63,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
     const formData = new FormData();
     formData.append(`sampleImage`, credentials.preEventImage);
     const data = {
-      sampleImage: credentials.preEventImage,
+      sampleImage: credentials.sampleImage,
     };
     handleUpdate(data);
   };
@@ -103,7 +96,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    preEventImage: ``,
+                    sampleImage: ``,
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -123,7 +116,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                         </Box> */}
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
-                          <DragAndDropInput type="file" name="preEventImage" />
+                          <DragAndDropInput type="file" name="sampleImage" />
                         </Box>
                         <Box
                           mt={2}

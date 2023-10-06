@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import CustomButton from '../common/CustomButton';
 import * as Yup from 'yup';
-import axios from 'axios';
 import Label from '../common/Label';
 import PaymentModal from './PaymentModal';
 import PaymentOtpModal from './PaymentOtpModal';
@@ -24,6 +23,9 @@ import { styled } from '@mui/material/styles';
 // import { AvailableFundsProps } from '@/lib/types';
 import { IoWallet } from 'react-icons/io5';
 import TransactionTable from '../TransactionTable';
+import { useMutation, useQueryClient } from 'react-query';
+import customFetch from '@/utils/customFetch';
+import { toast } from 'react-toastify';
 
 const PaymentSchema = Yup.object().shape({
   accountName: Yup.string().required(`Amount is required`),
@@ -743,7 +745,7 @@ const banks = [
 ];
 
 const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>();
   const [paymentModal, setPaymentModal] = useState<any>();
   const [bankInfo, setBankInfo] = useState<any>();
@@ -795,7 +797,24 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     }
   };
 
-  console.log(token);
+  const queryClient = useQueryClient();
+
+  const { mutate: handleUpdate, isLoading } = useMutation({
+    mutationFn: (credentials: any) =>
+      customFetch.post(`/account-details`, credentials, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
+      toast.success(`Event Datails Added`);
+    },
+    onError: (error: any) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   const submitCredentials = async (e: any) => {
     e.preventDefault();
@@ -805,37 +824,20 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
       bank: selectedState?.name,
       bankCode: selectedState?.code,
     };
-    // if (typeof window !== `undefined`) {
-    //   localStorage.setItem(`bankData`, JSON.stringify(newData));
-    // }
     try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/account-details`,
-        newData,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      // console.log(data);
-      setIsLoading(false);
+      handleUpdate(newData);
       setIsSuccess(true);
       setShowUpdate(true);
-      setBankInfo(data);
     } catch (error: any) {
       console.log(error);
-      setIsLoading(false);
       setIsSuccess(false);
     }
   };
 
   function truncateString(str: string, num: any) {
-    const newStr = str.toString();
-    if (newStr.length > num) {
-      return newStr.slice(0, num) + `****`;
+    const newStr = str?.toString();
+    if (newStr?.length > num) {
+      return newStr?.slice(0, num) + `****`;
     } else {
       return newStr;
     }
@@ -884,10 +886,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         setIsPaymentOtp={setIsPaymentOtp}
         setAmount={setAmount}
         queryData={queryData}
-        // accountName={accountName}
-        // bank={selectedState?.name}
-        // bankCode={selectedState?.code}
-        // accountNumber={accountNumber}
       />
       <PaymentOtpModal
         token={token}
@@ -945,7 +943,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                   fontSize="0.9rem"
                   fontWeight="bold"
                   color="white"
-                  // sx={{ position: `absolute`, top: `0.5rem` }}
                 >
                   Available Balance
                 </Typography>
@@ -966,9 +963,12 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 }}
               >
                 <small>₦</small>
-                {queryData?.balance === 0
-                  ? `0.00`
-                  : formatCurrency(queryData?.balance && queryData?.balance)}
+                {queryData?.providerProfile?.balance === 0
+                  ? `00.00`
+                  : formatCurrency(
+                      queryData?.providerProfile?.balance &&
+                        queryData?.providerProfile?.balance,
+                    )}
               </Typography>
               <Box sx={{ textAlign: `right` }}>
                 <Button
@@ -1017,7 +1017,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                   fontSize="0.9rem"
                   fontWeight="bold"
                   color="white"
-                  // sx={{ position: `absolute`, top: `0.5rem` }}
                 >
                   Total Balance
                 </Typography>
@@ -1038,9 +1037,12 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 }}
               >
                 <small>₦</small>
-                {queryData?.balance === 0
-                  ? `0.00`
-                  : formatCurrency(queryData?.balance && queryData?.balance)}
+                {queryData?.providerProfile?.balance === 0
+                  ? `00.00`
+                  : formatCurrency(
+                      queryData?.providerProfile?.balance &&
+                        queryData?.providerProfile?.balance,
+                    )}
               </Typography>
               <Typography
                 sx={{
@@ -1062,7 +1064,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         </Box>
         {/* This update bank details need more attention on the logic */}
         {/* ADD BANK SECTION*/}
-        {!bankDetails && !bankInfo ? (
+        {!queryData?.providerProfile?.accountDetails ? (
           <>
             <Typography
               mb={2}
@@ -1209,19 +1211,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     gap: `6rem`,
                   }}
                 >
-                  {/* <Box sx={{ width: `100%`, margin: `2rem auto` }}>
-                    <Typography
-                      mb={2}
-                      mt={4}
-                      variant="h6"
-                      fontWeight="bold"
-                      color="primary.main"
-                    >
-                      Recent Transactions
-                    </Typography>
-                    <Divider sx={{ my: 1 }} />
-                    <TransactionTable />
-                  </Box> */}
                   <Box>
                     <Typography
                       mb={2}
@@ -1234,19 +1223,29 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     </Typography>
                     <Divider sx={{ my: 1 }} />
                     <Box
-                      className="linearGradient"
+                      // className="linearGradient"
                       sx={{
-                        p: 3,
+                        py: 3,
+                        px: 6,
                         color: `#fff`,
                         mb: 2,
                         borderRadius: `2rem`,
+                        border: `solid 1px #3333`,
                       }}
                     >
-                      <Typography>{bankDetails.name}</Typography>
-                      <Typography my={2}>
-                        {truncateString(bankDetails?.accountNumber, 6)}
+                      <Typography color="primary.main">
+                        {queryData?.providerProfile?.accountDetails?.name}
                       </Typography>
-                      <Typography>{bankDetails.bank}</Typography>
+                      <Typography my={2} color="primary.main">
+                        {truncateString(
+                          queryData?.providerProfile?.accountDetails
+                            ?.accountNumber,
+                          6,
+                        )}
+                      </Typography>
+                      <Typography color="primary.main">
+                        {queryData?.providerProfile?.accountDetails?.bank}
+                      </Typography>
                     </Box>
                     <Button
                       onClick={toggleUpdateState}

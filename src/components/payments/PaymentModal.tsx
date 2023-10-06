@@ -92,7 +92,6 @@ const PaymentModal = ({
             },
           },
         );
-        console.log(data);
         if (data.status === `success`) {
           setIsLoading(false);
           setIsSuccess(true);

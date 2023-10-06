@@ -20,15 +20,7 @@ import { Typography } from '@mui/material';
 const VerifyPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
   const [startVerification, setStartVerification] = useState(false);

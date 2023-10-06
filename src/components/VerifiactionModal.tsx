@@ -91,7 +91,6 @@ const VerifiactionModal = ({
         { email: userEmail },
       );
       if (data.status === `success`) {
-        console.log(data);
         setIsResendLoading(false);
         toast.success(`Check your email for your token`);
       }

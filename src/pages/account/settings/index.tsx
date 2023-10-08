@@ -41,7 +41,7 @@ const SettingsPage = ({ token }: any) => {
           </Button>
         </Link>
         {/* <h3 className="title">{`||`}</h3> */}
-        {queryData?.role !== `user` && (
+        {queryData?.provider?.providerProfile && (
           <Link href="/account/settings/verify">
             <Button
               variant="contained"
@@ -53,7 +53,7 @@ const SettingsPage = ({ token }: any) => {
           </Link>
         )}
       </Flex>
-      <ProfileForm token={token} queryData={queryData} />
+      <ProfileForm token={token} queryData={queryData?.provider} />
     </DashboardLayout>
   );
 };

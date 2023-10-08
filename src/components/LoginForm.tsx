@@ -45,8 +45,8 @@ const LoginForm = () => {
     try {
       setIsLoading(true);
       const data = await login(credentials).unwrap();
-      const { _id } = data?.data;
-      dispatch(setCredentials(_id));
+      const id = data?.user?._id;
+      dispatch(setCredentials(id));
 
       // Redirect to the last visited URL or a default route
       if (lastVisitedURL) {

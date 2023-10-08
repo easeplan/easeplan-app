@@ -67,12 +67,14 @@ const HomePage = ({ token }: Props) => {
     return <ErrorPage />;
   }
 
+  console.log(queryData);
+
   return (
     <>
       <DashboardLayout token={token}>
-        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
+        {queryData?.provider?.providerProfile ? (
           <>
-            {queryData?.provider?.emailVerified === false && (
+            {!queryData?.provider?.providerProfile?.verified && (
               <Alert
                 severity="error"
                 sx={{

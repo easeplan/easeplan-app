@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const token = data?.data?.accessToken;
+    const token = data?.token;
 
     res.setHeader(
       `Set-Cookie`,

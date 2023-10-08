@@ -34,6 +34,8 @@ const VerifyPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
+  console.log(queryData);
+
   return (
     <DashboardLayout token={token}>
       <Flex>
@@ -76,7 +78,7 @@ const VerifyPage = ({ token }: any) => {
             <VerificationFlow setIsVerified={setIsVerified} />
           )}
           <Box>
-            {queryData?.verified || isVerified ? (
+            {queryData?.provider?.providerProfile?.verified || isVerified ? (
               <Box sx={{ textAlign: `center` }}>
                 <VerifiedUserIcon
                   sx={{ fontSize: `4rem`, color: `secondary.main` }}

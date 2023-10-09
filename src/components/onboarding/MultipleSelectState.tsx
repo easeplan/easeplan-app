@@ -66,7 +66,17 @@ export default function MultipleSelectState({
           label="Select services"
           value={personName}
           onChange={handleChange}
-          sx={{ borderRadius: `10px` }}
+          sx={{
+            borderRadius: `10px`,
+            overflowX: `hidden`,
+            width: {
+              xs: `295px`,
+              sm: `295px`,
+              md: `300px`,
+              lg: `400px`,
+              xl: `400px`,
+            },
+          }}
           inputProps={{ 'aria-label': `Without label` }}
           MenuProps={MenuProps}
         >

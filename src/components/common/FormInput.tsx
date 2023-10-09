@@ -107,7 +107,7 @@ const Input = styled(`input`)({
 
   '@media (max-width: 1020px)': {
     fontSize: `0.8rem`,
-    padding: `0.8rem 1rem`,
+    padding: `1.2rem 1rem`,
   },
 
   '&:-webkit-autofill': {

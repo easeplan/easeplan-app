@@ -122,6 +122,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         picture: credentials.picture,
         gender: credentials.gender,
         image: credentials.image,
+        state: credentials.state,
+        city: credentials.city,
         company: {
           name: credentials.name,
           services: credentials.services,
@@ -225,8 +227,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   textAlign="center"
                   sx={{
                     fontSize: {
-                      xs: `1rem`,
-                      sm: `1rem`,
+                      xs: `1.2rem`,
+                      sm: `1.2rem`,
                       md: `1.5rem`,
                       lg: `1.5rem`,
                       xl: `1.5rem`,
@@ -249,6 +251,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       : ``,
                     operationStates: ``,
                     name: ``,
+                    state: ``,
+                    city: ``,
                     operationCities: ``,
                     gender: ``,
                     image: ``,
@@ -373,17 +377,19 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           </FormInput>
                         </Box>
                         <Box>
-                          <MultipleSelectState
-                            name="operationStates"
-                            setServices={setSelectedState}
-                            states={data?.states}
+                          <FormInput
+                            ariaLabel="State"
+                            name="state"
+                            type="text"
+                            placeholder="State"
                           />
                         </Box>
                         <Box>
-                          <MultipleSelectCity
-                            name="operationCities"
-                            setServices={setSelectedCities}
-                            cities={allCities}
+                          <FormInput
+                            ariaLabel="City"
+                            name="city"
+                            type="text"
+                            placeholder="City"
                           />
                         </Box>
                       </Box>
@@ -497,6 +503,36 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           )}
                         </Box>
                         <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
+                        <Box>
+                          <MultipleSelectState
+                            name="operationStates"
+                            setServices={setSelectedState}
+                            states={data?.states}
+                          />
+                        </Box>
+                        <Box>
+                          <MultipleSelectCity
+                            name="operationCities"
+                            setServices={setSelectedCities}
+                            cities={allCities}
+                          />
+                        </Box>
                       </Box>
 
                       <Box

@@ -27,7 +27,7 @@ const DashboardLayout = ({ children, token }: ILayout) => {
       <Main>
         <NavHeader token={token} />
         <Container fixed>{children}</Container>
-        <MobileSidenav />
+        <MobileSidenav data={queryData?.provider} />
       </Main>
     </Layout>
   );

@@ -147,7 +147,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,
-            credentials?.firstname ? credentials?.firstname : ``,
+            credentials?.firstName ? credentials?.firstName : ``,
           );
         }
       }

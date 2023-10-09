@@ -60,7 +60,17 @@ export default function MultipleSelect({ name, setServices, services }: any) {
           label="Select services"
           value={personName}
           onChange={handleChange}
-          sx={{ borderRadius: `10px` }}
+          sx={{
+            borderRadius: `10px`,
+            overflowX: `hidden`,
+            width: {
+              xs: `300px`,
+              sm: `300px`,
+              md: `300px`,
+              lg: `400px`,
+              xl: `400px`,
+            },
+          }}
           inputProps={{ 'aria-label': `Without label` }}
           MenuProps={MenuProps}
         >
@@ -69,7 +79,7 @@ export default function MultipleSelect({ name, setServices, services }: any) {
               key={service}
               value={service}
               style={getStyles(service, personName, theme)}
-              sx={{ borderBottom: `solid 1px #fff` }}
+              sx={{ borderBottom: `solid 1px #fff`, overflowX: `hidden` }}
             >
               <Typography
                 variant="caption"

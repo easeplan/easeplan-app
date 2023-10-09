@@ -60,7 +60,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            {queryData?.provider?.providerProfile ? null : (
+            {/* {queryData?.provider?.providerProfile ? null : (
               <Link href="/account/onboard">
                 <Button
                   variant="outlined"
@@ -74,7 +74,20 @@ const NavHeader = ({ token }: any) => {
                   Become a Vendor
                 </Button>
               </Link>
-            )}
+            )} */}
+            <Link href="/account/onboard">
+              <Button
+                variant="outlined"
+                sx={{
+                  textTransform: `capitalize`,
+                  fontWeight: `700`,
+                  paddingX: `0.9rem`,
+                  paddingY: `0.6rem`,
+                }}
+              >
+                Become a Vendor
+              </Button>
+            </Link>
             <NotificationDropdown
               token={token}
               notificationData={notifyData}

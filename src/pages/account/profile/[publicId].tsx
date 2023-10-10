@@ -16,6 +16,7 @@ const ViewProfilePage = ({ data, token }: any) => {
       localStorage.removeItem(`lastVisitedURL`);
     }
   }, []);
+
   return (
     <>
       <Head>
@@ -64,7 +65,7 @@ export async function getServerSideProps(
   // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,
+    `${process.env.NEXT_PUBLIC_API1_URL}/user-profiles/profile/${publicId}`,
   );
 
   const data = await res.json();

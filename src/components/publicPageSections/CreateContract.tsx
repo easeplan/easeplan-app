@@ -1,4 +1,4 @@
-import { Box, Typography, Alert } from '@mui/material';
+import { Box, Typography, MenuItem, Alert } from '@mui/material';
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { setOpenSearchModal } from '@/features/searchResultSlice';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const style = {
   position: `absolute` as const,
@@ -44,7 +45,8 @@ const style = {
 
 const FormSchema = Yup.object().shape({
   budget: Yup.string().required(`Budget is missing`),
-  eventDate: Yup.string().required(`Date is missing`),
+  dateTime: Yup.string().required(`Date is missing`),
+  service: Yup.string().required(`Service is missing`),
 });
 
 const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
@@ -57,14 +59,14 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
     setIsLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/provider-profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/create-offer`,
         {
           budget: credentials.budget,
-          eventDate: credentials.eventDate,
-          profileId: queryData?.userId,
-          role: queryData?.role,
-          city: queryData?.city,
-          state: queryData.state,
+          dateTime: credentials.dateTime,
+          profileId: queryData?._id,
+          city: queryData?.providerProfile?.city,
+          state: queryData.providerProfile?.state,
+          service: credentials.service,
         },
         {
           headers: {
@@ -74,6 +76,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
         },
       );
       router.push(`/account/event/${data?.data?._id}`);
+      toast.success(`Successfully`);
     } catch (error) {
       setIsLoading(false);
     }
@@ -130,7 +133,8 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                 <Formik
                   initialValues={{
                     budget: ``,
-                    eventDate: ``,
+                    dateTime: ``,
+                    service: ``,
                   }}
                   onSubmit={(values) => handleSubmit(values)}
                   validationSchema={FormSchema}
@@ -165,10 +169,26 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box sx={{ width: `100%` }}>
                           <Label text="Event Date" />
                           <FormInput
-                            ariaLabel="eventDate"
-                            name="eventDate"
+                            ariaLabel="dateTime"
+                            name="dateTime"
                             type="date"
                           />
+                        </Box>
+                        <Box>
+                          <Label text="Select service" />
+                          <FormInput
+                            isSelect
+                            ariaLabel="service"
+                            name="service"
+                          >
+                            {queryData?.providerProfile?.company?.services?.map(
+                              (service: any) => (
+                                <MenuItem key={service} value={service}>
+                                  {service}
+                                </MenuItem>
+                              ),
+                            )}
+                          </FormInput>
                         </Box>
                         <Box
                           mt={3}

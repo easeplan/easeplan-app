@@ -26,6 +26,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
     mutationFn: (sampleId: string) =>
       customFetch.put(`profiles/${userInfo}/delete-sample/${sampleId}`, {
         headers: {
+          'Content-Type': `application/json`,
           Authorization: `Bearer ${token}`,
         },
       }),

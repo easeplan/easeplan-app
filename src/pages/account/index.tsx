@@ -67,8 +67,6 @@ const HomePage = ({ token }: Props) => {
     return <ErrorPage />;
   }
 
-  console.log(queryData);
-
   return (
     <>
       <DashboardLayout token={token}>
@@ -240,7 +238,7 @@ const HomePage = ({ token }: Props) => {
           notificationData={notificationData}
         />
 
-        <>
+        {/* <>
           {contracts?.length < 1 ? (
             <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
               <Typography>Your ongoing events will show here</Typography>
@@ -291,7 +289,6 @@ const HomePage = ({ token }: Props) => {
                       <Box
                         sx={{
                           display: `flex`,
-                          // alignItems: `start`,
                           justifyContent: `start`,
                           gap: `2rem`,
                           textAlign: `center`,
@@ -339,7 +336,7 @@ const HomePage = ({ token }: Props) => {
               ))}
             </>
           )}
-        </>
+        </> */}
       </DashboardLayout>
     </>
   );

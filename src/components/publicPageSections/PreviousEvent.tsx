@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
 const PreviousEvent = ({ queryData }: any) => {
+  console.log(queryData);
   return (
     <>
       <Box mt={5} mb={20}>

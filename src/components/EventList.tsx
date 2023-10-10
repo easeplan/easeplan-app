@@ -20,6 +20,8 @@ const EventList = () => {
 
   const resultData = getLastFiveElements(notifyData);
 
+  console.log(resultData);
+
   return (
     <>
       <Typography sx={{ fontSize: `2rem` }}>Events</Typography>

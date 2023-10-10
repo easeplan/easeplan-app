@@ -25,13 +25,17 @@ const Hero = ({ queryData, token, publicId }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handledHireMe = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+    if (userInfo) {
+      router.push(`/account/profile/${publicId}`);
+    } else {
+      router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+      }
     }
   };
 
-  const loggedUserId = userInfo?._id;
+  const loggedUserId = userInfo;
 
   return (
     <Box pt={10}>

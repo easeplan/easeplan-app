@@ -55,19 +55,12 @@ const Hero = ({ queryData, token, searchResult }: any) => {
     },
   });
 
-  // useEffect(() => {
-  //   if (typeof window !== `undefined`) {
-  //     localStorage.getItem(`findVendorData`)
-  //       ? setVendorData(JSON.parse(localStorage.getItem(`findVendorData`)!))
-  //       : null;
-  //   }
-  // }, []);
+  const openCreateHireMeModal = () => {
+    if (userInfo) {
+      setOpenModal(true);
+    }
+  };
 
-  // const handledHireMe = () => {
-  //   if (userInfo) {
-  //     setOpenModal(true);
-  //   }
-  // };
   const handledSendContract = async () => {
     const credentials = {
       budget: vendorData.budget,
@@ -305,7 +298,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             <Button
               variant="contained"
               sx={{ color: `secondary.main`, px: 6 }}
-              onClick={handledSendContract}
+              onClick={vendorData ? handledSendContract : openCreateHireMeModal}
             >
               {isLoading ? `Loading...` : `Hire Me`}
             </Button>
@@ -376,7 +369,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                   mb: `1rem`,
                 }}
               >
-                About {queryData?.providerProfile?.company?.name}
+                {queryData?.providerProfile?.company?.name}
               </Typography>
             </Box>
             <Box>
@@ -413,7 +406,9 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                   Location:
                 </Typography>
                 <Typography fontWeight={500} color="primary.main">
-                  {queryData?.state} {queryData?.city}
+                  {queryData?.providerProfile?.state}
+                  {` `}
+                  {queryData?.providerProfile?.city}
                 </Typography>
               </Box>
               <Box mt={4}>

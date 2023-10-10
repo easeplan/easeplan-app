@@ -67,8 +67,6 @@ const HomePage = ({ token }: Props) => {
     return <ErrorPage />;
   }
 
-  console.log(queryData);
-
   return (
     <>
       <DashboardLayout token={token}>

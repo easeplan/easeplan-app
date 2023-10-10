@@ -262,7 +262,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     description: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
-                  // validationSchema={ProfileSchema}
+                  // validationSchema={FormSchema}
                 >
                   {({ setFieldValue }) => (
                     <Form>

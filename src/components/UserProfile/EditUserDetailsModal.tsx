@@ -4,7 +4,8 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
+import data from '@/lib/states.json';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -13,9 +14,10 @@ import FormInput from '../common/FormInput';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
 import SelectState from '../common/SelectState';
-import data from '@/lib/states.json';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import MultipleSelectCity from '../onboarding/MultipleSelectCity';
+import MultipleSelectState from '../onboarding/MultipleSelectState';
 
 const style = {
   position: `absolute` as const,
@@ -37,32 +39,29 @@ const style = {
 };
 
 const ProfileSchema = Yup.object().shape({
-  picture: Yup.string(),
+  firstName: Yup.string(),
+  lastName: Yup.string(),
 });
 
 const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [selectedState, setSelectedState] = useState<any>();
+  const [selectedCities, setSelectedCities] = useState<any>();
   const queryClient = useQueryClient();
 
+  const allCities = data.states.reduce((cities, state) => {
+    cities.push(...state.cities);
+    return cities;
+  }, [] as string[]) as string[];
+
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}`
-            : null
-        }/`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer ${token}`,
-          },
+    mutationFn: (credentials: any) =>
+      customFetch.put(`profiles/${userInfo}`, credentials, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
@@ -76,6 +75,7 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
   const updateProfileImg = async (credentials: any) => {
     updateProfile(credentials);
   };
+
   return (
     <Container fixed>
       <Modal
@@ -102,10 +102,20 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    firstName: queryData?.firstName ? queryData?.firstName : ``,
-                    lastName: queryData?.lastName ? queryData?.lastName : ``,
-                    city: queryData?.city ? queryData?.city : ``,
-                    state: queryData?.state ? queryData?.state : ``,
+                    firstName: queryData?.profile?.firstName
+                      ? queryData?.profile?.firstName
+                      : ``,
+                    lastName: queryData?.profile?.lastName
+                      ? queryData?.profile?.lastName
+                      : ``,
+                    operationStates: queryData?.providerProfile?.company
+                      ?.operationStates
+                      ? queryData?.providerProfile?.company?.operationStates
+                      : ``,
+                    operationCities: queryData?.providerProfile?.company
+                      ?.operationCities
+                      ? queryData?.providerProfile?.company?.operationCities
+                      : ``,
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileSchema}
@@ -135,62 +145,25 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                             placeholder="e.g mark"
                           />
                         </Box>
-                        <Box
-                          sx={{
-                            display: `grid`,
-                            alignItems: `center`,
-                            gap: `1rem`,
-                            gridTemplateColumns: `1fr 1fr`,
-                          }}
-                        >
-                          <Box>
-                            <div>
-                              <Label text="State" />
-                            </div>
-                            <SelectState
-                              selectPlaceholder="Select State"
-                              name="state"
-                              onChange={(e: { target: { value: string } }) => {
-                                const selectedState = data?.states.find(
-                                  (state) => state.name === e.target.value,
-                                );
-                                setSelectedState(selectedState);
-                                setFieldValue(`state`, e.target.value);
-                                setFieldValue(`city`, ``);
-                              }}
-                            >
-                              {data?.states?.map((state: any) => {
-                                return (
-                                  <MenuItem
-                                    key={state?.name}
-                                    value={state.name}
-                                  >
-                                    {state?.name}
-                                  </MenuItem>
-                                );
-                              })}
-                            </SelectState>
-                          </Box>
-                          {selectedState && (
-                            <Box>
-                              <div>
-                                <Label text="City" />
-                              </div>
-                              <FormInput
-                                isSelect
-                                selectPlaceholder="Select City"
-                                name="city"
-                              >
-                                {selectedState?.cities?.map((city: any) => {
-                                  return (
-                                    <MenuItem key={city} value={city}>
-                                      {city}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </FormInput>
-                            </Box>
-                          )}
+                        <Box>
+                          <div>
+                            <Label text="Operational State" />
+                          </div>
+                          <MultipleSelectState
+                            name="operationStates"
+                            setServices={setSelectedState}
+                            states={data?.states}
+                          />
+                        </Box>
+                        <Box>
+                          <div>
+                            <Label text="Operational Cities" />
+                          </div>
+                          <MultipleSelectCity
+                            name="operationCities"
+                            setServices={setSelectedCities}
+                            cities={allCities}
+                          />
                         </Box>
                         <Box
                           mt={2}

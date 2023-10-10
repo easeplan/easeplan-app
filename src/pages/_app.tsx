@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
 
@@ -56,20 +57,22 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <Provider store={store}>
-        <AnimatePresence mode={`wait`}>
-          <AuthProvider queryData={pageProps.queryData}>
-            <QueryClientProvider client={queryClient}>
-              <ToastContainer position="top-center" />
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Component key={router.pathname} {...pageProps} />
-              </ThemeProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </QueryClientProvider>
-          </AuthProvider>
-        </AnimatePresence>
-      </Provider>
+      <GoogleOAuthProvider clientId="314971178164-o0q5ossjll2eo1tdthtlhncrv53o6ust.apps.googleusercontent.com">
+        <Provider store={store}>
+          <AnimatePresence mode={`wait`}>
+            <AuthProvider queryData={pageProps.queryData}>
+              <QueryClientProvider client={queryClient}>
+                <ToastContainer position="top-center" />
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <Component key={router.pathname} {...pageProps} />
+                </ThemeProvider>
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              </QueryClientProvider>
+            </AuthProvider>
+          </AnimatePresence>
+        </Provider>
+      </GoogleOAuthProvider>
     </>
   );
 }

@@ -40,18 +40,28 @@ const VendorSchema = Yup.object().shape({
   minimum: Yup.string().required(`Minimum amount is required`),
 });
 
-const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
+const AddPricingModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`profiles/${userInfo}`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Service Price Updated`);
@@ -192,7 +202,7 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
   );
 };
 
-export default EditVendorPriceModal;
+export default AddPricingModal;
 
 const Description = styled(`div`)({
   paddingTop: `1rem`,

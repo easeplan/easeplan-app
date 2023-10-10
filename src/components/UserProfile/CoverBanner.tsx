@@ -29,22 +29,12 @@ const CoverBanner = ({ queryData, token }: any) => {
 
   const { mutate: updateBannerImg, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}`
-            : null
-        }/`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': `multipart/form-data`,
-            Authorization: `Bearer ${token}`,
-          },
+      customFetch.put(`/profiles/${userInfo}`, credentials, {
+        headers: {
+          'Content-Type': `multipart/form-data`,
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Saved`);
@@ -82,7 +72,9 @@ const CoverBanner = ({ queryData, token }: any) => {
     >
       <Formik
         initialValues={{
-          image: queryData?.company?.image ? queryData?.company?.image : ``,
+          image: queryData?.providerProfile?.company?.image
+            ? queryData?.providerProfile?.company?.image
+            : ``,
         }}
         onSubmit={(values) => updateCoverBanner(values)}
         validationSchema={CoverImageSchema}
@@ -115,8 +107,8 @@ const CoverBanner = ({ queryData, token }: any) => {
               ) : (
                 <Image
                   src={
-                    queryData?.company?.image
-                      ? queryData?.company?.image
+                    queryData?.providerProfile?.company?.image
+                      ? queryData?.providerProfile?.company?.image
                       : BannerImg
                   }
                   alt="bannerImage"

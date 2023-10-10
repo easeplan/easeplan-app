@@ -16,7 +16,7 @@ const useFetch = (url: string, token: string) => {
     queryKey: [`userAuthData`],
     queryFn: async () => {
       const { data } = await customFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+        `${process.env.NEXT_PUBLIC_API1_URL}${url}`,
         {
           headers: {
             'Content-Type': `application/json`,

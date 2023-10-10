@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 // import EventCenterIcon from '@/public/eventCenter.gif';
 // import VendorIcon from '@/public/vendor.gif';
 import Image from 'next/image';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FindPlannerModal from './FindPlannerModal';
 import FindVendorModal from './FindVendorModal';
 import FindVendorForm from './FindVendorForm';
@@ -38,7 +38,7 @@ const FinderSection = ({ queryData, token }: any) => {
 
   return (
     <>
-      <Box
+      {/* <Box
         sx={{
           width: `100%`,
           height: `100%`,
@@ -56,7 +56,7 @@ const FinderSection = ({ queryData, token }: any) => {
           width={1200}
           loading="lazy"
         />
-      </Box>
+      </Box> */}
 
       <DashboardWrapper>
         <SearchResultModal
@@ -66,12 +66,12 @@ const FinderSection = ({ queryData, token }: any) => {
           token={token}
         />
         {/* <h3 className="sectionTitle">Act Swiftly</h3> */}
-        <FindPlannerModal
+        {/* <FindPlannerModal
           isOpen={openPlannerModal}
           isClose={() => dispatch(setOpenPlannerModal(false))}
           queryData={queryData}
           token={token}
-        />
+        /> */}
         <FindVendorModal
           isOpen={openVendorModal}
           isClose={() => dispatch(setOpenVendorModal(false))}
@@ -92,8 +92,16 @@ const FinderSection = ({ queryData, token }: any) => {
             </Card>
           </Grid>
         </Grid> */}
-        <Box>
-          <h3 className="sectionTitle">Find Vendor</h3>
+        <Box mt={8}>
+          <Typography
+            sx={{
+              textAlign: `center`,
+              fontSize: { xs: `1.5rem`, sm: `1.5rem`, lg: `2rem` },
+            }}
+          >
+            Hello {queryData?.data?.profile?.firstName}, Let`s help you find a
+            vendor for your event
+          </Typography>
           <FindVendorForm queryData={queryData} token={token} />
         </Box>
         <Box sx={{ mt: 10 }}>

@@ -15,18 +15,19 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 export { getServerSideProps } from '@/context/contextStore';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import { useDispatch } from 'react-redux';
+import { clearCredentials } from '@/features/authSlice';
 
-const Sidenav = () => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+const Sidenav = ({ data }: any) => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
       router.push(`/login`);
+      dispatch(clearCredentials());
     } catch (error: any) {}
   };
 
@@ -57,7 +58,7 @@ const Sidenav = () => {
             href="/account/history"
           />
         </Links>
-        {userInfo?.role === `user` ? null : (
+        {data?.providerProfile ? (
           <Links>
             <SidebarItem
               icon={<AccountBalanceWalletIcon />}
@@ -65,8 +66,8 @@ const Sidenav = () => {
               href="/account/wallet"
             />
           </Links>
-        )}
-        {userInfo?.role === `user` ? null : (
+        ) : null}
+        {data?.providerProfile ? (
           <Links>
             <SidebarItem
               icon={<ChromeReaderModeIcon />}
@@ -74,7 +75,7 @@ const Sidenav = () => {
               href="/account/profile"
             />
           </Links>
-        )}
+        ) : null}
         <Links>
           <SidebarItem
             icon={<PermPhoneMsgIcon />}

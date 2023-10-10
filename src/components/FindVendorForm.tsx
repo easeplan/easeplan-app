@@ -32,11 +32,12 @@ const services = [
   `Security personnel`,
   `Videographer`,
   `Print vendor`,
-  `Userhing`,
+  `Ushering`,
   `Entertainer`,
 ];
 
 const FormSchema = Yup.object().shape({
+  budget: Yup.string().required(`Budget is missing`),
   state: Yup.string().required(`State is missing`),
   city: Yup.string().required(`City is missing`),
   eventDate: Yup.string().required(`Date is missing`),
@@ -51,6 +52,16 @@ const FindVendorModal = ({ token }: any) => {
   const [showError, setShowError] = useState<boolean>(false);
 
   const handleSubmit = async (credentials: any) => {
+    const findVendorData = {
+      budget: credentials.budget,
+      city: credentials?.city,
+      state: credentials?.state,
+      service: credentials?.selectedService,
+      eventDate: credentials.eventDate,
+    };
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`findVendorData`, JSON.stringify(findVendorData));
+    }
     setIsLoading(true);
     const queryString = Object.keys(credentials)
       .map(
@@ -61,7 +72,7 @@ const FindVendorModal = ({ token }: any) => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/provider-profiles/profiles/search?${queryString}`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/provider/search?${queryString}`,
         {
           method: `GET`,
           headers: {
@@ -91,7 +102,7 @@ const FindVendorModal = ({ token }: any) => {
 
   return (
     <Box>
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Box
           sx={{
             py: {
@@ -104,7 +115,14 @@ const FindVendorModal = ({ token }: any) => {
             },
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              background: `#fff`,
+              p: `2rem`,
+              borderRadius: `30px`,
+              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+            }}
+          >
             <Formik
               initialValues={{
                 state: ``,
@@ -125,68 +143,64 @@ const FindVendorModal = ({ token }: any) => {
                         )}
                       </Box>
                     )}
-                    <Box>
-                      <Label text="Select State" />
-                      <SelectState
-                        name="state"
-                        onChange={(e: { target: { value: string } }) => {
-                          const selectedState = data?.states.find(
-                            (state) => state.name === e.target.value,
-                          );
-                          setSelectedState(selectedState);
-                          setFieldValue(`state`, e.target.value);
-                          setFieldValue(`city`, ``);
-                        }}
-                      >
-                        {data?.states?.map((state: any) => {
-                          return (
-                            <MenuItem key={state?.name} value={state.name}>
-                              {state?.name}
-                            </MenuItem>
-                          );
-                        })}
-                      </SelectState>
-                    </Box>
-                    <Box>
-                      <Label text="Select City" />
-                      <FormInput isSelect name="city">
-                        {selectedState &&
-                          selectedState?.cities?.map((city: any) => {
-                            return (
-                              <MenuItem key={city} value={city}>
-                                {city}
-                              </MenuItem>
-                            );
-                          })}
-                      </FormInput>
-                    </Box>
                     <Box
                       sx={{
-                        display: `flex`,
-                        gap: `10px`,
-                        alignItems: `center`,
-                        flexDirection: {
-                          xs: `column`,
-                          sm: `column`,
-                          md: `row`,
-                          lg: `row`,
+                        display: `grid`,
+                        gridTemplateColumns: {
+                          xs: `1fr`,
+                          sm: `1fr`,
+                          md: `1fr 1fr`,
+                          lg: `1fr 1fr 1fr`,
+                          xl: `1fr 1fr 1fr`,
+                        },
+                        gap: {
+                          xs: `0rem`,
+                          sm: `0rem`,
+                          md: `1rem`,
+                          lg: `2rem`,
+                          xl: `2rem`,
                         },
                       }}
                     >
-                      <Box
-                        sx={{
-                          width: {
-                            xs: `100%`,
-                            sm: `100%`,
-                            md: `50%`,
-                            lg: `50%`,
-                          },
-                        }}
-                      >
-                        <Label text="Select Event Type" />
+                      <Box>
+                        <Label text="Select your state for the event" />
+                        <SelectState
+                          name="state"
+                          onChange={(e: { target: { value: string } }) => {
+                            const selectedState = data?.states.find(
+                              (state) => state.name === e.target.value,
+                            );
+                            setSelectedState(selectedState);
+                            setFieldValue(`state`, e.target.value);
+                            setFieldValue(`city`, ``);
+                          }}
+                        >
+                          {data?.states?.map((state: any) => {
+                            return (
+                              <MenuItem key={state?.name} value={state.name}>
+                                {state?.name}
+                              </MenuItem>
+                            );
+                          })}
+                        </SelectState>
+                      </Box>
+                      <Box>
+                        <Label text="Select your city for the event" />
+                        <FormInput isSelect name="city">
+                          {selectedState &&
+                            selectedState?.cities?.map((city: any) => {
+                              return (
+                                <MenuItem key={city} value={city}>
+                                  {city}
+                                </MenuItem>
+                              );
+                            })}
+                        </FormInput>
+                      </Box>
+                      <Box>
+                        <Label text="Choose the type of vendor for your event" />
                         <FormInput
                           isSelect
-                          selectPlaceholder="Select Services"
                           ariaLabel="selectedService"
                           name="selectedService"
                         >
@@ -197,16 +211,27 @@ const FindVendorModal = ({ token }: any) => {
                           ))}
                         </FormInput>
                       </Box>
-                      <Box
-                        sx={{
-                          width: {
-                            xs: `100%`,
-                            sm: `100%`,
-                            md: `50%`,
-                            lg: `50%`,
-                          },
-                        }}
-                      >
+                    </Box>
+                    <Box
+                      sx={{
+                        display: `grid`,
+                        gridTemplateColumns: {
+                          xs: `1fr`,
+                          sm: `1fr`,
+                          md: `1fr 1fr`,
+                          lg: `1fr 1fr 1fr`,
+                          xl: `1fr 1fr 1fr`,
+                        },
+                        gap: {
+                          xs: `0rem`,
+                          sm: `0rem`,
+                          md: `1rem`,
+                          lg: `2rem`,
+                          xl: `2rem`,
+                        },
+                      }}
+                    >
+                      <Box>
                         <Label text="Event Date" />
                         <FormInput
                           ariaLabel="eventDate"
@@ -214,37 +239,37 @@ const FindVendorModal = ({ token }: any) => {
                           type="date"
                         />
                       </Box>
-                    </Box>
-                    <Box>
-                      <Label text="Enter Budget" />
-                      <FormInput
-                        ariaLabel="budget"
-                        name="budget"
-                        type="number"
-                        placeholder="NGN 54,000"
-                      />
-                    </Box>
-                    <Box
-                      mt={3}
-                      sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                        justifyContent: `space-between`,
-                      }}
-                    >
-                      <CustomButton
-                        bgPrimary
-                        smWidth="100%"
-                        lgWidth="100%"
-                        type="submit"
-                        className="changeBtn"
+                      <Box>
+                        <Label text="Enter Budget" />
+                        <FormInput
+                          ariaLabel="budget"
+                          name="budget"
+                          type="number"
+                          placeholder="NGN 54,000"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          justifyContent: `space-between`,
+                        }}
                       >
-                        {isLoading ? (
-                          <FontAwesomeIcon icon={faCircleNotch} spin />
-                        ) : (
-                          `Search`
-                        )}
-                      </CustomButton>
+                        <CustomButton
+                          bgPrimary
+                          smWidth="100%"
+                          lgWidth="100%"
+                          type="submit"
+                          height="3rem"
+                          className="changeBtn"
+                        >
+                          {isLoading ? (
+                            <FontAwesomeIcon icon={faCircleNotch} spin />
+                          ) : (
+                            `Search`
+                          )}
+                        </CustomButton>
+                      </Box>
                     </Box>
                   </Box>
                 </Form>

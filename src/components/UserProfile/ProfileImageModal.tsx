@@ -98,22 +98,12 @@ export default function UpdateProfileModal({
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}`
-            : null
-        }/`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': `multipart/form-data`,
-            Authorization: `Bearer ${token}`,
-          },
+      customFetch.put(`/profiles/${userInfo}`, credentials, {
+        headers: {
+          'Content-Type': `multipart/form-data`,
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);

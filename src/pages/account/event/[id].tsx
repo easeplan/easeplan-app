@@ -26,7 +26,7 @@ interface Props {
   queryData: QueryData;
 }
 
-const EventDetailsPage = ({ token, data, queryData }: Props) => {
+const EventDetailsPage = ({ token, data, queryData }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [userEmail] = useState(
     typeof window !== `undefined` && localStorage.getItem(`userEmail`),
@@ -102,10 +102,10 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
           }}
         >
           <Box>
-            {queryData?.events[id as string] &&
+            {/* {queryData?.events[id as string] &&
               queryData?.events[id as string].status !== `Accepted` && (
                 <EventAlert event={queryData?.events[id as string]} />
-              )}
+              )} */}
             <Box
               key={data?._id}
               sx={{
@@ -145,21 +145,6 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                   }}
                 />
                 {data?.state}, {data?.city}
-              </Typography>
-              <Typography
-                fontWeight="600"
-                sx={{
-                  fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
-                  },
-                }}
-                color="primary.main"
-              >
-                {data?.budget && formatCurrency(data?.budget)}
               </Typography>
             </Box>
             {/* <Box
@@ -227,7 +212,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                   <Box>
                     <Image
                       src={
-                        queryData?.company?.image && queryData?.company?.image
+                        queryData?.providerProfile?.company?.image &&
+                        queryData?.providerProfile?.company?.image
                       }
                       alt="bannerImage"
                       fill
@@ -313,7 +299,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                       }}
                       textTransform="capitalize"
                     >
-                      {queryData?.firstName} {` `} {queryData?.lastName}
+                      {queryData?.profile?.firstName} {` `}
+                      {queryData?.profile?.lastName}
                     </Typography>
                   </Box>
                   <Box
@@ -357,8 +344,8 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                     }}
                   >
                     <Link href={`/account/preview/${data?._id}`}>
-                      {/* 
-                        TODO: Add a cancel button once the person has been requested 
+                      {/*
+                        TODO: Add a cancel button once the person has been requested
                         DONE: almost complete. Ask what this button does
                       */}
                       <Button variant="outlined" size="small">
@@ -446,7 +433,7 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                 }}
                 color="primary.main"
               >
-                {data.budget && formatCurrency(data?.budget)}
+                ₦ {data.budget && formatCurrency(data?.budget)}
               </Typography>
             </Box>
             <Box
@@ -454,17 +441,24 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
                 p: 4,
                 mt: 4,
                 backgroundColor: `secondary.light`,
+                textAlign: `center`,
               }}
             >
-              <CustomButton
-                onClick={handlePayment}
-                bgPrimary
-                disabled={data?.status === `paid` ? true : false}
-                lgWidth="100%"
-                loading={isSuccess}
-              >
-                {data?.status === `paid` ? `PAID` : `Make Payment`}
-              </CustomButton>
+              {data.status === `Requested` ? (
+                <Typography sx={{ fontWeight: `700`, color: `primary.main` }}>
+                  Awaiting Request
+                </Typography>
+              ) : (
+                <CustomButton
+                  onClick={handlePayment}
+                  bgPrimary
+                  disabled={data?.status === `paid` ? true : false}
+                  lgWidth="100%"
+                  loading={isSuccess}
+                >
+                  {data?.status === `paid` ? `PAID` : `Make Payment`}
+                </CustomButton>
+              )}
             </Box>
           </Box>
         </Box>
@@ -520,12 +514,12 @@ const EventDetailsPage = ({ token, data, queryData }: Props) => {
           </Box>
         </Box>
 
-        <ReviewFormFull
+        {/* <ReviewFormFull
           rating={queryData?.rating}
           token={token}
           profileId={queryData?.userId}
           role={queryData?.role}
-        />
+        /> */}
       </section>
     </DashboardLayout>
   );
@@ -546,7 +540,7 @@ export async function getServerSideProps({ req, params }: any) {
 
   // Fetch data based on the dynamicParam
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+    `${process.env.NEXT_PUBLIC_API1_URL}/contracts/${id}/contract`,
     {
       headers: {
         'Content-Type': `application/json`,
@@ -557,27 +551,27 @@ export async function getServerSideProps({ req, params }: any) {
 
   const data = await res.json();
 
-  const resData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/${
-      data?.data?.role && data?.data?.role === `planner`
-        ? `planner-profiles`
-        : `provider-profiles`
-    }/${data?.data?.parties.receiverId}`,
-    {
-      headers: {
-        'Content-Type': `application/json`,
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  // const resData = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/${
+  //     data?.data?.role && data?.data?.role === `planner`
+  //       ? `planner-profiles`
+  //       : `provider-profiles`
+  //   }/${data?.data?.parties.receiverId}`,
+  //   {
+  //     headers: {
+  //       'Content-Type': `application/json`,
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   },
+  // );
 
-  const plannerData = await resData.json();
+  // const plannerData = await resData.json();
 
   return {
     props: {
       token: token,
       data: data?.data,
-      queryData: plannerData?.data || null,
+      // queryData: plannerData?.data || null,
     },
   };
 }

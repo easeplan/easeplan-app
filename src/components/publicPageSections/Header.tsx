@@ -12,24 +12,23 @@ import { RootState } from '@/store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 const Header = ({ publicId }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleClick = () => {
     setToggleMenu(!toggleMenu);
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      dispatch(clearCredentials());
-    } catch (error: any) {}
-  };
+  // const handleLogout = async () => {
+  //   try {
+  //     await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+  //     dispatch(clearCredentials());
+  //   } catch (error: any) {}
+  // };
 
   const handledLogin = () => {
     router.push(`/login`);
@@ -40,39 +39,31 @@ const Header = ({ publicId }: any) => {
 
   return (
     <NavWrapper>
-      <MobileNav
-        show={toggleMenu}
-        handleClick={handleClick}
-        userInfo={userInfo}
-        publicId={publicId}
-      />
+      <MobileNav show={toggleMenu} handleClick={handleClick} />
       <Container maxWidth="xl">
         <Flex>
           <Logo />
           {!userInfo ? (
             <NavItemWrapper>
+              <NavItem href="/login" text="Login" />
               <Link href="/signup">
                 <CustomButton p="0 3rem" bgSecondary>
                   Sign up
                 </CustomButton>
               </Link>
+            </NavItemWrapper>
+          ) : (
+            <NavItemWrapper>
+              {/* <NavItem href="#" text="Logout" onClick={handleLogout} />
+              <NavItem href="/account" text="Dashboard" /> */}
               <Button type="button" color="secondary" onClick={handledLogin}>
                 Login
               </Button>
             </NavItemWrapper>
-          ) : (
-            <NavItemWrapper>
-              <NavItem href="#" text="Logout" onClick={handleLogout} />
-              <NavItem href="/account" text="Dashboard" />
-            </NavItemWrapper>
           )}
           <MenuIcon className="menuIcon" onClick={handleClick} />
         </Flex>
-        <MobileNav
-          show={toggleMenu}
-          handleClick={handleClick}
-          userInfo={userInfo}
-        />
+        <MobileNav show={toggleMenu} handleClick={handleClick} />
       </Container>
     </NavWrapper>
   );

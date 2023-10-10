@@ -46,12 +46,22 @@ const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`profiles/${userInfo}`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : null
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Service Price Updated`);

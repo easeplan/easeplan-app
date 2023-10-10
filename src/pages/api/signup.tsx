@@ -5,7 +5,7 @@ import cookie from 'cookie';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API1_URL}/auth/signup`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
       req.body,
     );
     if (!data) {
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const token = data?.token;
+    const token = data?.data?.accessToken;
 
     res.setHeader(
       `Set-Cookie`,

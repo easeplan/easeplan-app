@@ -18,7 +18,7 @@ export function formatCurrency(input: number | string): string {
 
   // Check if the converted input is a valid number
   if (isNaN(number)) {
-    return `0.00`; // return a default value
+    throw new Error(`Invalid input. Please provide a valid number.`);
   }
 
   // Convert the number to a string with two decimal places

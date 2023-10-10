@@ -44,11 +44,6 @@ const FormInput = ({
 }: InputProps) => {
   const [field, meta] = useField(props);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const trimmedValue = e.target.value.trim(); // Trim leading and trailing whitespace
-    field.onChange(e.target.name)(trimmedValue); // Call the formik field's onChange with the trimmed value
-  };
-
   return (
     <>
       {isSelect ? (
@@ -80,7 +75,6 @@ const FormInput = ({
             {...field}
             {...props}
             aria-label={ariaLabel}
-            onChange={handleInputChange}
           />
           {meta.touched && meta.error ? (
             <FormError text={meta.error}></FormError>
@@ -92,22 +86,22 @@ const FormInput = ({
 };
 
 const InputWrapper = styled(`div`)({
-  marginBottom: `0.5rem`,
+  marginBottom: `1rem`,
 });
 
 const Input = styled(`input`)({
-  padding: `0.9rem 1.5rem`,
+  padding: `1rem 1rem`,
   outline: `none`,
   width: `100%`,
   borderRadius: `10px`,
   fontSize: `1rem`,
   border: `solid 1px #ccc;`,
-  marginTop: `0.3rem`,
+  marginTop: `0.5rem`,
   background: `transparent`,
 
   '@media (max-width: 1020px)': {
-    fontSize: `0.8rem`,
-    padding: `1.2rem 1rem`,
+    fontSize: `1rem`,
+    padding: `1rem 1rem`,
   },
 
   '&:-webkit-autofill': {

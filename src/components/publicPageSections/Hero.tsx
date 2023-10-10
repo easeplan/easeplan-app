@@ -20,7 +20,7 @@ type Props = {
   publicId: string;
 };
 
-const Hero = ({ queryData, token, publicId }: any) => {
+const Hero = ({ queryData, token, publicId }: Props) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -58,9 +58,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
         <Box>
           <Image
             src={
-              queryData?.providerProfile?.company?.image
-                ? queryData?.providerProfile?.company?.image
-                : BannerImg
+              queryData?.company?.image ? queryData?.company?.image : BannerImg
             }
             alt="bannerImage"
             fill
@@ -104,7 +102,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
         >
           <Box>
             <Image
-              src={queryData?.profile?.picture}
+              src={queryData?.picture}
               alt="bannerImage"
               fill
               style={{
@@ -146,7 +144,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
+            {queryData?.firstName} {` `} {queryData?.lastName}
           </Typography>
         </Box>
         {userInfo && userInfo.role === `user` ? (
@@ -165,6 +163,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
               profileId={queryData?.userId}
               size="medium"
             />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
           </Box>
         ) : (
           <Box
@@ -183,6 +182,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
               profileId={queryData?.userId}
               size="medium"
             />
+            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
           </Box>
         )}
         <Box
@@ -300,13 +300,11 @@ const Hero = ({ queryData, token, publicId }: any) => {
                   mb: `1rem`,
                 }}
               >
-                {queryData?.providerProfile?.company?.name}
+                {queryData?.company?.name}
               </Typography>
             </Box>
             <Box>
-              <Typography>
-                {queryData?.providerProfile?.company?.description}
-              </Typography>
+              <Typography>{queryData?.company?.description}</Typography>
             </Box>
           </Box>
           <Box
@@ -330,44 +328,13 @@ const Hero = ({ queryData, token, publicId }: any) => {
               }}
             >
               <Box>
-                <Box>
-                  <Typography fontWeight={600} color="primary.main">
-                    Operational States:
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: `flex`,
-                      flexDirection: `column`,
-                    }}
-                  >
-                    {queryData?.providerProfile?.company?.operationStates.map(
-                      (item: any, i: any) => (
-                        <Typography key={i} ml={1} color="primary.main">
-                          {item}
-                        </Typography>
-                      ),
-                    )}
-                  </Box>
-                </Box>
-                <Box mt={2}>
-                  <Typography fontWeight={600} color="primary.main">
-                    Operational Cities:
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: `flex`,
-                      flexDirection: `column`,
-                    }}
-                  >
-                    {queryData?.providerProfile?.company?.operationCities.map(
-                      (item: any, i: any) => (
-                        <Typography key={i} ml={1} color="primary.main">
-                          {item}
-                        </Typography>
-                      ),
-                    )}
-                  </Box>
-                </Box>
+                <Typography fontWeight={600} color="primary.main">
+                  <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
+                  Location:
+                </Typography>
+                <Typography fontWeight={500} color="primary.main">
+                  {queryData?.state} {queryData?.city}
+                </Typography>
               </Box>
               <Box mt={4}>
                 <Typography fontWeight={600} color="primary.main">

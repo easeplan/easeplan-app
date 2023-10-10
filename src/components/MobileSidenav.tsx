@@ -6,39 +6,38 @@ import StyleIcon from '@mui/icons-material/Style';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MobileNavItems from './MobileNavItems';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 export { getServerSideProps } from '@/context/contextStore';
 
-const MobileSidenav = ({ data }: any) => {
+const MobileSidenav = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   return (
     <MobileStyle>
       <FlexContainer>
-        {data?.providerProfile ? (
+        {userInfo?.role === `user` ? null : (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
             text="Wallet"
             href="/account/wallet"
           />
-        ) : null}
+        )}
         <MobileNavItems
           icon={<StyleIcon />}
           text="Events"
           href="/account/history"
         />
 
-        {data?.providerProfile ? (
+        {userInfo?.role === `user` ? null : (
           <MobileNavItems
             text="Dashboard"
             icon={<DashboardIcon className="Homeicon" />}
             href="/account"
           />
-        ) : null}
+        )}
 
         <MobileNavItems
           text="Chat"
@@ -46,27 +45,18 @@ const MobileSidenav = ({ data }: any) => {
           href="/account/chats"
         />
 
-        {data?.providerProfile ? null : (
+        {userInfo?.role === `user` ? (
           <MobileNavItems
             text="Dashboard"
             icon={<DashboardIcon className="Homeicon" />}
             href="/account"
           />
-        )}
-
-        {data?.providerProfile ? (
-          <MobileNavItems
-            text="Profile"
-            icon={<ChromeReaderModeIcon />}
-            href="/account/profile"
-          />
-        ) : (
-          <MobileNavItems
-            text="Settings"
-            icon={<SettingsIcon />}
-            href="/account/settings"
-          />
-        )}
+        ) : null}
+        <MobileNavItems
+          text="Settings"
+          icon={<SettingsIcon />}
+          href="/account/settings"
+        />
       </FlexContainer>
     </MobileStyle>
   );

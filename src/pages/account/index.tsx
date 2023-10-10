@@ -32,7 +32,7 @@ const HomePage = ({ token }: Props) => {
   const fetchContracts = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API1_URL}/contracts/${userInfo?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo?._id}`,
         {
           headers: {
             'Content-Type': `application/json`,
@@ -55,7 +55,15 @@ const HomePage = ({ token }: Props) => {
   }, []);
 
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `user-profiles`
+        : `user-profiles`
+    }/${userInfo?._id}`,
     token,
   );
 
@@ -67,14 +75,12 @@ const HomePage = ({ token }: Props) => {
     return <ErrorPage />;
   }
 
-  console.log(queryData);
-
   return (
     <>
       <DashboardLayout token={token}>
-        {queryData?.provider?.providerProfile ? (
+        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <>
-            {!queryData?.provider?.providerProfile?.verified && (
+            {queryData?.verified === false && (
               <Alert
                 severity="error"
                 sx={{
@@ -123,7 +129,9 @@ const HomePage = ({ token }: Props) => {
           </>
         ) : null}
 
-        {queryData?.provider?.providerProfile && <Dashboard data={queryData} />}
+        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
+          <Dashboard data={queryData} />
+        ) : null}
         {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
           <>
             {contracts
@@ -234,112 +242,115 @@ const HomePage = ({ token }: Props) => {
           </Box>
         ) : null}
 
-        <FinderSection
-          token={token}
-          queryData={queryData?.provider}
-          notificationData={notificationData}
-        />
-
-        <>
-          {contracts?.length < 1 ? (
-            <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
-              <Typography>Your ongoing events will show here</Typography>
-            </Box>
-          ) : (
-            <>
-              {contracts?.map((list: any) => (
-                <Box key={list._id}>
-                  {list.status === `Requested` ? (
-                    <Box
-                      key={list?._id}
-                      sx={{
-                        display: `flex`,
-                        justifyContent: `space-between`,
-                        alignItems: `center`,
-                        flexDirection: {
-                          xs: `column`,
-                          sm: `column`,
-                          md: `row`,
-                          lg: `row`,
-                          xl: `row`,
-                        },
-                        p: {
-                          xs: 3,
-                          sm: 3,
-                          md: 3,
-                          lg: 4,
-                        },
-                        mt: 4,
-                        border: ` solid 1px #ccc`,
-                      }}
-                    >
-                      <Box>
-                        <Box>
-                          <Typography
-                            fontWeight="600"
-                            fontSize="1.2rem"
-                            color="primary.main"
-                          >
-                            Are you available for this gig?
-                          </Typography>
-                          <Typography color="grey.500" mt={1}>
-                            If you are please accept the event or decline if you
-                            are not available
-                          </Typography>
-                        </Box>
-                      </Box>
+        {userInfo?.role === `user` ? null : (
+          <>
+            {contracts?.length < 1 ? (
+              <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+                <Typography>Your ongoing events will show here</Typography>
+              </Box>
+            ) : (
+              <>
+                {contracts?.map((list: any) => (
+                  <Box key={list._id}>
+                    {list.status === `Requested` ? (
                       <Box
+                        key={list?._id}
                         sx={{
                           display: `flex`,
-                          // alignItems: `start`,
-                          justifyContent: `start`,
-                          gap: `2rem`,
-                          textAlign: `center`,
-                          width: {
-                            xs: `100%`,
-                            sm: `100%`,
-                            lg: `auto`,
+                          justifyContent: `space-between`,
+                          alignItems: `center`,
+                          flexDirection: {
+                            xs: `column`,
+                            sm: `column`,
+                            md: `row`,
+                            lg: `row`,
+                            xl: `row`,
                           },
-                          mt: {
-                            xs: `2rem`,
-                            sm: `2rem`,
+                          p: {
+                            xs: 3,
+                            sm: 3,
+                            md: 3,
+                            lg: 4,
                           },
+                          mt: 4,
+                          border: ` solid 1px #ccc`,
                         }}
                       >
-                        <Link
-                          href="/dashboard/support"
-                          style={{ marginRight: `0.3rem` }}
+                        <Box>
+                          <Box>
+                            <Typography
+                              fontWeight="600"
+                              fontSize="1.2rem"
+                              color="primary.main"
+                            >
+                              Are you available for this gig?
+                            </Typography>
+                            <Typography color="grey.500" mt={1}>
+                              If you are please accept the event or decline if
+                              you are not available
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            // alignItems: `start`,
+                            justifyContent: `start`,
+                            gap: `2rem`,
+                            textAlign: `center`,
+                            width: {
+                              xs: `100%`,
+                              sm: `100%`,
+                              lg: `auto`,
+                            },
+                            mt: {
+                              xs: `2rem`,
+                              sm: `2rem`,
+                            },
+                          }}
                         >
-                          <Button
-                            type="button"
-                            variant="outlined"
-                            sx={{
-                              textTransform: `capitalize`,
-                            }}
+                          <Link
+                            href="/dashboard/support"
+                            style={{ marginRight: `0.3rem` }}
                           >
-                            Declined offer
-                          </Button>
-                        </Link>
-                        <Link href={`/account/contracts/${list?._id}`}>
-                          <Button
-                            type="button"
-                            variant="contained"
-                            sx={{
-                              textTransform: `capitalize`,
-                              color: `secondary.main`,
-                            }}
-                          >
-                            View offer
-                          </Button>
-                        </Link>
+                            <Button
+                              type="button"
+                              variant="outlined"
+                              sx={{
+                                textTransform: `capitalize`,
+                              }}
+                            >
+                              Declined offer
+                            </Button>
+                          </Link>
+                          <Link href={`/account/contracts/${list?._id}`}>
+                            <Button
+                              type="button"
+                              variant="contained"
+                              sx={{
+                                textTransform: `capitalize`,
+                                color: `secondary.main`,
+                              }}
+                            >
+                              View offer
+                            </Button>
+                          </Link>
+                        </Box>
                       </Box>
-                    </Box>
-                  ) : null}
-                </Box>
-              ))}
-            </>
-          )}
-        </>
+                    ) : null}
+                  </Box>
+                ))}
+              </>
+            )}
+          </>
+        )}
+        {userInfo?.role === `user` && (
+          <FinderSection
+            token={token}
+            queryData={queryData}
+            notificationData={notificationData}
+          />
+        )}
       </DashboardLayout>
     </>
   );

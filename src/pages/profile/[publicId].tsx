@@ -40,12 +40,12 @@ const PublicProfilePage = ({ data, publicId }: any) => {
       </Head>
       <Layout publicId={publicId}>
         <Box>
-          <Hero queryData={data} publicId={publicId} />
-          {/* <PricingSection queryData={data} /> */}
-          <Divider sx={{ mt: 6 }} />
-          <PreviousEvent queryData={data} />
+          <Hero queryData={data?.data} publicId={publicId} />
+          <PricingSection queryData={data?.data} />
           <Divider />
-          <ClientReviews queryData={data} />
+          <PreviousEvent queryData={data?.data} />
+          <Divider />
+          <ClientReviews queryData={data?.data} />
         </Box>
       </Layout>
     </>
@@ -62,7 +62,7 @@ export async function getServerSideProps(
   // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API1_URL}/profiles/profile/${publicId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,
   );
 
   const data = await res.json();

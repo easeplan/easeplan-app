@@ -50,8 +50,8 @@ export const Input = styled(`input`)`
   border: 1px solid #dfe1f0;
   outline: none;
   width: 100%;
-  // height: 50px;
-  padding: 0.9rem 1.5rem;
+  height: 50px;
+  padding: 0 16px;
   background: #fff;
   color: #1e1e64;
   border-radius: 10px;
@@ -60,9 +60,4 @@ export const Input = styled(`input`)`
   font-size: 1rem;
   border: solid 1px #ccc;
   background: transparent;
-
-  // '@media (max-width: 1020px)': {
-  //   font-size: 0.8rem;
-  //   padding: 0.8rem 1rem;
-  // }
 `;

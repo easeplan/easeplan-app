@@ -152,8 +152,8 @@ const WelcomeScreen = () => {
                       mt: 1,
                     }}
                   >
-                    Add your profile picture, description, and professional
-                    information.
+                    Add pictures of your previous jobs to convince clients / get
+                    credits.
                   </Typography>
                 </Box>
               </Box>
@@ -195,8 +195,8 @@ const WelcomeScreen = () => {
                       mt: 1,
                     }}
                   >
-                    Add your profile picture, description, and professional
-                    information.
+                    Complete your profile information to be able to
+                    withdraw your earnings.
                   </Typography>
                 </Box>
               </Box>

@@ -70,11 +70,11 @@ export default function MultipleSelectState({
             borderRadius: `10px`,
             overflowX: `hidden`,
             width: {
-              xs: `295px`,
-              sm: `295px`,
-              md: `300px`,
-              lg: `400px`,
-              xl: `400px`,
+              xs: `100%`,
+              sm: `100%`,
+              md: `100%`,
+              lg: `100%`,
+              xl: `100%`,
             },
           }}
           inputProps={{ 'aria-label': `Without label` }}
@@ -92,6 +92,9 @@ export default function MultipleSelectState({
                 sx={{
                   color: `primary.main`,
                   fontWeight: `500`,
+                  textOverflow: `ellipsis`,
+                  whiteSpace: `nowrap`,
+                  overflow: `hidden`,
                 }}
               >
                 {state.name}

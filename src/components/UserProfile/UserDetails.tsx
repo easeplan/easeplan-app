@@ -141,23 +141,39 @@ const UserDetails = ({ queryData, token }: any) => {
                 <EditButton onClick={handleOpenModal}>
                   <CreateOutlinedIcon className="icon" />
                 </EditButton>
-                <Box sx={{ display: `flex`, alignItems: `center` }}>
-                  <Box>
-                    <Typography fontWeight={600} color="primary.main">
-                      State
-                    </Typography>
-                    <Typography color="primary.main">
-                      {queryData?.providerProfile?.state}
-                    </Typography>
-                  </Box>
-                  <Box ml={2}>
-                    <Typography fontWeight={600} color="primary.main">
-                      City
-                    </Typography>
-                    <Typography color="primary.main">
-                      {queryData?.providerProfile?.city}
-                    </Typography>
-                  </Box>
+                <Typography fontWeight={600} color="primary.main">
+                  Operational States:
+                </Typography>
+                <Box
+                  sx={{
+                    display: `flex`,
+                  }}
+                >
+                  {queryData?.providerProfile?.company?.operationStates.map(
+                    (item: any, i: any) => (
+                      <Typography key={i} ml={1} color="primary.main">
+                        {item}
+                      </Typography>
+                    ),
+                  )}
+                </Box>
+              </Box>
+              <Box mt={2}>
+                <Typography fontWeight={600} color="primary.main">
+                  Operational Cities:
+                </Typography>
+                <Box
+                  sx={{
+                    display: `flex`,
+                  }}
+                >
+                  {queryData?.providerProfile?.company?.operationCities.map(
+                    (item: any, i: any) => (
+                      <Typography key={i} ml={1} color="primary.main">
+                        {item}
+                      </Typography>
+                    ),
+                  )}
                 </Box>
               </Box>
             </Box>

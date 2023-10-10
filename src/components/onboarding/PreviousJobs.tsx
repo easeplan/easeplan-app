@@ -58,7 +58,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
             </Typography>
           </div>
           <div>
-            {queryData?.providerProfile?.samples?.length >= 3 ? (
+            {queryData?.provider?.providerProfile?.samples?.length >= 3 ? (
               <Button variant="contained" onClick={handleNextSlide}>
                 Procceed
               </Button>
@@ -88,7 +88,9 @@ const PreviousJobs = ({ queryData, token }: any) => {
             sx={{
               borderRadius: `1px`,
               height: `${
-                !queryData?.providerProfile?.samples?.length ? `250px` : `100%`
+                !queryData?.provider?.providerProfile?.samples?.length
+                  ? `250px`
+                  : `100%`
               }`,
               width: `100%`,
               background: `#ccc`,
@@ -101,7 +103,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
               Add Photo
             </Button>
           </Box>
-          {queryData?.providerProfile?.samples?.map((data: any) => (
+          {queryData?.provider?.providerProfile?.samples?.map((data: any) => (
             <Box
               key={data?._id}
               sx={{

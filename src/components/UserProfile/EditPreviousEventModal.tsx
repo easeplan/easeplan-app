@@ -54,7 +54,7 @@ const EditPreviousEventModal = ({
   const { mutate: handleUpdate, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.put(
-        `profiles/${userInfo?._id}/edit-sample/${eventId}`,
+        `profiles/${userInfo}/edit-sample/${eventId}`,
         credentials,
         {
           headers: {

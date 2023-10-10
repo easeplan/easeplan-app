@@ -64,11 +64,11 @@ export default function MultipleSelectCity({ name, setServices, cities }: any) {
             borderRadius: `10px`,
             overflowX: `hidden`,
             width: {
-              xs: `295px`,
-              sm: `295px`,
-              md: `300px`,
-              lg: `400px`,
-              xl: `400px`,
+              xs: `100%`,
+              sm: `100%`,
+              md: `100%`,
+              lg: `100%`,
+              xl: `100%`,
             },
           }}
           inputProps={{ 'aria-label': `Without label` }}

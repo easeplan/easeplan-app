@@ -24,7 +24,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: (sampleId: string) =>
-      customFetch.put(`profiles/${userInfo?._id}/delete-sample/${sampleId}`, {
+      customFetch.put(`profiles/${userInfo}/delete-sample/${sampleId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

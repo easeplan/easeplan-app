@@ -26,6 +26,7 @@ import MultipleSelectState from './MultipleSelectState';
 import MultipleSelectCity from './MultipleSelectCity';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
+import SelectState from '../common/SelectState';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -75,6 +76,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const [fileName, setFileName] = useState<any>(null);
   const [coverImgName, setCoverImgName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [opsSelectedState, setSelectedOpsState] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
   const [selectedCities, setSelectedCities] = useState<any>();
   const [servicesType, setServicesType] = useState<any>();
@@ -262,7 +264,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   onSubmit={(values) => handleFormSubmit(values)}
                   // validationSchema={ProfileSchema}
                 >
-                  {({}) => (
+                  {({ setFieldValue }) => (
                     <Form>
                       <Box
                         sx={{
@@ -283,7 +285,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             }}
                           >
                             <AddButton htmlFor="picture">
-                              <CameraAltIcon className="icon" />
+                              <CameraAltIcon
+                                className="icon"
+                                sx={{
+                                  color: `primary.main`,
+                                  backgroundColor: `secondary.main`,
+                                  p: `0.2rem`,
+                                  borderRaduis: `10px`,
+                                }}
+                              />
                               <Input
                                 type="file"
                                 setPreviewImg={setPreviewImg}
@@ -294,13 +304,23 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             </AddButton>
                             {previewImg === null ? (
                               <div>
-                                <Image
-                                  src={AvatarImg}
-                                  alt="profileImg"
-                                  height={80}
-                                  width={80}
-                                  style={{ borderRadius: `50%` }}
-                                />
+                                {queryData?.provider?.profile?.picture ? (
+                                  <Image
+                                    src={queryData?.provider?.profile?.picture}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                ) : (
+                                  <Image
+                                    src={AvatarImg}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                )}
                               </div>
                             ) : (
                               <Box>
@@ -377,20 +397,41 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           </FormInput>
                         </Box>
                         <Box>
-                          <FormInput
-                            ariaLabel="State"
+                          <SelectState
+                            selectPlaceholder="Select State"
                             name="state"
-                            type="text"
-                            placeholder="State"
-                          />
+                            onChange={(e: { target: { value: string } }) => {
+                              const selectedState = data?.states.find(
+                                (state) => state.name === e.target.value,
+                              );
+                              setSelectedState(selectedState);
+                              setFieldValue(`state`, e.target.value);
+                              setFieldValue(`city`, ``);
+                            }}
+                          >
+                            {data?.states?.map((state: any) => {
+                              return (
+                                <MenuItem key={state?.name} value={state.name}>
+                                  {state?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </SelectState>
                         </Box>
                         <Box>
                           <FormInput
-                            ariaLabel="City"
+                            isSelect
+                            selectPlaceholder="Select City"
                             name="city"
-                            type="text"
-                            placeholder="City"
-                          />
+                          >
+                            {selectedState?.cities?.map((city: any) => {
+                              return (
+                                <MenuItem key={city} value={city}>
+                                  {city}
+                                </MenuItem>
+                              );
+                            })}
+                          </FormInput>
                         </Box>
                       </Box>
 
@@ -522,7 +563,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         <Box>
                           <MultipleSelectState
                             name="operationStates"
-                            setServices={setSelectedState}
+                            setServices={setSelectedOpsState}
                             states={data?.states}
                           />
                         </Box>
@@ -657,6 +698,7 @@ const AddButton = styled(`label`)(({}) => ({
   '.icon': {
     fontSize: `2rem`,
     marginRight: `1rem`,
+    borderRadius: `8px`,
   },
 
   'input[type="file"]': {

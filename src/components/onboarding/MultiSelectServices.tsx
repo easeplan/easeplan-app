@@ -66,9 +66,9 @@ export default function MultipleSelect({ name, setServices, services }: any) {
             width: {
               xs: `300px`,
               sm: `300px`,
-              md: `300px`,
-              lg: `400px`,
-              xl: `400px`,
+              md: `100%`,
+              lg: `100%`,
+              xl: `100%`,
             },
           }}
           inputProps={{ 'aria-label': `Without label` }}

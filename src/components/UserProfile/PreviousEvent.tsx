@@ -96,7 +96,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
         <Box
           sx={{
             border: `none`,
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.primary.main,
             boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
             zIndex: `1`,
             display: `flex`,
@@ -105,11 +105,11 @@ const PreviousEvent = ({ queryData, token }: any) => {
             cursor: `pointer`,
             verticalAlign: `middle`,
             borderRadius: `10px`,
-            color: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
             height: `40px`,
             width: `auto`,
             transition: `all 0.3s ease`,
-            px: 5,
+            px: 2,
             fontWeight: `800`,
 
             '&:hover': {

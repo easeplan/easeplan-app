@@ -172,7 +172,7 @@ const InboxPage = ({ token }: any) => {
     return () => {
       socket.disconnect();
     };
-  }, [dispatch, messages, userInfo?._id, activeUserData?._id]);
+  }, [dispatch, messages, userInfo, activeUserData?._id]);
 
   const activeUser = (arr: any) => {
     const activeUsers: any = [];

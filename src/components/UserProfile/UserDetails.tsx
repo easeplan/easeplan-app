@@ -165,6 +165,13 @@ const UserDetails = ({ queryData, token }: any) => {
                 <Box
                   sx={{
                     display: `flex`,
+                    flexDirection: {
+                      xs: `column`,
+                      sm: `column`,
+                      md: `column`,
+                      lg: `row`,
+                      xl: `row`,
+                    },
                   }}
                 >
                   {queryData?.providerProfile?.company?.operationCities.map(

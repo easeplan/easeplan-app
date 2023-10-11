@@ -83,10 +83,16 @@ const PaymentModal = ({
       try {
         setIsLoading(true);
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/withdraw/create`,
+          `${process.env.NEXT_PUBLIC_API1_URL}/withdraw/create`,
           newData,
           {
             headers: {
+              budget: credentials.budget,
+              dateTime: credentials.dateTime,
+              profileId: queryData?._id,
+              city: queryData?.providerProfile?.city,
+              state: queryData.providerProfile?.state,
+              service: credentials.service,
               'Content-Type': `application/json`,
               Authorization: `Bearer ${token}`,
             },

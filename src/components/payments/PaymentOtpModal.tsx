@@ -50,7 +50,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
     try {
       setIsLoading(true);
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-payment-token`,
+        `${process.env.NEXT_PUBLIC_API1_URL}/auth/verify-payment-token`,
         credentials,
         {
           headers: {

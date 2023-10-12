@@ -32,11 +32,8 @@ const Layout = ({ children }: any) => {
             },
           }}
         >
-          <Box sx={{ display: `flex` }}>
+          <Box>
             <SearchDrawer />
-            <Button variant="text" startIcon={<FilterListIcon />}>
-              Filter
-            </Button>
           </Box>
         </Box>
         {children}

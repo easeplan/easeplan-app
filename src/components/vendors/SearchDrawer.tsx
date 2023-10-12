@@ -70,7 +70,15 @@ export default function SearchDrawer() {
               mr: 6,
               display: `flex`,
               alignItems: `center`,
+              justifyContent: `space-between`,
               py: 1,
+              width: {
+                xs: `100%`,
+                sm: `100%`,
+                md: `20rem`,
+                lg: `30rem`,
+                xl: `30rem`,
+              },
               '&:hover': {
                 background: `#fff`,
               },

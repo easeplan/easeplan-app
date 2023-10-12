@@ -73,6 +73,11 @@ const Header = () => {
                 borderColor: `secondary.main`,
                 textTransform: `inherit`,
                 mr: 6,
+                '&:hover': {
+                  borderColor: `secondary.main`,
+                  color: `primary.main`,
+                  backgroundColor: `secondary.main`,
+                },
               }}
             >
               Become a vendor

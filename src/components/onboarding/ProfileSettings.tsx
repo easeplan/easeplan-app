@@ -135,7 +135,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         },
       };
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API1_URL}/onboarding`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         resData,
         {
           headers: {

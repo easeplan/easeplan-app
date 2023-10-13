@@ -72,7 +72,7 @@ const FindVendorModal = ({ token }: any) => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/provider/search?${queryString}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles/provider/search?${queryString}`,
         {
           method: `GET`,
           headers: {

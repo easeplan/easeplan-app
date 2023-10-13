@@ -59,7 +59,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
     setIsLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
         {
           budget: credentials.budget,
           dateTime: credentials.dateTime,

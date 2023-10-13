@@ -73,7 +73,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
     try {
       handleUpdateContract(credentials);
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API1_URL}/profiles/create-offer`,
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
         credentials,
         {
           headers: {

@@ -32,7 +32,7 @@ const HomePage = ({ token }: Props) => {
   const fetchContracts = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API1_URL}/contracts/${userInfo?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo?._id}`,
         {
           headers: {
             'Content-Type': `application/json`,

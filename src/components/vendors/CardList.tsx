@@ -15,6 +15,7 @@ const CardList = () => {
           xl: `1fr 1fr 1fr 1fr`,
         },
         gap: `2rem`,
+        my: 4,
       }}
     >
       {[0, 1, 2, 3, 4, 5, 6, 7].map((data, i) => (

@@ -103,8 +103,9 @@ const VendorPage = () => {
                 variant="text"
                 sx={{
                   textWrap: `nowrap`,
-                  fontWeight: `500`,
+                  fontWeight: `900`,
                   cursor: `pointer`,
+                  color: `primary.main`,
                 }}
               >
                 {service.title}

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Container, Box, Typography } from '@mui/material';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Link from 'next/link';
 import Logo from './Logo';
 import AvatarMenu from './AvatarMenu';
@@ -16,7 +17,18 @@ const NavHeader = ({ token }: any) => {
   //   unreadConversationMessagesCount,
   // } = useSelector((state: RootState) => state.chatsData);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { queryData } = useFetch(
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `user-profiles`
+        : `user-profiles`
+    }/${userInfo?._id}`,
+    token,
+  );
 
   return (
     <Navbar>
@@ -25,21 +37,7 @@ const NavHeader = ({ token }: any) => {
           <div className="logoWrapper">
             <Logo />
           </div>
-          <Typography
-            fontWeight={700}
-            color="primary.main"
-            sx={{
-              display: {
-                xs: `none`,
-                sm: `none`,
-                md: `block`,
-                lg: `block`,
-                xl: `block`,
-              },
-            }}
-          >
-            🥰 Nice to have you here {queryData?.provider?.profile?.firstName}
-          </Typography>
+          <h3 className="title">Welcome, {queryData?.firstName}</h3>
           <Box
             sx={{
               display: `flex`,
@@ -60,28 +58,42 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            {queryData?.provider?.providerProfile ? null : (
-              <Link href="/account/onboard">
-                <Button
-                  variant="outlined"
+            <Link href="/account/chats">
+              <Icon>
+                {/* <Box
                   sx={{
-                    textTransform: `capitalize`,
-                    fontWeight: `700`,
-                    paddingX: `0.9rem`,
-                    paddingY: `0.6rem`,
+                    width: `20px`,
+                    height: `20px`,
+                    borderRadius: `16px`,
+                    position: `absolute`,
+                    top: `0rem`,
+                    left: `0rem`,
+                    backgroundColor: `info.main`,
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `center`,
+
+                    '@media (max-width: 900px)': {
+                      width: `17px`,
+                      height: `17px`,
+                      position: `absolute`,
+                      top: `-0.2rem`,
+                      right: `1rem`,
+                    },
                   }}
                 >
-                  Become a Vendor
-                </Button>
-              </Link>
-            )}
+                  <Typography>{allUnreadConversationMessagesCount}</Typography>
+                </Box> */}
+                <InsertCommentIcon className="icon" />
+              </Icon>
+            </Link>
             <NotificationDropdown
               token={token}
               notificationData={notifyData}
               queryData={queryData}
             />
             <AvatarMenu
-              imgSrc={queryData?.provider?.profile?.picture}
+              imgSrc={queryData?.picture}
               alt="userImage"
               height={100}
               width={100}

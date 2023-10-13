@@ -103,7 +103,15 @@ const SupportPage = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [value, setValue] = useState(0);
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `user-profiles`
+        : `user-profiles`
+    }/${userInfo?._id}`,
     token,
   );
 

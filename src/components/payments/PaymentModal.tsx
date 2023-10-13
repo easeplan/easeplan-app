@@ -33,9 +33,7 @@ const style = {
 };
 
 const PaymentSchema = Yup.object().shape({
-  amount: Yup.string()
-    .trim(`The contact name cannot include leading and trailing spaces`)
-    .required(`Amount is required`),
+  amount: Yup.string().required(`Amount is required`),
 });
 
 const PaymentModal = ({
@@ -98,6 +96,7 @@ const PaymentModal = ({
             },
           },
         );
+        console.log(data);
         if (data.status === `success`) {
           setIsLoading(false);
           setIsSuccess(true);

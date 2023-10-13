@@ -41,16 +41,14 @@ const AboutCompany = ({ queryData, token }: any) => {
             },
           }}
         >
-          {queryData?.providerProfile?.company?.name}
+          About {queryData?.company?.name}
         </Typography>
         <EditButton onClick={handleOpenModal}>
           <CreateOutlinedIcon className="icon" />
         </EditButton>
       </Box>
       <Box>
-        <Typography>
-          {queryData?.providerProfile?.company?.description}
-        </Typography>
+        <Typography>{queryData?.company?.description}</Typography>
       </Box>
     </Box>
   );

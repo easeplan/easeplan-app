@@ -12,7 +12,7 @@ import theme from '@/styles/theme';
 const ClientReviews = ({ queryData }: any) => {
   return (
     <>
-      {queryData?.providerProfile?.ratings.length > 0 && (
+      {queryData?.ratings.length > 0 && (
         <Box
           mt={8}
           mb={13}
@@ -71,7 +71,7 @@ const ClientReviews = ({ queryData }: any) => {
                 },
               }}
             >
-              {queryData?.providerProfile?.ratings.map((reviews: any) => (
+              {queryData?.ratings.map((reviews: any) => (
                 <SwiperSlide key={reviews.id}>
                   <Box
                     sx={{

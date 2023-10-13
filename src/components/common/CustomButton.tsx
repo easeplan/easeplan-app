@@ -64,7 +64,7 @@ const CustomButton = ({
         fontSize: fontSize || `0.9rem`,
       }}
       style={{
-        height: height || `2.5rem`,
+        height: height || `3rem`,
         backgroundColor: bgPrimary
           ? theme.palette.primary.main
           : bgSecondary

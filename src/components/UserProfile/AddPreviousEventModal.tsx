@@ -50,12 +50,22 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const { mutate: handleUpdate, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`profiles/${userInfo}/add-sample`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}/add-sample`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}/add-sample`
+            : null
+        }`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Event Datails Added`);

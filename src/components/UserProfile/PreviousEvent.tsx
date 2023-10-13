@@ -29,7 +29,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
           'Content-Type': `application/json`,
           Authorization: `Bearer ${token}`,
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Deleted`);
@@ -141,10 +141,11 @@ const PreviousEvent = ({ queryData, token }: any) => {
           mt: `3rem`,
         }}
       >
-        {queryData?.providerProfile?.samples.map((data: any, i: any) => (
+        {queryData.samples.map((data: any, i: any) => (
           <Box
             key={i}
             sx={{
+              borderRadius: `10px`,
               height: `100%`,
               position: `relative`,
             }}
@@ -192,31 +193,32 @@ const PreviousEvent = ({ queryData, token }: any) => {
                 position: `absolute`,
                 bottom: `0`,
                 zIndez: `1`,
+                background: `#ffff`,
                 color: `#fff`,
+                borderRadius: `10px`,
               }}
             >
               <Typography fontWeight="bold">{data?.title}</Typography>
-              <Box sx={{ display: `flex`, gap: `0.5rem`, cursor: `pointer` }}>
-                <CreateOutlinedIcon
-                  sx={{
-                    color: `primary.main`,
-                    background: `#ffff`,
-                    padding: `0.5rem`,
-                    fontSize: `2.5rem`,
-                    borderRadius: `10px`,
-                  }}
+              {/* <Typography mt={2}>{data?.description}</Typography> */}
+              <Box sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}>
+                <Button
                   onClick={() => handleEdit(data)}
-                />
-                <DeleteIcon
-                  sx={{
-                    color: `red`,
-                    background: `#ffff`,
-                    padding: `0.5rem`,
-                    fontSize: `2.5rem`,
-                    borderRadius: `10px`,
-                  }}
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  startIcon={<CreateOutlinedIcon />}
+                >
+                  Edit
+                </Button>
+                <Button
                   onClick={() => handleEventDelete(data?._id)}
-                />
+                  variant="contained"
+                  color="error"
+                  size="small"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
               </Box>
             </Box>
           </Box>

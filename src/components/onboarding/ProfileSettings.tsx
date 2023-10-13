@@ -634,49 +634,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
               </Box>
             </Box>
           </Box>
-          {/* <Box
-            sx={{
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `35%`,
-              position: `sticky`,
-              top: `0`,
-              height: `100vh`,
-              display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
-              },
-            }}
-          >
-            <Box
-              sx={{
-                width: `100%`,
-              }}
-            >
-              <Box
-                component={motion.div}
-                {...headTextAnimation}
-                sx={{
-                  position: `relative`,
-                }}
-              >
-                <Image src={logoImg} alt="logoImage" height={30} width={150} />
-              </Box>
-              <Box
-                sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `400px`,
-                  mt: `8rem`,
-                }}
-              >
-                <Image src={IllusImg} alt="logoImage" fill />
-              </Box>
-            </Box>
-          </Box> */}
         </Box>
       )}
     </Box>

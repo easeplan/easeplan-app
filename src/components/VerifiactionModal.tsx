@@ -65,7 +65,7 @@ const VerifiactionModal = ({
     try {
       setIsLoading(true);
       const { data } = await axios.put(
-        `${process.env.NEXT_PUBLIC_API1_URL}/auth/verify-email`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
         { email: userEmail, token },
       );
       if (data.status === `success`) {

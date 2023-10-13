@@ -540,7 +540,7 @@ export async function getServerSideProps({ req, params }: any) {
 
   // Fetch data based on the dynamicParam
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API1_URL}/contracts/${id}/contract`,
+    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
         'Content-Type': `application/json`,

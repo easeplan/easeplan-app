@@ -83,7 +83,7 @@ const PaymentModal = ({
       try {
         setIsLoading(true);
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API1_URL}/withdraw/create`,
+          `${process.env.NEXT_PUBLIC_API_URL}/withdraw/create`,
           newData,
           {
             headers: {

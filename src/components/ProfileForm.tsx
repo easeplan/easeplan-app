@@ -44,19 +44,30 @@ const ProfileForm = ({ token, queryData }: Props) => {
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [fileName, setFileName] = useState<any>(null);
   const [previewImg, setPreviewImg] = useState<any>(
-    queryData?.profile?.picture ? queryData?.profile?.picture : null,
+    queryData?.picture ? queryData?.picture : null,
   );
+  const [selectedState, setSelectedState] = useState<any>();
 
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.put(`profiles/${userInfo?._id}`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
+      customFetch.put(
+        `/${
+          userInfo?.role === `provider`
+            ? `provider-profiles/${userInfo?._id}`
+            : userInfo?.role === `planner`
+            ? `planner-profiles/${userInfo?._id}`
+            : `user-profiles/${userInfo?._id}`
+        }/`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Profile updated`);
@@ -77,15 +88,11 @@ const ProfileForm = ({ token, queryData }: Props) => {
       <h3 className="title">Profile Settings</h3>
       <Formik
         initialValues={{
-          firstName: queryData?.profile?.firstName
-            ? queryData?.profile?.firstName
-            : ``,
-          lastName: queryData?.profile?.lastName
-            ? queryData?.profile?.lastName
-            : ``,
-          picture: queryData?.profile?.picture
-            ? queryData?.profile?.picture
-            : ``,
+          firstName: queryData?.firstName ? queryData?.firstName : ``,
+          lastName: queryData?.lastName ? queryData?.lastName : ``,
+          city: queryData?.city ? queryData?.city : ``,
+          state: queryData?.state ? queryData?.state : ``,
+          picture: queryData?.picture ? queryData?.picture : ``,
           password: ``,
           confirmPassword: ``,
         }}
@@ -137,9 +144,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                 >
                   <div>
                     <AddButton htmlFor="picture">
-                      {queryData?.profile?.picture
-                        ? `Change Photo`
-                        : `Add Photo`}
+                      {queryData?.picture ? `Change Photo` : `Add Photo`}
                       <Input
                         type="file"
                         setPreviewImg={setPreviewImg}
@@ -172,7 +177,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                     )}
                   </div>
                 </Box>
-                {/* <div className="flex">
+                <div className="flex">
                   <div>
                     <div>
                       <Label text="State" />
@@ -218,7 +223,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                       </FormInput>
                     </div>
                   )}
-                </div> */}
+                </div>
                 <div>
                   {changePassword ? (
                     <>
@@ -264,11 +269,15 @@ const ProfileForm = ({ token, queryData }: Props) => {
                       </div>
                     </>
                   ) : null}
-                  <PasswordBtn
+                  <CustomButton
+                    bgPrimary
+                    fontSize="0.7rem"
+                    type="button"
+                    className="changeBtn"
                     onClick={() => setChangePassword(!changePassword)}
                   >
                     {changePassword ? `Hide Password` : `Change Password`}
-                  </PasswordBtn>
+                  </CustomButton>
                 </div>
               </InputController>
             </Flex>
@@ -309,30 +318,6 @@ const Section = styled(`div`)(({ theme }) => ({
   },
 }));
 
-const PasswordBtn = styled(`label`)(({ theme }) => ({
-  display: `inline-block`,
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `10px`,
-  backgroundColor: `transparent`,
-  color: theme.palette.primary.main,
-  border: `solid 1px ${theme.palette.primary.main}`,
-  boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
-
-  '&:hover': {
-    backgroundColor: theme.palette.primary.light,
-  },
-
-  'input[type="file"]': {
-    display: `none`,
-  },
-
-  '@media (max-width: 900px)': {},
-}));
-
 const AddButton = styled(`label`)(({ theme }) => ({
   display: `inline-block`,
   padding: `0.8rem 2rem`,
@@ -340,10 +325,8 @@ const AddButton = styled(`label`)(({ theme }) => ({
   fontSize: `14px`,
   textAlign: `center`,
   verticalAlign: `middle`,
-  borderRadius: `10px`,
-  backgroundColor: `transparent`,
-  color: theme.palette.primary.main,
-  border: `solid 1px ${theme.palette.primary.main}`,
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.secondary.main,
   boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
 
   '&:hover': {

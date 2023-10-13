@@ -1,45 +1,18 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/system';
 import NavItem from './NavItem';
 import Link from 'next/link';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import CustomButton from './common/CustomButton';
-import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearCredentials } from '@/features/authSlice';
-import axios from 'axios';
 
 type MobileNavProp = {
   show: boolean;
   handleClick: () => void;
-  userInfo?: any;
-  publicId?: any;
 };
 
-const MobileNav = ({
-  show,
-  userInfo,
-  publicId,
-  handleClick,
-}: MobileNavProp) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const handledLogin = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      dispatch(clearCredentials());
-    } catch (error: any) {}
-  };
-
+const MobileNav = ({ show, handleClick }: MobileNavProp) => {
   return (
     <MobileWrapper
       style={{
@@ -47,21 +20,13 @@ const MobileNav = ({
         zIndex: `99`,
       }}
     >
-      {!userInfo ? (
-        <>
-          <Link href="/signup">
-            <CustomButton bgSecondary>SIGN UP</CustomButton>
-          </Link>
-          <Button type="button" color="secondary" onClick={handledLogin}>
-            Login
-          </Button>
-        </>
-      ) : (
-        <>
-          <NavItem href="#" text="Logout" onClick={handleLogout} />
-          <NavItem href="/account" text="Dashboard" />
-        </>
-      )}
+      <NavItem href="https://www.easeplan.io/" text="Home" />
+      <NavItem href="https://www.easeplan.io/planner" text="Join planners" />
+      <NavItem href="https://www.easeplan.io/vendor" text="Join vendors" />
+      <NavItem href="/login" text="Login" />
+      <Link href="/signup">
+        <CustomButton bgSecondary>SIGN UP</CustomButton>
+      </Link>
       <CloseIcon className="menuIcon" onClick={handleClick} />
     </MobileWrapper>
   );

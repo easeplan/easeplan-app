@@ -9,15 +9,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Alert, Box, Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '@/features/usersApiSlice';
 import { setCredentials } from '@/features/authSlice';
 import useLastVisitedURL from '@/hooks/useLastVisitedURL';
-import GoogleButton from './GoogleButton';
-import { useGoogleLogin } from '@react-oauth/google';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
@@ -45,17 +43,43 @@ const LoginForm = () => {
     try {
       setIsLoading(true);
       const data = await login(credentials).unwrap();
-      const id = data?.user?._id;
-      dispatch(setCredentials(id));
+      const { role, hasVisited, onboardStage, _id } = data?.data;
+      dispatch(setCredentials({ role, hasVisited, onboardStage, _id }));
 
-      // Redirect to the last visited URL or a default route
-      if (lastVisitedURL) {
-        router.push(lastVisitedURL);
+      if (data?.data?.hasVisited) {
+        // User onboarding check
+        if (data?.data?.role === `user`) {
+          if (data.data?.onboardStage < 1) {
+            router.push(`/onboarding`);
+          } else {
+            // Redirect to the last visited URL or a default route
+            if (lastVisitedURL) {
+              router.push(lastVisitedURL);
+            } else {
+              router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
+            }
+          }
+        }
+        if (data?.data?.role === `planner` || data?.data?.role === `provider`) {
+          // Planner and Provider onboarding check
+          if (data?.data?.onboardStage < 3) {
+            router.push(`/onboarding`);
+          } else {
+            // Redirect to the last visited URL or a default route
+            if (lastVisitedURL) {
+              router.push(lastVisitedURL);
+            } else {
+              router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
+            }
+          }
+        }
       } else {
-        router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
-      }
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`userEmail`, `${credentials.email}`);
+        if (typeof window !== `undefined`) {
+          localStorage.setItem(`userEmail`, `${credentials.email}`);
+        }
+        setTimeout(() => {
+          setPreviewModal(true);
+        }, 2000);
       }
     } catch (error: any) {
       setIsLoading(false);
@@ -63,138 +87,80 @@ const LoginForm = () => {
     }
   };
 
-  // GOOGLE Auth Login
-  const responseGoogle = async (response: any) => {
-    try {
-      if (response.access_token) {
-        const result = await fetch(`/api/google-auth`, {
-          method: `POST`,
-          headers: {
-            'Content-Type': `application/json`,
-          },
-          body: JSON.stringify({ token: response.access_token }),
-        });
-
-        const data = await result.json();
-        dispatch(setCredentials(data?.user?._id));
-        if (data.success === true) {
-          router.push(`/account`);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-  });
-
   return (
     <>
-      <FormWrapper>
-        <Box
-          sx={{
-            width: {
-              xs: `80%`,
-              sm: `90%`,
-              md: `50%`,
-              lg: `45%`,
-              xl: `45%`,
-            },
-          }}
-        >
-          {userName ? (
-            <Typography
-              sx={{
-                fontWeight: `700`,
-                fontSize: {
-                  xs: `1rem`,
-                  sm: `1rem`,
-                  md: `1.5rem`,
-                  lg: `1.5rem`,
-                },
-                color: `primary.main`,
-                marginBottom: `2rem`,
-                textTransform: `capitalize`,
+      {previewModal ? (
+        <SelectAccountType />
+      ) : (
+        <FormWrapper>
+          <FormBody>
+            {userName ? (
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: `1.5rem`,
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                }}
+              >
+                Welcome back, {userName}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: `1.5rem`,
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                }}
+              >
+                Login To Easeplan
+              </Typography>
+            )}
+            <Formik
+              initialValues={{
+                email: ``,
+                password: ``,
               }}
+              onSubmit={(values) => submitCredentials(values)}
+              validationSchema={LoginSchema}
             >
-              Welcome back, {userName}
-            </Typography>
-          ) : (
-            <Typography
-              sx={{
-                fontWeight: `700`,
-                fontSize: {
-                  xs: `1.2rem`,
-                  sm: `1.2rem`,
-                  md: `1.5rem`,
-                  lg: `1.5rem`,
-                },
-                color: `primary.main`,
-                marginBottom: `2rem`,
-                textTransform: `capitalize`,
-                textAlign: `center`,
-              }}
-            >
-              Login To Easeplan
-            </Typography>
-          )}
-          <Box sx={{ display: `flex`, flexDirection: `column` }}>
-            <GoogleButton
-              onClick={handleGoogleLogin}
-              text="Log in with Google"
-            />
-            <Box
-              sx={{
-                textAlign: `center`,
-                mt: 1,
-                mb: 1,
-                fontWeight: `bold`,
-                fontSize: `0.8rem`,
-                color: `primary.main`,
-              }}
-            >
-              OR
-            </Box>
-          </Box>
-          <Formik
-            initialValues={{
-              email: ``,
-              password: ``,
-            }}
-            onSubmit={(values) => submitCredentials(values)}
-            validationSchema={LoginSchema}
-          >
-            {() => (
-              <Form>
-                {errorMsg && (
-                  <Alert sx={{ mb: 2 }} severity="error">
-                    {errorMsg}
-                  </Alert>
-                )}
-                <InputControl>
-                  <div>
-                    <FormInput
-                      ariaLabel="Email"
-                      name="email"
-                      type="text"
-                      placeholder="example@email.com"
-                    />
-                  </div>
-                  <PasswordControl>
-                    <FormInput
-                      ariaLabel="Password"
-                      name="password"
-                      type={showPassword ? `text` : `password`}
-                      placeholder="Password"
-                    />
-                    <div className="password" onClick={handleShowPassword}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {() => (
+                <Form>
+                  {errorMsg && (
+                    <Alert sx={{ mb: 2 }} severity="error">
+                      {errorMsg}
+                    </Alert>
+                  )}
+                  <InputControl>
+                    <div>
+                      <div>
+                        <Label text="Email address" />
+                      </div>
+                      <FormInput
+                        ariaLabel="Email"
+                        name="email"
+                        type="text"
+                        placeholder="example@email.com"
+                      />
                     </div>
-                  </PasswordControl>
-                </InputControl>
-                <Box sx={{ mt: 6 }}>
+                    <div>
+                      <Label text="Password" />
+                    </div>
+                    <PasswordControl>
+                      <FormInput
+                        ariaLabel="Password"
+                        name="password"
+                        type={showPassword ? `text` : `password`}
+                        placeholder="Password"
+                      />
+                      <div className="password" onClick={handleShowPassword}>
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </div>
+                    </PasswordControl>
+                  </InputControl>
                   <CustomButton
                     bgPrimary
                     lgWidth="100%"
@@ -205,23 +171,23 @@ const LoginForm = () => {
                   >
                     LOGIN
                   </CustomButton>
-                </Box>
-                <RememberDiv>
-                  <Link href="/forgetpassword" className="forgotPassword">
-                    Forgot Password?
-                  </Link>
-                </RememberDiv>
-                <Footer>
-                  Not a member yet?{` `}
-                  <Link href="/signup" className="link">
-                    Sign up
-                  </Link>
-                </Footer>
-              </Form>
-            )}
-          </Formik>
-        </Box>
-      </FormWrapper>
+                  <RememberDiv>
+                    <Link href="/forgetpassword" className="forgotPassword">
+                      Forgot Password?
+                    </Link>
+                  </RememberDiv>
+                  <Footer>
+                    Not a member yet?{` `}
+                    <Link href="/signup" className="link">
+                      Sign up
+                    </Link>
+                  </Footer>
+                </Form>
+              )}
+            </Formik>
+          </FormBody>
+        </FormWrapper>
+      )}
     </>
   );
 };
@@ -242,7 +208,7 @@ const FormWrapper = styled(`div`)({
 });
 
 const FormBody = styled(`div`)({
-  width: `40%`,
+  width: `50%`,
 
   '@media (max-width: 1020px)': {
     width: `80%`,
@@ -262,13 +228,15 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
   '@media (max-width: 1020px)': {
     '.password': {
       position: `absolute`,
-      top: `1.1rem`,
+      top: `1.3rem`,
       right: `1rem`,
+      fontSize: `1rem`,
     },
   },
 }));
 
 const InputControl = styled(`div`)({
+  borderBottom: `solid 1px #ccc`,
   marginBottom: `0.8rem`,
 });
 
@@ -278,12 +246,17 @@ const RememberDiv = styled(`div`)(({ theme }: any) => ({
   marginTop: `1rem`,
   justifyContent: `space-between`,
   fontSize: `0.9rem`,
+  color: theme.palette.primary.main,
 
   '.forgotPassword': {
     color: theme.palette.primary.main,
-    fontWeight: `500`,
   },
 }));
+
+const CheckLabel = styled(`div`)({
+  display: `flex`,
+  alignItems: `center`,
+});
 
 const Footer = styled(`p`)(({ theme }: any) => ({
   borderTop: `solid 1px #ccc`,

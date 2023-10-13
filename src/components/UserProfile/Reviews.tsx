@@ -35,7 +35,7 @@ const Reviews = ({ queryData }: any) => {
           mt: `4rem`,
         }}
       >
-        {queryData?.providerProfile?.ratings?.map((reviews: any) => (
+        {queryData?.ratings.map((reviews: any) => (
           <Box
             key={reviews?.id}
             sx={{

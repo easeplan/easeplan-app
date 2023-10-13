@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
@@ -14,47 +14,16 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import CreateContractModal from '../publicPageSections/CreateContract';
 import ChatIcon from '@mui/icons-material/Chat';
-import axios from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
-import customFetch from '@/utils/customFetch';
-import { toast } from 'react-toastify';
 
 type Props = {
   queryData: QueryData;
   token?: string;
-  searchResult?: boolean;
 };
 
-const Hero = ({ queryData, token, searchResult }: any) => {
+const Hero = ({ queryData, token }: Props) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
-  const [showError, setShowError] = useState<boolean>(false);
-  const [vendorData, setVendorData] = useState(
-    typeof window !== `undefined`
-      ? JSON.parse(localStorage.getItem(`findVendorData`)!)
-      : null,
-  );
-
-  const queryClient = useQueryClient();
-
-  const { mutate: handleUpdateContract, isLoading } = useMutation({
-    mutationFn: (credentials: any) =>
-      customFetch.post(`/profiles/create-offer`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Contract send successfully`);
-    },
-    onError: (error: any) => {
-      toast.error(error.response.data.message);
-    },
-  });
-
   const openCreateHireMeModal = () => {
     if (userInfo) {
       setOpenModal(true);
@@ -88,7 +57,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
     }
   };
 
-  const loggedUserId = userInfo;
+  const loggedUserId = userInfo?._id;
 
   return (
     <Box>
@@ -121,9 +90,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         <Box>
           <Image
             src={
-              queryData?.providerProfile?.company?.image
-                ? queryData?.providerProfile?.company?.image
-                : BannerImg
+              queryData?.company?.image ? queryData?.company?.image : BannerImg
             }
             alt="bannerImage"
             fill
@@ -167,7 +134,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         >
           <Box>
             <Image
-              src={queryData?.profile?.picture}
+              src={queryData?.picture}
               alt="bannerImage"
               fill
               style={{
@@ -209,7 +176,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
+            {queryData?.firstName} {` `} {queryData?.lastName}
           </Typography>
         </Box>
         {userInfo && userInfo.role === `user` ? (
@@ -276,9 +243,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData.providerProfile?.currentlyHiredBy?.includes(
-            loggedUserId,
-          ) ? (
+          {queryData.currentlyHiredBy?.includes(loggedUserId) ? (
             <Link href="/account/chats">
               <Button
                 startIcon={<ChatIcon />}
@@ -288,9 +253,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                 Chat
               </Button>
             </Link>
-          ) : queryData.providerProfile?.currentlyRequestedBy?.includes(
-              loggedUserId,
-            ) ? (
+          ) : queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
             <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
               Pending Request
             </Button>
@@ -300,7 +263,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
               sx={{ color: `secondary.main`, px: 6 }}
               onClick={vendorData ? handledSendContract : openCreateHireMeModal}
             >
-              {isLoading ? `Loading...` : `Hire Me`}
+              Hire Me
             </Button>
           )}
         </Box>
@@ -373,9 +336,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
               </Typography>
             </Box>
             <Box>
-              <Typography>
-                {queryData?.providerProfile?.company?.description}
-              </Typography>
+              <Typography>{queryData?.company?.description}</Typography>
             </Box>
           </Box>
           <Box

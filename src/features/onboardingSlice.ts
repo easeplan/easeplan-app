@@ -6,7 +6,6 @@ interface onboardState {
   stepOne: boolean;
   stepTwo: boolean;
   stepThree: boolean;
-  stepFour: boolean;
 }
 
 const initialState: onboardState = {
@@ -15,7 +14,6 @@ const initialState: onboardState = {
   stepOne: false,
   stepTwo: false,
   stepThree: false,
-  stepFour: false,
 };
 
 export const onboardingSlice = createSlice({
@@ -37,9 +35,6 @@ export const onboardingSlice = createSlice({
     setIntroThree: (state, action) => {
       state.stepThree = action.payload;
     },
-    setIntroFour: (state, action) => {
-      state.stepFour = action.payload;
-    },
   },
 });
 
@@ -49,7 +44,6 @@ export const {
   setIntroOne,
   setIntroTwo,
   setIntroThree,
-  setIntroFour,
 } = onboardingSlice.actions;
 
 export default onboardingSlice.reducer;

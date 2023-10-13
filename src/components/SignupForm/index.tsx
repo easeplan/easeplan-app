@@ -16,20 +16,12 @@ import TermsAndConditionModal from '../TermsAndConditionModal';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { setCredentials } from '@/features/authSlice';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
-import { useGoogleLogin } from '@react-oauth/google';
-import GoogleButton from '../GoogleButton';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
 const SignupForm = () => {
   const [signup] = useSignupMutation();
-  const dispatch = useDispatch();
-  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<any>();
@@ -101,21 +93,18 @@ const SignupForm = () => {
       setEmailErr(``);
       try {
         setIsLoading(true);
-        // const res = await signup(credentials).unwrap();
-        const res = await axios.post(`/api/signup`, credentials);
-        toast.success(res?.data?.message);
-        dispatch(setCredentials(res?.data?.user?._id));
+        await signup(credentials).unwrap();
         // Saving user email, to send along with the verification token
         if (typeof window !== `undefined`) {
           localStorage.setItem(`userEmail`, `${email}`);
         }
-        setVerificationModal(true);
+        setTimeout(() => {
+          setVerificationModal(true);
+          setIsLoading(false);
+        }, 2000);
       } catch (error: any) {
-        toast.error(error.response?.data?.message);
         setIsLoading(false);
         setErrorMsg(error.data?.error);
-      } finally {
-        setIsLoading(false);
       }
     }
   };
@@ -124,128 +113,65 @@ const SignupForm = () => {
     setTermsAndCondition(!termAndCondition);
   };
 
-  // GOOGLE Auth Login
-  const responseGoogle = async (response: any) => {
-    try {
-      if (response.access_token) {
-        const result = await fetch(`/api/google-auth`, {
-          method: `POST`,
-          headers: {
-            'Content-Type': `application/json`,
-          },
-          body: JSON.stringify({ token: response.access_token }),
-        });
-
-        const data = await result.json();
-        dispatch(setCredentials(data?.user?._id));
-        if (data.success === true) {
-          router.push(`/account`);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-  });
-
   return (
     <>
       <TermsAndConditionModal
         isOpen={termAndCondition}
         isClose={() => setTermsAndCondition(false)}
       />
-      <>
-        {verificationModal ? (
-          <VerifiactionModal
-            setVerificationModal={setVerificationModal}
-            setOtpSuccessful={setOtpSuccessful}
-          />
-        ) : (
-          <FormWrapper>
-            <Box
-              sx={{
-                width: {
-                  xs: `80%`,
-                  sm: `90%`,
-                  md: `50%`,
-                  lg: `45%`,
-                  xl: `45%`,
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: `700`,
-                  fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
-                  },
-                  color: `primary.main`,
-                  marginBottom: `2rem`,
-                  textTransform: `capitalize`,
-                  textAlign: `center`,
-                }}
-              >
-                Sign up to Easeplan
-              </Typography>
-              <Box sx={{ display: `flex`, flexDirection: `column` }}>
-                <GoogleButton
-                  onClick={handleGoogleLogin}
-                  text="Sign up with Google"
-                />
-                <Box
-                  sx={{
-                    textAlign: `center`,
-                    mt: 1,
-                    mb: 1,
-                    fontWeight: `bold`,
-                    fontSize: `0.8rem`,
-                    color: `primary.main`,
-                  }}
-                >
-                  OR
-                </Box>
-              </Box>
-              <form onSubmit={submitCredentials}>
-                {errorMsg && (
-                  <Alert sx={{ mb: 2 }} severity="error">
-                    {errorMsg}
-                  </Alert>
-                )}
-                <InputControl>
-                  <div>
-                    <InputField
-                      onChange={handleEmailChange}
-                      name="email"
-                      value={email}
-                      placeholder="Email Address"
-                      type="email"
-                    />
-                  </div>
-                  {emailErr && <FormError text={emailErr}></FormError>}
-                </InputControl>
-                <InputControl>
-                  <PasswordControl>
-                    <InputField
-                      name="password"
-                      value={password}
-                      strength={strength}
-                      type={showPassword ? `text` : `password`}
-                      placeholder="Password"
-                      onChange={handleChange}
-                    />
-                    <div className="password" onClick={handleShowPassword}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+      {otpSuccessful ? (
+        <SelectAccountType />
+      ) : (
+        <>
+          {verificationModal ? (
+            <VerifiactionModal
+              setVerificationModal={setVerificationModal}
+              setOtpSuccessful={setOtpSuccessful}
+            />
+          ) : (
+            <FormWrapper>
+              <FormBody>
+                <Title>Sign up to Easeplan</Title>
+                <form onSubmit={submitCredentials}>
+                  {errorMsg && (
+                    <Alert sx={{ mb: 2 }} severity="error">
+                      {errorMsg}
+                    </Alert>
+                  )}
+                  <InputControl>
+                    <div>
+                      <div>
+                        <Label text="Email address" />
+                      </div>
+                      <InputField
+                        onChange={handleEmailChange}
+                        name="email"
+                        value={email}
+                        placeholder="Example@gmail.com"
+                        type="email"
+                      />
                     </div>
-                  </PasswordControl>
-                  {passErr && <FormError text={passErr}></FormError>}
-                </InputControl>
-                <Box sx={{ mt: 6 }}>
+                    {emailErr && <FormError text={emailErr}></FormError>}
+                  </InputControl>
+                  <InputControl>
+                    <div>
+                      <Label text="Password" />
+                    </div>
+                    <PasswordControl>
+                      <InputField
+                        name="password"
+                        value={password}
+                        strength={strength}
+                        type={showPassword ? `text` : `password`}
+                        placeholder="Password"
+                        onChange={handleChange}
+                      />
+                      <div className="password" onClick={handleShowPassword}>
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </div>
+                    </PasswordControl>
+                    {passErr && <FormError text={passErr}></FormError>}
+                  </InputControl>
                   <CustomButton
                     bgPrimary
                     lgWidth="100%"
@@ -253,46 +179,47 @@ const SignupForm = () => {
                     loading={isLoading}
                     loadingText="SIGNING UP..."
                     type="submit"
+                    mt={6}
                   >
                     SIGN UP
                   </CustomButton>
-                </Box>
-                <RememberDiv>
-                  <Box>
-                    <Box
-                      sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                        cursor: `pointer`,
-                      }}
-                    >
-                      <Checkbox
-                        onChange={(e) => setIsChecked(e.target.checked)}
-                      />
-                      <Typography
-                        fontSize="0.8rem"
-                        color="primary.main"
-                        onClick={handleTermModal}
+                  <RememberDiv>
+                    <Box>
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          cursor: `pointer`,
+                        }}
                       >
-                        Privacy Policy & Terms and Condition
-                      </Typography>
+                        <Checkbox
+                          onChange={(e) => setIsChecked(e.target.checked)}
+                        />
+                        <Typography
+                          fontSize="0.8rem"
+                          color="primary.main"
+                          onClick={handleTermModal}
+                        >
+                          Privacy Policy & Terms and Condition
+                        </Typography>
+                      </Box>
+                      {isCheckedMsg && (
+                        <FormError text={isCheckedMsg}></FormError>
+                      )}
                     </Box>
-                    {isCheckedMsg && (
-                      <FormError text={isCheckedMsg}></FormError>
-                    )}
-                  </Box>
-                </RememberDiv>
-                <Footer>
-                  Already a member?{` `}
-                  <Link href="/login" className="link">
-                    Login
-                  </Link>
-                </Footer>
-              </form>
-            </Box>
-          </FormWrapper>
-        )}
-      </>
+                  </RememberDiv>
+                  <Footer>
+                    Already a member?{` `}
+                    <Link href="/login" className="link">
+                      Login
+                    </Link>
+                  </Footer>
+                </form>
+              </FormBody>
+            </FormWrapper>
+          )}
+        </>
+      )}
     </>
   );
 };
@@ -327,6 +254,7 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
     position: `absolute`,
     top: `1.2rem`,
     right: `1rem`,
+    fontSize: `1.3rem`,
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
@@ -334,12 +262,13 @@ const PasswordControl = styled(`div`)(({ theme }: any) => ({
       position: `absolute`,
       top: `1.3rem`,
       right: `1rem`,
+      fontSize: `1rem`,
     },
   },
 }));
 
 const InputControl = styled(`div`)({
-  marginBottom: `0.3rem`,
+  marginBottom: `1rem`,
 });
 
 const RememberDiv = styled(`div`)(({ theme }: any) => ({

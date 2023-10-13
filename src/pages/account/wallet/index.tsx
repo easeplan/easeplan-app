@@ -3,7 +3,8 @@ import DashboardLayout from '@/components/DashboardLayout';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import AvailableFunds from '@/components/payments/AvailableFunds';
-import { Box, Divider, Typography } from '@mui/material';
+import ManagePayment from '@/components/payments/ManagePayment';
+import { Grid, Box, Divider, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
@@ -38,7 +39,15 @@ const PaymentPage = ({ token }: any) => {
   }, []);
 
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/${
+      userInfo?.role === `provider`
+        ? `provider-profiles`
+        : userInfo?.role === `planner`
+        ? `planner-profiles`
+        : userInfo?.role === `user`
+        ? `user-profiles`
+        : `user-profiles`
+    }/${userInfo?._id}`,
     token,
   );
 
@@ -52,10 +61,10 @@ const PaymentPage = ({ token }: any) => {
 
   return (
     <DashboardLayout token={token}>
-      <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
+      {/* <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
         Wallet
       </Typography>
-      <Divider sx={{ my: 1 }} />
+      <Divider sx={{ my: 1 }} /> */}
       <Box sx={{ flexGrow: 1, width: `100%`, mt: 2 }}>
         <AvailableFunds
           token={token}

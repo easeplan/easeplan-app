@@ -17,9 +17,7 @@ const UserProfile = ({ token, queryData }: any) => {
       <PricingCard token={token} queryData={queryData} />
       <PreviousEvent queryData={queryData} token={token} />
       {/* Later feature */}
-      {!queryData?.providerProfile?.ratings.length ? null : (
-        <Reviews queryData={queryData} />
-      )}
+      <Reviews queryData={queryData} />
     </Box>
   );
 };

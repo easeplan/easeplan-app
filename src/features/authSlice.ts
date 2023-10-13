@@ -35,7 +35,7 @@ export const authSlice = createSlice({
     },
     clearCredentials: (state) => {
       state.userInfo = null;
-      localStorage.clear();
+      localStorage.removeItem(`userInfo`);
     },
   },
 });

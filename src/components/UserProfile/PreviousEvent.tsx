@@ -29,7 +29,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
           'Content-Type': `application/json`,
           Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Deleted`);

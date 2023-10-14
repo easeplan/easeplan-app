@@ -24,20 +24,12 @@ const PreviousEvent = ({ queryData, token }: any) => {
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: (sampleId: string) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}/delete-sample/${sampleId}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}/delete-sample/${sampleId}`
-            : null
-        }`,
-        {
-          headers: {
-            // Authorization: `Bearer ${token}`,
-          },
+      customFetch.put(`profiles/${userInfo}/delete-sample/${sampleId}`, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Deleted`);
@@ -104,7 +96,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
         <Box
           sx={{
             border: `none`,
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.primary.main,
             boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
             zIndex: `1`,
             display: `flex`,
@@ -112,12 +104,12 @@ const PreviousEvent = ({ queryData, token }: any) => {
             justifyContent: `center`,
             cursor: `pointer`,
             verticalAlign: `middle`,
-            borderRadius: `30px`,
-            color: theme.palette.primary.main,
+            borderRadius: `10px`,
+            color: theme.palette.secondary.main,
             height: `40px`,
             width: `auto`,
             transition: `all 0.3s ease`,
-            px: 5,
+            px: 2,
             fontWeight: `800`,
 
             '&:hover': {
@@ -149,11 +141,10 @@ const PreviousEvent = ({ queryData, token }: any) => {
           mt: `3rem`,
         }}
       >
-        {queryData.samples.map((data: any, i: any) => (
+        {queryData?.providerProfile?.samples.map((data: any, i: any) => (
           <Box
             key={i}
             sx={{
-              borderRadius: `10px`,
               height: `100%`,
               position: `relative`,
             }}
@@ -201,32 +192,31 @@ const PreviousEvent = ({ queryData, token }: any) => {
                 position: `absolute`,
                 bottom: `0`,
                 zIndez: `1`,
-                background: `#ffff`,
                 color: `#fff`,
-                borderRadius: `10px`,
               }}
             >
               <Typography fontWeight="bold">{data?.title}</Typography>
-              {/* <Typography mt={2}>{data?.description}</Typography> */}
-              <Box sx={{ display: `flex`, gap: `1rem`, cursor: `pointer` }}>
-                <Button
+              <Box sx={{ display: `flex`, gap: `0.5rem`, cursor: `pointer` }}>
+                <CreateOutlinedIcon
+                  sx={{
+                    color: `primary.main`,
+                    background: `#ffff`,
+                    padding: `0.5rem`,
+                    fontSize: `2.5rem`,
+                    borderRadius: `10px`,
+                  }}
                   onClick={() => handleEdit(data)}
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  startIcon={<CreateOutlinedIcon />}
-                >
-                  Edit
-                </Button>
-                <Button
+                />
+                <DeleteIcon
+                  sx={{
+                    color: `red`,
+                    background: `#ffff`,
+                    padding: `0.5rem`,
+                    fontSize: `2.5rem`,
+                    borderRadius: `10px`,
+                  }}
                   onClick={() => handleEventDelete(data?._id)}
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  startIcon={<DeleteIcon />}
-                >
-                  Delete
-                </Button>
+                />
               </Box>
             </Box>
           </Box>

@@ -20,18 +20,22 @@ type Props = {
   publicId: string;
 };
 
-const Hero = ({ queryData, token, publicId }: Props) => {
+const Hero = ({ queryData, token, publicId }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handledHireMe = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+    if (userInfo) {
+      router.push(`/account/profile/${publicId}`);
+    } else {
+      router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+      }
     }
   };
 
-  const loggedUserId = userInfo?._id;
+  const loggedUserId = userInfo;
 
   return (
     <Box pt={10}>
@@ -58,7 +62,9 @@ const Hero = ({ queryData, token, publicId }: Props) => {
         <Box>
           <Image
             src={
-              queryData?.company?.image ? queryData?.company?.image : BannerImg
+              queryData?.providerProfile?.company?.image
+                ? queryData?.providerProfile?.company?.image
+                : BannerImg
             }
             alt="bannerImage"
             fill
@@ -102,7 +108,7 @@ const Hero = ({ queryData, token, publicId }: Props) => {
         >
           <Box>
             <Image
-              src={queryData?.picture}
+              src={queryData?.profile?.picture}
               alt="bannerImage"
               fill
               style={{
@@ -144,7 +150,7 @@ const Hero = ({ queryData, token, publicId }: Props) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.firstName} {` `} {queryData?.lastName}
+            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
           </Typography>
         </Box>
         {userInfo && userInfo.role === `user` ? (
@@ -163,7 +169,6 @@ const Hero = ({ queryData, token, publicId }: Props) => {
               profileId={queryData?.userId}
               size="medium"
             />
-            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
           </Box>
         ) : (
           <Box
@@ -182,7 +187,6 @@ const Hero = ({ queryData, token, publicId }: Props) => {
               profileId={queryData?.userId}
               size="medium"
             />
-            {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
           </Box>
         )}
         <Box
@@ -300,11 +304,13 @@ const Hero = ({ queryData, token, publicId }: Props) => {
                   mb: `1rem`,
                 }}
               >
-                {queryData?.company?.name}
+                {queryData?.providerProfile?.company?.name}
               </Typography>
             </Box>
             <Box>
-              <Typography>{queryData?.company?.description}</Typography>
+              <Typography>
+                {queryData?.providerProfile?.company?.description}
+              </Typography>
             </Box>
           </Box>
           <Box
@@ -328,13 +334,44 @@ const Hero = ({ queryData, token, publicId }: Props) => {
               }}
             >
               <Box>
-                <Typography fontWeight={600} color="primary.main">
-                  <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
-                  Location:
-                </Typography>
-                <Typography fontWeight={500} color="primary.main">
-                  {queryData?.state} {queryData?.city}
-                </Typography>
+                <Box>
+                  <Typography fontWeight={600} color="primary.main">
+                    Operational States:
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      flexDirection: `column`,
+                    }}
+                  >
+                    {queryData?.providerProfile?.company?.operationStates.map(
+                      (item: any, i: any) => (
+                        <Typography key={i} ml={1} color="primary.main">
+                          {item}
+                        </Typography>
+                      ),
+                    )}
+                  </Box>
+                </Box>
+                <Box mt={2}>
+                  <Typography fontWeight={600} color="primary.main">
+                    Operational Cities:
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      flexDirection: `column`,
+                    }}
+                  >
+                    {queryData?.providerProfile?.company?.operationCities.map(
+                      (item: any, i: any) => (
+                        <Typography key={i} ml={1} color="primary.main">
+                          {item}
+                        </Typography>
+                      ),
+                    )}
+                  </Box>
+                </Box>
               </Box>
               <Box mt={4}>
                 <Typography fontWeight={600} color="primary.main">

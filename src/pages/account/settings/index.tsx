@@ -16,15 +16,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 const SettingsPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
 
@@ -49,7 +41,7 @@ const SettingsPage = ({ token }: any) => {
           </Button>
         </Link>
         {/* <h3 className="title">{`||`}</h3> */}
-        {queryData?.role !== `user` && (
+        {queryData?.provider?.providerProfile && (
           <Link href="/account/settings/verify">
             <Button
               variant="contained"
@@ -61,7 +53,7 @@ const SettingsPage = ({ token }: any) => {
           </Link>
         )}
       </Flex>
-      <ProfileForm token={token} queryData={queryData} />
+      <ProfileForm token={token} queryData={queryData?.provider} />
     </DashboardLayout>
   );
 };

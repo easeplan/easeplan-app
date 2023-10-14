@@ -20,15 +20,7 @@ import { Typography } from '@mui/material';
 const VerifyPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `users`
-        : `users`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
   const [startVerification, setStartVerification] = useState(false);
@@ -41,6 +33,8 @@ const VerifyPage = ({ token }: any) => {
   if (error) {
     return <ErrorPage />;
   }
+
+  console.log(queryData);
 
   return (
     <DashboardLayout token={token}>
@@ -84,7 +78,7 @@ const VerifyPage = ({ token }: any) => {
             <VerificationFlow setIsVerified={setIsVerified} />
           )}
           <Box>
-            {queryData?.verified || isVerified ? (
+            {queryData?.provider?.providerProfile?.verified || isVerified ? (
               <Box sx={{ textAlign: `center` }}>
                 <VerifiedUserIcon
                   sx={{ fontSize: `4rem`, color: `secondary.main` }}

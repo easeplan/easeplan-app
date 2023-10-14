@@ -16,6 +16,7 @@ const ViewProfilePage = ({ data, token }: any) => {
       localStorage.removeItem(`lastVisitedURL`);
     }
   }, []);
+
   return (
     <>
       <Head>

@@ -11,6 +11,8 @@ const HomePage = () => {
   useEffect(() => {
     if (userInfo) {
       router.push(`/account`);
+    } else {
+      router.push(`/login`);
     }
   }, [router, userInfo]);
 

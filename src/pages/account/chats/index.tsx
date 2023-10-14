@@ -172,7 +172,7 @@ const InboxPage = ({ token }: any) => {
     return () => {
       socket.disconnect();
     };
-  }, [dispatch, messages, userInfo?._id, activeUserData?._id]);
+  }, [dispatch, messages, userInfo, activeUserData?._id]);
 
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
@@ -195,15 +195,7 @@ const InboxPage = ({ token }: any) => {
   }, [messages]);
 
   const { queryData, error, isLoading } = useFetch(
-    `/${
-      userInfo?.role === `provider`
-        ? `provider-profiles`
-        : userInfo?.role === `planner`
-        ? `planner-profiles`
-        : userInfo?.role === `user`
-        ? `user-profiles`
-        : `user-profiles`
-    }/${userInfo?._id}`,
+    `/profiles/${userInfo}`,
     token,
   );
 

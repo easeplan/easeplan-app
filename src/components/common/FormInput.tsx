@@ -44,20 +44,25 @@ const FormInput = ({
 }: InputProps) => {
   const [field, meta] = useField(props);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const trimmedValue = e.target.value.trim(); // Trim leading and trailing whitespace
+    field.onChange(e.target.name)(trimmedValue); // Call the formik field's onChange with the trimmed value
+  };
+
   return (
     <>
       {isSelect ? (
-        <FormControl fullWidth size="small" sx={{ mb: `0.4rem` }}>
+        <FormControl fullWidth sx={{ mb: `0.4rem` }}>
           <InputLabel id="demo-simple-select-label">
             {selectPlaceholder}
           </InputLabel>
           <Select
             {...field}
             {...props}
-            labelId="demo-simple-select-label"
+            label={selectPlaceholder}
             id="demo-simple-select"
             inputProps={{ 'aria-label': `Without label` }}
-            sx={{ py: `0.4rem`, borderRadius: `10px` }}
+            sx={{ borderRadius: `10px` }}
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
             MenuProps={MenuProps}
           >
@@ -75,6 +80,7 @@ const FormInput = ({
             {...field}
             {...props}
             aria-label={ariaLabel}
+            onChange={handleInputChange}
           />
           {meta.touched && meta.error ? (
             <FormError text={meta.error}></FormError>
@@ -86,22 +92,22 @@ const FormInput = ({
 };
 
 const InputWrapper = styled(`div`)({
-  marginBottom: `1rem`,
+  marginBottom: `0.5rem`,
 });
 
 const Input = styled(`input`)({
-  padding: `1rem 1rem`,
+  padding: `0.9rem 1.5rem`,
   outline: `none`,
   width: `100%`,
   borderRadius: `10px`,
   fontSize: `1rem`,
   border: `solid 1px #ccc;`,
-  marginTop: `0.5rem`,
+  marginTop: `0.3rem`,
   background: `transparent`,
 
   '@media (max-width: 1020px)': {
-    fontSize: `1rem`,
-    padding: `1rem 1rem`,
+    fontSize: `0.8rem`,
+    padding: `1.2rem 1rem`,
   },
 
   '&:-webkit-autofill': {

@@ -10,10 +10,10 @@ const Layout = ({ children, publicId }: any) => {
       <Box
         sx={{
           width: {
-            xs: `85%`,
-            sm: `85%`,
-            md: `70%`,
-            lg: `70%`,
+            xs: `100%`,
+            sm: `100%`,
+            md: `100%`,
+            lg: `100%`,
           },
           margin: `0 auto`,
         }}

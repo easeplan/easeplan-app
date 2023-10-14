@@ -38,19 +38,18 @@ const Hero = ({ queryData, token, publicId }: any) => {
   const loggedUserId = userInfo;
 
   return (
-    <Box pt={10}>
+    <Box pt={1}>
       <Box
         sx={{
           width: `100%`,
           height: {
             xs: `120px`,
             sm: `130px`,
-            md: `200px`,
-            lg: `200px`,
-            xl: `250px`,
+            md: `300px`,
+            lg: `350px`,
+            xl: `350px`,
           },
           my: `1rem`,
-          borderRadius: `10px`,
           position: `relative`,
           display: `flex`,
           alignItems: `center`,
@@ -122,11 +121,12 @@ const Hero = ({ queryData, token, publicId }: any) => {
       </Box>
       <Box
         sx={{
-          mt: {
-            xs: `3rem`,
-            sm: `3rem`,
-            md: `5rem`,
-            lg: `5rem`,
+          margin: `5rem auto`,
+          width: {
+            xs: `80%`,
+            sm: `80%`,
+            md: `80%`,
+            lg: `80%`,
           },
         }}
       >

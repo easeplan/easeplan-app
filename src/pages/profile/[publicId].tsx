@@ -18,34 +18,63 @@ const PublicProfilePage = ({ data, publicId }: any) => {
   return (
     <>
       <Head>
-        <title>{data?.data?.company?.name} Business Profile</title>
+        <title>{data?.providerProfile?.company?.name} Business Profile</title>
         <meta name="theme-color" content="#134153" />
-        <meta itemProp="name" content={data?.data?.company?.name} />
-        <meta itemProp="image" content={data?.data?.company?.image} />
+        <meta itemProp="name" content={data?.providerProfile?.company?.name} />
+        <meta
+          itemProp="image"
+          content={data?.providerProfile?.company?.image}
+        />
 
         {/*<!-- Facebook Meta Tags -->*/}
-        <meta property="og:title" content={data?.data?.company?.name} />
-        <meta property="og:image" content={data?.data?.company?.image} />
+        <meta
+          property="og:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        />
         <meta
           property="og:url"
-          content={`https://app.easeplan.io/profile/${data?.data?.publicId}`}
+          content={`https://app.easeplan.io/profile/${data?.providerProfile?.publicId}`}
         />
         <meta property="og:type" content="website" />
 
         {/*<!-- Twitter Meta Tags -->*/}
-        <meta name="twitter:title" content={data?.data?.company?.name} />
-        <meta name="twitter:image" content={data?.data?.company?.image} />
+        <meta
+          name="twitter:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          name="twitter:image"
+          content={data?.providerProfile?.company?.image}
+        />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:image" content={data?.data?.company?.image}></meta>
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        ></meta>
       </Head>
       <Layout publicId={publicId}>
         <Box>
           <Hero queryData={data} publicId={publicId} />
-          {/* <PricingSection queryData={data} /> */}
-          <Divider sx={{ mt: 6 }} />
-          <PreviousEvent queryData={data} />
-          <Divider />
-          <ClientReviews queryData={data} />
+          <Box
+            sx={{
+              margin: `0 auto`,
+              width: {
+                xs: `80%`,
+                sm: `80%`,
+                md: `80%`,
+                lg: `80%`,
+              },
+            }}
+          >
+            <Divider sx={{ mt: 6 }} />
+            <PreviousEvent queryData={data} />
+            <Divider />
+            <ClientReviews queryData={data} />
+          </Box>
         </Box>
       </Layout>
     </>

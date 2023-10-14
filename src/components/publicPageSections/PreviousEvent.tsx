@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
 const PreviousEvent = ({ queryData }: any) => {
-  console.log(queryData);
   return (
     <>
       <Box mt={5} mb={20}>
@@ -51,9 +49,9 @@ const PreviousEvent = ({ queryData }: any) => {
                   height: {
                     xs: `300px`,
                     sm: `300px`,
-                    md: `300px`,
-                    lg: `300px`,
-                    xl: `300px`,
+                    md: `350px`,
+                    lg: `350px`,
+                    xl: `350px`,
                   },
                   borderRadius: `10px`,
                   position: `relative`,

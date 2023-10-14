@@ -57,7 +57,7 @@ const UserDetails = ({ queryData, token }: any) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.firstName} {` `} {queryData?.lastName}
+            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
           </Typography>
           <EditButton onClick={handleOpenModal}>
             <CreateOutlinedIcon className="icon" />
@@ -70,7 +70,7 @@ const UserDetails = ({ queryData, token }: any) => {
             justifyContent: `center`,
           }}
         >
-          <RatingStar rate={queryData?.rating} size="small" />
+          <RatingStar rate={queryData?.providerProfile?.rating} size="small" />
           {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
         </Box>
         <Box
@@ -111,11 +111,14 @@ const UserDetails = ({ queryData, token }: any) => {
             <SocialShareButton
               toggleIcon={toggleIcon}
               message="Exciting news! I've joined Easeplan, the platform to find professional event planners, vendors, and service providers for your events. Check out my profile and join me on Easeplan."
-              url={`https://app.easeplan.io/profile/${queryData?.publicId}`}
+              url={`https://app.easeplan.io/profile/${queryData?.providerProfile?.publicId}`}
             />
             <span className="share-text">Share Profile</span>
           </div>
-          <Link href={`/profile/${queryData?.publicId}`} target="_blank">
+          <Link
+            href={`/profile/${queryData?.providerProfile?.publicId}`}
+            target="_blank"
+          >
             <button className="preview-btn">Preview Profile</button>
           </Link>
         </Box>
@@ -181,12 +184,11 @@ const UserDetails = ({ queryData, token }: any) => {
                 </Box>
               </Box>
             </Box>
-            <EditButton onClick={handleOpenModal}>
-              <CreateOutlinedIcon className="icon" />
-            </EditButton>
           </Box>
           <Box>
-            <Typography fontWeight={600}>Member Since:</Typography>
+            <Typography fontWeight={600} color="primary.main">
+              Member Since:
+            </Typography>
             <Typography>{dateFormater(queryData?.createdAt)}</Typography>
           </Box>
         </Box>

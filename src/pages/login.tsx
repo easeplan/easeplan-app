@@ -1,12 +1,21 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { styled } from '@mui/material/styles';
 import LoginImg from '@/public/loginImg.png';
 import LoginBg from '@/public/decoration.png';
 import Image from 'next/image';
 import LoginForm from '@/components/LoginForm';
+import { clearCredentials } from '@/features/authSlice';
+import { useDispatch } from 'react-redux';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearCredentials());
+  }, [dispatch]);
+
   return (
     <>
       <Navbar />

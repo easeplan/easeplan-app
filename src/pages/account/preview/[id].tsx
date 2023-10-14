@@ -10,25 +10,6 @@ import { parseCookies } from '@/lib/parseCookies';
 import useFetch from '@/hooks/useFetch';
 
 const PreviewProfilePage = ({ contract, token, queryData }: any) => {
-  // const { queryData, error, isLoading } = useFetch(
-  //   `/${
-  //     contract?.role === `provider`
-  //       ? `provider-profiles`
-  //       : contract?.role === `planner`
-  //       ? `planner-profiles`
-  //       : null
-  //   }/${contract?.parties.receiverId}`,
-  //   token,
-  // );
-
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
-
-  // if (error) {
-  //   return <p>Error:</p>;
-  // }
-
   return (
     <>
       <DashboardLayout token={token}>
@@ -45,24 +26,6 @@ const PreviewProfilePage = ({ contract, token, queryData }: any) => {
     </>
   );
 };
-
-// export async function getServerSideProps(context: {
-//   query: { publicId: any };
-// }) {
-//   const { publicId } = context.query;
-//   // Fetch data based on the dynamicParam
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,
-//   );
-
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       data: data?.data,
-//     },
-//   };
-// }
 
 export async function getServerSideProps({ req, params }: any) {
   const { id } = params;

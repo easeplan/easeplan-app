@@ -45,22 +45,12 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(
-        `/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${userInfo?._id}`
-            : null
-        }/`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer ${token}`,
-          },
+      customFetch.put(`profiles/${userInfo}`, credentials, {
+        headers: {
+          'Content-Type': `application/json`,
+          Authorization: `Bearer ${token}`,
         },
-      ),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Company Details Updated`);
@@ -74,6 +64,7 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
   const updateProfileImg = async (credentials: any) => {
     updateProfile(credentials);
   };
+
   return (
     <Container fixed>
       <Modal
@@ -100,11 +91,12 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    name: queryData?.company?.name
-                      ? queryData?.company?.name
+                    name: queryData?.providerProfile?.company?.name
+                      ? queryData?.providerProfile?.company?.name
                       : ``,
-                    description: queryData?.company?.description
-                      ? queryData?.company?.description
+                    description: queryData?.providerProfile?.company
+                      ?.description
+                      ? queryData?.providerProfile?.company?.description
                       : ``,
                   }}
                   onSubmit={(values) => updateProfileImg(values)}

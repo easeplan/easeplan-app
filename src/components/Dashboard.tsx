@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { formatCurrency } from '@/utils';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Box, Typography } from '@mui/material';
 
 const Dashboard = ({ data }: any) => {
   function filterOutAcceptedEvents(events: any) {
@@ -32,14 +33,26 @@ const Dashboard = ({ data }: any) => {
     };
   }
 
-  const { accepted, completed } = filterOutAcceptedEvents(data?.events);
+  // const { accepted, completed } = filterOutAcceptedEvents(data?.events);
 
   return (
     <DashboardWrapper>
-      <h3 className="head">Today’s Summary</h3>
-      <h3 className="greetTitle">Welcome, {data?.firstName}</h3>
-      <p className="subTitle">Activities</p>
-
+      <Typography
+        fontWeight={700}
+        my={2}
+        color="primary.main"
+        sx={{
+          display: {
+            xs: `block`,
+            sm: `block`,
+            md: `none`,
+            lg: `none`,
+            xl: `none`,
+          },
+        }}
+      >
+        🥰 Nice to have you here {data?.provider?.profile?.firstName}
+      </Typography>
       <Swiper
         slidesPerView={1.3}
         spaceBetween={30}
@@ -59,82 +72,93 @@ const Dashboard = ({ data }: any) => {
         }}
         className="mySwiper"
       >
-        {/* <SwiperSlide>
-          <Card>
-            <Image src={Icon2} alt="EventIcon" height={40} width={40} />
-            <div>
-              <div className="cardFlex">
-                <small>₦</small>
-                <h2 className="title">{data?.balance === 0
-              ? `0.00`
-                    : formatCurrency(data?.balance && data?.balance)}
-                </h2>
-              </div>
-              <p>Total Amount Made</p>
-            </div>
-            <Image
-              src={Icon6}
-              alt="EventIcon"
-              className="shape"
-              height={200}
-              width={200}
-            />
-          </Card>
-        </SwiperSlide> */}
         <SwiperSlide>
-          <Card>
+          <Box
+            className="linearGradient"
+            sx={{
+              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+              px: 4,
+              pb: 2,
+              pt: 2,
+              borderRadius: `1rem`,
+              position: `relative`,
+              color: `#fff`,
+            }}
+          >
             <Image src={Icon3} alt="EventIcon" height={40} width={40} />
-            <div>
+            <Box sx={{ mt: `1rem` }}>
               <div className="cardFlex">
-                <small>₦</small>
-                <h2 className="title">
-                  {data?.balance === 0
-                    ? `0.00`
-                    : formatCurrency(data?.balance && data?.balance)}
-                </h2>
+                <Box sx={{ display: `flex`, alignItems: `center` }}>
+                  <Typography
+                    sx={{ mr: 1, fontSize: `1.2rem` }}
+                    fontWeight={800}
+                  >
+                    ₦
+                  </Typography>
+                  <Typography variant="h4" fontWeight={800}>
+                    {data?.availableBalance === 0
+                      ? `00.00`
+                      : formatCurrency(
+                          data?.availableBalance && data?.availableBalance,
+                        )}
+                  </Typography>
+                </Box>
               </div>
-              <p>Available Balance</p>
-            </div>
-            <Image
-              src={Icon6}
-              alt="EventIcon"
-              className="shape"
-              height={200}
-              width={200}
-            />
-          </Card>
+              <small>Available Balance</small>
+            </Box>
+          </Box>
         </SwiperSlide>
         <SwiperSlide>
-          <Card>
+          <Box
+            className="linearGradient"
+            sx={{
+              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+              px: 4,
+              pb: 2,
+              pt: 2,
+              borderRadius: `1rem`,
+              position: `relative`,
+              color: `#fff`,
+            }}
+          >
             <Image src={Icon1} alt="EventIcon" height={40} width={40} />
-            <div>
-              <h2 className="title">{completed}</h2>
-              <p>Number of events</p>
-            </div>
-            <Image
-              src={Icon6}
-              alt="EventIcon"
-              className="shape"
-              height={200}
-              width={200}
-            />
-          </Card>
+            <Box sx={{ mt: `1rem` }}>
+              <Typography variant="h4" fontWeight={800}>
+                {data?.totalEvents}
+              </Typography>
+              <small>Number of events</small>
+              {/* <h2 className="title">{completed}</h2> */}
+            </Box>
+          </Box>
         </SwiperSlide>
         <SwiperSlide>
-          <Card>
+          <Box
+            className="linearGradient"
+            sx={{
+              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+              px: {
+                xs: 4,
+                sm: 4,
+                md: 6,
+                lg: 6,
+                xl: 6,
+              },
+              pb: 2,
+              pt: 2,
+              borderRadius: `1rem`,
+              position: `relative`,
+              color: `#fff`,
+            }}
+          >
             <Image src={Icon4} alt="EventIcon" height={40} width={40} />
-            <div>
-              <h2 className="title">{accepted}</h2>
-              <p>Event on Cue</p>
-            </div>
-            <Image
-              src={Icon6}
-              alt="EventIcon"
-              className="shape"
-              height={200}
-              width={200}
-            />
-          </Card>
+            <Box sx={{ mt: `1rem` }}>
+              {/* <h2 className="title">{accepted}</h2> */}
+              <Typography variant="h4" fontWeight={800}>
+                {data?.eventsInQueue}
+              </Typography>
+              <small>Event on Cue</small>
+            </Box>
+          </Box>
         </SwiperSlide>
       </Swiper>
     </DashboardWrapper>
@@ -148,6 +172,7 @@ const DashboardWrapper = styled(`section`)(({ theme }: any) => ({
   color: theme.palette.primary.main,
   padding: `1.2rem 1rem 2rem 1.2rem`,
   borderRadius: `10px`,
+  border: `solid 1px gray`,
 
   '.subTitle': {
     marginTop: `0.6rem`,

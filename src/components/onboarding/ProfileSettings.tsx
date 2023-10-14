@@ -12,11 +12,7 @@ import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Input from '../common/Input';
 import AvatarImg from '@/public/avatar.png';
-import logoImg from '@/public/logo.png';
-import IllusImg from '@/public/onboarding-image/Feeling proud-bro.svg';
 import data from '@/lib/states.json';
-import SelectState from '../common/SelectState';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setIntro,
@@ -24,6 +20,13 @@ import {
   setIntroThree,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
+import TextArea from '../common/TextArea';
+import MultiSelectServices from './MultiSelectServices';
+import MultipleSelectState from './MultipleSelectState';
+import MultipleSelectCity from './MultipleSelectCity';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import useFetch from '@/hooks/useFetch';
+import SelectState from '../common/SelectState';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -55,19 +58,28 @@ interface PropsTypes {
 }
 
 interface FormTypes {
-  state?: string;
-  firstname?: string | undefined;
-  lastname?: string;
-  city?: string;
+  operationStates?: string;
+  firstName?: string | undefined;
+  lastName?: string;
+  cities?: string;
   picture?: any;
+  coverImage?: any;
   gender?: string;
+  description?: string;
+  name?: string;
+  services?: string;
 }
 
 const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
+  const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
+  const [coverImgName, setCoverImgName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [opsSelectedState, setSelectedOpsState] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
+  const [selectedCities, setSelectedCities] = useState<any>();
+  const [servicesType, setServicesType] = useState<any>();
   const dispatch = useDispatch();
   const { stepOne } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -77,11 +89,51 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     dispatch(setIntro(true));
   };
 
-  const handleFormSubmit = async (credentials: FormTypes) => {
+  const services = [
+    `DJ`,
+    `Catering`,
+    `Photographer`,
+    `MC`,
+    `Make-up Artist`,
+    `Venue manager`,
+    `Event decorator`,
+    `Transportation coordinator`,
+    `Security personnel`,
+    `Videographer`,
+    `Print vendor`,
+    `Ushering`,
+    `Entertainer`,
+  ];
+
+  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+
+  const allCities = data.states.reduce((cities, state) => {
+    cities.push(...state.cities);
+    return cities;
+  }, [] as string[]) as string[];
+
+  const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
       const formData = new FormData();
       formData.append(`picture`, credentials.picture);
+      formData.append(`image`, credentials.image);
+      const resData = {
+        firstName: credentials.firstName,
+        lastName: credentials.lastName,
+        picture: credentials.picture,
+        gender: credentials.gender,
+        image: credentials.image,
+        state: credentials.state,
+        city: credentials.city,
+        company: {
+          name: credentials.name,
+          services: credentials.services,
+          operationCities: credentials.operationCities,
+          operationStates: credentials.operationStates,
+          description: credentials.description,
+        },
+      };
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         resData,
@@ -99,7 +151,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         if (typeof window !== `undefined`) {
           localStorage.setItem(
             `userName`,
-            credentials?.firstname ? credentials?.firstname : ``,
+            credentials?.firstName ? credentials?.firstName : ``,
           );
         }
       }
@@ -111,258 +163,467 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   return (
     <Box>
       {stepOne && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
-          <Box
-            sx={{
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `45%`,
-              height: `100vh`,
-              display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
-              },
-            }}
-          >
-            <Box
-              sx={{
-                width: `100%`,
-              }}
-            >
-              <Box
-                component={motion.div}
-                {...headTextAnimation}
-                sx={{
-                  position: `relative`,
-                }}
-              >
-                <Image src={logoImg} alt="logoImage" height={30} width={150} />
-              </Box>
-              <Box
-                sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `400px`,
-                  mt: `8rem`,
-                }}
-              >
-                <Image src={IllusImg} alt="logoImage" fill />
-              </Box>
-            </Box>
-          </Box>
+        <Box sx={{ display: `flex`, height: `100%` }}>
           <Box
             sx={{ width: `100%`, backgroundColor: `secondary.light` }}
             px={3}
-            py={3}
+            pt={6}
             component={motion.section}
             {...headContainerAnimation}
           >
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: `95%`,
+                  sm: `95%`,
+                  md: `80%`,
+                  lg: `80%`,
+                  xl: `80%`,
                 },
                 margin: `0 auto`,
               }}
             >
+              {/* Form */}
               <Box
+                mb={10}
+                mt={5}
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  backgroundColor: `#fff`,
+                  px: {
+                    xs: 2,
+                    sm: 2,
+                    md: 6,
+                    lg: 8,
+                    xl: 8,
+                  },
+                  py: 4,
+                  borderRadius: `6px`,
+                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
                 }}
               >
                 <Box
-                  color="primary.main"
-                  sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
+                  sx={{
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `space-between`,
+                    mb: `1rem`,
+                  }}
                 >
-                  <HiArrowUturnLeft onClick={handleNextSlide} />
+                  <Box
+                    color="primary.main"
+                    sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
+                  >
+                    <HiArrowUturnLeft onClick={handleNextSlide} />
+                  </Box>
+                  <Box>
+                    <Typography color="primary.main" fontWeight={800}>
+                      Step 1 of 3
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box>
-                  <Typography color="primary.main" fontWeight={600}>
-                    Step 1 of 2
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography
-                component={motion.h5}
-                {...headTextAnimation}
-                mt={1}
-                color="primary.main"
-                py={1}
-                pl={2}
-                sx={{
-                  backgroundColor: `#fff`,
-                  fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    xl: `1rem`,
-                  },
-                  borderRadius: `10px`,
-                  // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                }}
-              >
-                Let&apos;s get you started in 2 quick and easy steps
-              </Typography>
-              <Typography
-                component={motion.h5}
-                {...headTextAnimation}
-                mt={2}
-                fontWeight={800}
-                color="primary.main"
-                sx={{
-                  fontSize: {
-                    xs: `1.3rem`,
-                    sm: `1.3rem`,
-                    md: `1.8rem`,
-                    lg: `2rem`,
-                    xl: `2rem`,
-                  },
-                }}
-              >
-                Create Your Vendor Profile
-              </Typography>
-
-              {/* Form */}
-              <Box mt={1} mb={10}>
+                <Typography
+                  component={motion.h5}
+                  {...headTextAnimation}
+                  fontWeight={800}
+                  color="primary.main"
+                  textAlign="center"
+                  sx={{
+                    fontSize: {
+                      xs: `1.2rem`,
+                      sm: `1.2rem`,
+                      md: `1.5rem`,
+                      lg: `1.5rem`,
+                      xl: `1.5rem`,
+                    },
+                    mb: 4,
+                  }}
+                >
+                  Create Your Business Profile
+                </Typography>
                 <Formik
                   initialValues={{
+                    firstName: queryData?.profile?.firstName
+                      ? queryData?.profile?.firstName
+                      : ``,
+                    lastName: queryData?.profile?.lastName
+                      ? queryData?.profile?.lastName
+                      : ``,
+                    picture: queryData?.profile?.picture
+                      ? queryData?.profile?.picture
+                      : ``,
+                    operationStates: ``,
+                    name: ``,
                     state: ``,
-                    firstname: ``,
-                    lastname: ``,
                     city: ``,
-                    picture: ``,
+                    operationCities: ``,
                     gender: ``,
+                    image: ``,
+                    services: ``,
+                    description: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   // validationSchema={FormSchema}
                 >
                   {({ setFieldValue }) => (
                     <Form>
-                      <Box>
-                        <FormInput
-                          ariaLabel="FirstName"
-                          name="firstname"
-                          type="text"
-                          placeholder="First Name"
-                        />
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          justifyContent: `center`,
+                          mb: 4,
+                        }}
+                      >
+                        {/* Profile Image Input */}
+                        <Box>
+                          <Box
+                            sx={{
+                              display: `flex`,
+                              alignItems: `center`,
+                              justifyContent: `center`,
+                              position: `relative`,
+                            }}
+                          >
+                            <AddButton htmlFor="picture">
+                              <CameraAltIcon
+                                className="icon"
+                                sx={{
+                                  color: `primary.main`,
+                                  backgroundColor: `secondary.main`,
+                                  p: `0.2rem`,
+                                  borderRaduis: `10px`,
+                                }}
+                              />
+                              <Input
+                                type="file"
+                                setPreviewImg={setPreviewImg}
+                                setFileName={setFileName}
+                                name="picture"
+                                accept="image/*"
+                              />
+                            </AddButton>
+                            {previewImg === null ? (
+                              <div>
+                                {queryData?.provider?.profile?.picture ? (
+                                  <Image
+                                    src={queryData?.provider?.profile?.picture}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                ) : (
+                                  <Image
+                                    src={AvatarImg}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                )}
+                              </div>
+                            ) : (
+                              <Box>
+                                <Image
+                                  src={previewImg}
+                                  alt="profileImg"
+                                  height={80}
+                                  width={80}
+                                  style={{ borderRadius: `50%` }}
+                                />
+                              </Box>
+                            )}
+                          </Box>
+                          <small>{`{ jpg, png, jpeg } | max 1mb`}</small>
+                        </Box>
                       </Box>
-                      <Box>
-                        <FormInput
-                          ariaLabel="Last Name"
-                          name="lastname"
-                          type="text"
-                          placeholder="Last Name"
-                        />
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
+                        <Box>
+                          <FormInput
+                            ariaLabel="FirstName"
+                            name="firstName"
+                            type="text"
+                            placeholder="First Name"
+                          />
+                        </Box>
+                        <Box>
+                          <FormInput
+                            ariaLabel="Last Name"
+                            name="lastName"
+                            type="text"
+                            placeholder="Last Name"
+                          />
+                        </Box>
                       </Box>
-                      <Box>
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Gender"
-                          name="gender"
-                        >
-                          <MenuItem value="Male">Male</MenuItem>
-                          <MenuItem value="female">Female</MenuItem>
-                          <MenuItem value="Prefer not say">
-                            Prefer not say
-                          </MenuItem>
-                        </FormInput>
+
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr 1fr`,
+                            lg: `1fr 1fr 1fr`,
+                            xl: `1fr 1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
+                        <Box>
+                          <FormInput
+                            isSelect
+                            selectPlaceholder="Gender"
+                            name="gender"
+                          >
+                            <MenuItem value="Male">Male</MenuItem>
+                            <MenuItem value="female">Female</MenuItem>
+                            <MenuItem value="Prefer not say">
+                              Prefer not say
+                            </MenuItem>
+                          </FormInput>
+                        </Box>
+                        <Box>
+                          <SelectState
+                            selectPlaceholder="Select State"
+                            name="state"
+                            onChange={(e: { target: { value: string } }) => {
+                              const selectedState = data?.states.find(
+                                (state) => state.name === e.target.value,
+                              );
+                              setSelectedState(selectedState);
+                              setFieldValue(`state`, e.target.value);
+                              setFieldValue(`city`, ``);
+                            }}
+                          >
+                            {data?.states?.map((state: any) => {
+                              return (
+                                <MenuItem key={state?.name} value={state.name}>
+                                  {state?.name}
+                                </MenuItem>
+                              );
+                            })}
+                          </SelectState>
+                        </Box>
+                        <Box>
+                          <FormInput
+                            isSelect
+                            selectPlaceholder="Select City"
+                            name="city"
+                          >
+                            {selectedState?.cities?.map((city: any) => {
+                              return (
+                                <MenuItem key={city} value={city}>
+                                  {city}
+                                </MenuItem>
+                              );
+                            })}
+                          </FormInput>
+                        </Box>
                       </Box>
-                      <Box>
-                        <SelectState
-                          selectPlaceholder="Select State"
-                          name="state"
-                          onChange={(e: { target: { value: string } }) => {
-                            const selectedState = data?.states.find(
-                              (state) => state.name === e.target.value,
-                            );
-                            setSelectedState(selectedState);
-                            setFieldValue(`state`, e.target.value);
-                            setFieldValue(`city`, ``);
-                          }}
-                        >
-                          {data?.states?.map((state: any) => {
-                            return (
-                              <MenuItem key={state?.name} value={state.name}>
-                                {state?.name}
-                              </MenuItem>
-                            );
-                          })}
-                        </SelectState>
-                      </Box>
-                      <Box>
-                        <FormInput
-                          isSelect
-                          selectPlaceholder="Select City"
-                          name="city"
-                        >
-                          {selectedState?.cities?.map((city: any) => {
-                            return (
-                              <MenuItem key={city} value={city}>
-                                {city}
-                              </MenuItem>
-                            );
-                          })}
-                        </FormInput>
-                      </Box>
+
+                      {/* Business Cover later */}
                       <Box mb={3}>
                         <Box
                           sx={{
                             display: `flex`,
                             alignItems: `center`,
-                            justifyContent: `space-between`,
+                            justifyContent: `center`,
+                            position: `relative`,
                           }}
                         >
-                          <AddButton htmlFor="picture">
-                            <ImageOutlinedIcon className="icon" /> ADD PHOTO
-                            <Input
-                              type="file"
-                              setPreviewImg={setPreviewImg}
-                              setFileName={setFileName}
-                              name="picture"
-                              accept="image/*"
-                            />
-                          </AddButton>
-                          {previewImg === null ? (
-                            <div>
-                              <Image
-                                src={AvatarImg}
-                                alt="profileImg"
-                                height={50}
-                                width={50}
-                                style={{ borderRadius: `50%` }}
-                              />
-                            </div>
+                          {coverPreviewImg === null ? (
+                            <Box
+                              sx={{
+                                width: `100%`,
+                                height: `100px`,
+                                border: `solid 1px #ccc`,
+                                borderRadius: `10px`,
+                                backgroundColor: `primary.main`,
+                                display: `flex`,
+                                alignItems: `center`,
+                                justifyContent: `center`,
+                                textAlign: `center`,
+                              }}
+                            >
+                              <AddCoverButton htmlFor="image">
+                                <Box
+                                  sx={{
+                                    width: `3rem`,
+                                    height: `3rem`,
+                                    borderRadius: `50%`,
+                                    backgroundColor: `#fff`,
+                                    display: `flex`,
+                                    alignItems: `center`,
+                                    justifyContent: `center`,
+                                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                  }}
+                                >
+                                  <CameraAltIcon
+                                    sx={{
+                                      fontSize: `2rem`,
+                                      color: `primary.main`,
+                                    }}
+                                  />
+                                </Box>
+                                <Input
+                                  type="file"
+                                  setPreviewImg={setCoverPreviewImg}
+                                  setFileName={setCoverImgName}
+                                  name="image"
+                                  accept="image/*"
+                                />
+                              </AddCoverButton>
+                            </Box>
                           ) : (
-                            <Box>
+                            <Box
+                              sx={{
+                                width: `100%`,
+                                height: `100px`,
+                                display: `flex`,
+                                alignItems: `center`,
+                                justifyContent: `center`,
+                                position: `relative`,
+                              }}
+                            >
                               <Image
-                                src={previewImg}
+                                src={coverPreviewImg}
                                 alt="profileImg"
-                                height={50}
-                                width={50}
-                                style={{ borderRadius: `50%` }}
+                                fill
+                                quality={100}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                style={{
+                                  height: `100%`,
+                                  borderRadius: `10px`,
+                                  objectFit: `cover`,
+                                }}
                               />
+                              <Box sx={{ zIndex: 9 }}>
+                                <AddCoverButton htmlFor="image">
+                                  <Box
+                                    sx={{
+                                      borderRadius: `30px`,
+                                      backgroundColor: `#fff`,
+                                      display: `flex`,
+                                      alignItems: `center`,
+                                      padding: `10px`,
+                                      justifyContent: `center`,
+                                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                    }}
+                                  >
+                                    <CameraAltIcon
+                                      sx={{
+                                        fontSize: `2rem`,
+                                        color: `primary.main`,
+                                      }}
+                                    />
+                                  </Box>
+                                  <Input
+                                    type="file"
+                                    setPreviewImg={setCoverPreviewImg}
+                                    setFileName={setCoverImgName}
+                                    name="image"
+                                    accept="image/*"
+                                  />
+                                </AddCoverButton>
+                              </Box>
                             </Box>
                           )}
                         </Box>
                         <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
                       </Box>
-                      <Box mt={5}>
+
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
+                        <Box>
+                          <MultipleSelectState
+                            name="operationStates"
+                            setServices={setSelectedOpsState}
+                            states={data?.states}
+                          />
+                        </Box>
+                        <Box>
+                          <MultipleSelectCity
+                            name="operationCities"
+                            setServices={setSelectedCities}
+                            cities={allCities}
+                          />
+                        </Box>
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
+                        <Box>
+                          <FormInput
+                            ariaLabel="companyName"
+                            name="name"
+                            type="text"
+                            placeholder="Company Name"
+                          />
+                        </Box>
+                        <Box>
+                          <MultiSelectServices
+                            setServices={setServicesType}
+                            name="services"
+                            label="Selected Services"
+                            services={services}
+                          />
+                        </Box>
+                      </Box>
+
+                      <Box>
+                        <TextArea
+                          name="description"
+                          rows={4}
+                          placeholder="Enter Company description"
+                        />
+                      </Box>
+
+                      <Box mt={5} textAlign="center">
                         <CustomButton
                           type="submit"
-                          lgWidth="100%"
+                          lgWidth="50%"
+                          height="3rem"
                           bgPrimary
                           loading={isLoading}
-                          // loadingText="Submiting..."
+                          loadingText="Submiting..."
                         >
                           Next
                         </CustomButton>
@@ -380,19 +641,48 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 };
 
 const AddButton = styled(`label`)(({}) => ({
-  padding: `0.8rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,
   textAlign: `center`,
   verticalAlign: `middle`,
   color: `#333`,
-  border: `solid 1px #ccc`,
   width: `50%`,
   borderRadius: `10px`,
+  position: `absolute`,
+  bottom: `0`,
+  right: `0`,
 
   '.icon': {
-    fontSize: `1rem`,
+    fontSize: `2rem`,
     marginRight: `1rem`,
+    borderRadius: `8px`,
+  },
+
+  'input[type="file"]': {
+    display: `none`,
+  },
+
+  '@media (max-width: 900px)': {
+    padding: `0.5rem 1rem`,
+    width: `60%`,
+  },
+}));
+
+const AddCoverButton = styled(`label`)(({}) => ({
+  cursor: `pointer`,
+  fontSize: `14px`,
+  textAlign: `center`,
+  verticalAlign: `middle`,
+  color: `#333`,
+  borderRadius: `50%`,
+  display: `flex`,
+  alignItems: `center`,
+  justifyContent: `center`,
+
+  '.fileIcon': {
+    fontSize: `2rem`,
+    marginRight: `1rem`,
+    color: `primary.main`,
   },
 
   'input[type="file"]': {

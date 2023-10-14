@@ -20,7 +20,7 @@ const HistoryPage = ({ token }: any) => {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
         {
           headers: {
             'Content-Type': `application/json`,

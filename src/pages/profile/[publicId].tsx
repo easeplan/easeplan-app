@@ -40,12 +40,12 @@ const PublicProfilePage = ({ data, publicId }: any) => {
       </Head>
       <Layout publicId={publicId}>
         <Box>
-          <Hero queryData={data?.data} publicId={publicId} />
-          <PricingSection queryData={data?.data} />
+          <Hero queryData={data} publicId={publicId} />
+          {/* <PricingSection queryData={data} /> */}
+          <Divider sx={{ mt: 6 }} />
+          <PreviousEvent queryData={data} />
           <Divider />
-          <PreviousEvent queryData={data?.data} />
-          <Divider />
-          <ClientReviews queryData={data?.data} />
+          <ClientReviews queryData={data} />
         </Box>
       </Layout>
     </>

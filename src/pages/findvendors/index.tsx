@@ -1,15 +1,13 @@
 import CardList from '@/components/vendors/CardList';
 import Layout from '@/components/vendors/Layout';
-import { Box, Button, Pagination, Typography } from '@mui/material';
+import { Box, Button, Pagination } from '@mui/material';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useFetchVendors } from '@/hooks/useFetchVendors';
-import Header from '@/components/vendors/Header';
 import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
-import useLocation from '@/hooks/useLocation';
 import Head from 'next/head';
 
 const services = [
@@ -92,23 +90,14 @@ const services = [
 ];
 
 const VendorPage = () => {
-  const { currentCity, currentState, error } = useLocation();
   const [page, setPage] = useState(1);
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
   const [budget, setBudget] = useState(``);
-  // console.log(`state:`, currentCity);
 
   const { search, handleSearchChange } = useSearch();
   const { service, handleSetService } = useSearchServices();
-  const { data } = useFetchVendors(
-    page,
-    search,
-    currentState,
-    currentCity,
-    budget,
-    service,
-  );
+  const { data } = useFetchVendors(page, search, state, city, budget, service);
 
   const handleChange = (event: any, value: any) => {
     setPage(value);

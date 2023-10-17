@@ -10,7 +10,6 @@ import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
 
 const services = [
   {
@@ -98,7 +97,7 @@ const VendorPage = () => {
   const [budget, setBudget] = useState(``);
 
   const { search, handleSearchChange } = useSearch();
-  const { service, handleSetService, handleClearService } = useSearchServices();
+  const { service, handleSetService } = useSearchServices();
   const { data } = useFetchVendors(page, search, state, city, budget, service);
 
   const handleChange = (event: any, value: any) => {
@@ -157,30 +156,25 @@ const VendorPage = () => {
           >
             <Box my={4}>
               <Swiper
-                navigation={true}
-                modules={[Navigation]}
                 slidesPerView={3}
-                spaceBetween={50}
+                spaceBetween={30}
                 breakpoints={{
                   640: {
-                    spaceBetween: 50,
-                    slidesPerView: 8.8,
+                    spaceBetween: 6,
+                    slidesPerView: 10,
                   },
                   768: {
-                    spaceBetween: 2,
-                    slidesPerView: 8.6,
+                    spaceBetween: 4,
+                    slidesPerView: 8.8,
                   },
                   1024: {
                     spaceBetween: 2,
-                    slidesPerView: 10,
+                    slidesPerView: 8.8,
                   },
                 }}
               >
                 {services.map((service) => (
-                  <SwiperSlide
-                    key={service?.id}
-                    style={{ paddingLeft: `4rem`, paddingRight: `10rem` }}
-                  >
+                  <SwiperSlide key={service?.id}>
                     <Button
                       onClick={() => handleSetService(service?.title)}
                       variant="text"
@@ -201,9 +195,6 @@ const VendorPage = () => {
                 ))}
               </Swiper>
             </Box>
-            {/* <Button variant="text" onClick={handleClearService}>
-              All Categories
-            </Button> */}
             <Typography
               mb={4}
               variant="h6"

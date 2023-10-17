@@ -18,7 +18,10 @@ const PublicProfilePage = ({ data, publicId }: any) => {
   return (
     <>
       <Head>
-        <title>{data?.providerProfile?.company?.name} Business Profile</title>
+        <title>
+          Book {data?.providerProfile?.company?.name} a vendor in{` `}
+          {data?.providerProfile?.state}
+        </title>
         <meta name="theme-color" content="#134153" />
         <meta itemProp="name" content={data?.providerProfile?.company?.name} />
         <meta

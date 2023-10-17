@@ -10,6 +10,7 @@ import Header from '@/components/vendors/Header';
 import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import useLocation from '@/hooks/useLocation';
+import Head from 'next/head';
 
 const services = [
   {
@@ -114,66 +115,83 @@ const VendorPage = () => {
   };
 
   return (
-    <Layout handleSearchChange={handleSearchChange}>
-      <Box
-        sx={{
-          pt: {
-            xs: 4,
-            sm: 4,
-            md: 4,
-            lg: 10,
-            xl: 10,
-          },
-          px: {
-            xs: 4,
-            sm: 4,
-            md: 4,
-            lg: 10,
-            xl: 10,
-          },
-        }}
-      >
-        <Box sx={{ mt: 4 }}>
-          <Box>
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={50}
-              breakpoints={{
-                640: {
-                  spaceBetween: 30,
-                  slidesPerView: 8.8,
-                },
-                768: {
-                  spaceBetween: 2,
-                  slidesPerView: 8.6,
-                },
-                1024: {
-                  spaceBetween: 2,
-                  slidesPerView: 10,
-                },
-              }}
-              className="mySwiper"
-            >
-              {services.map((service) => (
-                <SwiperSlide key={service?.id}>
-                  <Button
-                    onClick={() => handleSetService(service?.title)}
-                    variant="text"
-                    sx={{
-                      textWrap: `nowrap`,
-                      fontWeight: `900`,
-                      cursor: `pointer`,
-                      color: `primary.main`,
-                      textTransform: `capitalize`,
-                    }}
-                  >
-                    {service.title}
-                  </Button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </Box>
-          {/* <Box sx={{ display: `flex`, gap: `2rem`, overflow: `hidden` }}>
+    <>
+      <Head>
+        <title>
+          EasePlan || Find event vendors near you in Lagos, Abuja, Port
+          Harcourt, Delta, Ibadan, Calabar, Enugu, Abia, Owerri
+        </title>
+        <meta
+          name="description"
+          content="Make event planning a breeze with Easeplan. Find the best service providers, connect with top event planners and vendors near you, and manage everything in one easy-to-use platform in Lagos, Abuja, Port
+          Harcourt, Delta, Ibadan, Calabar, Enugu, Abia, Owerri"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="keyword"
+          content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
+        />
+      </Head>
+      <Layout handleSearchChange={handleSearchChange}>
+        <Box
+          sx={{
+            pt: {
+              xs: 4,
+              sm: 4,
+              md: 4,
+              lg: 10,
+              xl: 10,
+            },
+            px: {
+              xs: 4,
+              sm: 4,
+              md: 4,
+              lg: 10,
+              xl: 10,
+            },
+          }}
+        >
+          <Box sx={{ mt: 4 }}>
+            <Box>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={50}
+                breakpoints={{
+                  640: {
+                    spaceBetween: 30,
+                    slidesPerView: 8.8,
+                  },
+                  768: {
+                    spaceBetween: 2,
+                    slidesPerView: 8.6,
+                  },
+                  1024: {
+                    spaceBetween: 2,
+                    slidesPerView: 10,
+                  },
+                }}
+                className="mySwiper"
+              >
+                {services.map((service) => (
+                  <SwiperSlide key={service?.id}>
+                    <Button
+                      onClick={() => handleSetService(service?.title)}
+                      variant="text"
+                      sx={{
+                        textWrap: `nowrap`,
+                        fontWeight: `900`,
+                        cursor: `pointer`,
+                        color: `primary.main`,
+                        textTransform: `capitalize`,
+                      }}
+                    >
+                      {service.title}
+                    </Button>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Box>
+            {/* <Box sx={{ display: `flex`, gap: `2rem`, overflow: `hidden` }}>
             {services?.map((service) => (
               <Box key={service?.id}>
                 <Button
@@ -191,25 +209,26 @@ const VendorPage = () => {
               </Box>
             ))}
           </Box> */}
-          <CardList data={data} />
-          <Box
-            sx={{
-              display: `flex`,
-              justifyContent: `center`,
-              alignItems: `center`,
-              my: 6,
-            }}
-          >
-            <Pagination
-              count={5}
-              color="primary"
-              page={page}
-              onChange={handleChange}
-            />
+            <CardList data={data} />
+            <Box
+              sx={{
+                display: `flex`,
+                justifyContent: `center`,
+                alignItems: `center`,
+                my: 6,
+              }}
+            >
+              <Pagination
+                count={5}
+                color="primary"
+                page={page}
+                onChange={handleChange}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </Layout>
+      </Layout>
+    </>
   );
 };
 

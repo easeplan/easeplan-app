@@ -16,7 +16,6 @@ const CardList = ({ data }: any) => {
           xl: `1fr 1fr 1fr 1fr`,
         },
         gap: `2rem`,
-        my: 4,
       }}
     >
       {data?.map((data: any) => (

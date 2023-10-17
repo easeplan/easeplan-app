@@ -115,7 +115,14 @@ const VendorPage = () => {
           content="Make event planning a breeze with Easeplan. Find the best service providers, connect with top event planners and vendors near you, and manage everything in one easy-to-use platform in Lagos, Abuja, Port
           Harcourt, Delta, Ibadan, Calabar, Enugu, Abia, Owerri"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
         <meta
           name="keyword"
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
@@ -140,7 +147,13 @@ const VendorPage = () => {
             },
           }}
         >
-          <Box sx={{ mt: 4 }}>
+          <Box
+            sx={{
+              mt: {
+                xl: 4,
+              },
+            }}
+          >
             <Box>
               <Swiper
                 slidesPerView={3}
@@ -180,24 +193,6 @@ const VendorPage = () => {
                 ))}
               </Swiper>
             </Box>
-            {/* <Box sx={{ display: `flex`, gap: `2rem`, overflow: `hidden` }}>
-            {services?.map((service) => (
-              <Box key={service?.id}>
-                <Button
-                  onClick={() => handleSetService(service?.title)}
-                  variant="text"
-                  sx={{
-                    textWrap: `nowrap`,
-                    fontWeight: `900`,
-                    cursor: `pointer`,
-                    color: `primary.main`,
-                  }}
-                >
-                  {service.title}
-                </Button>
-              </Box>
-            ))}
-          </Box> */}
             <CardList data={data} />
             <Box
               sx={{
@@ -208,7 +203,7 @@ const VendorPage = () => {
               }}
             >
               <Pagination
-                count={5}
+                count={2}
                 color="primary"
                 page={page}
                 onChange={handleChange}

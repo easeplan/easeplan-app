@@ -34,8 +34,6 @@ const VerifyPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
-  console.log(queryData);
-
   return (
     <DashboardLayout token={token}>
       <Flex>

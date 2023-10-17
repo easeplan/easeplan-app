@@ -6,8 +6,11 @@ const useSearchServices = (serviceType = ``) => {
   const handleSetService = (data: string) => {
     setService(data);
   };
+  const handleClearService = () => {
+    setService(` `);
+  };
 
-  return { service, handleSetService };
+  return { service, handleSetService, handleClearService };
 };
 
 export default useSearchServices;

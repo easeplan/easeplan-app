@@ -53,17 +53,17 @@ a {
 
 .swiper-button-next {
   color: #fff !important;
-  width: 50px !important;
+  width: 40px !important;
   height: 50px !important;
-  border-radius: 50% !important;
-  background: #71f79f;
+  background: #174e64;
   /* margin-right: 20rem !important; */
 }
 
 .swiper-button-next::before {
-  content: '→';
+  content: '>';
   font-size: 1.5rem;
   margin-bottom: 0.4rem;
+  font-weight: 800;
 }
 
 .swiper-button-next::after {
@@ -72,17 +72,16 @@ a {
 
 .swiper-button-prev {
   color: #fff !important;
-  width: 50px !important;
+  width: 40px !important;
   height: 50px !important;
-  border-radius: 50% !important;
-  background: #71f79f;
+  background: #174e64;
 }
 
 .swiper-button-prev::before {
-  content: '→';
+  content: '>';
   font-size: 1.5rem;
   transform: rotate(180deg);
-  margin-top: 0.4rem;
+  /* margin-top: 0.rem; */
   font-weight: 800;
 }
 
@@ -95,7 +94,7 @@ a {
     height: 200px;
   } */
 
-  .swiper-button-next {
+  /* .swiper-button-next {
     width: 35px !important;
     height: 35px !important;
   }
@@ -116,7 +115,7 @@ a {
     font-size: 1rem;
     transform: rotate(180deg);
     margin-top: 0rem;
-  }
+  } */
 }
 
 .previousEventGradient {

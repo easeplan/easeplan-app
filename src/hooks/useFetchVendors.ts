@@ -12,8 +12,6 @@ export function useFetchVendors(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //   console.log(`Hey`, currentCity);
-
   useEffect(() => {
     // Assuming you're fetching data from an API
     fetch(
@@ -34,7 +32,7 @@ export function useFetchVendors(
         setError(error);
         setLoading(false);
       });
-  }, [page, search, service, currentState]); // The effect will re-run if userId changes
+  }, [page, search, service]); // The effect will re-run if userId changes
 
   return { data, loading, error };
 }

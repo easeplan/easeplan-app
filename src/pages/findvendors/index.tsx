@@ -1,6 +1,6 @@
 import CardList from '@/components/vendors/CardList';
 import Layout from '@/components/vendors/Layout';
-import { Box, Button, Pagination } from '@mui/material';
+import { Box, Button, Pagination, Typography } from '@mui/material';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,6 +9,8 @@ import { useFetchVendors } from '@/hooks/useFetchVendors';
 import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
 
 const services = [
   {
@@ -96,7 +98,7 @@ const VendorPage = () => {
   const [budget, setBudget] = useState(``);
 
   const { search, handleSearchChange } = useSearch();
-  const { service, handleSetService } = useSearchServices();
+  const { service, handleSetService, handleClearService } = useSearchServices();
   const { data } = useFetchVendors(page, search, state, city, budget, service);
 
   const handleChange = (event: any, value: any) => {
@@ -132,9 +134,9 @@ const VendorPage = () => {
         <Box
           sx={{
             pt: {
-              xs: 4,
-              sm: 4,
-              md: 4,
+              xs: 0,
+              sm: 0,
+              md: 0,
               lg: 10,
               xl: 10,
             },
@@ -149,18 +151,19 @@ const VendorPage = () => {
         >
           <Box
             sx={{
-              mt: {
-                xl: 4,
-              },
+              mt: 2,
+              mb: 10,
             }}
           >
-            <Box>
+            <Box my={4}>
               <Swiper
+                navigation={true}
+                modules={[Navigation]}
                 slidesPerView={3}
                 spaceBetween={50}
                 breakpoints={{
                   640: {
-                    spaceBetween: 30,
+                    spaceBetween: 50,
                     slidesPerView: 8.8,
                   },
                   768: {
@@ -172,19 +175,24 @@ const VendorPage = () => {
                     slidesPerView: 10,
                   },
                 }}
-                className="mySwiper"
               >
                 {services.map((service) => (
-                  <SwiperSlide key={service?.id}>
+                  <SwiperSlide
+                    key={service?.id}
+                    style={{ paddingLeft: `4rem`, paddingRight: `10rem` }}
+                  >
                     <Button
                       onClick={() => handleSetService(service?.title)}
                       variant="text"
                       sx={{
                         textWrap: `nowrap`,
                         fontWeight: `900`,
+                        backgroundColor: `#fafafa`,
+                        border: `solid 1px #fafafa`,
                         cursor: `pointer`,
                         color: `primary.main`,
                         textTransform: `capitalize`,
+                        whiteSpace: `nowrap`,
                       }}
                     >
                       {service.title}
@@ -193,6 +201,17 @@ const VendorPage = () => {
                 ))}
               </Swiper>
             </Box>
+            {/* <Button variant="text" onClick={handleClearService}>
+              All Categories
+            </Button> */}
+            <Typography
+              mb={4}
+              variant="h6"
+              fontWeight="900"
+              color="primary.main"
+            >
+              All {service ? service : `Categories`}
+            </Typography>
             <CardList data={data} />
             <Box
               sx={{

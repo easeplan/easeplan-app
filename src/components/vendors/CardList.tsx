@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from './Card';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
-const CardList = ({ data }: any) => {
+const CardList = ({ data, title }: any) => {
   return (
     <Box
       sx={{

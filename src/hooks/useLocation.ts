@@ -35,7 +35,7 @@ function useLocation() {
         setLocation({
           currentState: null,
           currentCity: null,
-          error: error.message,
+          error: null,
         });
       },
     );

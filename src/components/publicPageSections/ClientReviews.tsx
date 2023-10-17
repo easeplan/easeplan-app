@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import avatarImg from '@/public/avatar.png';
-import { Navigation, Pagination } from 'swiper';
+// import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -52,7 +52,7 @@ const ClientReviews = ({ queryData }: any) => {
                 delay: 2500,
                 disableOnInteraction: false,
               }}
-              modules={[Pagination, Navigation]}
+              // modules={[Pagination, Navigation]}
               navigation={true}
               slidesPerView={1}
               spaceBetween={40}

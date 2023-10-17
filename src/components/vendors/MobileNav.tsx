@@ -34,6 +34,17 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
     } catch (error: any) {}
   };
 
+  const handledBecomeAVendor = () => {
+    if (userInfo) {
+      router.push(`/account/onboarding`);
+    } else {
+      router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, `/account/onboarding`);
+      }
+    }
+  };
+
   return (
     <MobileWrapper
       style={{
@@ -44,10 +55,42 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
       {!userInfo ? (
         <>
           <Link href="/signup">
-            <CustomButton bgSecondary>SIGN UP</CustomButton>
+            <Button
+              type="button"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={handledLogin}
+            >
+              Sign up
+            </Button>
           </Link>
-          <Button type="button" color="secondary" onClick={handledLogin}>
+          <div></div>
+          <Button
+            type="button"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={handledLogin}
+          >
             Login
+          </Button>
+          <div></div>
+          <Button
+            onClick={handledBecomeAVendor}
+            variant="outlined"
+            sx={{
+              backgroundColor: `primary.main`,
+              color: `secondary.main`,
+              borderColor: `primary.main`,
+              textTransform: `inherit`,
+              mt: 2,
+              '&:hover': {
+                borderColor: `secondary.main`,
+                color: `primary.main`,
+                backgroundColor: `secondary.main`,
+              },
+            }}
+          >
+            Become a vendor
           </Button>
         </>
       ) : (
@@ -69,7 +112,9 @@ const MobileWrapper = styled(Box)(({ theme }) => ({
   height: `100vh`,
   transition: `0.3s all ease`,
   width: `100%`,
-  padding: `3rem`,
+  paddingTop: `6rem`,
+  paddingLeft: `3rem`,
+  paddingRight: `3rem`,
   overflowX: `auto`,
   zIndex: `99`,
 

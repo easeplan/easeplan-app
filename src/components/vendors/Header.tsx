@@ -16,24 +16,18 @@ import {
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import SearchDrawer from './SearchDrawer';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import SearchInput from './SearchInput';
+import { useRouter } from 'next/router';
 
-const settings = [`Profile`, `Account`, `Dashboard`, `Logout`];
-
-const Header = () => {
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+const Header = ({ handleSearchChange }: any) => {
+  const router = useRouter();
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -44,6 +38,18 @@ const Header = () => {
   const handleClick = () => {
     setToggleMenu(!toggleMenu);
   };
+
+  const handledBecomeAVendor = () => {
+    if (userInfo) {
+      router.push(`/account/onboarding`);
+    } else {
+      router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, `/account/onboarding`);
+      }
+    }
+  };
+
   return (
     <NavWrapper>
       <MobileNav show={toggleMenu} handleClick={handleClick} />
@@ -65,8 +71,9 @@ const Header = () => {
             </Link>
           </Box>
           <NavItemWrapper>
-            <SearchDrawer />
+            <SearchInput handleSearchChange={handleSearchChange} />
             <Button
+              onClick={handledBecomeAVendor}
               variant="outlined"
               sx={{
                 color: `secondary.main`,
@@ -112,11 +119,19 @@ const Header = () => {
                 onClose={handleCloseUserMenu}
               >
                 <Box>
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  {userInfo && (
+                    <>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">Settings</Typography>
+                      </MenuItem>
+                    </>
+                  )}
+                  <MenuItem>
+                    <Link href="/login">Login</Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Link href="/sign up">Sign up</Link>
+                  </MenuItem>
                 </Box>
               </Menu>
             </Box>
@@ -174,11 +189,17 @@ const Header = () => {
               onClose={handleCloseUserMenu}
             >
               <Box>
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                {userInfo && (
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Settings</Typography>
                   </MenuItem>
-                ))}
+                )}
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Login</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Sign up</Typography>
+                </MenuItem>
               </Box>
             </Menu>
           </Box>

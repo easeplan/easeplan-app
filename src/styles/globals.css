@@ -443,3 +443,18 @@ a {
   background: rgb(23,78,100);
   background: linear-gradient(114deg, rgba(23,78,100,1) 0%, rgba(3,91,124,1) 20%, rgba(12,82,63,1) 63%, rgba(45,158,84,1) 100%);
 }
+
+
+.searchInput {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  border: solid 1px #ccc;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 1rem;
+}

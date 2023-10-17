@@ -1,8 +1,9 @@
 import React from 'react';
 import Card from './Card';
 import { Box } from '@mui/material';
+import Link from 'next/link';
 
-const CardList = () => {
+const CardList = ({ data }: any) => {
   return (
     <Box
       sx={{
@@ -18,8 +19,10 @@ const CardList = () => {
         my: 4,
       }}
     >
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((data, i) => (
-        <Card key={i} />
+      {data?.map((data: any) => (
+        <Link href={`/profile/${data?.publicId}`} key={data?.id}>
+          <Card data={data} />
+        </Link>
       ))}
     </Box>
   );

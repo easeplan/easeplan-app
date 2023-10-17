@@ -7,7 +7,7 @@ const useSearchServices = (serviceType = ``) => {
     setService(data);
   };
   const handleClearService = () => {
-    setService(` `);
+    setService(``);
   };
 
   return { service, handleSetService, handleClearService };

@@ -1,6 +1,6 @@
 import CardList from '@/components/vendors/CardList';
 import Layout from '@/components/vendors/Layout';
-import { Box, Button, Pagination, Typography } from '@mui/material';
+import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -97,7 +97,7 @@ const VendorPage = () => {
   const [budget, setBudget] = useState(``);
 
   const { search, handleSearchChange } = useSearch();
-  const { service, handleSetService } = useSearchServices();
+  const { service, handleSetService, handleClearService } = useSearchServices();
   const { data } = useFetchVendors(page, search, state, city, budget, service);
 
   const handleChange = (event: any, value: any) => {
@@ -177,7 +177,6 @@ const VendorPage = () => {
                   <SwiperSlide key={service?.id}>
                     <Button
                       onClick={() => handleSetService(service?.title)}
-                      variant="text"
                       sx={{
                         textWrap: `nowrap`,
                         fontWeight: `900`,
@@ -195,14 +194,16 @@ const VendorPage = () => {
                 ))}
               </Swiper>
             </Box>
-            <Typography
-              mb={4}
-              variant="h6"
-              fontWeight="900"
-              color="primary.main"
-            >
-              All {service ? service : `Categories`}
-            </Typography>
+            <Box mb={4} sx={{ display: `flex`, alignItems: `center` }}>
+              {service ? (
+                <Button sx={{ fontWeight: `600` }} onClick={handleClearService}>
+                  Previous /
+                </Button>
+              ) : null}
+              <Typography variant="h6" fontWeight="900" color="primary.main">
+                All {service ? service : `Categories`}
+              </Typography>
+            </Box>
             <CardList data={data} />
             <Box
               sx={{

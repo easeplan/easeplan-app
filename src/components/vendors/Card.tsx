@@ -3,8 +3,10 @@ import Image from 'next/image';
 import React from 'react';
 import eventImg from '@/public/cakesImg.png';
 import StarIcon from '@mui/icons-material/Star';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { formatCurrency } from '@/utils';
 
-const Card = ({ props }: any) => {
+const Card = ({ data }: any) => {
   return (
     <Box
       sx={{
@@ -16,37 +18,67 @@ const Card = ({ props }: any) => {
       <Box
         sx={{
           width: `100%`,
-          height: `10rem`,
-          backgroundColor: `primary.main`,
+          height: `8rem`,
+          // backgroundColor: `primary.main`,
           position: `relative`,
           overflow: `hidden`,
           borderRadius: `10px`,
         }}
       >
         <Image
-          src={eventImg}
+          src={data?.company?.image ? data?.company?.image : eventImg}
           alt="eventImage"
-          fill
-          style={{ borderRadius: `10px` }}
+          height={200}
+          width={300}
+          style={{
+            objectFit: `contain`,
+            height: `200`,
+            width: `300`,
+            borderRadius: `10px`,
+            // transform: `scale(1.1)`,
+          }}
         />
       </Box>
       <Box p={2}>
-        <Typography fontWeight={600} sx={{ fontSize: `1rem` }}>
-          Samuel Oyinka
+        <Typography
+          fontWeight={600}
+          sx={{ fontSize: `0.9rem`, textTransform: `uppercase` }}
+        >
+          {data?.company?.name}
         </Typography>
-        <Typography sx={{ fontSize: `0.9rem` }}>Make-up Artist</Typography>
+        <Typography sx={{ fontSize: `0.9rem`, mb: 1 }}>
+          {data?.company?.services}
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: `0.8rem`,
+            fontWeight: `700`,
+            color: `grey`,
+            display: `flex`,
+            alignItems: `center`,
+          }}
+        >
+          <LocationOnIcon sx={{ fontSize: `0.9rem` }} />
+          {data?.state}
+        </Typography>
         <Box sx={{ display: `flex`, justifyContent: `space-between`, mt: 2 }}>
           <Typography
             sx={{ fontSize: `0.9rem`, display: `flex`, alignItems: `center` }}
           >
-            <StarIcon sx={{ color: `orange` }} /> <strong>5.0</strong>
+            {/* {data?.rating === 0 ? (
+              <StarIcon sx={{ color: `grey` }} />
+            ) : (
+              <StarIcon sx={{ color: `orange` }} />
+            )} */}
+            <StarIcon sx={{ color: `orange` }} />
+            {` `}
+            <strong>{data?.rating}</strong>
           </Typography>
-          <Button
-            variant="outlined"
-            sx={{ textTransform: `inherit`, color: `primary.main` }}
-          >
-            View my profile
-          </Button>
+          <Typography sx={{ fontSize: `0.9rem` }}>
+            Starting {` `}
+            {` `}
+            <strong> ₦{formatCurrency(data?.budget?.minimum)}</strong>
+          </Typography>
         </Box>
       </Box>
     </Box>

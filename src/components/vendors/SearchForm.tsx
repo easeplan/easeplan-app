@@ -106,8 +106,8 @@ const SearchForm = ({ token }: any) => {
         <Box
           sx={{
             py: {
-              xs: 3,
-              lg: 4,
+              xs: 1,
+              lg: 1,
             },
           }}
         >

@@ -1,43 +1,28 @@
 import React from 'react';
 import Header from './Header';
-import { Box, Button, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import SearchDrawer from './SearchDrawer';
+import { Box } from '@mui/material';
+import SearchInput from './SearchInput';
 
-const Layout = ({ children }: any) => {
+const Layout = ({ children, handleSearchChange }: any) => {
   return (
     <div>
-      <Header />
+      <Header handleSearchChange={handleSearchChange} />
       <Box
         sx={{
-          pt: 10,
-          px: {
-            xs: 4,
-            sm: 4,
-            md: 4,
-            lg: 10,
-            xl: 10,
+          display: {
+            xs: `block`,
+            sm: `block`,
+            md: `block`,
+            lg: `none`,
+            xl: `none`,
           },
+          pt: 10,
+          px: 4,
         }}
       >
-        <Box
-          sx={{
-            display: {
-              xs: `block`,
-              sm: `block`,
-              md: `block`,
-              lg: `none`,
-              xl: `none`,
-            },
-          }}
-        >
-          <Box>
-            <SearchDrawer />
-          </Box>
-        </Box>
-        {children}
+        <SearchInput handleSearchChange={handleSearchChange} />
       </Box>
+      <>{children}</>
     </div>
   );
 };

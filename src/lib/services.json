@@ -4,6 +4,7 @@
     "Catering",
     "Photographer",
     "MC",
+    "Brider Stylist",
     "Make-up Artist",
     "Venue manager",
     "Event decorator",
@@ -12,6 +13,14 @@
     "Videographer",
     "Print vendor",
     "Ushering",
-    "Entertainer"
+    "Entertainer",
+    "Dancer",
+    "Tailor",
+    "Venue Vendor",
+    "Sound Engineer",
+    "Instrumentalist",
+    "Comedian",
+    "Hair Dresser",
+    "Live Band"
   ]
 }

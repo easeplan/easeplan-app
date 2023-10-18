@@ -49,7 +49,7 @@ const MobileNav = ({
     >
       {!userInfo ? (
         <>
-          <NavItem href="/" text="Home" />
+          <NavItem href="https://www.easeplan.io" text="Home" />
           <NavItem
             href="https://app.easeplan.io/findvendors"
             text="Find Vendors"

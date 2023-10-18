@@ -17,7 +17,7 @@ const Layout = ({ children, handleSearchChange, data }: any) => {
               lg: `none`,
               xl: `none`,
             },
-            pt: { xs: `8`, sm: `8`, md: `8`, lg: `10`, xl: `10 ` },
+            pt: { xs: 10, sm: 10 },
             px: 4,
           }}
         >

@@ -54,45 +54,16 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
     >
       {!userInfo ? (
         <>
-          <Link href="/signup">
-            <Button
-              type="button"
-              color="primary"
-              sx={{ mt: 2 }}
-              onClick={handledLogin}
-            >
-              Sign up
-            </Button>
+          <NavItem href="/" text="Home" />
+          <NavItem
+            href="https://app.easeplan.io/findvendors"
+            text="Find Vendors"
+          />
+          <NavItem href="/signup" text="Become a vendor" />
+          <NavItem href="https://app.easeplan.io/login" text="Login" />
+          <Link href="https://app.easeplan.io/signup">
+            <CustomButton bgSecondary>SIGN UP</CustomButton>
           </Link>
-          <div></div>
-          <Button
-            href="/login"
-            type="button"
-            color="primary"
-            sx={{ mt: 2 }}
-            onClick={handledLogin}
-          >
-            Login
-          </Button>
-          <div></div>
-          <Button
-            onClick={handledBecomeAVendor}
-            variant="outlined"
-            sx={{
-              backgroundColor: `primary.main`,
-              color: `secondary.main`,
-              borderColor: `primary.main`,
-              textTransform: `inherit`,
-              mt: 2,
-              '&:hover': {
-                borderColor: `secondary.main`,
-                color: `primary.main`,
-                backgroundColor: `secondary.main`,
-              },
-            }}
-          >
-            Become a vendor
-          </Button>
         </>
       ) : (
         <>

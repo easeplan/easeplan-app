@@ -21,8 +21,8 @@ const SearchInput = ({ handleSearchChange }: any) => {
           xs: `100%`,
           sm: `100%`,
           md: `20rem`,
-          lg: `30rem`,
-          xl: `30rem`,
+          lg: `20rem`,
+          xl: `20rem`,
         },
         '&:hover': {
           background: `#fff`,

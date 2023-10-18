@@ -18,6 +18,7 @@ export { getServerSideProps } from '@/context/contextStore';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
+import GroupIcon from '@mui/icons-material/Group';
 
 const Sidenav = ({ data }: any) => {
   const dispatch = useDispatch();
@@ -56,6 +57,13 @@ const Sidenav = ({ data }: any) => {
             icon={<StyleIcon />}
             text="Events"
             href="/account/history"
+          />
+        </Links>
+        <Links>
+          <SidebarItem
+            icon={<GroupIcon />}
+            text="Find Vendors"
+            href="/findvendors"
           />
         </Links>
         {data?.providerProfile ? (

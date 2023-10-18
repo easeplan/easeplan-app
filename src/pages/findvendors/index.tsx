@@ -21,6 +21,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+export { getServerSideProps } from '@/hooks/useFetchToken';
 
 const services = [
   {
@@ -127,12 +128,7 @@ const VendorPage = ({ token }: Props) => {
     setPage(value);
   };
 
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
-    token,
-  );
-
-  console.log(data);
+  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
   return (
     <>
@@ -159,7 +155,10 @@ const VendorPage = ({ token }: Props) => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout handleSearchChange={handleSearchChange} data={queryData}>
+      <Layout
+        handleSearchChange={handleSearchChange}
+        data={queryData?.provider}
+      >
         <Box
           sx={{
             pt: {

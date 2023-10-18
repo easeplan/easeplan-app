@@ -7,17 +7,17 @@ const Layout = ({ children, handleSearchChange, data }: any) => {
   return (
     <div>
       <Header handleSearchChange={handleSearchChange} data={data} />
-      <Box>
+      <Box sx={{ pt: { md: 15, lg: 0, xl: 0 } }}>
         <Box
           sx={{
             display: {
               xs: `block`,
               sm: `block`,
-              md: `block`,
+              md: `none`,
               lg: `none`,
               xl: `none`,
             },
-            pt: { xs: 10, sm: 10, md: 15 },
+            pt: { xs: 15, sm: 15, md: 15 },
             px: 4,
           }}
         >

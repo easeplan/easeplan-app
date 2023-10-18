@@ -7,20 +7,22 @@ const Layout = ({ children, handleSearchChange }: any) => {
   return (
     <div>
       <Header handleSearchChange={handleSearchChange} />
-      <Box
-        sx={{
-          display: {
-            xs: `block`,
-            sm: `block`,
-            md: `block`,
-            lg: `none`,
-            xl: `none`,
-          },
-          pt: 10,
-          px: 4,
-        }}
-      >
-        <SearchInput handleSearchChange={handleSearchChange} />
+      <Box>
+        <Box
+          sx={{
+            display: {
+              xs: `block`,
+              sm: `block`,
+              md: `none`,
+              lg: `none`,
+              xl: `none`,
+            },
+            pt: { xs: `8`, sm: `8`, md: `8`, lg: `10`, xl: `10 ` },
+            px: 4,
+          }}
+        >
+          <SearchInput handleSearchChange={handleSearchChange} />
+        </Box>
       </Box>
       <>{children}</>
     </div>

@@ -60,7 +60,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `none`,
                 sm: `none`,
-                md: `none`,
+                md: `block`,
                 lg: `block`,
                 xl: `block`,
               },
@@ -142,7 +142,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `block`,
                 sm: `block`,
-                md: `block`,
+                md: `none`,
                 lg: `none`,
                 xl: `none`,
               },
@@ -158,7 +158,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `block`,
                 sm: `block`,
-                md: `block`,
+                md: `none`,
                 lg: `none`,
                 xl: `none`,
               },

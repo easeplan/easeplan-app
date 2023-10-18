@@ -22,17 +22,14 @@ const Navbar = () => {
         <Flex>
           <Logo />
           <NavItemWrapper>
-            <NavItem href="https://www.easeplan.io/" text="Home" />
+            <NavItem href="/" text="Home" />
             <NavItem
-              href="https://www.easeplan.io/planner"
-              text="Join planners"
+              href="https://app.easeplan.io/findvendors"
+              text="Find Vendors"
             />
-            <NavItem
-              href="https://www.easeplan.io/vendor"
-              text="Join vendors"
-            />
-            <NavItem href="/login" text="Login" />
-            <Link href="/signup">
+            <NavItem href="/signup" text="Become a vendor" />
+            <NavItem href="https://app.easeplan.io/login" text="Login" />
+            <Link href="https://app.easeplan.io/signup">
               <CustomButton p="0 3rem" bgSecondary>
                 Sign up
               </CustomButton>

@@ -20,6 +20,7 @@ import 'swiper/css/navigation';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 const services = [
   {
@@ -131,6 +132,8 @@ const VendorPage = ({ token }: Props) => {
     token,
   );
 
+  console.log(data);
+
   return (
     <>
       <Head>
@@ -227,7 +230,11 @@ const VendorPage = ({ token }: Props) => {
                   Previous /
                 </Button>
               ) : null}
-              <Typography variant="h6" fontWeight="900" color="primary.main">
+              <Typography
+                sx={{ fontSize: `1rem` }}
+                fontWeight="900"
+                color="primary.main"
+              >
                 All {service ? service : `Categories`}
               </Typography>
             </Box>
@@ -257,23 +264,36 @@ const VendorPage = ({ token }: Props) => {
                 ))}
               </Box>
             ) : (
-              <CardList data={data} />
+              <>
+                {data?.length === 0 ? (
+                  <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
+                    <HourglassEmptyIcon />
+                    <Typography fontWeight={900} color="primary.main">
+                      {service} is not available
+                    </Typography>
+                  </Box>
+                ) : (
+                  <CardList data={data} />
+                )}
+              </>
             )}
-            <Box
-              sx={{
-                display: `flex`,
-                justifyContent: `center`,
-                alignItems: `center`,
-                my: 6,
-              }}
-            >
-              <Pagination
-                count={2}
-                color="primary"
-                page={page}
-                onChange={handleChange}
-              />
-            </Box>
+            {data?.length === 0 ? null : (
+              <Box
+                sx={{
+                  display: `flex`,
+                  justifyContent: `center`,
+                  alignItems: `center`,
+                  my: 6,
+                }}
+              >
+                <Pagination
+                  count={2}
+                  color="primary"
+                  page={page}
+                  onChange={handleChange}
+                />
+              </Box>
+            )}
           </Box>
         </Box>
       </Layout>

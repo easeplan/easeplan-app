@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { styled } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import NavItem from '../NavItem';
 import Link from 'next/link';
 import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import CustomButton from '../common/CustomButton';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import axios from 'axios';
+import theme from '@/styles/theme';
 
 type MobileNavProp = {
   show: boolean;
@@ -20,12 +21,6 @@ type MobileNavProp = {
 const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const handledLogin = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile`);
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -45,6 +40,20 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
     }
   };
 
+  const handledLoginRoute = () => {
+    router.push(`/login`);
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`lastVisitedURL`, `/findVendors`);
+    }
+  };
+
+  const handledRegRoute = () => {
+    router.push(`/signup`);
+    if (typeof window !== `undefined`) {
+      localStorage.setItem(`lastVisitedURL`, `/findVendors`);
+    }
+  };
+
   return (
     <MobileWrapper
       style={{
@@ -54,27 +63,75 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
     >
       {!userInfo ? (
         <>
-          <NavItem href="/" text="Home" />
+          <NavItem href="https://www.easeplan.io/" text="Home" />
           <NavItem
             href="https://app.easeplan.io/findvendors"
             text="Find Vendors"
           />
-          <NavItem href="/signup" text="Become a vendor" />
-          <NavItem href="https://app.easeplan.io/login" text="Login" />
-          <Link href="https://app.easeplan.io/signup">
-            <CustomButton bgSecondary>SIGN UP</CustomButton>
-          </Link>
+          <ItemWrapper onClick={handledBecomeAVendor}>
+            <Typography>
+              <span className="capsize md:text-1xl">Become a vendor</span>
+            </Typography>
+          </ItemWrapper>
+          <ItemWrapper onClick={handledLoginRoute}>
+            <Typography>
+              <span className="capsize md:text-1xl">Login</span>
+            </Typography>
+          </ItemWrapper>
+          <CustomButton onClick={handledRegRoute} bgSecondary>
+            SIGN UP
+          </CustomButton>
         </>
       ) : (
         <>
-          <NavItem href="#" text="Logout" onClick={handleLogout} />
           <NavItem href="/account" text="Dashboard" />
+          <ItemWrapper onClick={handledBecomeAVendor}>
+            <Typography>
+              <span className="capsize md:text-1xl">Become a vendor</span>
+            </Typography>
+          </ItemWrapper>
+          <ItemWrapper onClick={handleLogout}>
+            <Typography>
+              <span className="capsize md:text-1xl">Log out</span>
+            </Typography>
+          </ItemWrapper>
         </>
       )}
       <CloseIcon className="menuIcon" onClick={handleClick} />
     </MobileWrapper>
   );
 };
+
+const ItemWrapper = styled(`li`)({
+  listStyle: `none`,
+  marginRight: `2.5rem`,
+  marginBottom: `2rem`,
+  color: theme.palette.secondary.light,
+  textTransform: `uppercase`,
+  lineHeight: `16px`,
+  letterSpacing: `0.0125em`,
+  fontSize: `0.8rem`,
+  fontWeight: `500`,
+  whiteSpace: `nowrap`,
+  transition: `0.1s all ease`,
+
+  '@media (max-width: 1025px)': {
+    marginRight: `2rem`,
+  },
+
+  '@media (max-width: 1020px)': {
+    color: theme.palette.primary.main,
+    lineHeight: `5rem`,
+    fontSize: `1.2rem`,
+    transition: `0.5s all ease`,
+
+    '&:hover': {
+      opacity: `0.8`,
+      paddingLeft: `1rem`,
+      fontWeight: `bold`,
+    },
+  },
+});
 
 const MobileWrapper = styled(Box)(({ theme }) => ({
   background: theme.palette.secondary.light,

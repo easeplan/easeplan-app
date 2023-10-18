@@ -17,12 +17,16 @@ import MobileNav from './MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import SearchInput from './SearchInput';
 import { useRouter } from 'next/router';
+import NavItem from '../NavItem';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearCredentials } from '@/features/authSlice';
+import axios from 'axios';
 
 const Header = ({ handleSearchChange, data }: any) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -41,18 +45,29 @@ const Header = ({ handleSearchChange, data }: any) => {
 
   const handledBecomeAVendor = () => {
     if (userInfo) {
-      router.push(`/account/onboarding`);
+      router.push(`/account/onboard`);
     } else {
       router.push(`/login`);
       if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, `/account/onboarding`);
+        localStorage.setItem(`lastVisitedURL`, `/account/onboard`);
       }
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+      dispatch(clearCredentials());
+    } catch (error: any) {}
+  };
+
   return (
     <NavWrapper>
-      <MobileNav show={toggleMenu} handleClick={handleClick} />
+      <MobileNav
+        userInfo={userInfo}
+        show={toggleMenu}
+        handleClick={handleClick}
+      />
       <Container maxWidth="xl">
         <Flex>
           <Box
@@ -79,6 +94,7 @@ const Header = ({ handleSearchChange, data }: any) => {
                 color: `secondary.main`,
                 borderColor: `secondary.main`,
                 textTransform: `inherit`,
+                whiteSpace: `nowrap`,
                 mr: 6,
                 '&:hover': {
                   borderColor: `secondary.main`,
@@ -89,13 +105,22 @@ const Header = ({ handleSearchChange, data }: any) => {
             >
               Become a vendor
             </Button>
+            {userInfo ? (
+              <>
+                <NavItem href="/account" text="Dashboard" />
+              </>
+            ) : (
+              <>
+                <NavItem href="/login" text="Login" />
+              </>
+            )}
             <Box
               sx={{
                 flexGrow: 0,
               }}
             >
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton onClick={handleOpenUserMenu}>
                   <Avatar
                     alt={data?.profile?.firstName}
                     src={data?.profile?.picture}
@@ -103,10 +128,6 @@ const Header = ({ handleSearchChange, data }: any) => {
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{
-                  mt: `65px`,
-                  boxShadow: `0px 0px 15px rgba(0, 0, 0, 0.1)`,
-                }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -122,19 +143,27 @@ const Header = ({ handleSearchChange, data }: any) => {
                 onClose={handleCloseUserMenu}
               >
                 <Box>
-                  {userInfo && (
+                  {userInfo ? (
                     <>
                       <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">Settings</Typography>
+                        <Button
+                          onClick={handleLogout}
+                          sx={{
+                            color: `primary.main`,
+                            mr: 3,
+                            fontSize: `0.8rem`,
+                            fontWeight: `600`,
+                          }}
+                        >
+                          Logout
+                        </Button>
                       </MenuItem>
                     </>
+                  ) : (
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Link href="/signup">Sign up</Link>
+                    </MenuItem>
                   )}
-                  <MenuItem>
-                    <Link href="/login">Login</Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Link href="/signup">Sign up</Link>
-                  </MenuItem>
                 </Box>
               </Menu>
             </Box>
@@ -175,7 +204,7 @@ const Header = ({ handleSearchChange, data }: any) => {
                 />
               </IconButton>
             </Tooltip>
-            <Menu
+            {/* <Menu
               sx={{
                 mt: `65px`,
                 boxShadow: `0px 0px 15px rgba(0, 0, 0, 0.1)`,
@@ -207,7 +236,7 @@ const Header = ({ handleSearchChange, data }: any) => {
                   <Link href="/signup">Sign up</Link>
                 </MenuItem>
               </Box>
-            </Menu>
+            </Menu> */}
           </Box>
         </Flex>
         {/* <MobileNav show={toggleMenu} handleClick={handleClick} /> */}

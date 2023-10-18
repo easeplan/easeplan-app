@@ -49,12 +49,16 @@ const MobileNav = ({
     >
       {!userInfo ? (
         <>
-          <Link href="/signup">
+          <NavItem href="/" text="Home" />
+          <NavItem
+            href="https://app.easeplan.io/findvendors"
+            text="Find Vendors"
+          />
+          <NavItem href="/signup" text="Become a vendor" />
+          <NavItem href="https://app.easeplan.io/login" text="Login" />
+          <Link href="https://app.easeplan.io/signup">
             <CustomButton bgSecondary>SIGN UP</CustomButton>
           </Link>
-          <Button type="button" color="secondary" onClick={handledLogin}>
-            Login
-          </Button>
         </>
       ) : (
         <>

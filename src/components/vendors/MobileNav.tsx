@@ -66,6 +66,7 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
           </Link>
           <div></div>
           <Button
+            href="/login"
             type="button"
             color="primary"
             sx={{ mt: 2 }}

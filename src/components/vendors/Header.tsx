@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 import SearchInput from './SearchInput';
 import { useRouter } from 'next/router';
 
-const Header = ({ handleSearchChange }: any) => {
+const Header = ({ handleSearchChange, data }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -60,7 +60,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `none`,
                 sm: `none`,
-                md: `none`,
+                md: `block`,
                 lg: `block`,
                 xl: `block`,
               },
@@ -96,7 +96,10 @@ const Header = ({ handleSearchChange }: any) => {
             >
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt={data?.profile?.firstName}
+                    src={data?.profile?.picture}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -130,7 +133,7 @@ const Header = ({ handleSearchChange }: any) => {
                     <Link href="/login">Login</Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link href="/sign up">Sign up</Link>
+                    <Link href="/signup">Sign up</Link>
                   </MenuItem>
                 </Box>
               </Menu>
@@ -142,7 +145,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `block`,
                 sm: `block`,
-                md: `block`,
+                md: `none`,
                 lg: `none`,
                 xl: `none`,
               },
@@ -158,7 +161,7 @@ const Header = ({ handleSearchChange }: any) => {
               display: {
                 xs: `block`,
                 sm: `block`,
-                md: `block`,
+                md: `none`,
                 lg: `none`,
                 xl: `none`,
               },
@@ -166,7 +169,10 @@ const Header = ({ handleSearchChange }: any) => {
           >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={data?.profile?.firstName}
+                  src={data?.profile?.picture}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -190,15 +196,15 @@ const Header = ({ handleSearchChange }: any) => {
             >
               <Box>
                 {userInfo && (
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Settings</Typography>
+                  <MenuItem>
+                    <Link href="/account/settings">Settings</Link>
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Login</Typography>
+                <MenuItem>
+                  <Link href="/login">Login</Link>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Sign up</Typography>
+                  <Link href="/signup">Sign up</Link>
                 </MenuItem>
               </Box>
             </Menu>

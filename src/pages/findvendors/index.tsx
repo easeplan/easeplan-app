@@ -1,6 +1,13 @@
 import CardList from '@/components/vendors/CardList';
 import Layout from '@/components/vendors/Layout';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Pagination,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,6 +17,9 @@ import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
 import 'swiper/css/navigation';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import useFetch from '@/hooks/useFetch';
 
 const services = [
   {
@@ -24,14 +34,14 @@ const services = [
     id: 3,
     title: `MC`,
   },
-  {
-    id: 5,
-    title: `Make-up Artists`,
-  },
-  {
-    id: 6,
-    title: `Venue Manager`,
-  },
+  // {
+  //   id: 5,
+  //   title: `Make-up Artists`,
+  // },
+  // {
+  //   id: 6,
+  //   title: `Venue Manager`,
+  // },
   {
     id: 7,
     title: `Decorator`,
@@ -90,7 +100,12 @@ const services = [
   },
 ];
 
-const VendorPage = () => {
+interface Props {
+  token: string;
+}
+
+const VendorPage = ({ token }: Props) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [page, setPage] = useState(1);
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
@@ -98,11 +113,23 @@ const VendorPage = () => {
 
   const { search, handleSearchChange } = useSearch();
   const { service, handleSetService, handleClearService } = useSearchServices();
-  const { data } = useFetchVendors(page, search, state, city, budget, service);
+  const { data, loading } = useFetchVendors(
+    page,
+    search,
+    state,
+    city,
+    budget,
+    service,
+  );
 
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
+
+  const { queryData, error, isLoading } = useFetch(
+    `/profiles/${userInfo}`,
+    token,
+  );
 
   return (
     <>
@@ -129,7 +156,7 @@ const VendorPage = () => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout handleSearchChange={handleSearchChange}>
+      <Layout handleSearchChange={handleSearchChange} data={queryData}>
         <Box
           sx={{
             pt: {
@@ -204,7 +231,34 @@ const VendorPage = () => {
                 All {service ? service : `Categories`}
               </Typography>
             </Box>
-            <CardList data={data} />
+            {loading ? (
+              <Box
+                py={10}
+                sx={{
+                  display: `grid`,
+                  gridTemplateColumns: {
+                    xs: `1fr`,
+                    sm: `1fr`,
+                    md: `1fr 1fr 1fr`,
+                    lg: `1fr 1fr 1fr 1fr`,
+                    xl: `1fr 1fr 1fr 1fr`,
+                  },
+                  gap: `2rem`,
+                }}
+              >
+                {[2, 3, 4, 5, 6, 0, 10, 12].map((i) => (
+                  <Stack spacing={1} key={i}>
+                    <Skeleton variant="text" sx={{ fontSize: `1rem` }} />
+
+                    <Skeleton variant="circular" width={40} height={40} />
+                    <Skeleton variant="rectangular" width={210} height={60} />
+                    <Skeleton variant="rounded" width={210} height={60} />
+                  </Stack>
+                ))}
+              </Box>
+            ) : (
+              <CardList data={data} />
+            )}
             <Box
               sx={{
                 display: `flex`,

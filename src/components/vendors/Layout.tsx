@@ -13,11 +13,11 @@ const Layout = ({ children, handleSearchChange, data }: any) => {
             display: {
               xs: `block`,
               sm: `block`,
-              md: `none`,
+              md: `block`,
               lg: `none`,
               xl: `none`,
             },
-            pt: { xs: 10, sm: 10 },
+            pt: { xs: 10, sm: 10, md: 15 },
             px: 4,
           }}
         >

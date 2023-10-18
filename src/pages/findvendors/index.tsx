@@ -17,6 +17,9 @@ import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
 import 'swiper/css/navigation';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import useFetch from '@/hooks/useFetch';
 
 const services = [
   {
@@ -97,7 +100,12 @@ const services = [
   },
 ];
 
-const VendorPage = () => {
+interface Props {
+  token: string;
+}
+
+const VendorPage = ({ token }: Props) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [page, setPage] = useState(1);
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
@@ -117,6 +125,11 @@ const VendorPage = () => {
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
+
+  const { queryData, error, isLoading } = useFetch(
+    `/profiles/${userInfo}`,
+    token,
+  );
 
   return (
     <>
@@ -143,7 +156,7 @@ const VendorPage = () => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout handleSearchChange={handleSearchChange}>
+      <Layout handleSearchChange={handleSearchChange} data={queryData}>
         <Box
           sx={{
             pt: {

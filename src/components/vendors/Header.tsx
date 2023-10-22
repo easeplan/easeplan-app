@@ -23,8 +23,9 @@ import NavItem from '../NavItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import axios from 'axios';
+import SidenavDrawer from './SidenavDrawer';
 
-const Header = ({ handleSearchChange, data }: any) => {
+const Header = ({ handleSearchChange, data, isSearch }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -86,7 +87,9 @@ const Header = ({ handleSearchChange, data }: any) => {
             </Link>
           </Box>
           <NavItemWrapper>
-            <SearchInput handleSearchChange={handleSearchChange} />
+            {isSearch && (
+              <SearchInput handleSearchChange={handleSearchChange} />
+            )}
             <Button
               onClick={handledBecomeAVendor}
               variant="outlined"
@@ -105,67 +108,12 @@ const Header = ({ handleSearchChange, data }: any) => {
             >
               Become a vendor
             </Button>
-            {userInfo ? (
-              <>
-                <NavItem href="/account" text="Dashboard" />
-              </>
-            ) : (
-              <>
-                <NavItem href="/login" text="Login" />
-              </>
-            )}
             <Box
               sx={{
                 flexGrow: 0,
               }}
             >
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu}>
-                  <Avatar
-                    alt={data?.profile?.firstName}
-                    src={data?.profile?.picture}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: `top`,
-                  horizontal: `right`,
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: `top`,
-                  horizontal: `right`,
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <Box>
-                  {userInfo ? (
-                    <>
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <Button
-                          onClick={handleLogout}
-                          sx={{
-                            color: `primary.main`,
-                            mr: 3,
-                            fontSize: `0.8rem`,
-                            fontWeight: `600`,
-                          }}
-                        >
-                          Logout
-                        </Button>
-                      </MenuItem>
-                    </>
-                  ) : (
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Link href="/signup">Sign up</Link>
-                    </MenuItem>
-                  )}
-                </Box>
-              </Menu>
+              <SidenavDrawer data={data} />
             </Box>
           </NavItemWrapper>
           <MenuIcon className="menuIcon" onClick={handleClick} />

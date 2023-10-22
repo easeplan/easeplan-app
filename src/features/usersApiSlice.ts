@@ -2,6 +2,9 @@ import { apiSlice } from './apiSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // getCurrentUser: builder.query<any, { id: any }>({
+    //   query: ({ id }) => `${process.env.NEXT_PUBLIC_API_URL}/profiles/${id}`,
+    // }),
     // Login
     login: builder.mutation({
       query: (data) => ({
@@ -9,6 +12,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: `POST`,
         body: data,
       }),
+      invalidatesTags: [`User`],
     }),
     // Sign Up
     signup: builder.mutation({
@@ -50,6 +54,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  // useGetCurrentUserQuery,
   useLoginMutation,
   useSignupMutation,
   useLogoutMutation,

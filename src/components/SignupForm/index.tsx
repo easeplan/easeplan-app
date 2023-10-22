@@ -9,7 +9,7 @@ import CustomButton from '../common/CustomButton';
 import SelectAccountType from '../SelectAccountType';
 import VerifiactionModal from '../VerifiactionModal';
 import InputField from './InputField';
-import { Alert, Box, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import FormError from '../common/FormError';
 import { useSignupMutation } from '@/features/usersApiSlice';
 import TermsAndConditionModal from '../TermsAndConditionModal';
@@ -23,10 +23,11 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from '../GoogleButton';
+import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
-const SignupForm = () => {
+const SignupForm = ({ modal }: any) => {
   const [signup] = useSignupMutation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -139,7 +140,8 @@ const SignupForm = () => {
         const data = await result.json();
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
-          router.push(`/account`);
+          dispatch(setCloseModal(false));
+          router.push(`/user/findvendors`);
         }
       }
     } catch (error) {
@@ -187,11 +189,11 @@ const SignupForm = () => {
                   },
                   color: `primary.main`,
                   marginBottom: `2rem`,
-                  textTransform: `capitalize`,
+                  textTransform: `inherit`,
                   textAlign: `center`,
                 }}
               >
-                Sign up to Easeplan
+                Signup To {modal ? `contiune` : `Easeplan`}
               </Typography>
               <Box sx={{ display: `flex`, flexDirection: `column` }}>
                 <GoogleButton
@@ -245,7 +247,7 @@ const SignupForm = () => {
                   </PasswordControl>
                   {passErr && <FormError text={passErr}></FormError>}
                 </InputControl>
-                <Box sx={{ mt: 6 }}>
+                <Box sx={{ mt: 4 }}>
                   <CustomButton
                     bgPrimary
                     lgWidth="100%"
@@ -284,9 +286,18 @@ const SignupForm = () => {
                 </RememberDiv>
                 <Footer>
                   Already a member?{` `}
-                  <Link href="/login" className="link">
-                    Login
-                  </Link>
+                  {modal ? (
+                    <Button
+                      sx={{ fontWeight: `bold` }}
+                      onClick={() => dispatch(isLogin(true))}
+                    >
+                      Login
+                    </Button>
+                  ) : (
+                    <Link href="/login" className="link">
+                      Login
+                    </Link>
+                  )}
                 </Footer>
               </form>
             </Box>

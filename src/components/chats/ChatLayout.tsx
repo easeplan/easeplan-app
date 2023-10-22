@@ -5,12 +5,9 @@ const ChatLayout = ({ children }: any) => {
   return (
     <Box
       sx={{
-        // border: `solid 1px #ccc`,
         position: `relative`,
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-        // p: 2,
+        // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
         borderRadius: `8px`,
-        mt: `1rem`,
         display: `grid`,
         gridTemplateColumns: `1fr 2fr`,
         gridDirection: {
@@ -20,7 +17,8 @@ const ChatLayout = ({ children }: any) => {
           lg: `row`,
           xl: `row`,
         },
-        height: `80vh`,
+        height: `88vh`,
+        width: `100%`,
       }}
     >
       {children}

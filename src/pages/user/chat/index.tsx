@@ -204,8 +204,16 @@ const InboxPage = ({ token }: any) => {
   }
 
   return (
-    <Layout token={token}>
-      <Container sx={{ pt: 15 }} maxWidth="lg">
+    <Layout data={queryData?.provider}>
+      <Container
+        sx={{
+          // background: `red`,
+          display: `flex`,
+          alignItems: `center`,
+          justifyContent: `end`,
+        }}
+        maxWidth="lg"
+      >
         <ChatLayout>
           <RecentChats token={token} conversationList={conversationList} />
           {activeUserData ? (
@@ -258,7 +266,7 @@ const InboxPage = ({ token }: any) => {
                   </Box>
                 </DialogActions>
               </Dialog>
-              <Box sx={{ p: `1rem`, backgroundColor: `#fff` }}>
+              <Box sx={{ background: `#fff` }}>
                 {/* Active User at Header */}
                 {activeConversation?.map((user: any) => (
                   <Box
@@ -267,13 +275,16 @@ const InboxPage = ({ token }: any) => {
                       display: `flex`,
                       alignItems: `center`,
                       justifyContent: `space-between`,
+                      pt: 6,
+                      pb: 2,
+                      px: 2,
                     }}
                   >
                     <Box
                       sx={{
                         display: `flex`,
                         alignItems: `center`,
-                        justifyContent: `space-between`,
+                        justifyContent: `center`,
                         cursor: `pointer`,
                       }}
                     >
@@ -300,7 +311,7 @@ const InboxPage = ({ token }: any) => {
                           fontWeight="bold"
                           fontSize="0.8rem"
                           color="primary.main"
-                          sx={{ marginLeft: `0.6rem` }}
+                          sx={{ marginLeft: `1rem` }}
                         >
                           {user?.profile?.firstName} {user?.profile?.lastName}
                         </Typography>
@@ -320,12 +331,21 @@ const InboxPage = ({ token }: any) => {
                   overflowY: `auto`,
                   height: `100%`,
                   scrollBehavior: `smooth`,
-                  px: `1rem`,
-                  pt: `2rem`,
-                  pb: `12rem`,
                 }}
               >
-                <Box>
+                <Box
+                  sx={{
+                    px: `1rem`,
+                    pt: `2rem`,
+                    pb: {
+                      xs: `13rem`,
+                      sm: `13rem`,
+                      md: `13rem`,
+                      lg: `13rem`,
+                      xl: `13rem`,
+                    },
+                  }}
+                >
                   <ChatComponent userInfoId={queryData} messages={messages} />
                 </Box>
               </Box>

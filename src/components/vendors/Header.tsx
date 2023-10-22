@@ -135,56 +135,9 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
           <Box
             sx={{
               flexGrow: 0,
-              display: {
-                xs: `block`,
-                sm: `block`,
-                md: `none`,
-                lg: `none`,
-                xl: `none`,
-              },
             }}
           >
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt={data?.profile?.firstName}
-                  src={data?.profile?.picture}
-                />
-              </IconButton>
-            </Tooltip>
-            {/* <Menu
-              sx={{
-                mt: `65px`,
-                boxShadow: `0px 0px 15px rgba(0, 0, 0, 0.1)`,
-              }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: `top`,
-                horizontal: `right`,
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: `top`,
-                horizontal: `right`,
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <Box>
-                {userInfo && (
-                  <MenuItem>
-                    <Link href="/account/settings">Settings</Link>
-                  </MenuItem>
-                )}
-                <MenuItem>
-                  <Link href="/login">Login</Link>
-                </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Link href="/signup">Sign up</Link>
-                </MenuItem>
-              </Box>
-            </Menu> */}
+            <SidenavDrawer data={data} />
           </Box>
         </Flex>
         {/* <MobileNav show={toggleMenu} handleClick={handleClick} /> */}

@@ -108,6 +108,15 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             >
               Become a vendor
             </Button>
+            {/* {userInfo ? (
+              <>
+                <NavItem href="/account" text="Dashboard" />
+              </>
+            ) : (
+              <>
+                <NavItem href="/login" text="Login" />
+              </>
+            )} */}
             <Box
               sx={{
                 flexGrow: 0,
@@ -135,6 +144,13 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
           <Box
             sx={{
               flexGrow: 0,
+              display: {
+                xs: `block`,
+                sm: `block`,
+                md: `none`,
+                lg: `none`,
+                xl: `none`,
+              },
             }}
           >
             <SidenavDrawer data={data} />

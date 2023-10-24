@@ -17,6 +17,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import Divider from '../common/Divider';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import Link from 'next/link';
+import { formatCurrency } from '@/utils';
 
 type Anchor = 'right';
 
@@ -45,15 +46,17 @@ export default function EventDetailsDrawer({ data, id }: any) {
       setState({ ...state, [anchor]: open });
     };
 
+  const loggedUserId = userInfo;
+
   const NavItem = (anchor: Anchor) => (
     <Box
       sx={{
         width: {
           xs: anchor === `right` || anchor === `bottom` ? `70vw` : `auto`,
           sm: anchor === `right` || anchor === `bottom` ? `70vw` : `auto`,
-          md: anchor === `right` || anchor === `bottom` ? `40vw` : `auto`,
-          lg: anchor === `right` || anchor === `bottom` ? `30vw` : `auto`,
-          xl: anchor === `right` || anchor === `bottom` ? `30vw` : `auto`,
+          md: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
+          lg: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
+          xl: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
         },
       }}
       role="presentation"
@@ -67,133 +70,62 @@ export default function EventDetailsDrawer({ data, id }: any) {
           }}
         >
           <Box>
-            {userInfo ? (
-              <Avatar
-                alt={data?.profile?.firstName}
-                src={data?.profile?.picture}
-                sx={{
-                  width: 56,
-                  height: 56,
-                  mt: 2,
-                  mb: 4,
-                  backgroundColor: `primary.main`,
-                }}
-              />
-            ) : (
-              <Avatar
-                alt=""
-                src="/"
-                sx={{
-                  width: 56,
-                  height: 56,
-                  mt: 2,
-                  mb: 4,
-                  backgroundColor: `primary.main`,
-                }}
-              />
-            )}
+            <Avatar
+              alt={data?.parties?.receiver?.profile?.firstName}
+              src={data?.parties?.receiver?.profile?.picture}
+              sx={{
+                width: 56,
+                height: 56,
+                mt: 2,
+                mb: 2,
+                backgroundColor: `primary.main`,
+              }}
+            />
           </Box>
         </Box>
         {/* Details */}
         <Box>
-          <Typography sx={{ fontWeight: `600`, color: `primary.main` }}>
-            Vendor Details
+          <Typography textAlign="center">
+            {data?.parties?.receiver?.profile?.firstName}
+            {` `}
+            {data?.parties?.receiver?.profile?.lastName}
           </Typography>
-          <Divider />
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 4,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            Full Name
-          </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 2,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            State:
-          </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 2,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            City
-          </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 2,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            Services
-          </Stack>
+          <Typography textAlign="center">{data?.service}</Typography>
+          <Typography textAlign="center">
+            <small>₦</small>
+            {formatCurrency(data?.budget)}
+          </Typography>
         </Box>
-
-        {/* Event Status */}
-        <Box mt={3}>
-          <Typography sx={{ fontWeight: `600`, color: `primary.main` }}>
-            Event Status
-          </Typography>
-          <Divider />
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 4,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            Event type
-          </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: `center`,
-              mt: 2,
-            }}
-          >
-            <LoginIcon
-              sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-            />
-            Amount
-          </Stack>
-
-          <Box mt={4}>
-            {/* <Typography>Start Messaging Vendor</Typography> */}
-            <Link href="/">
+        <Box mt={3} sx={{ textAlign: `center` }}>
+          {data?.parties?.receiver?.providerProfile?.currentlyHiredBy?.includes(
+            loggedUserId,
+          ) ? (
+            <Link href="/account/chats">
               <Button variant="contained" sx={{ textTransform: `capitalize` }}>
                 <TelegramIcon sx={{ mr: 1 }} />
                 Message Vendor
               </Button>
             </Link>
-          </Box>
+          ) : data?.parties?.receiver?.providerProfile?.currentlyRequestedBy?.includes(
+              loggedUserId,
+            ) ? (
+            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
+              Pending Request
+            </Button>
+          ) : (
+            <Link href="/account/chats">
+              <Button variant="contained" sx={{ textTransform: `capitalize` }}>
+                <TelegramIcon sx={{ mr: 1 }} />
+                Message Vendor
+              </Button>
+            </Link>
+          )}
         </Box>
       </Box>
     </Box>
   );
+
+  console.log(data);
 
   return (
     <div>

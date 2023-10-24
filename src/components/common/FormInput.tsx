@@ -53,14 +53,11 @@ const FormInput = ({
     <>
       {isSelect ? (
         <FormControl fullWidth sx={{ mb: `0.4rem` }}>
-          <InputLabel id="demo-simple-select-label">
-            {selectPlaceholder}
-          </InputLabel>
+          <InputLabel id="demo-simple-select-label">Select services</InputLabel>
           <Select
             {...field}
             {...props}
-            label={selectPlaceholder}
-            id="demo-simple-select"
+            label="Select services"
             inputProps={{ 'aria-label': `Without label` }}
             sx={{ borderRadius: `10px` }}
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}

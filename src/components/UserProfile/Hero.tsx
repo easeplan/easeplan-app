@@ -82,7 +82,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
           },
         },
       );
-      router.push(`/account/event/${data?.data?._id}`);
+      router.push(`/user/events/${data?.data?._id}`);
     } catch (error) {
       console.log(error);
     }

@@ -75,7 +75,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
           },
         },
       );
-      router.push(`/account/event/${data?.data?._id}`);
+      router.push(`/user/events/${data?.data?._id}`);
       toast.success(`Successfully`);
     } catch (error) {
       setIsLoading(false);

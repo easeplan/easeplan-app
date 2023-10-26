@@ -215,7 +215,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData.providerProfile.currentlyHiredBy?.includes(
+          {queryData?.providerProfile?.currentlyHiredBy?.includes(
             loggedUserId,
           ) ? (
             <Link href="/account/chats">

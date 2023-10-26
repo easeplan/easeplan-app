@@ -29,13 +29,7 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
     token,
   );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <ErrorPage />;
-  }
+  console.log(data);
 
   return (
     <>

@@ -53,7 +53,9 @@ const FormInput = ({
     <>
       {isSelect ? (
         <FormControl fullWidth sx={{ mb: `0.4rem` }}>
-          <InputLabel id="demo-simple-select-label">Select services</InputLabel>
+          <InputLabel id="demo-simple-select-label">
+            {selectPlaceholder}
+          </InputLabel>
           <Select
             {...field}
             {...props}

@@ -15,6 +15,8 @@ const PublicProfilePage = ({ data, publicId }: any) => {
       localStorage.removeItem(`lastVisitedURL`);
     }
   }, []);
+
+  console.log(publicId);
   return (
     <>
       <Head>
@@ -101,7 +103,7 @@ export async function getServerSideProps(
 
   return {
     props: {
-      data: data?.data,
+      data: data?.data || null,
       publicId: publicId,
     },
   };

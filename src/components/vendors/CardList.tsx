@@ -19,7 +19,7 @@ const CardList = ({ data, title }: any) => {
       }}
     >
       {data?.map((data: any) => (
-        <Link href={`/profile/${data?.publicId}`} key={data?.id}>
+        <Link href={`/user/profile/${data?.publicId}`} key={data?.id}>
           <Card data={data} />
         </Link>
       ))}

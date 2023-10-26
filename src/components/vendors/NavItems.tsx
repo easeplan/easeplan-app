@@ -17,6 +17,7 @@ import { clearCredentials } from '@/features/authSlice';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { setCloseModal } from '@/features/onboardingSlice';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const links = [
   {
@@ -84,6 +85,18 @@ const NavItems = ({ data }: any) => {
     dispatch(setCloseModal(true));
     setLoginModal(true);
   };
+
+  const handledBecomeAVendor = () => {
+    if (userInfo) {
+      router.push(`/account/onboard`);
+    } else {
+      router.push(`/login`);
+      if (typeof window !== `undefined`) {
+        localStorage.setItem(`lastVisitedURL`, `/account/onboard`);
+      }
+    }
+  };
+
   return (
     <Box>
       <Box>
@@ -129,6 +142,26 @@ const NavItems = ({ data }: any) => {
               px: 4,
             }}
           >
+            {data?.providerProfile && (
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: `center`,
+                  mb: {
+                    xs: 3,
+                    sm: 3,
+                    md: 4,
+                    lg: 4,
+                    xl: 4,
+                  },
+                }}
+              >
+                <AddBusinessIcon
+                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                />
+                <NavLink text="Dashboard" href="/account" />
+              </Stack>
+            )}
             {links?.map((link) => (
               <Stack
                 key={link.id}
@@ -152,6 +185,29 @@ const NavItems = ({ data }: any) => {
                 )}
               </Stack>
             ))}
+            {!data?.providerProfile && (
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: `center`,
+                  mb: {
+                    xs: 3,
+                    sm: 3,
+                    md: 4,
+                    lg: 4,
+                    xl: 4,
+                  },
+                }}
+              >
+                <AddBusinessIcon
+                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                />
+                <NavLink
+                  text="Become a vendor"
+                  onClick={handledBecomeAVendor}
+                />
+              </Stack>
+            )}
             {!userInfo ? (
               <Stack
                 direction="row"

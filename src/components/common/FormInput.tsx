@@ -59,8 +59,7 @@ const FormInput = ({
           <Select
             {...field}
             {...props}
-            label={selectPlaceholder}
-            id="demo-simple-select"
+            label="Select services"
             inputProps={{ 'aria-label': `Without label` }}
             sx={{ borderRadius: `10px` }}
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}

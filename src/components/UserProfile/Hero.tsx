@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Container } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
@@ -82,7 +82,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
           },
         },
       );
-      router.push(`/account/event/${data?.data?._id}`);
+      router.push(`/user/events/${data?.data?._id}`);
     } catch (error) {
       console.log(error);
     }
@@ -109,7 +109,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             xl: `250px`,
           },
           my: `1rem`,
-          borderRadius: `10px`,
+          // borderRadius: `10px`,
           position: `relative`,
           display: `flex`,
           alignItems: `center`,
@@ -131,7 +131,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{
               height: `100%`,
-              borderRadius: `10px`,
+              // borderRadius: `10px`,
               objectFit: `cover`,
             }}
           />
@@ -304,125 +304,127 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             </Button>
           )}
         </Box>
-        <Box
-          sx={{
-            mt: `5rem`,
-            display: `flex`,
-            justifyContent: `space-between`,
-            gap: {
-              xs: `0.7rem`,
-              sm: `0.7rem`,
-              md: `1rem`,
-              lg: `4rem`,
-              xl: `4rem`,
-            },
-            flexDirection: {
-              xs: `column`,
-              sm: `column`,
-              md: `row`,
-              lg: `row`,
-              xl: `row`,
-            },
-          }}
-        >
-          {/* About Section */}
+        <Container maxWidth="lg">
           <Box
             sx={{
-              mb: {
-                xs: `1rem`,
-                sm: `1rem`,
-                nd: `2rem`,
-                lg: `3rem`,
-                xl: `3rem`,
+              mt: `5rem`,
+              display: `flex`,
+              justifyContent: `space-between`,
+              gap: {
+                xs: `0.7rem`,
+                sm: `0.7rem`,
+                md: `1rem`,
+                lg: `4rem`,
+                xl: `4rem`,
               },
-              width: {
-                xs: `auto`,
-                sm: `auto`,
-                md: `70%`,
-                lg: `70%`,
-                xl: `70%`,
-              },
-              background: `#fff`,
-              padding: 4,
-              boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-              border: `solid 1px #3333`,
-              borderRadius: `6px`,
-            }}
-          >
-            <Box
-              sx={{
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
-              }}
-            >
-              <Typography
-                fontWeight={600}
-                sx={{
-                  fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.4rem`,
-                    lg: `1.5rem`,
-                  },
-                  color: `primary.main`,
-                  mb: `1rem`,
-                }}
-              >
-                {queryData?.providerProfile?.company?.name}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography>
-                {queryData?.providerProfile?.company?.description}
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              // display: `flex`,
-              // alignItems: `center`,
-              width: {
-                xs: `100%`,
-                sm: `100%`,
-                md: `30%`,
-                lg: `30%`,
-                xl: `30%`,
+              flexDirection: {
+                xs: `column`,
+                sm: `column`,
+                md: `row`,
+                lg: `row`,
+                xl: `row`,
               },
             }}
           >
+            {/* About Section */}
             <Box
               sx={{
+                mb: {
+                  xs: `1rem`,
+                  sm: `1rem`,
+                  nd: `2rem`,
+                  lg: `3rem`,
+                  xl: `3rem`,
+                },
+                width: {
+                  xs: `auto`,
+                  sm: `auto`,
+                  md: `70%`,
+                  lg: `70%`,
+                  xl: `70%`,
+                },
                 background: `#fff`,
                 padding: 4,
-                boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+                // boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
                 border: `solid 1px #3333`,
                 borderRadius: `6px`,
               }}
             >
-              <Box>
-                <Typography fontWeight={600} color="primary.main">
-                  <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
-                  Location:
-                </Typography>
-                <Typography fontWeight={500} color="primary.main">
-                  {queryData?.providerProfile?.state}
-                  {` `}
-                  {queryData?.providerProfile?.city}
+              <Box
+                sx={{
+                  display: `flex`,
+                  alignItems: `center`,
+                  justifyContent: `space-between`,
+                }}
+              >
+                <Typography
+                  fontWeight={600}
+                  sx={{
+                    fontSize: {
+                      xs: `1.2rem`,
+                      sm: `1.2rem`,
+                      md: `1.4rem`,
+                      lg: `1.5rem`,
+                    },
+                    color: `primary.main`,
+                    mb: `1rem`,
+                  }}
+                >
+                  {queryData?.providerProfile?.company?.name}
                 </Typography>
               </Box>
-              <Box mt={4}>
-                <Typography fontWeight={600} color="primary.main">
-                  <BadgeIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} /> Member
-                  Since:
-                </Typography>
-                <Typography fontWeight={500} color="primary.main">
-                  {dateFormater(queryData?.createdAt)}
+              <Box>
+                <Typography>
+                  {queryData?.providerProfile?.company?.description}
                 </Typography>
               </Box>
             </Box>
+            <Box
+              sx={{
+                // display: `flex`,
+                // alignItems: `center`,
+                width: {
+                  xs: `100%`,
+                  sm: `100%`,
+                  md: `30%`,
+                  lg: `30%`,
+                  xl: `30%`,
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  background: `#fff`,
+                  padding: 4,
+                  // boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
+                  border: `solid 1px #3333`,
+                  borderRadius: `6px`,
+                }}
+              >
+                <Box>
+                  <Typography fontWeight={600} color="primary.main">
+                    <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
+                    Location:
+                  </Typography>
+                  <Typography fontWeight={500} color="primary.main">
+                    {queryData?.providerProfile?.state}
+                    {` `}
+                    {queryData?.providerProfile?.city}
+                  </Typography>
+                </Box>
+                <Box mt={4}>
+                  <Typography fontWeight={600} color="primary.main">
+                    <BadgeIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} /> Member
+                    Since:
+                  </Typography>
+                  <Typography fontWeight={500} color="primary.main">
+                    {dateFormater(queryData?.createdAt)}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </Box>
-        </Box>
+        </Container>
       </Box>
     </Box>
   );

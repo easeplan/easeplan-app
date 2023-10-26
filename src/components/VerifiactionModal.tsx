@@ -76,7 +76,7 @@ const VerifiactionModal = ({
         toast.success(`Email verified successfully`);
         setIsLoading(false);
         setLoginError(``);
-        router.push(`/user/findvendor`);
+        router.push(`/user/findvendors`);
         dispatch(setCloseModal(false));
       }
     } catch (error: any) {

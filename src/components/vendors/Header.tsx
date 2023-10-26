@@ -2,24 +2,13 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Logo from '../Logo';
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import { RootState } from '@/store/store';
 import SearchInput from './SearchInput';
 import { useRouter } from 'next/router';
-import NavItem from '../NavItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import axios from 'axios';
@@ -55,13 +44,6 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      dispatch(clearCredentials());
-    } catch (error: any) {}
-  };
-
   return (
     <NavWrapper>
       <MobileNav
@@ -90,24 +72,26 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             {isSearch && (
               <SearchInput handleSearchChange={handleSearchChange} />
             )}
-            <Button
-              onClick={handledBecomeAVendor}
-              variant="outlined"
-              sx={{
-                color: `secondary.main`,
-                borderColor: `secondary.main`,
-                textTransform: `inherit`,
-                whiteSpace: `nowrap`,
-                mr: 6,
-                '&:hover': {
+            {!data?.providerProfile && (
+              <Button
+                onClick={handledBecomeAVendor}
+                variant="outlined"
+                sx={{
+                  color: `secondary.main`,
                   borderColor: `secondary.main`,
-                  color: `primary.main`,
-                  backgroundColor: `secondary.main`,
-                },
-              }}
-            >
-              Become a vendor
-            </Button>
+                  textTransform: `inherit`,
+                  whiteSpace: `nowrap`,
+                  mr: 6,
+                  '&:hover': {
+                    borderColor: `secondary.main`,
+                    color: `primary.main`,
+                    backgroundColor: `secondary.main`,
+                  },
+                }}
+              >
+                Become a vendor
+              </Button>
+            )}
             {/* {userInfo ? (
               <>
                 <NavItem href="/account" text="Dashboard" />

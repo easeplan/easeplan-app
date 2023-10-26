@@ -1,20 +1,48 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '@/components/vendors/Layout';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Container, Stack, Typography } from '@mui/material';
 import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import Divider from '@/components/common/Divider';
 export { getServerSideProps } from '@/hooks/useFetchToken';
 import StyleIcon from '@mui/icons-material/Style';
 import EventDetailsDrawer from '@/components/vendors/EventDetailsDrawer';
+import { setNotifyData } from '@/features/notificationsSlice';
+import { dateFormater, formatCurrency } from '@/utils';
 
 const EventsPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const dispatch = useDispatch();
+  const [contracts, setContracts] = useState<any>();
+
+  const fetchContracts = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const json = await res.json();
+      setContracts(json?.data);
+      dispatch(setNotifyData(json?.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchContracts();
+  }, []);
   return (
     <Layout data={queryData?.provider}>
-      <Container sx={{ pt: 15 }} maxWidth="md">
+      <Container sx={{ pt: 4 }} maxWidth="md">
         <Stack
           direction="row"
           sx={{
@@ -48,12 +76,13 @@ const EventsPage = ({ token }: any) => {
         <Divider />
         <Box pt={2} pb={6}>
           {/* Events Cards */}
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+          {contracts?.map((contract: any) => (
             <Stack
-              key={i}
+              key={contract._id}
               direction="row"
               sx={{
                 justifyContent: `space-around`,
+                alignItems: `center`,
                 border: `solid 1px #ccc`,
                 p: 2,
                 borderRadius: `10px`,
@@ -63,19 +92,33 @@ const EventsPage = ({ token }: any) => {
                 cursor: `pointer`,
               }}
             >
-              <Box
-                sx={{
-                  position: `relative`,
-                  width: `40px`,
-                  height: `40px`,
-                  borderRadius: `50%`,
-                  backgroundColor: `primary.main`,
-                }}
-              ></Box>
-              <Typography>John</Typography>
-              <Typography>Sep 2023</Typography>
-              <Typography>$34,000</Typography>
-              <EventDetailsDrawer id={i} />
+              <Box>
+                <Box
+                  sx={{
+                    margin: `0 auto`,
+                    textAlign: `center`,
+                  }}
+                >
+                  <Avatar
+                    alt={contract?.parties?.receiver?.profile?.firstName}
+                    src={contract?.parties?.receiver?.profile?.picture}
+                    sx={{
+                      width: 56,
+                      height: 56,
+                      mt: 2,
+                      mb: 2,
+                      backgroundColor: `primary.main`,
+                    }}
+                  />
+                </Box>
+                <Typography mt={1}>{contract?.service}</Typography>
+                <Typography fontWeight="bold" color="primary.main">
+                  <small>₦</small>
+                  {formatCurrency(contract?.budget)}
+                </Typography>
+              </Box>
+              <Typography>{dateFormater(contract?.createdAt)}</Typography>
+              <EventDetailsDrawer data={contract} id={contract?._id} />
             </Stack>
           ))}
         </Box>

@@ -16,7 +16,6 @@ const PublicProfilePage = ({ data, publicId }: any) => {
     }
   }, []);
 
-  console.log(publicId);
   return (
     <>
       <Head>

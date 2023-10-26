@@ -29,8 +29,6 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
     token,
   );
 
-  console.log(data);
-
   return (
     <>
       <Layout data={queryData?.provider}>

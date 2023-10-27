@@ -59,7 +59,7 @@ const FormInput = ({
           <Select
             {...field}
             {...props}
-            label="Select services"
+            label={selectPlaceholder}
             inputProps={{ 'aria-label': `Without label` }}
             sx={{ borderRadius: `10px` }}
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}

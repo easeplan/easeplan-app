@@ -385,12 +385,10 @@ a {
   .mobileOpenSlider {
     position: fixed;
     width: 90%;
-    /* background: red; */
-    height: 88vh;
+    height: 80vh;
     margin-top: 4rem;
     overflow-y: hidden;
     top: 0;
-    /* transition: all 0.5s ease-in; */
     transform: translateX(0%);
   }
   .mobileCloseSlider {

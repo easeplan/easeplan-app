@@ -12,10 +12,10 @@ import Link from 'next/link';
 
 const SettingPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { queryData, isLoading } = useFetch(`/profiles/${userInfo}`, token);
   return (
     <Layout data={queryData?.provider}>
-      <Container sx={{ pt: 15 }} maxWidth="md">
+      <Container sx={{ py: 8 }} maxWidth="md">
         <Stack
           direction="row"
           sx={{
@@ -49,7 +49,11 @@ const SettingPage = ({ token }: any) => {
         <Divider />
 
         <Box>
-          <SettingsForm token={token} queryData={queryData} />
+          {isLoading ? (
+            <>Loading...</>
+          ) : (
+            <SettingsForm token={token} queryData={queryData} />
+          )}
         </Box>
       </Container>
     </Layout>

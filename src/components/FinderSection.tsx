@@ -104,9 +104,9 @@ const FinderSection = ({ queryData, token }: any) => {
           </Typography>
           <FindVendorForm queryData={queryData} token={token} />
         </Box>
-        <Box sx={{ mt: 10 }}>
+        {/* <Box sx={{ mt: 10 }}>
           <EventList />
-        </Box>
+        </Box> */}
       </DashboardWrapper>
     </>
   );

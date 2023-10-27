@@ -52,7 +52,7 @@ const InboxPage = ({ token }: any) => {
   useEffect(() => {
     const socket = io(`https://apiv3.easeplan.io`, {
       auth: {
-        userId: `${userInfo?._id}`,
+        userId: `${userInfo}`,
       },
     });
 
@@ -143,7 +143,7 @@ const InboxPage = ({ token }: any) => {
 
     const socket = io(`https://apiv3.easeplan.io`, {
       auth: {
-        userId: `${userInfo?._id}`,
+        userId: `${userInfo}`,
       },
     });
 
@@ -159,7 +159,7 @@ const InboxPage = ({ token }: any) => {
   useEffect(() => {
     const socket = io(`https://apiv3.easeplan.io`, {
       auth: {
-        userId: `${userInfo?._id}`,
+        userId: `${userInfo}`,
       },
     });
 
@@ -177,7 +177,7 @@ const InboxPage = ({ token }: any) => {
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
     arr
-      ?.filter((user: any) => user?._id != userInfo?._id)
+      ?.filter((user: any) => user?._id != userInfo)
       ?.map((user: any) => activeUsers.push(user));
 
     return activeUsers;
@@ -216,20 +216,6 @@ const InboxPage = ({ token }: any) => {
             className={`${
               mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
             }`}
-            // sx={{
-            //   position: `relative`,
-            //   width: `100%`,
-            //   overflowY: `hidden`,
-            //   backgroundColor: `secondary.light`,
-            //   borderRadius: `8px`,
-            //   height: {
-            //     xs: `50vh`,
-            //     sm: `50vh`,
-            //     md: `80vh`,
-            //     lg: `80vh`,
-            //     xl: `100%`,
-            //   },
-            // }}
           >
             {/* The Image Preview Modal */}
             <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
@@ -292,7 +278,9 @@ const InboxPage = ({ token }: any) => {
                       <Image
                         src={user?.profile?.picture || cahtImg}
                         alt="profileImg"
-                        fill
+                        width={30}
+                        height={30}
+                        priority
                         style={{
                           borderRadius: `50%`,
                         }}
@@ -392,11 +380,10 @@ const InboxPage = ({ token }: any) => {
                       width: `40px`,
                       height: `40px`,
                       borderRadius: `50%`,
-                      backgroundColor: `primary.main`,
                       ml: 2,
                     }}
                   >
-                    <SendIcon sx={{ mx: 1, color: `secondary.main` }} />
+                    <SendIcon sx={{ mx: 1, color: `primary.main` }} />
                   </IconButton>
                 </Box>
               </form>

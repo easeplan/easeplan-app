@@ -137,21 +137,19 @@ export default function AvatarMenu({
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    {userInfo?.role === `user` ? null : (
-                      <Link href="/account/profile">
-                        <MenuItem
-                          sx={{
-                            color: `primary.main`,
-                            fontWeight: `500`,
-                            px: 6,
-                            py: 2,
-                          }}
-                          onClick={handleClose}
-                        >
-                          My Profile
-                        </MenuItem>
-                      </Link>
-                    )}
+                    <Link href="/account/wallet">
+                      <MenuItem
+                        sx={{
+                          color: `primary.main`,
+                          fontWeight: `500`,
+                          px: 6,
+                          py: 2,
+                        }}
+                        onClick={handleClose}
+                      >
+                        Wallet
+                      </MenuItem>
+                    </Link>
                     <Divider />
                     <Link href="/account/history">
                       <MenuItem

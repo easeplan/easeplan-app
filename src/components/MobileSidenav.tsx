@@ -10,6 +10,7 @@ import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import SearchIcon from '@mui/icons-material/Search';
 
 export { getServerSideProps } from '@/context/contextStore';
 
@@ -19,13 +20,18 @@ const MobileSidenav = ({ data }: any) => {
   return (
     <MobileStyle>
       <FlexContainer>
-        {data?.providerProfile ? (
+        <MobileNavItems
+          icon={<SearchIcon />}
+          text="Find vendors"
+          href="/user/findvendors"
+        />
+        {/* {data?.providerProfile ? (
           <MobileNavItems
             icon={<AccountBalanceWalletIcon />}
             text="Wallet"
             href="/account/wallet"
           />
-        ) : null}
+        ) : null} */}
         <MobileNavItems
           icon={<StyleIcon />}
           text="Events"

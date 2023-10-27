@@ -63,7 +63,7 @@ const Sidenav = ({ data }: any) => {
           <SidebarItem
             icon={<GroupIcon />}
             text="Find Vendors"
-            href="/findvendors"
+            href="/user/findvendors"
           />
         </Links>
         {data?.providerProfile ? (

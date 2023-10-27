@@ -46,11 +46,12 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
 
   return (
     <NavWrapper>
-      <MobileNav
+      {/* <MobileNav
         userInfo={userInfo}
+        data={data}
         show={toggleMenu}
         handleClick={handleClick}
-      />
+      /> */}
       <Container maxWidth="xl">
         <Flex>
           <Box
@@ -92,24 +93,22 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
                 Become a vendor
               </Button>
             )}
-            {/* {userInfo ? (
-              <>
-                <NavItem href="/account" text="Dashboard" />
-              </>
-            ) : (
-              <>
-                <NavItem href="/login" text="Login" />
-              </>
-            )} */}
             <Box
               sx={{
                 flexGrow: 0,
+                display: {
+                  xs: `none`,
+                  sm: `none`,
+                  md: `none`,
+                  lg: `block`,
+                  xl: `block`,
+                },
               }}
             >
               <SidenavDrawer data={data} />
             </Box>
           </NavItemWrapper>
-          <MenuIcon className="menuIcon" onClick={handleClick} />
+          {/* <MenuIcon className="menuIcon" onClick={handleClick} /> */}
           <Box
             sx={{
               display: {
@@ -131,7 +130,7 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
               display: {
                 xs: `block`,
                 sm: `block`,
-                md: `none`,
+                md: `block`,
                 lg: `none`,
                 xl: `none`,
               },

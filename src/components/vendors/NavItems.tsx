@@ -54,16 +54,16 @@ const links = [
     text: `Settings`,
     href: `/user/settings`,
   },
-  {
-    id: 5,
-    icon: (
-      <PermPhoneMsgIcon
-        sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
-      />
-    ),
-    text: `Support`,
-    href: `/user/support`,
-  },
+  // {
+  //   id: 5,
+  //   icon: (
+  //     <PermPhoneMsgIcon
+  //       sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+  //     />
+  //   ),
+  //   text: `Support`,
+  //   href: `/user/support`,
+  // },
 ];
 
 const NavItems = ({ data }: any) => {

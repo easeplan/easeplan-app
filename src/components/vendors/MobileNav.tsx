@@ -16,9 +16,10 @@ type MobileNavProp = {
   show: boolean;
   handleClick: () => void;
   userInfo?: any;
+  data: any;
 };
 
-const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
+const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -54,6 +55,8 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
     }
   };
 
+  console.log(data?.providerProfile);
+
   return (
     <MobileWrapper
       style={{
@@ -68,11 +71,14 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
             href="https://app.easeplan.io/findvendors"
             text="Find Vendors"
           />
-          <ItemWrapper onClick={handledBecomeAVendor}>
-            <Typography>
-              <span className="capsize md:text-1xl">Become a vendor</span>
-            </Typography>
-          </ItemWrapper>
+          {!data?.providerProfile && (
+            <ItemWrapper onClick={handledBecomeAVendor}>
+              <Typography>
+                <span className="capsize md:text-1xl">Become a vendor</span>
+              </Typography>
+            </ItemWrapper>
+          )}
+
           <ItemWrapper onClick={handledLoginRoute}>
             <Typography>
               <span className="capsize md:text-1xl">Login</span>
@@ -85,11 +91,13 @@ const MobileNav = ({ show, userInfo, handleClick }: MobileNavProp) => {
       ) : (
         <>
           <NavItem href="/account" text="Dashboard" />
-          <ItemWrapper onClick={handledBecomeAVendor}>
-            <Typography>
-              <span className="capsize md:text-1xl">Become a vendor</span>
-            </Typography>
-          </ItemWrapper>
+          {!data?.providerProfile && (
+            <ItemWrapper onClick={handledBecomeAVendor}>
+              <Typography>
+                <span className="capsize md:text-1xl">Become a vendor</span>
+              </Typography>
+            </ItemWrapper>
+          )}
           <ItemWrapper onClick={handleLogout}>
             <Typography>
               <span className="capsize md:text-1xl">Log out</span>

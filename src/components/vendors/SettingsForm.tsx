@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Form, Formik } from 'formik';
@@ -17,15 +17,27 @@ import AvatarImg from '@/public/avatar.png';
 import Input from '../common/Input';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Divider from '../common/Divider';
+import SelectState from '../common/SelectState';
+import data from '@/lib/states.json';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required(`First Name is required`),
   lastName: Yup.string().required(`Last Name is required`),
-  city: Yup.string(),
-  state: Yup.string(),
-  picture: Yup.string(),
+  city: Yup.string().required(`City is required`),
+  state: Yup.string().required(`State is required`),
+  phoneNumber: Yup.string().required(`Phone number is required`),
+  picture: Yup.mixed()
+    .required(`Image is required`)
+    .test(`type`, `We only support jpeg`, function (value: any) {
+      return (
+        (value && value[0] && value[0].type === `image/jpeg`) ||
+        `image/png` ||
+        `image/jpg`
+      );
+    }),
   password: Yup.string(),
   confirmPassword: Yup.string(),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface Props {
@@ -37,6 +49,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
+  const [selectedState, setSelectedState] = useState<any>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [fileName, setFileName] = useState<any>(null);
   const [previewImg, setPreviewImg] = useState<any>(
@@ -45,12 +58,12 @@ const SettingsForm = ({ token, queryData }: Props) => {
       : null,
   );
 
-  console.log(userInfo);
+  // console.log(queryData);
 
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
+    mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
           'Content-Type': `multipart/form-data`,
@@ -69,7 +82,29 @@ const SettingsForm = ({ token, queryData }: Props) => {
   const submitCredentials = async (credentials: any) => {
     const formData = new FormData();
     formData.append(`picture`, credentials.picture);
-    updateProfile(credentials);
+    const resData = {
+      firstName: queryData?.provider?.profile?.firstName
+        ? queryData?.provider?.profile?.firstName
+        : credentials.firstName,
+      lastName: queryData?.provider?.profile?.lastName
+        ? queryData?.provider?.profile?.lastName
+        : credentials.lastName,
+      picture: queryData?.provider?.profile?.picture
+        ? queryData?.provider?.profile?.picture
+        : credentials.picture,
+      state: queryData?.provider?.providerProfile?.state
+        ? queryData?.provider?.providerProfile?.state
+        : credentials.state,
+      city: queryData?.provider?.providerProfile?.city
+        ? queryData?.provider?.providerProfile?.city
+        : credentials.city,
+      gender: credentials.gender,
+      phoneNumber: credentials.phoneNumber,
+      password: ``,
+      confirmPassword: ``,
+    };
+
+    updateProfile(resData);
   };
 
   return (
@@ -78,7 +113,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
         p: 4,
         borderRadius: `10px`,
         boxShadow: `0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)`,
-        mt: 7,
+        my: 4,
       }}
     >
       <Formik
@@ -92,6 +127,14 @@ const SettingsForm = ({ token, queryData }: Props) => {
           picture: queryData?.provider?.profile?.picture
             ? queryData?.provider?.profile?.picture
             : ``,
+          gender: ``,
+          city: queryData?.provider?.providerProfile?.city
+            ? queryData?.provider?.providerProfile?.city
+            : ``,
+          state: queryData?.provider?.providerProfile?.state
+            ? queryData?.provider?.providerProfile?.state
+            : ``,
+          phoneNumber: ``,
           password: ``,
           confirmPassword: ``,
         }}
@@ -169,6 +212,90 @@ const SettingsForm = ({ token, queryData }: Props) => {
                     />
                   </div>
                 </div>
+
+                <Box
+                  sx={{
+                    display: `grid`,
+                    gridTemplateColumns: {
+                      xs: `1fr`,
+                      sm: `1fr`,
+                      md: `1fr 1fr`,
+                      lg: `1fr 1fr`,
+                      xl: `1fr 1fr`,
+                    },
+                    gap: `1rem`,
+                    mb: 2,
+                  }}
+                >
+                  <Box>
+                    <div>
+                      <Label text="Select Gender" />
+                    </div>
+                    <FormInput
+                      isSelect
+                      selectPlaceholder="Gender"
+                      name="gender"
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="female">Female</MenuItem>
+                      <MenuItem value="Prefer not say">Prefer not say</MenuItem>
+                    </FormInput>
+                  </Box>
+                  <Box>
+                    <div>
+                      <Label text="Select State" />
+                    </div>
+                    <SelectState
+                      selectPlaceholder="Select State"
+                      name="state"
+                      onChange={(e: { target: { value: string } }) => {
+                        const selectedState = data?.states.find(
+                          (state) => state.name === e.target.value,
+                        );
+                        setSelectedState(selectedState);
+                        setFieldValue(`state`, e.target.value);
+                        setFieldValue(`city`, ``);
+                      }}
+                    >
+                      {data?.states?.map((state: any) => {
+                        return (
+                          <MenuItem key={state?.name} value={state.name}>
+                            {state?.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </SelectState>
+                  </Box>
+                  <Box>
+                    <div>
+                      <Label text="Select City" />
+                    </div>
+                    <FormInput
+                      isSelect
+                      selectPlaceholder="Select City"
+                      name="city"
+                    >
+                      {selectedState?.cities?.map((city: any) => {
+                        return (
+                          <MenuItem key={city} value={city}>
+                            {city}
+                          </MenuItem>
+                        );
+                      })}
+                    </FormInput>
+                  </Box>
+                  <Box>
+                    <div>
+                      <Label text="Phone number" />
+                    </div>
+                    <FormInput
+                      ariaLabel="phoneNumber"
+                      name="phoneNumber"
+                      type="text"
+                      placeholder="Phone number"
+                    />
+                  </Box>
+                </Box>
 
                 <div>
                   {changePassword ? (

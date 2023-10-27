@@ -78,6 +78,7 @@ const NavItems = ({ data }: any) => {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
       setLoginModal(false);
       dispatch(clearCredentials());
+      router.push(`/user/findvendors`);
     } catch (error: any) {}
   };
 

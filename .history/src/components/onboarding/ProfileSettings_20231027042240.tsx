@@ -476,26 +476,26 @@ interface CustomFormInputProps {
   ariaLabel: string;
   name: string;
   placeholder: string;
-  type?: string; // Optional prop for input type
+  type?: string;  // Optional prop for input type
 }
 
 const CustomFormInput: React.FC<CustomFormInputProps> = ({
   ariaLabel,
   name,
   placeholder,
-  type = `text`,
+  type = "text",  // Defaulting to "text" if no type is provided
 }) => {
   const [inputType, setInputType] = useState(type);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
-      <FormInput
-        aria-label={ariaLabel}
-        name={name}
-        type={inputType}
-        placeholder={placeholder}
-      />
-    </div>
+    <FormInput
+      aria-label={ariaLabel}
+      name={name}
+      type={inputType}
+      placeholder={placeholder}
+      onFocus={() => setInputType('date')}
+      // onBlur={() => setInputType('text')}
+    />
   );
 };
 

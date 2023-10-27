@@ -483,12 +483,14 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
   ariaLabel,
   name,
   placeholder,
-  type = `text`,
+  type = "text",
 }) => {
   const [inputType, setInputType] = useState(type);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
+    <div 
+      onFocus={() => setInputType('date')}
+    >
       <FormInput
         aria-label={ariaLabel}
         name={name}
@@ -498,6 +500,7 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
     </div>
   );
 };
+
 
 const AddButton = styled(`label`)(({}) => ({
   cursor: `pointer`,

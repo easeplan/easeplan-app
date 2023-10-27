@@ -24,7 +24,6 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
 import { toast } from 'react-toastify';
 
-
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
   image: Yup.mixed()

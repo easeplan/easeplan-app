@@ -1552,6 +1552,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-swipeable-views@0.13.4":
+  version "0.13.4"
+  resolved "https://registry.npmjs.org/@types/react-swipeable-views/-/react-swipeable-views-0.13.4.tgz"
+  integrity sha512-hQV9Oq6oa+9HKdnGd43xkckElwf5dThOiegtQxqE7qX761oHhxnZO07fz6IsKSnUy9J3tzlRQBu3sNyvC8+kYw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@^4.2.0", "@types/react-transition-group@^4.4.5":
   version "4.4.5"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.5.tgz"

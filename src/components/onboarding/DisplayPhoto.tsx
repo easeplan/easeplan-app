@@ -71,8 +71,8 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
         <>
           <IconButton
             style={{
-                background:`#0F3443`,
-                color:`white`,
+              background: `#0F3443`,
+              color: `white`,
               position: `absolute`,
               top: `50%`,
               left: 0,
@@ -86,8 +86,8 @@ const PhotoCarousel: React.FC<PhotoCarouselProps> = ({
           </IconButton>
           <IconButton
             style={{
-                background:`#0F3443`,
-                color:`white`,
+              background: `#0F3443`,
+              color: `white`,
               position: `absolute`,
               top: `50%`,
               right: 0,

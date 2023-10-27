@@ -111,7 +111,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
     dispatch(setIntroTwo(false));
     dispatch(setIntroThree(true));
   };
-  
+
   return (
     <>
       {stepTwo && (

@@ -61,9 +61,9 @@ const PreviousJobs = ({ queryData, token }: any) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/profiles/${queryData?.provider._id}/add-sampleIG`,
         {
-          method: 'PUT',
+          method: `PUT`,
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': `application/json`,
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
@@ -75,7 +75,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
       );
 
       if (!response.ok) {
-        toast.error('Image upload for ' + photoDetails.id + ' failed');
+        toast.error(`Image upload for ` + photoDetails.id + ` failed`);
       } else {
         toast.success(`Job Photo ${photoDetails.id} added successfully`);
         handleNextSlide();

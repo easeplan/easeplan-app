@@ -472,30 +472,18 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
 };
 
-interface CustomFormInputProps {
-  ariaLabel: string;
-  name: string;
-  placeholder: string;
-  type?: string; // Optional prop for input type
-}
-
-const CustomFormInput: React.FC<CustomFormInputProps> = ({
-  ariaLabel,
-  name,
-  placeholder,
-  type = `text`,
-}) => {
-  const [inputType, setInputType] = useState(type);
+const CustomFormInput = ({ ariaLabel, name, placeholder,ty }) => {
+  const [inputType, setInputType] = useState(`text`);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
-      <FormInput
-        aria-label={ariaLabel}
-        name={name}
-        type={inputType}
-        placeholder={placeholder}
-      />
-    </div>
+    <FormInput
+      aria-label={ariaLabel}
+      name={name}
+      type={inputType}
+      placeholder={placeholder}
+      onFocus={() => setInputType(`date`)}
+      // onBlur={() => setInputType('text')}
+    />
   );
 };
 

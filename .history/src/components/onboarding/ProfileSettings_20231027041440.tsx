@@ -125,25 +125,25 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     firstName: Yup.string().required(`First Name is required`),
     lastName: Yup.string().required(`Last Name is required`),
     city: Yup.string().required(`City is required`),
-    // picture:
-    //   !queryData?.provider.profile?.picture &&
-    //   Yup.mixed()
-    //     .required(`Image is required`)
-    //     .test(`fileSize`, `The file should be less than 10mb`, (value: any) => {
-    //       const maxFileSize = 10 * 1024 * 1024; // 5MB
-    //       if (value && value.size < maxFileSize) {
-    //         console.log(value.size);
-    //         return value && value.size < maxFileSize;
-    //       }
-    //       return false;
-    //     })
-    //     .test(`type`, `We only support jpeg`, function (value: any) {
-    //       return (
-    //         (value && value[0] && value[0].type === `image/jpeg`) ||
-    //         `image/png` ||
-    //         `image/jpg`
-    //       );
-    //     }),
+    picture:
+      !queryData?.provider.profile?.picture &&
+      Yup.mixed()
+        .required(`Image is required`)
+        .test(`fileSize`, `The file should be less than 10mb`, (value: any) => {
+          const maxFileSize = 10 * 1024 * 1024; // 5MB
+          if (value && value.size < maxFileSize) {
+            console.log(value.size);
+            return value && value.size < maxFileSize;
+          }
+          return false;
+        })
+        .test(`type`, `We only support jpeg`, function (value: any) {
+          return (
+            (value && value[0] && value[0].type === `image/jpeg`) ||
+            `image/png` ||
+            `image/jpg`
+          );
+        }),
     gender: Yup.string().required(`Gender is required`),
     dob: Yup.date()
       .max(eighteenYearsAgo, `You must be at least 18 years old.`)
@@ -472,30 +472,18 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
 };
 
-interface CustomFormInputProps {
-  ariaLabel: string;
-  name: string;
-  placeholder: string;
-  type?: string; // Optional prop for input type
-}
-
-const CustomFormInput: React.FC<CustomFormInputProps> = ({
-  ariaLabel,
-  name,
-  placeholder,
-  type = `text`,
-}) => {
-  const [inputType, setInputType] = useState(type);
+const CustomFormInput = ({ ariaLabel, name, placeholder }) => {
+  const [inputType, setInputType] = useState(`text`);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
-      <FormInput
-        aria-label={ariaLabel}
-        name={name}
-        type={inputType}
-        placeholder={placeholder}
-      />
-    </div>
+    <FormInput
+      aria-label={ariaLabel}
+      name={name}
+      type={inputType}
+      placeholder={placeholder}
+      onFocus={() => setInputType(`date`)}
+      // onBlur={() => setInputType('text')}
+    />
   );
 };
 

@@ -45,6 +45,8 @@ const InboxPage = ({ token }: any) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
 
+  // console.log(userInfo);
+
   useEffect(() => {
     const socket = io(`https://apiv3.easeplan.io`, {
       auth: {
@@ -181,6 +183,8 @@ const InboxPage = ({ token }: any) => {
 
   const activeConversation = activeUser(activeUserData?.participants);
 
+  console.log(conversationList);
+
   {
     /* Smooth Scroll to the last Message */
   }
@@ -221,24 +225,9 @@ const InboxPage = ({ token }: any) => {
               className={`${
                 mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
               }`}
-              // sx={{
-              //   position: `relative`,
-              //   width: `100%`,
-              //   overflowY: `hidden`,
-              //   backgroundColor: `secondary.light`,
-              //   borderRadius: `8px`,
-              //   height: {
-              //     xs: `50vh`,
-              //     sm: `50vh`,
-              //     md: `80vh`,
-              //     lg: `80vh`,
-              //     xl: `100%`,
-              //   },
-              // }}
             >
               {/* The Image Preview Modal */}
               <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
-                {/* <DialogTitle>Selected Image</DialogTitle> */}
                 <DialogContent>
                   {selectedImage && (
                     <img
@@ -306,7 +295,7 @@ const InboxPage = ({ token }: any) => {
                           }}
                         />
                       </Box>
-                      <Box sx={{ width: `95%` }}>
+                      <Box>
                         <Typography
                           fontWeight="bold"
                           fontSize="0.8rem"

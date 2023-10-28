@@ -20,8 +20,6 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
     return formattedTime; // fallback
   }
 
-  console.log(messages);
-
   return (
     <Grid container spacing={2}>
       {messages.map((message: any, index: any) => {

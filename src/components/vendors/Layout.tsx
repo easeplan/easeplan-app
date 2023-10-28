@@ -11,7 +11,7 @@ const Layout = ({ children, handleSearchChange, data, isSearch }: any) => {
         handleSearchChange={handleSearchChange}
         data={data}
       />
-      <Box sx={{ pt: { md: 15, lg: 0, xl: 0 } }}>
+      <Box sx={{ pt: { md: 5, lg: 0, xl: 0 } }}>
         {isSearch && (
           <Box
             sx={{

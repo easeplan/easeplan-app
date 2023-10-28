@@ -88,10 +88,11 @@ const NavItems = ({ data }: any) => {
   };
 
   const handledBecomeAVendor = () => {
-    if (userInfo) {
+    if (data) {
       router.push(`/account/onboard`);
     } else {
-      router.push(`/login`);
+      dispatch(setCloseModal(true));
+      setLoginModal(true);
       if (typeof window !== `undefined`) {
         localStorage.setItem(`lastVisitedURL`, `/account/onboard`);
       }
@@ -111,7 +112,7 @@ const NavItems = ({ data }: any) => {
           >
             <Tooltip title="Open settings">
               <IconButton>
-                {userInfo ? (
+                {data?.profile?.picture ? (
                   <Avatar
                     alt={data?.profile?.firstName}
                     src={data?.profile?.picture}
@@ -179,7 +180,7 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 {link.icon}
-                {userInfo ? (
+                {data ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
                   <NavLink text={link.text} onClick={handleLoginModal} />
@@ -209,7 +210,7 @@ const NavItems = ({ data }: any) => {
                 />
               </Stack>
             )}
-            {!userInfo ? (
+            {!data ? (
               <Stack
                 direction="row"
                 sx={{

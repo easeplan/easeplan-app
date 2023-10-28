@@ -1,32 +1,43 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-use-before-define */
+import React from 'react';
+import { Box, Button, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import FormInput from './common/FormInput';
-import Label from './common/Label';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Divider from './common/Divider';
-import { Box, MenuItem } from '@mui/material';
-import Input from './common/Input';
-import Image from 'next/image';
-import CustomButton from './common/CustomButton';
-import AvatarImg from '@/public/avatar.png';
+import FormInput from '../common/FormInput';
+import Label from '../common/Label';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import CustomButton from '../common/CustomButton';
+import AvatarImg from '@/public/avatar.png';
+import Input from '../common/Input';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Divider from '../common/Divider';
+import SelectState from '../common/SelectState';
+import data from '@/lib/states.json';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required(`First Name is required`),
   lastName: Yup.string().required(`Last Name is required`),
-  city: Yup.string(),
-  state: Yup.string(),
-  picture: Yup.string(),
+  city: Yup.string().required(`City is required`),
+  state: Yup.string().required(`State is required`),
+  phoneNumber: Yup.string().required(`Phone number is required`),
+  picture: Yup.mixed()
+    .required(`Image is required`)
+    .test(`type`, `We only support jpeg`, function (value: any) {
+      return (
+        (value && value[0] && value[0].type === `image/jpeg`) ||
+        `image/png` ||
+        `image/jpg`
+      );
+    }),
   password: Yup.string(),
   confirmPassword: Yup.string(),
+  gender: Yup.string().required(`Gender is required`),
 });
 
 interface Props {
@@ -34,21 +45,26 @@ interface Props {
   queryData: any;
 }
 
-const ProfileForm = ({ token, queryData }: Props) => {
+const SettingsForm = ({ token, queryData }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
+  const [selectedState, setSelectedState] = useState<any>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [fileName, setFileName] = useState<any>(null);
   const [previewImg, setPreviewImg] = useState<any>(
-    queryData?.profile?.picture ? queryData?.profile?.picture : null,
+    queryData?.provider?.profile?.picture
+      ? queryData?.provider?.profile?.picture
+      : null,
   );
+
+  // console.log(queryData);
 
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`profiles/${userInfo?._id}`, credentials, {
+    mutationFn: (credentials: any) =>
+      customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
           'Content-Type': `multipart/form-data`,
           Authorization: `Bearer ${token}`,
@@ -66,23 +82,59 @@ const ProfileForm = ({ token, queryData }: Props) => {
   const submitCredentials = async (credentials: any) => {
     const formData = new FormData();
     formData.append(`picture`, credentials.picture);
-    updateProfile(credentials);
+    const resData = {
+      firstName: queryData?.provider?.profile?.firstName
+        ? queryData?.provider?.profile?.firstName
+        : credentials.firstName,
+      lastName: queryData?.provider?.profile?.lastName
+        ? queryData?.provider?.profile?.lastName
+        : credentials.lastName,
+      picture: queryData?.provider?.profile?.picture
+        ? queryData?.provider?.profile?.picture
+        : credentials.picture,
+      state: queryData?.provider?.providerProfile?.state
+        ? queryData?.provider?.providerProfile?.state
+        : credentials.state,
+      city: queryData?.provider?.providerProfile?.city
+        ? queryData?.provider?.providerProfile?.city
+        : credentials.city,
+      gender: credentials.gender,
+      phoneNumber: credentials.phoneNumber,
+      password: ``,
+      confirmPassword: ``,
+    };
+
+    updateProfile(resData);
   };
 
   return (
-    <Section>
-      <h3 className="title">Profile Settings</h3>
+    <Box
+      sx={{
+        p: 4,
+        borderRadius: `10px`,
+        boxShadow: `0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)`,
+        my: 4,
+      }}
+    >
       <Formik
         initialValues={{
-          firstName: queryData?.profile?.firstName
-            ? queryData?.profile?.firstName
+          firstName: queryData?.provider?.profile?.firstName
+            ? queryData?.provider?.profile?.firstName
             : ``,
-          lastName: queryData?.profile?.lastName
-            ? queryData?.profile?.lastName
+          lastName: queryData?.provider?.profile?.lastName
+            ? queryData?.provider?.profile?.lastName
             : ``,
-          picture: queryData?.profile?.picture
-            ? queryData?.profile?.picture
+          picture: queryData?.provider?.profile?.picture
+            ? queryData?.provider?.profile?.picture
             : ``,
+          gender: ``,
+          city: queryData?.provider?.providerProfile?.city
+            ? queryData?.provider?.providerProfile?.city
+            : ``,
+          state: queryData?.provider?.providerProfile?.state
+            ? queryData?.provider?.providerProfile?.state
+            : ``,
+          phoneNumber: ``,
           password: ``,
           confirmPassword: ``,
         }}
@@ -91,14 +143,50 @@ const ProfileForm = ({ token, queryData }: Props) => {
       >
         {({ setFieldValue }) => (
           <Form>
-            <Flex>
-              <Description>
-                <h4 className="subTitle">Profile</h4>
-                <p>
-                  This information will be shown publicly so be careful what
-                  information you provide
-                </p>
-              </Description>
+            <Box mb={4}>
+              <Box
+                sx={{
+                  width: `100%`,
+                  textAlign: `center`,
+                }}
+              >
+                <div>
+                  {previewImg === null ? (
+                    <div>
+                      <Image
+                        src={AvatarImg}
+                        alt="profileImg"
+                        height={100}
+                        width={100}
+                        style={{ borderRadius: `50%` }}
+                      />
+                    </div>
+                  ) : (
+                    <Box>
+                      <Image
+                        src={previewImg}
+                        alt="profileImg"
+                        height={60}
+                        width={60}
+                        style={{ borderRadius: `50%` }}
+                      />
+                    </Box>
+                  )}
+                </div>
+                <div>
+                  <AddButton htmlFor="picture">
+                    {queryData?.provider?.profile?.picture
+                      ? `Change Photo`
+                      : `Add Photo`}
+                    <Input
+                      type="file"
+                      setPreviewImg={setPreviewImg}
+                      setFileName={setFileName}
+                      name="picture"
+                    />
+                  </AddButton>
+                </div>
+              </Box>
               <InputController>
                 <div className="flex">
                   <div>
@@ -124,55 +212,38 @@ const ProfileForm = ({ token, queryData }: Props) => {
                     />
                   </div>
                 </div>
+
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: `grid`,
+                    gridTemplateColumns: {
+                      xs: `1fr`,
+                      sm: `1fr`,
+                      md: `1fr 1fr`,
+                      lg: `1fr 1fr`,
+                      xl: `1fr 1fr`,
+                    },
+                    gap: `1rem`,
+                    mb: 2,
                   }}
                 >
-                  <div>
-                    <AddButton htmlFor="picture">
-                      {queryData?.profile?.picture
-                        ? `Change Photo`
-                        : `Add Photo`}
-                      <Input
-                        type="file"
-                        setPreviewImg={setPreviewImg}
-                        setFileName={setFileName}
-                        name="picture"
-                      />
-                    </AddButton>
-                  </div>
-                  <div>
-                    {previewImg === null ? (
-                      <div>
-                        <Image
-                          src={AvatarImg}
-                          alt="profileImg"
-                          height={50}
-                          width={50}
-                          style={{ borderRadius: `50%` }}
-                        />
-                      </div>
-                    ) : (
-                      <Box>
-                        <Image
-                          src={previewImg}
-                          alt="profileImg"
-                          height={60}
-                          width={60}
-                          style={{ borderRadius: `50%` }}
-                        />
-                      </Box>
-                    )}
-                  </div>
-                </Box>
-                {/* <div className="flex">
-                  <div>
+                  <Box>
                     <div>
-                      <Label text="State" />
+                      <Label text="Select Gender" />
+                    </div>
+                    <FormInput
+                      isSelect
+                      selectPlaceholder="Gender"
+                      name="gender"
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="female">Female</MenuItem>
+                      <MenuItem value="Prefer not say">Prefer not say</MenuItem>
+                    </FormInput>
+                  </Box>
+                  <Box>
+                    <div>
+                      <Label text="Select State" />
                     </div>
                     <SelectState
                       selectPlaceholder="Select State"
@@ -194,28 +265,38 @@ const ProfileForm = ({ token, queryData }: Props) => {
                         );
                       })}
                     </SelectState>
-                  </div>
-                  {selectedState && (
+                  </Box>
+                  <Box>
                     <div>
-                      <div>
-                        <Label text="City" />
-                      </div>
-                      <FormInput
-                        isSelect
-                        selectPlaceholder="Select City"
-                        name="city"
-                      >
-                        {selectedState?.cities?.map((city: any) => {
-                          return (
-                            <MenuItem key={city} value={city}>
-                              {city}
-                            </MenuItem>
-                          );
-                        })}
-                      </FormInput>
+                      <Label text="Select City" />
                     </div>
-                  )}
-                </div> */}
+                    <FormInput
+                      isSelect
+                      selectPlaceholder="Select City"
+                      name="city"
+                    >
+                      {selectedState?.cities?.map((city: any) => {
+                        return (
+                          <MenuItem key={city} value={city}>
+                            {city}
+                          </MenuItem>
+                        );
+                      })}
+                    </FormInput>
+                  </Box>
+                  <Box>
+                    <div>
+                      <Label text="Phone number" />
+                    </div>
+                    <FormInput
+                      ariaLabel="phoneNumber"
+                      name="phoneNumber"
+                      type="text"
+                      placeholder="Phone number"
+                    />
+                  </Box>
+                </Box>
+
                 <div>
                   {changePassword ? (
                     <>
@@ -261,14 +342,16 @@ const ProfileForm = ({ token, queryData }: Props) => {
                       </div>
                     </>
                   ) : null}
-                  <PasswordBtn
+                  <Button
+                    variant="outlined"
+                    sx={{ textTransform: `capitalize`, mt: 4 }}
                     onClick={() => setChangePassword(!changePassword)}
                   >
                     {changePassword ? `Hide Password` : `Change Password`}
-                  </PasswordBtn>
+                  </Button>
                 </div>
               </InputController>
-            </Flex>
+            </Box>
             <Divider />
             <Box sx={{ textAlign: `right`, marginTop: `1rem` }}>
               <CustomButton
@@ -286,65 +369,25 @@ const ProfileForm = ({ token, queryData }: Props) => {
           </Form>
         )}
       </Formik>
-    </Section>
+    </Box>
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
-  color: theme.palette.primary.main,
-
-  '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
-  },
-
-  '@media (max-width: 900px)': {
-    marginTop: `2rem`,
-  },
-}));
-
-const PasswordBtn = styled(`label`)(({ theme }) => ({
-  display: `inline-block`,
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `10px`,
-  backgroundColor: `transparent`,
-  color: theme.palette.primary.main,
-  border: `solid 1px ${theme.palette.primary.main}`,
-  boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
-
-  '&:hover': {
-    backgroundColor: theme.palette.primary.light,
-  },
-
-  'input[type="file"]': {
-    display: `none`,
-  },
-
-  '@media (max-width: 900px)': {},
-}));
-
 const AddButton = styled(`label`)(({ theme }) => ({
   display: `inline-block`,
-  padding: `0.8rem 2rem`,
+  padding: `0.5rem 2rem`,
   cursor: `pointer`,
   fontSize: `14px`,
   textAlign: `center`,
   verticalAlign: `middle`,
-  borderRadius: `10px`,
+  borderRadius: `8px`,
   backgroundColor: `transparent`,
   color: theme.palette.primary.main,
   border: `solid 1px ${theme.palette.primary.main}`,
-  boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
 
   '&:hover': {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   },
 
   'input[type="file"]': {
@@ -353,32 +396,6 @@ const AddButton = styled(`label`)(({ theme }) => ({
 
   '@media (max-width: 900px)': {},
 }));
-
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `1rem`,
-
-  '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
-  },
-});
-
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
-
-  '.subTitle': {
-    marginBottom: `1rem`,
-  },
-
-  '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
-  },
-});
 
 const InputController = styled(`div`)(({ theme }) => ({
   width: `100%`,
@@ -464,4 +481,4 @@ const PasswordControl = styled(`div`)(({ theme }) => ({
   },
 }));
 
-export default ProfileForm;
+export default SettingsForm;

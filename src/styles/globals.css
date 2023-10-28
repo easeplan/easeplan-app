@@ -369,35 +369,27 @@ a {
 }
 
 .mobileRecentChat {
-  overflowy: hidden;
+  overflow-y: hidden;
   height: 90%;
 }
 
 .mobileOpenSlider {
   position: relative;
   width: 90%;
-  overflowY: hidden;
+  height: 80vh;
+  overflow-y: hidden;
   background: #ECFEF2;
-  borderRadius: 8px;
-  height: 100%;
-  /* {
-    xs: `50vh`,
-    sm: `50vh`,
-    md: `80vh`,
-    lg: `80vh`,
-    xl: `100%`,
-  }, */
+  border-radius: 8px;
 }
 
 @media (max-width: 900px) {
   .mobileOpenSlider {
     position: fixed;
     width: 90%;
-    /* background: red; */
-    height: 77%;
+    height: 80vh;
     margin-top: 4rem;
+    overflow-y: hidden;
     top: 0;
-    transition: all 0.5s ease-in;
     transform: translateX(0%);
   }
   .mobileCloseSlider {
@@ -415,9 +407,9 @@ a {
 
   .mobileRecentChat {
     width: 82%;
-    borderradius: 8px;
+    border-radius: 8px;
     position: fixed;
-    overflowy: hidden;
+    overflow-y: hidden;
     height: 77%;
   }
 
@@ -432,7 +424,7 @@ a {
 @media (max-width: 600px) {
   .mobileRecentChat {
     width: 85%;
-    borderradius: 8px;
+    border-radius: 8px;
     position: fixed;
   }
 }

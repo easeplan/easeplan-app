@@ -15,6 +15,7 @@ import AvatarImg from '@/public/avatar.png';
 import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setUserIntro,
   setIntro,
   setIntroOne,
   setIntroThree,
@@ -29,7 +30,7 @@ import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
 
 // Form Input Schema
-const ProfileSchema = Yup.object().shape({
+const FormSchema = Yup.object().shape({
   state: Yup.string().required(`State is required`),
   firstname: Yup.string().required(`First Name is required`),
   lastname: Yup.string().required(`Last Name is required`),
@@ -57,31 +58,15 @@ interface PropsTypes {
   token: string;
 }
 
-interface FormTypes {
-  operationStates?: string;
-  firstName?: string | undefined;
-  lastName?: string;
-  cities?: string;
-  picture?: any;
-  coverImage?: any;
-  gender?: string;
-  description?: string;
-  name?: string;
-  services?: string;
-}
-
 const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
-  const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
-  const [coverImgName, setCoverImgName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [opsSelectedState, setSelectedOpsState] = useState<any>();
   const [selectedState, setSelectedState] = useState<any>();
-  const [selectedCities, setSelectedCities] = useState<any>();
-  const [servicesType, setServicesType] = useState<any>();
   const dispatch = useDispatch();
-  const { stepOne } = useSelector((state: RootState) => state.onboarding);
+  const { stepOne, userIntro } = useSelector(
+    (state: RootState) => state.onboarding,
+  );
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
@@ -89,28 +74,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     dispatch(setIntro(true));
   };
 
-  const services = [
-    `DJ`,
-    `Catering`,
-    `Photographer`,
-    `MC`,
-    `Make-up Artist`,
-    `Venue manager`,
-    `Event decorator`,
-    `Transportation coordinator`,
-    `Security personnel`,
-    `Videographer`,
-    `Print vendor`,
-    `Ushering`,
-    `Entertainer`,
-  ];
-
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-
-  const allCities = data.states.reduce((cities, state) => {
-    cities.push(...state.cities);
-    return cities;
-  }, [] as string[]) as string[];
 
   const handleFormSubmit = async (credentials: any) => {
     try {
@@ -123,16 +87,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         lastName: credentials.lastName,
         picture: credentials.picture,
         gender: credentials.gender,
-        image: credentials.image,
         state: credentials.state,
         city: credentials.city,
-        company: {
-          name: credentials.name,
-          services: credentials.services,
-          operationCities: credentials.operationCities,
-          operationStates: credentials.operationStates,
-          description: credentials.description,
-        },
       };
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
@@ -162,7 +118,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
   return (
     <Box>
-      {stepOne && (
+      {userIntro && (
         <Box sx={{ display: `flex`, height: `100%` }}>
           <Box
             sx={{ width: `100%`, backgroundColor: `secondary.light` }}
@@ -217,7 +173,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   </Box>
                   <Box>
                     <Typography color="primary.main" fontWeight={800}>
-                      Step 1 of 3
+                      Step 1 of 4
                     </Typography>
                   </Box>
                 </Box>
@@ -238,7 +194,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     mb: 4,
                   }}
                 >
-                  Create Your Business Profile
+                  Personal Profile
                 </Typography>
                 <Formik
                   initialValues={{
@@ -251,18 +207,12 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     picture: queryData?.profile?.picture
                       ? queryData?.profile?.picture
                       : ``,
-                    operationStates: ``,
-                    name: ``,
                     state: ``,
                     city: ``,
-                    operationCities: ``,
                     gender: ``,
-                    image: ``,
-                    services: ``,
-                    description: ``,
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
-                  // validationSchema={FormSchema}
+                  //   validationSchema={FormSchema}
                 >
                   {({ setFieldValue }) => (
                     <Form>
@@ -304,23 +254,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             </AddButton>
                             {previewImg === null ? (
                               <div>
-                                {queryData?.provider?.profile?.picture ? (
-                                  <Image
-                                    src={queryData?.provider?.profile?.picture}
-                                    alt="profileImg"
-                                    height={80}
-                                    width={80}
-                                    style={{ borderRadius: `50%` }}
-                                  />
-                                ) : (
-                                  <Image
-                                    src={AvatarImg}
-                                    alt="profileImg"
-                                    height={80}
-                                    width={80}
-                                    style={{ borderRadius: `50%` }}
-                                  />
-                                )}
+                                <Image
+                                  src={AvatarImg}
+                                  alt="profileImg"
+                                  height={80}
+                                  width={80}
+                                  style={{ borderRadius: `50%` }}
+                                />
                               </div>
                             ) : (
                               <Box>
@@ -433,187 +373,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             })}
                           </FormInput>
                         </Box>
-                      </Box>
-
-                      {/* Business Cover later */}
-                      <Box mb={3}>
-                        <Box
-                          sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `center`,
-                            position: `relative`,
-                          }}
-                        >
-                          {coverPreviewImg === null ? (
-                            <Box
-                              sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                border: `solid 1px #ccc`,
-                                borderRadius: `10px`,
-                                backgroundColor: `primary.main`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                textAlign: `center`,
-                              }}
-                            >
-                              <AddCoverButton htmlFor="image">
-                                <Box
-                                  sx={{
-                                    width: `3rem`,
-                                    height: `3rem`,
-                                    borderRadius: `50%`,
-                                    backgroundColor: `#fff`,
-                                    display: `flex`,
-                                    alignItems: `center`,
-                                    justifyContent: `center`,
-                                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                                  }}
-                                >
-                                  <CameraAltIcon
-                                    sx={{
-                                      fontSize: `2rem`,
-                                      color: `primary.main`,
-                                    }}
-                                  />
-                                </Box>
-                                <Input
-                                  type="file"
-                                  setPreviewImg={setCoverPreviewImg}
-                                  setFileName={setCoverImgName}
-                                  name="image"
-                                  accept="image/*"
-                                />
-                              </AddCoverButton>
-                            </Box>
-                          ) : (
-                            <Box
-                              sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                position: `relative`,
-                              }}
-                            >
-                              <Image
-                                src={coverPreviewImg}
-                                alt="profileImg"
-                                fill
-                                quality={100}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                style={{
-                                  height: `100%`,
-                                  borderRadius: `10px`,
-                                  objectFit: `cover`,
-                                }}
-                              />
-                              <Box sx={{ zIndex: 9 }}>
-                                <AddCoverButton htmlFor="image">
-                                  <Box
-                                    sx={{
-                                      borderRadius: `30px`,
-                                      backgroundColor: `#fff`,
-                                      display: `flex`,
-                                      alignItems: `center`,
-                                      padding: `10px`,
-                                      justifyContent: `center`,
-                                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                                    }}
-                                  >
-                                    <CameraAltIcon
-                                      sx={{
-                                        fontSize: `2rem`,
-                                        color: `primary.main`,
-                                      }}
-                                    />
-                                  </Box>
-                                  <Input
-                                    type="file"
-                                    setPreviewImg={setCoverPreviewImg}
-                                    setFileName={setCoverImgName}
-                                    name="image"
-                                    accept="image/*"
-                                  />
-                                </AddCoverButton>
-                              </Box>
-                            </Box>
-                          )}
-                        </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: `grid`,
-                          gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
-                          },
-                          gap: `1rem`,
-                          mb: 2,
-                        }}
-                      >
-                        <Box>
-                          <MultipleSelectState
-                            name="operationStates"
-                            setServices={setSelectedOpsState}
-                            states={data?.states}
-                          />
-                        </Box>
-                        <Box>
-                          <MultipleSelectCity
-                            name="operationCities"
-                            setServices={setSelectedCities}
-                            cities={allCities}
-                          />
-                        </Box>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: `grid`,
-                          gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
-                          },
-                          gap: `1rem`,
-                          mb: 2,
-                        }}
-                      >
-                        <Box>
-                          <FormInput
-                            ariaLabel="companyName"
-                            name="name"
-                            type="text"
-                            placeholder="Company Name"
-                          />
-                        </Box>
-                        <Box>
-                          <MultiSelectServices
-                            setServices={setServicesType}
-                            name="services"
-                            label="Selected Services"
-                            services={services}
-                          />
-                        </Box>
-                      </Box>
-
-                      <Box>
-                        <TextArea
-                          name="description"
-                          rows={4}
-                          placeholder="Enter Company description"
-                        />
                       </Box>
 
                       <Box mt={5} textAlign="center">

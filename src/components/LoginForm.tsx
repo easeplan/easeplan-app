@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Alert, Box, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import CustomButton from './common/CustomButton';
 import SelectAccountType from './SelectAccountType';
 import { useDispatch } from 'react-redux';
@@ -18,13 +18,14 @@ import { setCredentials } from '@/features/authSlice';
 import useLastVisitedURL from '@/hooks/useLastVisitedURL';
 import GoogleButton from './GoogleButton';
 import { useGoogleLogin } from '@react-oauth/google';
+import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
   password: Yup.string().required(`Password is required`),
 });
 
-const LoginForm = () => {
+const LoginForm = ({ modal }: any) => {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +53,8 @@ const LoginForm = () => {
       if (lastVisitedURL) {
         router.push(lastVisitedURL);
       } else {
-        router.push(`/account`); // Redirect to the home page if no lastVisitedURL is available
+        dispatch(setCloseModal(false));
+        router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
       }
       if (typeof window !== `undefined`) {
         localStorage.setItem(`userEmail`, `${credentials.email}`);
@@ -78,7 +80,9 @@ const LoginForm = () => {
         const data = await result.json();
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
-          router.push(`/account`);
+          router.push(`/user/findvendors`);
+          dispatch(isLogin(false));
+          dispatch(setCloseModal(false));
         }
       }
     } catch (error) {
@@ -101,6 +105,7 @@ const LoginForm = () => {
               md: `50%`,
               lg: `45%`,
               xl: `45%`,
+              paddingBottom: `1rem`,
             },
           }}
         >
@@ -137,7 +142,7 @@ const LoginForm = () => {
                 textAlign: `center`,
               }}
             >
-              Login To Easeplan
+              Login To {modal ? `Continue` : `Easeplan`}
             </Typography>
           )}
           <Box sx={{ display: `flex`, flexDirection: `column` }}>
@@ -194,7 +199,7 @@ const LoginForm = () => {
                     </div>
                   </PasswordControl>
                 </InputControl>
-                <Box sx={{ mt: 6 }}>
+                <Box sx={{ mt: 4 }}>
                   <CustomButton
                     bgPrimary
                     lgWidth="100%"
@@ -213,9 +218,18 @@ const LoginForm = () => {
                 </RememberDiv>
                 <Footer>
                   Not a member yet?{` `}
-                  <Link href="/signup" className="link">
-                    Sign up
-                  </Link>
+                  {modal ? (
+                    <Button
+                      sx={{ fontWeight: `bold` }}
+                      onClick={() => dispatch(isLogin(false))}
+                    >
+                      Sign up
+                    </Button>
+                  ) : (
+                    <Link href="/signup" className="link">
+                      Sign up
+                    </Link>
+                  )}
                 </Footer>
               </Form>
             )}

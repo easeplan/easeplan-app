@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import Layout from '@/components/onboarding/Layout';
-import ProfileSettings from '@/components/onboarding/ProfileSettings';
+import ProfileSettings from '@/components/onboarding/BusinessProfile';
 import VerificationSettings from '@/components/onboarding/VerificationSettings';
 import CompanySettings from '@/components/onboarding/CompanySettings';
 import WelcomeScreen from '@/components/onboarding/WelcomeScreen';

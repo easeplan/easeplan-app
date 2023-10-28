@@ -5,7 +5,11 @@ import { motion } from 'framer-motion';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import IllusImg from '@/public/onboarding-image/welcome-img.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIntro, setIntroOne } from '@/features/onboardingSlice';
+import {
+  setIntro,
+  setIntroOne,
+  setUserIntro,
+} from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PortraitIcon from '@mui/icons-material/Portrait';
@@ -17,6 +21,7 @@ const WelcomeScreen = () => {
 
   const handleNextSlide = () => {
     dispatch(setIntro(false));
+    // dispatch(setUserIntro(true));
     dispatch(setIntroOne(true));
   };
 

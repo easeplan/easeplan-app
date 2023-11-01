@@ -28,6 +28,7 @@ const Header = ({ publicId }: any) => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
       dispatch(clearCredentials());
+      router.push(`/user/findvendors`);
     } catch (error: any) {}
   };
 

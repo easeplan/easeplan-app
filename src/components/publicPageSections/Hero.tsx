@@ -26,11 +26,11 @@ const Hero = ({ queryData, token, publicId }: any) => {
 
   const handledHireMe = () => {
     if (userInfo) {
-      router.push(`/account/profile/${publicId}`);
+      router.push(`/user/profile/${publicId}`);
     } else {
       router.push(`/login`);
       if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+        localStorage.setItem(`lastVisitedURL`, `/user/profile/${publicId}`);
       }
     }
   };
@@ -38,7 +38,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
   const loggedUserId = userInfo;
 
   return (
-    <Box pt={1}>
+    <Box>
       <Box
         sx={{
           width: `100%`,
@@ -71,7 +71,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{
               height: `100%`,
-              borderRadius: `10px`,
+              // borderRadius: `10px`,
               objectFit: `cover`,
             }}
           />
@@ -215,7 +215,9 @@ const Hero = ({ queryData, token, publicId }: any) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData.currentlyHiredBy?.includes(loggedUserId) ? (
+          {queryData?.providerProfile?.currentlyHiredBy?.includes(
+            loggedUserId,
+          ) ? (
             <Link href="/account/chats">
               <Button
                 startIcon={<ChatIcon />}
@@ -225,7 +227,9 @@ const Hero = ({ queryData, token, publicId }: any) => {
                 Chat
               </Button>
             </Link>
-          ) : queryData.currentlyRequestedBy?.includes(loggedUserId) ? (
+          ) : queryData?.providerProfile?.currentlyRequestedBy?.includes(
+              loggedUserId,
+            ) ? (
             <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
               Pending Request
             </Button>

@@ -36,7 +36,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
               alignItems: `flex-end`, // Align to the bottom of the chat box
             }}
           >
-            <Image
+            {/* <Image
               src={
                 isCurrentUser
                   ? userInfoId?.picture || chatImg
@@ -49,7 +49,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                 borderRadius: `50%`,
                 margin: `0 8px`,
               }}
-            />
+            /> */}
 
             <div
               style={{

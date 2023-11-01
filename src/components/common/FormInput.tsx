@@ -60,7 +60,6 @@ const FormInput = ({
             {...field}
             {...props}
             label={selectPlaceholder}
-            id="demo-simple-select"
             inputProps={{ 'aria-label': `Without label` }}
             sx={{ borderRadius: `10px` }}
             className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}

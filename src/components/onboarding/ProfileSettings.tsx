@@ -15,6 +15,7 @@ import AvatarImg from '@/public/avatar.png';
 import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setUserIntro,
   setIntro,
   setIntroFour,
   setIntroOne,
@@ -39,7 +40,6 @@ interface PropsTypes {
 }
 const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
-  const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<any>();
@@ -264,23 +264,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             </AddButton>
                             {previewImg === null ? (
                               <div>
-                                {queryData?.provider?.profile?.picture ? (
-                                  <Image
-                                    src={queryData?.provider?.profile?.picture}
-                                    alt="profileImg"
-                                    height={80}
-                                    width={80}
-                                    style={{ borderRadius: `50%` }}
-                                  />
-                                ) : (
-                                  <Image
-                                    src={AvatarImg}
-                                    alt="profileImg"
-                                    height={80}
-                                    width={80}
-                                    style={{ borderRadius: `50%` }}
-                                  />
-                                )}
+                                <Image
+                                  src={AvatarImg}
+                                  alt="profileImg"
+                                  height={80}
+                                  width={80}
+                                  style={{ borderRadius: `50%` }}
+                                />
                               </div>
                             ) : (
                               <Box>

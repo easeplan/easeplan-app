@@ -102,7 +102,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
       dispatch(setIntroSix(true));
     }
   };
-  // handleConitueOnboarding();
+  handleConitueOnboarding();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -116,6 +116,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   };
   const handleNextSlide = () => {
     dispatch(setIntro(false));
+    // dispatch(setUserIntro(true));
     dispatch(setIntroOne(true));
   };
 

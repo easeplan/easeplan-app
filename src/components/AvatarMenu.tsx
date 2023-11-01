@@ -13,8 +13,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import AvatarImg from '@/public/avatar.png';
-// import { clearCredentials } from '@/features/authSlice';
-// import { useDispatch } from 'react-redux';
+import { clearCredentials } from '@/features/authSlice';
+import { useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { Divider } from '@mui/material';
@@ -34,7 +34,7 @@ export default function AvatarMenu({
 }: AvatarMenuProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleToggle = () => {
@@ -46,8 +46,8 @@ export default function AvatarMenu({
   const handleLogout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      // dispatch(clearCredentials());
-      router.push(`/login`);
+      dispatch(clearCredentials());
+      router.push(`/user/findvendors`);
       setOpen(false);
     } catch (error: any) {}
   };
@@ -137,21 +137,19 @@ export default function AvatarMenu({
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    {userInfo?.role === `user` ? null : (
-                      <Link href="/account/profile">
-                        <MenuItem
-                          sx={{
-                            color: `primary.main`,
-                            fontWeight: `500`,
-                            px: 6,
-                            py: 2,
-                          }}
-                          onClick={handleClose}
-                        >
-                          My Profile
-                        </MenuItem>
-                      </Link>
-                    )}
+                    <Link href="/account/wallet">
+                      <MenuItem
+                        sx={{
+                          color: `primary.main`,
+                          fontWeight: `500`,
+                          px: 6,
+                          py: 2,
+                        }}
+                        onClick={handleClose}
+                      >
+                        Wallet
+                      </MenuItem>
+                    </Link>
                     <Divider />
                     <Link href="/account/history">
                       <MenuItem

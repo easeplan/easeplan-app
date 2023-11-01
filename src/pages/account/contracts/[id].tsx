@@ -47,20 +47,13 @@ const ContractsPage = ({ token, data }: Props) => {
   const [confirm, setConfirm] = useState(false);
   const [declined, setDecliend] = useState(false);
 
-  // const userServiceObj =
-  //   typeof window !== `undefined` && JSON?.parse(data?.package);
-
   const handleAcceptOffer = async () => {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${data?._id}/accept-offer`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${data?._id}/accept-offer`
-            : null
-        }`,
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/${`profiles/${data?._id}/accept-offer`}`,
         {
           method: `PUT`,
           headers: {
@@ -84,13 +77,9 @@ const ContractsPage = ({ token, data }: Props) => {
     try {
       setIsLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/${
-          userInfo?.role === `provider`
-            ? `provider-profiles/${data?._id}/decline-offer`
-            : userInfo?.role === `planner`
-            ? `planner-profiles/${data?._id}/decline-offer`
-            : null
-        }`,
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/${`profiles/${data?._id}/decline-offer`}`,
         {
           method: `PUT`,
           headers: {
@@ -344,204 +333,118 @@ const ContractsPage = ({ token, data }: Props) => {
               {data.budget && formatCurrency(data?.budget)}
             </Typography>
           </Box>
-          {/* <Box
-            sx={{
-              p: 4,
-              mt: 4,
-              backgroundColor: `secondary.light`,
-            }}
-          >
-            <Box
-              sx={{
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
-              }}
-            >
-              <Typography fontWeight="600" fontSize="1rem" color="primary.main">
-                Basic
-              </Typography>
-              {RenderStatusUI[data.status as EventStatus] &&
-                RenderStatusUI[data.status as EventStatus]()}
-            </Box>
-            {userServiceObj?.service?.map((list: any) => (
-              <Typography
-                key={list}
+          <>
+            {data.status === `Accepted` ? (
+              <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
-                  mt: 1,
+                  textAlign: `center`,
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: ` solid 1px #ccc`,
                 }}
               >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} />
-                {list}
-              </Typography>
-            ))}
-          </Box> */}
-          {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
-            <>
-              {data.status === `Accepted` ? (
-                <Box
-                  sx={{
-                    textAlign: `center`,
-                    flexDirection: {
-                      xs: `column`,
-                      sm: `column`,
-                      md: `row`,
-                      lg: `row`,
-                      xl: `row`,
-                    },
-                    p: 4,
-                    mt: 4,
-                    border: ` solid 1px #ccc`,
-                  }}
-                >
-                  <Box>
-                    <Typography
-                      fontWeight="600"
-                      fontSize="1.2rem"
-                      color="primary.main"
-                    >
-                      Event Planning has started
-                    </Typography>
-                    <Typography color="grey.500" mt={1}>
-                      The countdown is now ticking
-                    </Typography>
-                  </Box>
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Event Planning has started
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    The countdown is now ticking
+                  </Typography>
                 </Box>
-              ) : (
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: `flex`,
+                  justifyContent: `space-between`,
+                  alignItems: `center`,
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: ` solid 1px #ccc`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Are you available for this gig?
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    If you are please accept the event or decline if you are not
+                    available
+                  </Typography>
+                </Box>
                 <Box
                   sx={{
                     display: `flex`,
-                    justifyContent: `space-between`,
                     alignItems: `center`,
-                    flexDirection: {
-                      xs: `column`,
-                      sm: `column`,
-                      md: `row`,
-                      lg: `row`,
-                      xl: `row`,
+                    justifyContent: `space-between`,
+                    gap: `1rem`,
+                    mt: {
+                      xs: `2rem`,
+                      sm: `2rem`,
                     },
-                    p: 4,
-                    mt: 4,
-                    border: ` solid 1px #ccc`,
                   }}
                 >
-                  <Box>
-                    <Typography
-                      fontWeight="600"
-                      fontSize="1.2rem"
-                      color="primary.main"
-                    >
-                      Are you available for this gig?
-                    </Typography>
-                    <Typography color="grey.500" mt={1}>
-                      If you are please accept the event or decline if you are
-                      not available
-                    </Typography>
+                  <Box
+                    onClick={() => setDecliend(true)}
+                    sx={{
+                      border: `solid 1px ${theme.palette.primary.main}`,
+                      color: `primary.main`,
+                      py: 1,
+                      px: {
+                        xs: 2,
+                        sm: 2,
+                        md: 3,
+                        lg: 4,
+                      },
+                      fontWeight: `600`,
+                    }}
+                  >
+                    Declined
                   </Box>
                   <Box
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
-                      gap: `1rem`,
-                      mt: {
-                        xs: `2rem`,
-                        sm: `2rem`,
+                      backgroundColor: `primary.main`,
+                      color: `secondary.main`,
+                      py: 1,
+                      px: {
+                        xs: 2,
+                        sm: 2,
+                        md: 3,
+                        lg: 4,
                       },
+                      fontWeight: `600`,
+                      cursor: `pointer`,
                     }}
+                    onClick={() => setConfirm(true)}
                   >
-                    <Box
-                      onClick={() => setDecliend(true)}
-                      sx={{
-                        border: `solid 1px ${theme.palette.primary.main}`,
-                        color: `primary.main`,
-                        py: 1,
-                        px: {
-                          xs: 2,
-                          sm: 2,
-                          md: 3,
-                          lg: 4,
-                        },
-                        fontWeight: `600`,
-                      }}
-                    >
-                      Declined
-                    </Box>
-                    <Box
-                      sx={{
-                        backgroundColor: `primary.main`,
-                        color: `secondary.main`,
-                        py: 1,
-                        px: {
-                          xs: 2,
-                          sm: 2,
-                          md: 3,
-                          lg: 4,
-                        },
-                        fontWeight: `600`,
-                        cursor: `pointer`,
-                      }}
-                      onClick={() => setConfirm(true)}
-                    >
-                      Accept
-                    </Box>
+                    Accept
                   </Box>
                 </Box>
-              )}
-            </>
-          ) : null}
-          {/* Support CTA */}
-          <Box
-            sx={{
-              display: `flex`,
-              justifyContent: `space-between`,
-              alignItems: `center`,
-              flexDirection: {
-                xs: `column`,
-                sm: `column`,
-                md: `row`,
-                lg: `row`,
-                xl: `row`,
-              },
-              p: 4,
-              mt: 4,
-              backgroundColor: `primary.main`,
-            }}
-          >
-            <Box
-              sx={{
-                mb: {
-                  xs: `2rem`,
-                  sm: `2rem`,
-                },
-              }}
-            >
-              <Typography
-                fontWeight="600"
-                fontSize="1.2rem"
-                color="secondary.main"
-              >
-                Are you having challenge or need support?
-              </Typography>
-              <Typography color="#ccc">
-                Please click to visit the resolution center
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                backgroundColor: `secondary.main`,
-                color: `primary.main`,
-                py: 1,
-                px: 2,
-                fontWeight: `600`,
-              }}
-            >
-              <Link href="/dashboard/support">Resolution center</Link>
-            </Box>
-          </Box>
+              </Box>
+            )}
+          </>
         </Box>
       </section>
     </DashboardLayout>

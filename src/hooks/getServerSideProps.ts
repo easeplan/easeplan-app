@@ -6,7 +6,7 @@ export async function getServerSideProps({ req }: any) {
   if (!token) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: `/user/findvendors`,
         permanent: false,
       },
     };

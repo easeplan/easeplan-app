@@ -15,6 +15,8 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
+import { setCloseModal } from '@/features/onboardingSlice';
+import { useDispatch } from 'react-redux';
 
 const OtpSchema = Yup.object().shape({
   token: Yup.string()
@@ -31,6 +33,7 @@ const VerifiactionModal = ({
   setVerificationModal,
   setOtpSuccessful,
 }: verificationTypes) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [loginSuccess, setLoginSuccess] = useState<any>();
   const [loginError, setLoginError] = useState<any>();
@@ -73,7 +76,8 @@ const VerifiactionModal = ({
         toast.success(`Email verified successfully`);
         setIsLoading(false);
         setLoginError(``);
-        router.push(`/account`);
+        router.push(`/user/findvendors`);
+        dispatch(setCloseModal(false));
       }
     } catch (error: any) {
       setIsLoading(false);

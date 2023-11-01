@@ -8,13 +8,17 @@ const s3 = new AWS.S3({
 });
 
 export const uploadFileToS3 = async (folder: string, file: any) => {
+  const bucketName = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
+  if (!bucketName) {
+    throw new Error(`Bucket name is not set in the environment variables.`);
+  }
   const currentDate = new Date();
   const year = format(currentDate, `yyyy`);
   const month = format(currentDate, `MM`);
   const day = format(currentDate, `dd`);
 
   const params = {
-    Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
+    Bucket: bucketName,
     Key: `${folder}/${day}-${month}-${year}/${file.name}`, // e.g., "2023/10/photo.jpg"
     Body: file,
   };

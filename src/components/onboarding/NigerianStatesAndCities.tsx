@@ -72,7 +72,7 @@ function NigeriaStatesAndCities() {
         cities.push(...statesAndCities[state]);
       }
     });
-    setAvailableCities([...new Set<string>(cities)]);
+    setAvailableCities(Array.from(new Set<string>(cities)));
   }, [selectedStates, statesAndCities]);
 
   const handleStateChange = (event: any) => {

@@ -36,7 +36,7 @@ export default function MultipleSelectState({
   name,
   setServices,
   states,
-  handleChange
+  handleChange,
 }: any) {
   const [personName, setPersonName] = React.useState<string[]>([]);
   const theme = useTheme();

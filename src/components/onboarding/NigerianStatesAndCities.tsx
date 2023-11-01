@@ -21,69 +21,69 @@ const MenuProps = {
   },
 };
 function NigeriaStatesAndCities() {
-  const [selectedStates, setSelectedStates] = useState([]);
-  const [selectedCities, setSelectedCities] = useState([]);
-  const [availableCities, setAvailableCities] = useState([]);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
   const { setFieldValue } = useFormikContext();
 
-  const statesAndCities = {
-    Lagos: ['Ikeja', 'Lekki', 'Victoria Island'],
-    Oyo: ['Ibadan', 'Ogbomosho', 'Oyo'],
-    Abia: ['Aba', 'Umuahia', 'Ohafia'],
-    Adamawa: ['Yola', 'Mubi', 'Jimeta'],
-    'Akwa Ibom': ['Uyo', 'Ikot Ekpene', 'Eket'],
-    Anambra: ['Awka', 'Onitsha', 'Nnewi'],
-    Bauchi: ['Bauchi', 'Katagum', 'Jamaare'],
-    Bayelsa: ['Yenagoa', 'Brass', 'Sagbama'],
-    Benue: ['Makurdi', 'Otukpo', 'Gboko'],
-    Borno: ['Maiduguri', 'Biu', 'Bama'],
-    'Cross River': ['Calabar', 'Ogoja', 'Obudu'],
-    Delta: ['Asaba', 'Warri', 'Sapele'],
-    Ebonyi: ['Abakaliki', 'Afikpo', 'Ishielu'],
-    Edo: ['Benin City', 'Auchi', 'Uromi'],
-    Ekiti: ['Ado-Ekiti', 'Ikere', 'Ilawe'],
-    Enugu: ['Enugu', 'Nsukka', 'Oji-River'],
-    FCT: ['Abuja', 'Gwagwalada', 'Kuje'],
-    Gombe: ['Gombe', 'Dukku', 'Bajoga'],
-    Imo: ['Owerri', 'Okigwe', 'Orlu'],
-    Jigawa: ['Dutse', 'Hadejia', 'Gumel'],
-    Kaduna: ['Kaduna', 'Zaria', 'Kafanchan'],
-    Kano: ['Kano', 'Fagge', 'Dala'],
-    Katsina: ['Katsina', 'Funtua', 'Daura'],
-    Kebbi: ['Birnin Kebbi', 'Argungu', 'Yauri'],
-    Kogi: ['Lokoja', 'Okene', 'Idah'],
-    Kwara: ['Ilorin', 'Offa', 'Omu-Aran'],
-    Nasarawa: ['Lafia', 'Keffi', 'Akwanga'],
-    Niger: ['Minna', 'Bida', 'Suleja'],
-    Ogun: ['Abeokuta', 'Ijebu-Ode', 'Sagamu'],
-    Osun: ['Osogbo', 'Ile-Ife', 'Ilesa'],
-    Plateau: ['Jos', 'Pankshin', 'Riyom'],
-    Rivers: ['Port Harcourt', 'Okrika', 'Omoku'],
-    Sokoto: ['Sokoto', 'Gwadabawa', 'Tambuwal'],
-    Taraba: ['Jalingo', 'Wukari', 'Bali'],
-    Yobe: ['Damaturu', 'Potiskum', 'Gujba'],
-    Zamfara: ['Gusau', 'Anka', 'Maru'],
+  const statesAndCities: any = {
+    Lagos: [`Ikeja`, `Lekki`, `Victoria Island`],
+    Oyo: [`Ibadan`, `Ogbomosho`, `Oyo`],
+    Abia: [`Aba`, `Umuahia`, `Ohafia`],
+    Adamawa: [`Yola`, `Mubi`, `Jimeta`],
+    'Akwa Ibom': [`Uyo`, `Ikot Ekpene`, `Eket`],
+    Anambra: [`Awka`, `Onitsha`, `Nnewi`],
+    Bauchi: [`Bauchi`, `Katagum`, `Jamaare`],
+    Bayelsa: [`Yenagoa`, `Brass`, `Sagbama`],
+    Benue: [`Makurdi`, `Otukpo`, `Gboko`],
+    Borno: [`Maiduguri`, `Biu`, `Bama`],
+    'Cross River': [`Calabar`, `Ogoja`, `Obudu`],
+    Delta: [`Asaba`, `Warri`, `Sapele`],
+    Ebonyi: [`Abakaliki`, `Afikpo`, `Ishielu`],
+    Edo: [`Benin City`, `Auchi`, `Uromi`],
+    Ekiti: [`Ado-Ekiti`, `Ikere`, `Ilawe`],
+    Enugu: [`Enugu`, `Nsukka`, `Oji-River`],
+    FCT: [`Abuja`, `Gwagwalada`, `Kuje`],
+    Gombe: [`Gombe`, `Dukku`, `Bajoga`],
+    Imo: [`Owerri`, `Okigwe`, `Orlu`],
+    Jigawa: [`Dutse`, `Hadejia`, `Gumel`],
+    Kaduna: [`Kaduna`, `Zaria`, `Kafanchan`],
+    Kano: [`Kano`, `Fagge`, `Dala`],
+    Katsina: [`Katsina`, `Funtua`, `Daura`],
+    Kebbi: [`Birnin Kebbi`, `Argungu`, `Yauri`],
+    Kogi: [`Lokoja`, `Okene`, `Idah`],
+    Kwara: [`Ilorin`, `Offa`, `Omu-Aran`],
+    Nasarawa: [`Lafia`, `Keffi`, `Akwanga`],
+    Niger: [`Minna`, `Bida`, `Suleja`],
+    Ogun: [`Abeokuta`, `Ijebu-Ode`, `Sagamu`],
+    Osun: [`Osogbo`, `Ile-Ife`, `Ilesa`],
+    Plateau: [`Jos`, `Pankshin`, `Riyom`],
+    Rivers: [`Port Harcourt`, `Okrika`, `Omoku`],
+    Sokoto: [`Sokoto`, `Gwadabawa`, `Tambuwal`],
+    Taraba: [`Jalingo`, `Wukari`, `Bali`],
+    Yobe: [`Damaturu`, `Potiskum`, `Gujba`],
+    Zamfara: [`Gusau`, `Anka`, `Maru`],
   };
 
   useEffect(() => {
-    const cities = [];
+    const cities: any = [];
     selectedStates.forEach((state) => {
       if (statesAndCities[state]) {
         cities.push(...statesAndCities[state]);
       }
     });
-    setAvailableCities([...new Set(cities)]); // Removing duplicate cities
-  }, [selectedStates]);
+    setAvailableCities([...new Set<string>(cities)]);
+  }, [selectedStates, statesAndCities]);
 
   const handleStateChange = (event: any) => {
     setSelectedStates(event.target.value);
     setSelectedCities([]); // Reset cities when states change
-    setFieldValue('operationStates', event.target.value);
+    setFieldValue(`operationStates`, event.target.value);
   };
 
   const handleCityChange = (event: any) => {
     setSelectedCities(event.target.value);
-    setFieldValue('operationCities', event.target.value);
+    setFieldValue(`operationCities`, event.target.value);
   };
 
   return (
@@ -127,11 +127,11 @@ function NigeriaStatesAndCities() {
               value={state}
               sx={{
                 borderRadius: `10px`,
-                width: '100%',
+                width: `100%`,
                 '& .MuiMenu-paper': {
                   // Targeting the dropdown paper
-                  maxHeight: '300px',
-                  overflowY: 'auto',
+                  maxHeight: `300px`,
+                  overflowY: `auto`,
                 },
                 overflowX: `hidden`,
               }}
@@ -144,7 +144,7 @@ function NigeriaStatesAndCities() {
                   overflow: `hidden`,
                 }}
                 style={{
-                  fontSize:`14px`
+                  fontSize: `14px`,
                 }}
               >
                 {state}
@@ -158,11 +158,11 @@ function NigeriaStatesAndCities() {
         <Select
           sx={{
             borderRadius: `10px`,
-            width: '100%',
+            width: `100%`,
             '& .MuiMenu-paper': {
               // Targeting the dropdown paper
-              maxHeight: '300px',
-              overflowY: 'auto',
+              maxHeight: `300px`,
+              overflowY: `auto`,
             },
             overflowX: `hidden`,
           }}
@@ -184,7 +184,7 @@ function NigeriaStatesAndCities() {
                   overflow: `hidden`,
                 }}
                 style={{
-                  fontSize:`14px`
+                  fontSize: `14px`,
                 }}
               >
                 {city}

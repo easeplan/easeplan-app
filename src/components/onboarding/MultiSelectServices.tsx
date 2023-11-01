@@ -83,7 +83,7 @@ export default function MultipleSelect({ name, setServices, services }: any) {
               <Typography
                 variant="caption"
                 style={{
-                  fontSize:`14px`
+                  fontSize: `14px`,
                 }}
               >
                 {service}

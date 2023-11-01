@@ -21,7 +21,7 @@ const OnboardingPage = ({ token }: PropsTypes) => {
   return (
     <Layout>
       <Box>
-        <WelcomeScreen />
+        <WelcomeScreen token={token}/>
         <ProfileSettings token={token} />
         <VerificationSettings token={token} />
         <CompanySettings token={token} />

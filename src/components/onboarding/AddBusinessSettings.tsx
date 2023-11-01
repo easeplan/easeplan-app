@@ -17,11 +17,8 @@ import TextArea from '../common/TextArea';
 import MultiSelectServices from './MultiSelectServices';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
 import { uploadFileToS3 } from '@/utils/uploadFile';
 import NigeriaStatesAndCities from './NigerianStatesAndCities';
-=======
->>>>>>> a3174f9 (fixed some type errors)
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({

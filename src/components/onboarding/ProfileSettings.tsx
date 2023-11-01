@@ -25,6 +25,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
 import { toast } from 'react-toastify';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const currentDate = new Date();
 const eighteenYearsAgo = new Date(
@@ -56,13 +57,24 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
-      const formData = new FormData();
-      formData.append(`picture`, credentials.picture);
-      formData.append(`image`, credentials.image);
+      let pictureUrl;
+      // Check if the picture is a file object or URL
+      if (
+        typeof credentials.picture === `object` &&
+        credentials.picture instanceof File
+      ) {
+        const uploadedPicture = await uploadFileToS3(
+          `pictures`,
+          credentials.picture,
+        );
+        pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
+      } else {
+        pictureUrl = queryData?.provider.profile?.picture; // Use the existing URL
+      }
       const resData = {
         firstName: credentials.firstName,
         lastName: credentials.lastName,
-        picture: credentials.picture,
+        picture: pictureUrl,
         gender: credentials.gender,
         state: credentials.state,
         city: credentials.city,
@@ -72,7 +84,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': `application/json`,
             Authorization: `Bearer ${token}`,
           },
         },
@@ -207,8 +219,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     dob: ``,
                   }}
                   onSubmit={(values) => {
-                    console.log(values);
                     handleFormSubmit(values);
+                    console.log(values);
                   }}
                   validationSchema={ProfileSchema}
                 >
@@ -282,7 +294,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                               </Box>
                             )}
                           </Box>
-                          <small>{`{ jpg, png, jpeg } | max 1mb`}</small>
+                          <small>{`upload a profile picture`}</small>
                         </Box>
                       </Box>
                       <Box

@@ -43,73 +43,71 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const [showDojah, setShowDojah] = useState(false);
 
   const handleFormSubmit = async (credentials: any) => {
-    setSentID(true);
-    // try {
-    //   setIsLoading(true);
-    //   const resData = {
-    //     docType: credentials.documentType,
-    //     docNo: credentials.docNo,
-    //     otp: credentials.otp,
-    //   };
-    //   const { data } = await axios.post(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_document`,
-    //     resData,
-    //     {
-    //       headers: {
-    //         'Content-Type': `application/json`,
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   );
-    //   if (data.status === `success`) {
-    //     setReferenceId(data.reference_id);
-    //     setSentID(true);
-    //     toast.success(`An OTP was sent to your phone number`);
-    //     setIsLoading(false);
-    //     if (typeof window !== `undefined`) {
-    //       localStorage.setItem(
-    //         `userName`,
-    //         credentials?.firstName ? credentials?.firstName : ``,
-    //       );
-    //     }
-    //   }
-    // } catch (error) {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const resData = {
+        docType: credentials.documentType,
+        docNo: credentials.docNo,
+        otp: credentials.otp,
+      };
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_document`,
+        resData,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        setReferenceId(data.reference_id);
+        setSentID(true);
+        toast.success(`An OTP was sent to your phone number`);
+        setIsLoading(false);
+        if (typeof window !== `undefined`) {
+          localStorage.setItem(
+            `userName`,
+            credentials?.firstName ? credentials?.firstName : ``,
+          );
+        }
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   const handleOTPVerify = async (credentials: any) => {
-    setShowDojah(true);
-    // try {
-    //   setIsLoading(true);
-    //   const resData = {
-    //     code: credentials.otp,
-    //     reference_id: reference_id,
-    //   };
-    //   const { data } = await axios.post(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_otp`,
-    //     resData,
-    //     {
-    //       headers: {
-    //         'Content-Type': `multipart/form-data`,
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   );
-    //   if (data.status === `success`) {
-    //     toast.success(`OTP verified successfully`);
-    //     setShowDojah(true);
-    //     setIsLoading(false);
-    //     if (typeof window !== `undefined`) {
-    //       localStorage.setItem(
-    //         `userName`,
-    //         credentials?.firstName ? credentials?.firstName : ``,
-    //       );
-    //     }
-    //   }
-    // } catch (error) {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const resData = {
+        code: credentials.otp,
+        reference_id: reference_id,
+      };
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_otp`,
+        resData,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data.status === `success`) {
+        toast.success(`OTP verified successfully`);
+        setShowDojah(true);
+        setIsLoading(false);
+        if (typeof window !== `undefined`) {
+          localStorage.setItem(
+            `userName`,
+            credentials?.firstName ? credentials?.firstName : ``,
+          );
+        }
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   // Form Input Schema
@@ -137,7 +135,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const metadata = {
     user_id: userInfo,
   };
-
   /**
    * @param {String} type
    * This method receives the type

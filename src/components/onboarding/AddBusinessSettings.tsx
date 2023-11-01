@@ -4,25 +4,21 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
-import { HiArrowUturnLeft } from 'react-icons/hi2';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 import Input from '../common/Input';
-import AvatarImg from '@/public/avatar.png';
-import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIntroFour, setIntroFive } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 import TextArea from '../common/TextArea';
 import MultiSelectServices from './MultiSelectServices';
-import MultipleSelectState from './MultipleSelectState';
-import MultipleSelectCity from './MultipleSelectCity';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import useFetch from '@/hooks/useFetch';
 import { toast } from 'react-toastify';
+import { uploadFileToS3 } from '@/utils/uploadFile';
+import NigeriaStatesAndCities from './NigerianStatesAndCities';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -59,24 +55,15 @@ interface PropsTypes {
 }
 
 const BusinessSettings = ({ token }: PropsTypes) => {
-  const [previewImg, setPreviewImg] = useState<any>(null);
   const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
-  const [fileName, setFileName] = useState<any>(null);
   const [coverImgName, setCoverImgName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [opsSelectedState, setSelectedOpsState] = useState<any>();
-  const [selectedCities, setSelectedCities] = useState<any>();
   const [servicesType, setServicesType] = useState<any>();
   const dispatch = useDispatch();
   const { stepFour, stepThree } = useSelector(
     (state: RootState) => state.onboarding,
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
-
-  const handleNextSlide = () => {
-    dispatch(setIntroFour(false));
-    dispatch(setIntroFive(true));
-  };
 
   const services = [
     `DJ`,
@@ -94,22 +81,13 @@ const BusinessSettings = ({ token }: PropsTypes) => {
     `Entertainer`,
   ];
 
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-
-  const allCities = data.states.reduce((cities, state) => {
-    cities.push(...state.cities);
-    return cities;
-  }, [] as string[]) as string[];
-
   const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
-      const formData = new FormData();
-      formData.append(`picture`, credentials.picture);
-      formData.append(`image`, credentials.image);
+      const { Location } = await uploadFileToS3(`images`, credentials.image);
       const resData = {
-        image: credentials.image,
         company: {
+          image: Location,
           name: credentials.name,
           services: credentials.services,
           operationCities: credentials.operationCities,
@@ -126,7 +104,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': `application/json`,
             Authorization: `Bearer ${token}`,
           },
         },
@@ -228,11 +206,11 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                 </Typography>
                 <Formik
                   initialValues={{
-                    operationStates: ``,
+                    operationStates: [],
+                    operationCities: [],
                     name: ``,
                     minimum: ``,
                     maximum: ``,
-                    operationCities: ``,
                     image: ``,
                     services: ``,
                     description: ``,
@@ -350,7 +328,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                        <small>{`Upload your business cover image | { jpg, png, jpeg }`}</small>
                       </Box>
 
                       <Box
@@ -369,6 +347,9 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                       >
                         <Box>
                           <FormInput
+                            style={{
+                              fontSize: `14px`,
+                            }}
                             ariaLabel="companyName"
                             name="name"
                             type="text"
@@ -385,36 +366,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                         </Box>
                       </Box>
 
-                      <Box
-                        sx={{
-                          display: `grid`,
-                          gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
-                          },
-                          gap: `1rem`,
-                          mb: 2,
-                        }}
-                      >
-                        <Box>
-                          <MultipleSelectState
-                            name="operationStates"
-                            setServices={setSelectedOpsState}
-                            states={data?.states}
-                          />
-                        </Box>
-                        <Box>
-                          <MultipleSelectCity
-                            name="operationCities"
-                            setServices={setSelectedCities}
-                            cities={allCities}
-                          />
-                        </Box>
-                      </Box>
-
+                      <NigeriaStatesAndCities />
                       <Box
                         sx={{
                           display: `grid`,
@@ -431,17 +383,23 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                       >
                         <Box>
                           <FormInput
+                            style={{
+                              fontSize: `14px`,
+                            }}
                             ariaLabel="Minimum Charge"
                             name="minimum"
-                            type="text"
+                            type="number"
                             placeholder="Enter Your Starting Price"
                           />
                         </Box>
                         <Box>
                           <FormInput
+                            style={{
+                              fontSize: `16px`,
+                            }}
                             ariaLabel="Maximum Charge"
                             name="maximum"
-                            type="text"
+                            type="number"
                             placeholder="Enter Your Maximum Price"
                           />
                         </Box>

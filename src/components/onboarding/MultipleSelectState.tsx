@@ -36,23 +36,24 @@ export default function MultipleSelectState({
   name,
   setServices,
   states,
+  handleChange
 }: any) {
   const [personName, setPersonName] = React.useState<string[]>([]);
   const theme = useTheme();
   const [field, meta, form] = useField(name);
   const { setValue } = form;
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setServices(value);
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === `string` ? value.split(`,`) : value,
-    );
-    setValue(value || []);
-  };
+  // const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setServices(value);
+  //   setPersonName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === `string` ? value.split(`,`) : value,
+  //   );
+  //   setValue(value || []);
+  // };
 
   return (
     <div>

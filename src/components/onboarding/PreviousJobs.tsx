@@ -5,7 +5,6 @@ import AddPreviousEventModal from './AddPreviousEventModal';
 import { setIntroFive, setIntroSix } from '@/features/onboardingSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-
 const PreviousJobs = ({ queryData, token }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -120,6 +119,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
               Add Photo
             </Button>
           </Box>
+          {console.log(queryData)}
           {queryData?.provider?.providerProfile?.samples?.map((data: any) => (
             <Box
               key={data?._id}

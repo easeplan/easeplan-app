@@ -244,6 +244,8 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                                 lgWidth="40%"
                                 type="submit"
                                 className="changeBtn"
+                                loading={isLoading}
+                                loadingText="Submiting..."
                                 onClick={() => {
                                   if (values.destination) {
                                     handleVerifyNumber(values);

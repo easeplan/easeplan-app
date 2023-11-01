@@ -49,11 +49,11 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   const [expanded, setExpanded] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-  console.log(queryData);
-
+  // dispatch(setIntro(false));
+  // dispatch(setIntroThree(true));
   const handleConitueOnboarding = () => {
     if (queryData?.provider.onboardStage == 0) {
-      dispatch(setIntro(true));
+      dispatch(setIntro(false));
       dispatch(setIntroOne(false));
       dispatch(setIntroTwo(false));
       dispatch(setIntroThree(false));
@@ -102,7 +102,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
       dispatch(setIntroSix(true));
     }
   };
-  handleConitueOnboarding();
+  // handleConitueOnboarding();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };

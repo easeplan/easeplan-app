@@ -13,6 +13,7 @@ import CustomButton from '../common/CustomButton';
 import DragAndDropInput from '../common/DragAndDropInput';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const style = {
   position: `absolute` as const,
@@ -42,13 +43,24 @@ const AddPreviousEventModal = ({ isOpen, isClose, token }: any) => {
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({
-    mutationFn: (credentials: any) =>
-      customFetch.put(`/${`profiles/${userInfo}/add-sample`}`, credentials, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    mutationFn: async (credentials: any) => {
+      const sampleImage = await uploadFileToS3(
+        `sample-images`,
+        credentials.sampleImage,
+      );
+      if (sampleImage) {
+        customFetch.put(
+          `/${`profiles/${userInfo}/add-sample`}`,
+          { sampleImage: sampleImage.Location },
+          {
+            headers: {
+              'Content-Type': `application/json`,
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`Event Datails Added`);

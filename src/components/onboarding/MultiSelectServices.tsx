@@ -25,10 +25,6 @@ function getStyles(service: string, personName: string[], theme: Theme) {
       personName.indexOf(service) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightBold,
-    color:
-      personName.indexOf(service) === -1
-        ? theme.palette.primary.main
-        : theme.palette.secondary.main,
   };
 }
 
@@ -67,8 +63,8 @@ export default function MultipleSelect({ name, setServices, services }: any) {
             borderRadius: `10px`,
             overflowX: `hidden`,
             width: {
-              xs: `300px`,
-              sm: `300px`,
+              xs: `100%`,
+              sm: `100%`,
               md: `100%`,
               lg: `100%`,
               xl: `100%`,
@@ -86,9 +82,8 @@ export default function MultipleSelect({ name, setServices, services }: any) {
             >
               <Typography
                 variant="caption"
-                sx={{
-                  color: `primary.main`,
-                  fontWeight: `500`,
+                style={{
+                  fontSize:`14px`
                 }}
               >
                 {service}

@@ -15,18 +15,20 @@ import AvatarImg from '@/public/avatar.png';
 import data from '@/lib/states.json';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setUserIntro,
   setIntro,
   setIntroFour,
   setIntroOne,
   setIntroThree,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
+import TextArea from '../common/TextArea';
+import MultiSelectServices from './MultiSelectServices';
+import MultipleSelectState from './MultipleSelectState';
+import MultipleSelectCity from './MultipleSelectCity';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
 import { toast } from 'react-toastify';
-import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const currentDate = new Date();
 const eighteenYearsAgo = new Date(
@@ -38,13 +40,30 @@ const eighteenYearsAgo = new Date(
 interface PropsTypes {
   token: string;
 }
+
+interface FormTypes {
+  operationStates?: string;
+  firstName?: string | undefined;
+  lastName?: string;
+  cities?: string;
+  picture?: any;
+  coverImage?: any;
+  gender?: string;
+  description?: string;
+  name?: string;
+  services?: string;
+}
+
 const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
+  const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<any>();
   const dispatch = useDispatch();
-  const { stepThree } = useSelector((state: RootState) => state.onboarding);
+  const { stepThree, stepOne, stepFour } = useSelector(
+    (state: RootState) => state.onboarding,
+  );
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
@@ -54,27 +73,21 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
+  const allCities = data.states.reduce((cities, state) => {
+    cities.push(...state.cities);
+    return cities;
+  }, [] as string[]) as string[];
+
   const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
-      let pictureUrl;
-      // Check if the picture is a file object or URL
-      if (
-        typeof credentials.picture === `object` &&
-        credentials.picture instanceof File
-      ) {
-        const uploadedPicture = await uploadFileToS3(
-          `pictures`,
-          credentials.picture,
-        );
-        pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
-      } else {
-        pictureUrl = queryData?.provider.profile?.picture; // Use the existing URL
-      }
+      const formData = new FormData();
+      formData.append(`picture`, credentials.picture);
+      formData.append(`image`, credentials.image);
       const resData = {
         firstName: credentials.firstName,
         lastName: credentials.lastName,
-        picture: pictureUrl,
+        picture: credentials.picture,
         gender: credentials.gender,
         state: credentials.state,
         city: credentials.city,
@@ -84,7 +97,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': `multipart/form-data`,
             Authorization: `Bearer ${token}`,
           },
         },
@@ -112,8 +125,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     firstName: Yup.string().required(`First Name is required`),
     lastName: Yup.string().required(`Last Name is required`),
     city: Yup.string().required(`City is required`),
-<<<<<<< HEAD
-=======
     // picture:
     //   !queryData?.provider.profile?.picture &&
     //   Yup.mixed()
@@ -133,7 +144,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     //         `image/jpg`
     //       );
     //     }),
->>>>>>> a3174f9 (fixed some type errors)
     gender: Yup.string().required(`Gender is required`),
     dob: Yup.date()
       .max(eighteenYearsAgo, `You must be at least 18 years old.`)
@@ -241,8 +251,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     dob: ``,
                   }}
                   onSubmit={(values) => {
-                    handleFormSubmit(values);
                     console.log(values);
+                    handleFormSubmit(values);
                   }}
                   validationSchema={ProfileSchema}
                 >
@@ -286,13 +296,23 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             </AddButton>
                             {previewImg === null ? (
                               <div>
-                                <Image
-                                  src={AvatarImg}
-                                  alt="profileImg"
-                                  height={80}
-                                  width={80}
-                                  style={{ borderRadius: `50%` }}
-                                />
+                                {queryData?.provider?.profile?.picture ? (
+                                  <Image
+                                    src={queryData?.provider?.profile?.picture}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                ) : (
+                                  <Image
+                                    src={AvatarImg}
+                                    alt="profileImg"
+                                    height={80}
+                                    width={80}
+                                    style={{ borderRadius: `50%` }}
+                                  />
+                                )}
                               </div>
                             ) : (
                               <Box>
@@ -306,7 +326,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                               </Box>
                             )}
                           </Box>
-                          <small>{`upload a profile picture`}</small>
+                          <small>{`{ jpg, png, jpeg } | max 1mb`}</small>
                         </Box>
                       </Box>
                       <Box
@@ -452,30 +472,18 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
 };
 
-interface CustomFormInputProps {
-  ariaLabel: string;
-  name: string;
-  placeholder: string;
-  type?: string; // Optional prop for input type
-}
-
-const CustomFormInput: React.FC<CustomFormInputProps> = ({
-  ariaLabel,
-  name,
-  placeholder,
-  type = `text`,
-}) => {
-  const [inputType, setInputType] = useState(type);
+const CustomFormInput = ({ ariaLabel, name, placeholder }) => {
+  const [inputType, setInputType] = useState(`text`);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
-      <FormInput
-        aria-label={ariaLabel}
-        name={name}
-        type={inputType}
-        placeholder={placeholder}
-      />
-    </div>
+    <FormInput
+      aria-label={ariaLabel}
+      name={name}
+      type={inputType}
+      placeholder={placeholder}
+      onFocus={() => setInputType(`date`)}
+      // onBlur={() => setInputType('text')}
+    />
   );
 };
 

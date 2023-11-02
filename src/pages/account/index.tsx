@@ -17,6 +17,7 @@ import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import Divider from '@/components/common/Divider';
 
 interface Props {
   token: string;
@@ -32,7 +33,7 @@ const HomePage = ({ token }: Props) => {
   const fetchContracts = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
         {
           headers: {
             'Content-Type': `application/json`,
@@ -53,6 +54,8 @@ const HomePage = ({ token }: Props) => {
   useEffect(() => {
     fetchContracts();
   }, []);
+
+  console.log(contracts);
 
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
@@ -122,121 +125,112 @@ const HomePage = ({ token }: Props) => {
         ) : null}
 
         {queryData?.provider?.providerProfile && <Dashboard data={queryData} />}
-        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
-          <>
-            {contracts
-              ?.filter((list: { status: string }) => list.status === `Accepted`)
-              .map((list: any) => (
-                <Box key={list?._id}>
-                  <Box
-                    sx={{
-                      display: `flex`,
-                      justifyContent: `space-between`,
-                      alignItems: `center`,
-                      flexDirection: {
-                        xs: `column`,
-                        sm: `column`,
-                        md: `row`,
-                        lg: `row`,
-                        xl: `row`,
-                      },
-                      p: 4,
-                      mt: 4,
-                      border: ` solid 1px #ccc`,
-                    }}
-                  >
-                    <Box>
-                      {list.status === `Accepted` ? (
-                        <>
-                          <Typography
-                            fontWeight="600"
-                            fontSize="1.2rem"
-                            color="primary.main"
-                          >
-                            Event Planning has started
-                          </Typography>
-                          <Typography color="grey.500" mt={1}>
-                            The countdown is now ticking
-                          </Typography>
-                        </>
-                      ) : (
-                        <Box>
-                          <Typography
-                            fontWeight="600"
-                            fontSize="1.2rem"
-                            color="primary.main"
-                          >
-                            Are you available for this gig?
-                          </Typography>
-                          <Typography color="grey.500" mt={1}>
-                            If you are please accept the event or decline if you
-                            are not available
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
+        <>
+          <Typography
+            mt={4}
+            fontSize="1.5rem"
+            color="primary.main"
+            fontWeight={700}
+          >
+            Recent Gigs
+          </Typography>
+          <Divider />
+          {contracts?.length < 1 ? (
+            <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+              <Typography>Your ongoing events will show here</Typography>
+            </Box>
+          ) : (
+            <>
+              {contracts
+                ?.filter(
+                  (list: { status: string }) => list.status === `Accepted`,
+                )
+                .map((list: any) => (
+                  <Box key={list?._id}>
                     <Box
                       sx={{
                         display: `flex`,
-                        alignItems: `center`,
                         justifyContent: `space-between`,
-                        gap: `2rem`,
-                        mt: {
-                          xs: `2rem`,
-                          sm: `2rem`,
+                        alignItems: `center`,
+                        flexDirection: {
+                          xs: `column`,
+                          sm: `column`,
+                          md: `row`,
+                          lg: `row`,
+                          xl: `row`,
                         },
+                        px: 4,
+                        py: 2,
+                        mt: 4,
+                        border: ` solid 1px #ccc`,
                       }}
                     >
-                      {list.status === `Accepted` ? null : (
-                        <Box
-                          sx={{
-                            border: `solid 1px ${theme.palette.primary.main}`,
-                            color: `primary.main`,
-                            py: 1,
-                            px: 4,
-                            fontWeight: `600`,
-                          }}
-                        >
-                          <Link href="/dashboard/support">Declined</Link>
-                        </Box>
-                      )}
+                      <Box>
+                        {list.status === `Accepted` ? (
+                          <>
+                            <Typography
+                              fontWeight="600"
+                              fontSize="1.2rem"
+                              color="primary.main"
+                            >
+                              Event Planning has started
+                            </Typography>
+                            <Typography color="grey.500" mt={1}>
+                              The countdown is now ticking
+                            </Typography>
+                          </>
+                        ) : (
+                          <Box>
+                            <Typography
+                              fontWeight="600"
+                              fontSize="1.2rem"
+                              color="primary.main"
+                            >
+                              Are you available for this gig?
+                            </Typography>
+                            <Typography color="grey.500" mt={1}>
+                              If you are please accept the event or decline if
+                              you are not available
+                            </Typography>
+                          </Box>
+                        )}
+                      </Box>
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          justifyContent: `space-between`,
+                          gap: `2rem`,
+                          mt: {
+                            xs: `2rem`,
+                            sm: `2rem`,
+                          },
+                        }}
+                      >
+                        {list.status === `Accepted` ? null : (
+                          <Box
+                            sx={{
+                              border: `solid 1px ${theme.palette.primary.main}`,
+                              color: `primary.main`,
+                              py: 1,
+                              px: 4,
+                              fontWeight: `600`,
+                            }}
+                          >
+                            <Link href="/">Declined</Link>
+                          </Box>
+                        )}
 
-                      <Link href={`/account/contracts/${list?._id}`}>
-                        <Button variant="outlined">View Event</Button>
-                      </Link>
+                        <Link href={`/account/contracts/${list?._id}`}>
+                          <Button variant="outlined">View Event</Button>
+                        </Link>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
-              ))}
-          </>
-        ) : null}
-        {userInfo?.role === `provider` || userInfo?.role === `planner` ? (
-          <Box
-            sx={{
-              width: `100%`,
-              height: `100%`,
-              position: `relative`,
-              marginTop: {
-                xs: `2rem`,
-              },
-              img: { width: `100%`, height: `100%` },
-            }}
-          >
-            <Image
-              src={bannerImg}
-              alt="img"
-              height={100}
-              width={1200}
-              loading="lazy"
-            />
-          </Box>
-        ) : null}
-
-        <FinderSection
-          token={token}
-          queryData={queryData?.provider}
-          notificationData={notificationData}
-        />
+                ))}
+            </>
+          )}
+        </>
 
         {/* <>
           {contracts?.length < 1 ? (

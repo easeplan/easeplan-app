@@ -41,9 +41,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "jsx": "preserve",
-    "module": "commonjs",
-    "target": "esnext",
-    "moduleResolution": "node",
+  ]
 }

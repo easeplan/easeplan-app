@@ -22,7 +22,6 @@ const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
 //  Create a client
 const queryClient = new QueryClient();
 
-export default function App({ Component: PageComponent, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function App({ Component: PageComponent, pageProps }: AppProps) {
                 <ToastContainer position="top-center" />
                 <ThemeProvider theme={theme}>
                   <CssBaseline />
-                  <PageComponent key={router.pathname} {...pageProps} />
+                  <Component key={router.pathname} {...pageProps} />
                 </ThemeProvider>
                 {/* <ReactQueryDevtools initialIsOpen={false} /> */}
               </QueryClientProvider>

@@ -7,6 +7,8 @@ interface onboardState {
   stepTwo: boolean;
   stepThree: boolean;
   stepFour: boolean;
+  stepFive: boolean;
+  stepSix: boolean;
   isLogin: boolean;
   closeModal: boolean;
 }
@@ -18,6 +20,8 @@ const initialState: onboardState = {
   stepTwo: false,
   stepThree: false,
   stepFour: false,
+  stepFive: false,
+  stepSix: false,
   isLogin: true,
   closeModal: true,
 };
@@ -44,6 +48,12 @@ export const onboardingSlice = createSlice({
     setIntroFour: (state, action) => {
       state.stepFour = action.payload;
     },
+    setIntroFive: (state, action) => {
+      state.stepFive = action.payload;
+    },
+    setIntroSix: (state, action) => {
+      state.stepSix = action.payload;
+    },
     isLogin: (state, action) => {
       state.isLogin = action.payload;
     },
@@ -60,6 +70,8 @@ export const {
   setIntroTwo,
   setIntroThree,
   setIntroFour,
+  setIntroFive,
+  setIntroSix,
   isLogin,
   setCloseModal,
 } = onboardingSlice.actions;

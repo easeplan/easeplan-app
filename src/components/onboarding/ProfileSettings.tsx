@@ -17,56 +17,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setUserIntro,
   setIntro,
+  setIntroFour,
   setIntroOne,
   setIntroThree,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
-import TextArea from '../common/TextArea';
-import MultiSelectServices from './MultiSelectServices';
-import MultipleSelectState from './MultipleSelectState';
-import MultipleSelectCity from './MultipleSelectCity';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
+import { toast } from 'react-toastify';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
-// Form Input Schema
-const FormSchema = Yup.object().shape({
-  state: Yup.string().required(`State is required`),
-  firstname: Yup.string().required(`First Name is required`),
-  lastname: Yup.string().required(`Last Name is required`),
-  city: Yup.string().required(`City is required`),
-  picture: Yup.mixed()
-    .required(`Image is required`)
-    .test(`fileSize`, `The file should be less than 5mb`, (value: any) => {
-      const maxFileSize = 5 * 1024 * 1024; // 5MB
-      if (value && value.size < maxFileSize) {
-        return value && value.size < maxFileSize;
-      }
-      return false;
-    })
-    .test(`type`, `We only support jpeg`, function (value: any) {
-      return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
-      );
-    }),
-  gender: Yup.string().required(`Gender is required`),
-});
+const currentDate = new Date();
+const eighteenYearsAgo = new Date(
+  currentDate.getFullYear() - 18,
+  currentDate.getMonth(),
+  currentDate.getDate(),
+);
 
 interface PropsTypes {
   token: string;
 }
-
 const ProfileSettings = ({ token }: PropsTypes) => {
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedState, setSelectedState] = useState<any>();
   const dispatch = useDispatch();
-  const { stepOne, userIntro } = useSelector(
-    (state: RootState) => state.onboarding,
-  );
+  const { stepThree } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
@@ -79,30 +57,42 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
-      const formData = new FormData();
-      formData.append(`picture`, credentials.picture);
-      formData.append(`image`, credentials.image);
+      let pictureUrl;
+      // Check if the picture is a file object or URL
+      if (
+        typeof credentials.picture === `object` &&
+        credentials.picture instanceof File
+      ) {
+        const uploadedPicture = await uploadFileToS3(
+          `pictures`,
+          credentials.picture,
+        );
+        pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
+      } else {
+        pictureUrl = queryData?.provider.profile?.picture; // Use the existing URL
+      }
       const resData = {
         firstName: credentials.firstName,
         lastName: credentials.lastName,
-        picture: credentials.picture,
+        picture: pictureUrl,
         gender: credentials.gender,
         state: credentials.state,
         city: credentials.city,
       };
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/personal`,
         resData,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': `application/json`,
             Authorization: `Bearer ${token}`,
           },
         },
       );
       if (data.status === `success`) {
-        dispatch(setIntroOne(false));
-        dispatch(setIntroThree(true));
+        dispatch(setIntroThree(false));
+        dispatch(setIntroFour(true));
+        toast.success(`Details uploaded successfully`);
         setIsLoading(false);
         if (typeof window !== `undefined`) {
           localStorage.setItem(
@@ -116,12 +106,28 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     }
   };
 
+  // Form Input Schema
+  const ProfileSchema = Yup.object().shape({
+    state: Yup.string().required(`State is required`),
+    firstName: Yup.string().required(`First Name is required`),
+    lastName: Yup.string().required(`Last Name is required`),
+    city: Yup.string().required(`City is required`),
+    gender: Yup.string().required(`Gender is required`),
+    dob: Yup.date()
+      .max(eighteenYearsAgo, `You must be at least 18 years old.`)
+      .required(`Date of birth is required`),
+  });
+
   return (
     <Box>
-      {userIntro && (
+      {stepThree && (
         <Box sx={{ display: `flex`, height: `100%` }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{
+              width: `100%`,
+              height: `100vh`,
+              backgroundColor: `secondary.light`,
+            }}
             px={3}
             pt={6}
             component={motion.section}
@@ -173,7 +179,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   </Box>
                   <Box>
                     <Typography color="primary.main" fontWeight={800}>
-                      Step 1 of 4
+                      Step 3 of 6
                     </Typography>
                   </Box>
                 </Box>
@@ -194,25 +200,29 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     mb: 4,
                   }}
                 >
-                  Personal Profile
+                  {`Let's Get To Know You`}
                 </Typography>
                 <Formik
                   initialValues={{
-                    firstName: queryData?.profile?.firstName
-                      ? queryData?.profile?.firstName
+                    firstName: queryData?.provider.profile?.firstName
+                      ? queryData?.provider.profile?.firstName
                       : ``,
-                    lastName: queryData?.profile?.lastName
-                      ? queryData?.profile?.lastName
+                    lastName: queryData?.provider.profile?.lastName
+                      ? queryData?.provider.profile?.lastName
                       : ``,
-                    picture: queryData?.profile?.picture
-                      ? queryData?.profile?.picture
+                    picture: queryData?.provider.profile?.picture
+                      ? queryData?.provider.profile?.picture
                       : ``,
                     state: ``,
                     city: ``,
                     gender: ``,
+                    dob: ``,
                   }}
-                  onSubmit={(values) => handleFormSubmit(values)}
-                  //   validationSchema={FormSchema}
+                  onSubmit={(values) => {
+                    handleFormSubmit(values);
+                    console.log(values);
+                  }}
+                  validationSchema={ProfileSchema}
                 >
                   {({ setFieldValue }) => (
                     <Form>
@@ -274,7 +284,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                               </Box>
                             )}
                           </Box>
-                          <small>{`{ jpg, png, jpeg } | max 1mb`}</small>
+                          <small>{`upload a profile picture`}</small>
                         </Box>
                       </Box>
                       <Box
@@ -293,7 +303,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       >
                         <Box>
                           <FormInput
-                            ariaLabel="FirstName"
+                            ariaLabel="First Name"
                             name="firstName"
                             type="text"
                             placeholder="First Name"
@@ -315,14 +325,23 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           gridTemplateColumns: {
                             xs: `1fr`,
                             sm: `1fr`,
-                            md: `1fr 1fr 1fr`,
-                            lg: `1fr 1fr 1fr`,
-                            xl: `1fr 1fr 1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
                           },
                           gap: `1rem`,
                           mb: 2,
                         }}
                       >
+                        <Box>
+                          <CustomFormInput
+                            ariaLabel="Date Of Birth"
+                            name="dob"
+                            type="date"
+                            placeholder="Date of Birth"
+                          />
+                        </Box>
+
                         <Box>
                           <FormInput
                             isSelect
@@ -331,11 +350,23 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           >
                             <MenuItem value="Male">Male</MenuItem>
                             <MenuItem value="female">Female</MenuItem>
-                            <MenuItem value="Prefer not say">
-                              Prefer not say
-                            </MenuItem>
                           </FormInput>
                         </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: `grid`,
+                          gridTemplateColumns: {
+                            xs: `1fr`,
+                            sm: `1fr`,
+                            md: `1fr 1fr`,
+                            lg: `1fr 1fr`,
+                            xl: `1fr 1fr`,
+                          },
+                          gap: `1rem`,
+                          mb: 2,
+                        }}
+                      >
                         <Box>
                           <SelectState
                             selectPlaceholder="Select State"
@@ -396,6 +427,33 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         </Box>
       )}
     </Box>
+  );
+};
+
+interface CustomFormInputProps {
+  ariaLabel: string;
+  name: string;
+  placeholder: string;
+  type?: string; // Optional prop for input type
+}
+
+const CustomFormInput: React.FC<CustomFormInputProps> = ({
+  ariaLabel,
+  name,
+  placeholder,
+  type = `text`,
+}) => {
+  const [inputType, setInputType] = useState(type);
+
+  return (
+    <div onFocus={() => setInputType(`date`)}>
+      <FormInput
+        aria-label={ariaLabel}
+        name={name}
+        type={inputType}
+        placeholder={placeholder}
+      />
+    </div>
   );
 };
 

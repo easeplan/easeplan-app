@@ -20,6 +20,7 @@ type InputProps = {
   sx?: any;
   selectPlaceholder?: string;
   value?: any;
+  style?: any;
   // onChange?: (e) => void;
 };
 

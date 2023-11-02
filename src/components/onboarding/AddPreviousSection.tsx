@@ -23,19 +23,14 @@ interface PropsTypes {
 const AddPreviousSection = ({ token }: PropsTypes) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { stepThree } = useSelector((state: RootState) => state.onboarding);
+  const { stepFive } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
-  const handleNextSlide = () => {
-    dispatch(setIntroOne(true));
-    dispatch(setIntroThree(false));
-  };
-
   return (
     <>
-      {stepThree && (
+      {stepFive && (
         <Box sx={{ display: `flex`, height: `100%` }}>
           <Box
             sx={{ width: `100%`, backgroundColor: `secondary.light` }}
@@ -63,12 +58,9 @@ const AddPreviousSection = ({ token }: PropsTypes) => {
                   justifyContent: `space-between`,
                 }}
               >
-                <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
-                  <HiArrowUturnLeft onClick={handleNextSlide} />
-                </Box>
                 <Box>
                   <Typography fontWeight={800} color="primary.main">
-                    Step 2 of 3
+                    Step 5 of 6
                   </Typography>
                 </Box>
               </Box>

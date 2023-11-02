@@ -22,6 +22,7 @@ const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
 //  Create a client
 const queryClient = new QueryClient();
 
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {

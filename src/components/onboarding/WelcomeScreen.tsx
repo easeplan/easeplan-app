@@ -52,15 +52,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   // dispatch(setIntro(false));
   // dispatch(setIntroThree(true));
   const handleConitueOnboarding = () => {
-    if (queryData?.provider.onboardStage == 0) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(false));
-      dispatch(setIntroThree(false));
-      dispatch(setIntroFour(false));
-      dispatch(setIntroFive(false));
-      dispatch(setIntroSix(false));
-    } else if (queryData?.provider.onboardStage == 1) {
+    if (queryData?.provider.onboardStage == 1) {
       dispatch(setIntro(false));
       dispatch(setIntroOne(false));
       dispatch(setIntroTwo(true));

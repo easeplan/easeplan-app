@@ -36,7 +36,7 @@ import {
   AlphabeticalList5,
   AlphabeticalList6,
 } from './AlphabeticalLists';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useFetch from '@/hooks/useFetch';
 
 interface PropsTypes {
@@ -48,53 +48,51 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-  // dispatch(setIntro(false));
-  // dispatch(setIntroThree(true));
-  const handleConitueOnboarding = () => {
-    if (queryData?.provider.onboardStage == 1) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(true));
-      dispatch(setIntroThree(false));
-      dispatch(setIntroFour(false));
-      dispatch(setIntroFive(false));
-      dispatch(setIntroSix(false));
-    } else if (queryData?.provider.onboardStage == 2) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(false));
-      dispatch(setIntroThree(true));
-      dispatch(setIntroFour(false));
-      dispatch(setIntroFive(false));
-      dispatch(setIntroSix(false));
-    } else if (queryData?.provider.onboardStage == 3) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(false));
-      dispatch(setIntroThree(false));
-      dispatch(setIntroFour(true));
-      dispatch(setIntroFive(false));
-      dispatch(setIntroSix(false));
-    } else if (queryData?.provider.onboardStage == 4) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(false));
-      dispatch(setIntroThree(false));
-      dispatch(setIntroFour(false));
-      dispatch(setIntroFive(true));
-      dispatch(setIntroSix(false));
-    } else if (queryData?.provider.onboardStage == 5) {
-      dispatch(setIntro(false));
-      dispatch(setIntroOne(false));
-      dispatch(setIntroTwo(false));
-      dispatch(setIntroThree(false));
-      dispatch(setIntroFour(false));
-      dispatch(setIntroFive(false));
-      dispatch(setIntroSix(true));
+  const { queryData, isLoading, error } = useFetch(
+    `/profiles/${userInfo}`,
+    token,
+  );
+
+  useEffect(() => {
+    if (queryData && queryData.provider) {
+      switch (queryData.provider.onboardStage) {
+        case 1:
+          dispatch(setIntro(false));
+          dispatch(setIntroTwo(true));
+          break;
+        case 2:
+          dispatch(setIntro(false));
+          dispatch(setIntroThree(true));
+          break;
+        case 3:
+          dispatch(setIntro(false));
+          dispatch(setIntroFour(true));
+          break;
+        case 4:
+          dispatch(setIntro(false));
+          dispatch(setIntroFive(true));
+          break;
+        case 5:
+          dispatch(setIntro(false));
+          dispatch(setIntroSix(true));
+          break;
+        default:
+          dispatch(setIntro(true));
+      }
     }
-  };
-  handleConitueOnboarding();
+  }, [dispatch, queryData, isLoading, error]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Replace with your loading component or spinner
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>; // Replace with your error component or message
+  }
+  if (!queryData || !queryData.provider) {
+    return null; // or some placeholder if you prefer
+  }
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };

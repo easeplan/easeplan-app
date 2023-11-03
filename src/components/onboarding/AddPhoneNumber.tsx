@@ -21,6 +21,7 @@ import Label from '../common/Label';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
+import OTPRequestCooldown from './OTPRequest';
 
 interface PropsTypes {
   token: string;
@@ -46,14 +47,17 @@ const AddPricingSection = ({ token }: PropsTypes) => {
 
   const { mutate: updateNumber, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/onboarding/company/send_otp`, credentials, {
-        headers: {
-          'Content-Type': `application/json`,
-          Authorization: `Bearer ${token}`,
+      customFetch.post(
+        `/onboarding/company/phone_verify_request`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: ({ data }: any) => {
-      setReference_id(data.data.entity[0].reference_id);
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
       toast.success(`OTP send to your phone`);
       setShowPhoneNumber(false);
@@ -86,15 +90,15 @@ const AddPricingSection = ({ token }: PropsTypes) => {
 
   const handleVerifyNumber = async (credentials: any) => {
     const data = {
-      destination: credentials.destination,
+      phone_number: credentials.destination,
     };
     updateNumber(data);
   };
 
   const handleVerifyOTP = async (credentials: any) => {
     const data = {
-      code: credentials.code,
-      reference_id,
+      otp: credentials.code,
+      type: `phone_number`,
       phone: credentials.destination,
     };
     updateOTP(data);

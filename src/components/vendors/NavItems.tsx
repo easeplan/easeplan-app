@@ -75,10 +75,16 @@ const NavItems = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      setLoginModal(false);
-      dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`,
+      );
+
+      if (data?.data?.message === `Success`) {
+        console.log(data);
+        setLoginModal(false);
+        dispatch(clearCredentials());
+        router.push(`/findvendors`);
+      }
     } catch (error: any) {}
   };
 
@@ -112,7 +118,7 @@ const NavItems = ({ data }: any) => {
           >
             <Tooltip title="Open settings">
               <IconButton>
-                {data?.profile?.picture ? (
+                {userInfo ? (
                   <Avatar
                     alt={data?.profile?.firstName}
                     src={data?.profile?.picture}
@@ -183,7 +189,7 @@ const NavItems = ({ data }: any) => {
                 {data ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
-                  <NavLink text={link.text} href="/login" />
+                  <NavLink text={link.text} onClick={handleLoginModal} />
                 )}
               </Stack>
             ))}
@@ -227,7 +233,7 @@ const NavItems = ({ data }: any) => {
                 <LoginIcon
                   sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
                 />
-                <NavLink text="Login" href="/login" />
+                <NavLink text="Login" onClick={handleLoginModal} />
               </Stack>
             ) : (
               <Stack

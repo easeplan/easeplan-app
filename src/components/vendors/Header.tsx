@@ -3,15 +3,11 @@ import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Logo from '../Logo';
 import { Box, Button, Container } from '@mui/material';
-import MobileNav from './MobileNav';
 import Link from 'next/link';
-import MenuIcon from '@mui/icons-material/Menu';
 import { RootState } from '@/store/store';
 import SearchInput from './SearchInput';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCredentials } from '@/features/authSlice';
-import axios from 'axios';
 import SidenavDrawer from './SidenavDrawer';
 
 const Header = ({ handleSearchChange, data, isSearch }: any) => {

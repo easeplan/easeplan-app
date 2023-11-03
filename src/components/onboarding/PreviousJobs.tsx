@@ -2,17 +2,33 @@ import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 import AddPreviousEventModal from './AddPreviousEventModal';
-import { setIntroThree, setIntroFour } from '@/features/onboardingSlice';
+import { setIntroFive, setIntroSix } from '@/features/onboardingSlice';
 import { useDispatch } from 'react-redux';
-
+import axios from 'axios';
 const PreviousJobs = ({ queryData, token }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleNextSlide = () => {
-    dispatch(setIntroThree(false));
-    dispatch(setIntroFour(true));
+  const handleNextSlide = async () => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/users`,
+        { onboradStage: 6 },
+      );
+
+      // Check if the response status is 200 (OK)
+      if (response.status === 200) {
+        dispatch(setIntroFive(true));
+        dispatch(setIntroSix(false));
+      } else {
+        console.error(`Request was not successful:`, response);
+      }
+    } catch (error) {
+      // Handle the error (you can dispatch another action here if needed)
+      console.error(`Error during the request:`, error);
+    }
   };
+
   return (
     <>
       <AddPreviousEventModal

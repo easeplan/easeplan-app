@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
-export { getServerSideProps } from '@/hooks/useFetchToken';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 const services = [
   {

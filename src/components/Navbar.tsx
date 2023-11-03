@@ -24,7 +24,7 @@ const Navbar = () => {
           <NavItemWrapper>
             <NavItem href="https://www.easeplan.io" text="Home" />
             <NavItem
-              href="https://app.easeplan.io/user/findvendors"
+              href="https://app.easeplan.io/findvendors"
               text="Find Vendors"
             />
             <NavItem href="/signup" text="Become a vendor" />

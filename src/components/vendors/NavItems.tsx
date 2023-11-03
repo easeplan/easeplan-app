@@ -183,7 +183,7 @@ const NavItems = ({ data }: any) => {
                 {data ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
-                  <NavLink text={link.text} onClick={handleLoginModal} />
+                  <NavLink text={link.text} href="/login" />
                 )}
               </Stack>
             ))}
@@ -227,7 +227,7 @@ const NavItems = ({ data }: any) => {
                 <LoginIcon
                   sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
                 />
-                <NavLink text="Login" onClick={handleLoginModal} />
+                <NavLink text="Login" href="/login" />
               </Stack>
             ) : (
               <Stack

@@ -113,7 +113,7 @@ export default function EventDetailsDrawer({ data, id }: any) {
               Pending Request
             </Button>
           ) : (
-            <Link href="/account/chats">
+            <Link href="/user/chats">
               <Button variant="contained" sx={{ textTransform: `capitalize` }}>
                 <TelegramIcon sx={{ mr: 1 }} />
                 Message Vendor

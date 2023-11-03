@@ -4,7 +4,7 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
-export { getServerSideProps } from '@/hooks/useFetchToken';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@/components/common/Divider';
 import SettingsForm from '@/components/vendors/SettingsForm';

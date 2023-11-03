@@ -102,12 +102,7 @@ const services = [
   },
 ];
 
-interface Props {
-  token: string;
-}
-
-const VendorPage = ({ token }: Props) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+const VendorPage = () => {
   const [page, setPage] = useState(1);
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
@@ -127,8 +122,6 @@ const VendorPage = ({ token }: Props) => {
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
-
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
   return (
     <>
@@ -155,10 +148,7 @@ const VendorPage = ({ token }: Props) => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout
-        handleSearchChange={handleSearchChange}
-        data={queryData?.provider}
-      >
+      <Layout isSearch handleSearchChange={handleSearchChange}>
         <Box
           sx={{
             pt: {

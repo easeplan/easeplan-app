@@ -491,6 +491,15 @@ export async function getServerSideProps(
   } = context;
   const { token } = parseCookies(req);
 
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/user/findvendors`,
+        permanent: false,
+      },
+    };
+  }
+
   // Fetch data based on the dynamicParam
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,

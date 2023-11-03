@@ -75,10 +75,16 @@ const NavItems = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
-      setLoginModal(false);
-      dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`,
+      );
+
+      if (data?.data?.message === `Success`) {
+        console.log(data);
+        setLoginModal(false);
+        dispatch(clearCredentials());
+        router.push(`/findvendors`);
+      }
     } catch (error: any) {}
   };
 
@@ -112,7 +118,7 @@ const NavItems = ({ data }: any) => {
           >
             <Tooltip title="Open settings">
               <IconButton>
-                {data?.profile?.picture ? (
+                {userInfo ? (
                   <Avatar
                     alt={data?.profile?.firstName}
                     src={data?.profile?.picture}

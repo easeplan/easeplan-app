@@ -86,9 +86,6 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
     return <div>Loading...</div>; // Replace with your loading component or spinner
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>; // Replace with your error component or message
-  }
   if (!queryData || !queryData.provider) {
     return null; // or some placeholder if you prefer
   }

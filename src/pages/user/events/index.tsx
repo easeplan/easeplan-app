@@ -5,7 +5,7 @@ import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import Divider from '@/components/common/Divider';
-export { getServerSideProps } from '@/hooks/useFetchToken';
+export { getServerSideProps } from '@/hooks/getServerSideProps';
 import StyleIcon from '@mui/icons-material/Style';
 import EventDetailsDrawer from '@/components/vendors/EventDetailsDrawer';
 import { setNotifyData } from '@/features/notificationsSlice';

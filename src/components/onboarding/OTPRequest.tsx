@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button } from '@mui/material';
 
 const OTPRequestCooldown = ({
   onRequestOTP,

@@ -185,9 +185,9 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                     {({ values }) => (
                       <Form>
                         <Description>
-                          <Typography variant="h6" color="primary.main" mb={2}>
+                          {/* <Typography variant="h6" color="primary.main" mb={2}>
                             Verify your phone number?
-                          </Typography>
+                          </Typography> */}
                         </Description>
                         <Box sx={{ flexGrow: 1, width: `100%` }}>
                           {showPhoneNumber && (

@@ -1,61 +1,69 @@
 import { useState, useEffect } from 'react';
 
-type VendorData = {
-  _id: string;
-  userId: string;
-  publicId: string;
-  state: string;
-  city: string;
-  business: string;
-  identityVerify?: string;
-  introVideo?: string;
-  verified: boolean;
-  dob: string;
-  gender: string;
-  company: string;
-  samples: [
-    {
-      _id?: string;
-      image: string;
-      title: string;
-      description: string;
-    },
-  ];
-  budget: {
-    maximum: number;
-    minimum: number;
-  };
-  ratings: [];
-  rating: number;
-  selections: [
-    {
-      date: Date;
-      count: number;
-    },
-  ];
-  createdAt: Date;
-  events: Map<
-    string,
-    {
-      status: string;
-      bookedOn: string | null;
-      declined: boolean;
-      declinedReason?: string | null;
-      cancelReason?: string | null;
-      currentJob: string | null;
-    }
-  >;
-  balance: number;
-  role: string;
-  clients: string[];
-  responseTimes: number[];
-  currentlyHiredBy: string[];
-  currentlyRequestedBy: string[];
-  averageResponseTime: number;
-  availbalance: number;
-  approved: boolean;
-  registered: boolean;
-};
+// interface VendorData  {
+//   _id: string;
+//   userId: string;
+//   publicId: string;
+//   state: string;
+//   city: string;
+//   business: string;
+//   identityVerify?: string;
+//   introVideo?: string;
+//   verified: boolean;
+//   dob: string;
+//   gender: string;
+//   company: string;
+//   samples: [
+//     {
+//       _id?: string;
+//       image: string;
+//       title: string;
+//       description: string;
+//     },
+//   ];
+//   budget: {
+//     maximum: number;
+//     minimum: number;
+//   };
+//   ratings: [];
+//   rating: number;
+//   selections: [
+//     {
+//       date: Date;
+//       count: number;
+//     },
+//   ];
+//   createdAt: Date;
+//   events: Map<
+//     string,
+//     {
+//       status: string;
+//       bookedOn: string | null;
+//       declined: boolean;
+//       declinedReason?: string | null;
+//       cancelReason?: string | null;
+//       currentJob: string | null;
+//     }
+//   >;
+//   balance: number;
+//   role: string;
+//   clients: string[];
+//   responseTimes: number[];
+//   currentlyHiredBy: string[];
+//   currentlyRequestedBy: string[];
+//   averageResponseTime: number;
+//   availbalance: number;
+//   approved: boolean;
+//   registered: boolean;
+// };
+
+// interface ApiResponse {
+//   status: string;
+//   data: {
+//     data: VendorData[];
+//   };
+//   totalPages: number
+// }
 
 export function useFetchVendors(
   page: unknown,
@@ -65,7 +73,7 @@ export function useFetchVendors(
   budget?: any,
   service?: string,
 ) {
-  const [data, setData] = useState<VendorData[]>([]); // Declare 'data' as an array of 'VendorData'
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

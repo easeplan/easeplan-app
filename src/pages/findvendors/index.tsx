@@ -118,7 +118,7 @@ const VendorPage = () => {
     budget,
     service,
   );
-
+  const dataObj = data as unknown as any;
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
@@ -254,7 +254,7 @@ const VendorPage = () => {
               </Box>
             ) : (
               <>
-                {data?.data.length === 0 ? (
+                {dataObj?.data.length === 0 ? (
                   <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
                     <HourglassEmptyIcon />
                     <Typography fontWeight={900} color="primary.main">
@@ -266,7 +266,7 @@ const VendorPage = () => {
                 )}
               </>
             )}
-            {data.data?.length === 0 ? null : (
+            {dataObj.data?.length === 0 ? null : (
               <Box
                 sx={{
                   display: `flex`,
@@ -276,7 +276,7 @@ const VendorPage = () => {
                 }}
               >
                 <Pagination
-                  count={data?.totalPages}
+                  count={dataObj?.totalPages}
                   color="primary"
                   page={page}
                   onChange={handleChange}

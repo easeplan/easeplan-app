@@ -88,7 +88,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
       const resData = {
         company: {
           image: Location,
-          name: credentials.name,
+          name: credentials.name.trim(),
           services: credentials.services,
           operationCities: credentials.operationCities,
           operationStates: credentials.operationStates,

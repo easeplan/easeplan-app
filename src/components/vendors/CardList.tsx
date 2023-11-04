@@ -18,7 +18,7 @@ const CardList = ({ data, title }: any) => {
         gap: `2rem`,
       }}
     >
-      {data?.map((data: any) => (
+      {data?.data?.map((data: any) => (
         <Link href={`/user/profile/${data?.publicId}`} key={data?.id}>
           <Card data={data} />
         </Link>

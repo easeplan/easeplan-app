@@ -48,7 +48,6 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-  console.log(queryData);
 
   const handleFormSubmit = async (credentials: any) => {
     try {
@@ -68,8 +67,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         pictureUrl = queryData?.provider.profile?.picture; // Use the existing URL
       }
       const resData = {
-        firstName: credentials.firstName,
-        lastName: credentials.lastName,
+        firstName: credentials.firstName.trim(),
+        lastName: credentials.lastName.trim(),
         picture: pictureUrl,
         gender: credentials.gender,
         state: credentials.state,
@@ -214,11 +213,10 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   }}
                   onSubmit={(values) => {
                     handleFormSubmit(values);
-                    console.log(values);
                   }}
                   validationSchema={ProfileSchema}
                 >
-                  {({ setFieldValue }) => (
+                  {({ setFieldValue, values }) => (
                     <Form>
                       <Box
                         sx={{
@@ -269,7 +267,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             ) : (
                               <Box>
                                 <Image
-                                  src={previewImg}
+                                  src={values.picture}
                                   alt="profileImg"
                                   height={80}
                                   width={80}

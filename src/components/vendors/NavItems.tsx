@@ -75,9 +75,7 @@ const NavItems = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      const data = await axios.post(
-        `${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`,
-      );
+      const data = await axios.post(`/api/logout`);
 
       if (data?.data?.message === `Success`) {
         console.log(data);

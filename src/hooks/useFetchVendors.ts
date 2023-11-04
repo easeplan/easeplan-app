@@ -65,9 +65,9 @@ export function useFetchVendors(
   budget?: any,
   service?: string,
 ) {
-  const [data, setData] = useState<VendorData>([]);
+  const [data, setData] = useState<VendorData[]>([]); // Declare 'data' as an array of 'VendorData'
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Assuming you're fetching data from an API

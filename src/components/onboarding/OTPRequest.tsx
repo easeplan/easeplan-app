@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button } from '@mui/material';
 
+type OTPRequestCooldownProps = {
+  onRequestOTP: (values: any) => void;
+  onEditPhoneNumber?: (value: boolean) => void;
+  cooldownPeriod?: number;
+  values: any;
+};
+
 const OTPRequestCooldown = ({
   onRequestOTP,
   onEditPhoneNumber,
   cooldownPeriod = 100,
   values,
-}) => {
+}: OTPRequestCooldownProps) => {
   const [cooldown, setCooldown] = useState(false);
   const [timer, setTimer] = useState(cooldownPeriod);
   const [requestCount, setRequestCount] = useState(0);
@@ -26,7 +33,7 @@ const OTPRequestCooldown = ({
 
     // Cleanup the interval on component unmount
     return () => clearInterval(interval);
-  }, [cooldown, cooldownPeriod]);
+  }, [cooldown, cooldownPeriod, requestCount]);
 
   const handleRequestOTP = () => {
     onRequestOTP(values); // Call the function that handles the OTP request
@@ -34,9 +41,13 @@ const OTPRequestCooldown = ({
   };
 
   const handleEditPhoneNumber = () => {
-    onEditPhoneNumber(false); // Call the function that resets the phone number input
+    if (onEditPhoneNumber) {
+      // Check if onEditPhoneNumber is provided before calling
+      onEditPhoneNumber(false); // Call the function if it's defined
+    }
+    setRequestCount(requestCount + 1); // Increase the request count
     setCooldown(false); // Reset the cooldown
-    setTimer(cooldownPeriod * 2 ** requestCount); // Set the timer with exponential backoff
+    setTimer(cooldownPeriod ? cooldownPeriod * 2 ** requestCount : 100); // Set the timer with exponential backoff
   };
 
   return (

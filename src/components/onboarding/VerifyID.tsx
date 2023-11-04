@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Typography } from '@mui/material';
+import { Box, MenuItem, Typography, Button } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
@@ -19,6 +19,7 @@ import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
 import Dojah from 'react-dojah';
 import { useRouter } from 'next/router';
+import OTPRequestCooldown from './OTPRequest';
 
 const currentDate = new Date();
 const eighteenYearsAgo = new Date(
@@ -51,7 +52,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         otp: credentials.otp,
       };
       const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_document`,
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/document_verify_request`,
         resData,
         {
           headers: {
@@ -81,15 +82,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     try {
       setIsLoading(true);
       const resData = {
-        code: credentials.otp,
-        reference_id: reference_id,
+        otp: credentials.otp,
+        type: credentials.documentType,
       };
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_otp`,
         resData,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': `application/json`,
             Authorization: `Bearer ${token}`,
           },
         },
@@ -106,6 +107,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         }
       }
     } catch (error) {
+      toast.error(`Token expired or invalid`);
       setIsLoading(false);
     }
   };
@@ -262,7 +264,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   }}
                   validationSchema={sentID ? OTPSchema : IDSchema}
                 >
-                  {({ setFieldValue }) => (
+                  {({ setFieldValue, values }) => (
                     <Form>
                       {!sentID && (
                         <>
@@ -314,6 +316,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           </Box>
                         )}
                       </Box>
+                      {sentID && (
+                        <OTPRequestCooldown
+                          onRequestOTP={handleFormSubmit}
+                          onEditPhoneNumber={setSentID}
+                          values={values}
+                        />
+                      )}
                       <Box
                         sx={{
                           display: `grid`,
@@ -330,11 +339,10 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       >
                         <CustomButton
                           bgPrimary
-                          smWidth="50%"
-                          mdWidth="40%"
-                          lgWidth="40%"
                           type="submit"
                           className="changeBtn"
+                          loading={isLoading}
+                          loadingText="Please wait..."
                         >
                           {sentID ? `Next` : `Verify`}
                         </CustomButton>

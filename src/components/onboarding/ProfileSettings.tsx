@@ -47,12 +47,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const { stepThree } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const handleNextSlide = () => {
-    dispatch(setIntroOne(false));
-    dispatch(setIntro(true));
-  };
-
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  console.log(queryData);
 
   const handleFormSubmit = async (credentials: any) => {
     try {
@@ -174,9 +170,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   <Box
                     color="primary.main"
                     sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
-                  >
-                    <HiArrowUturnLeft onClick={handleNextSlide} />
-                  </Box>
+                  ></Box>
                   <Box>
                     <Typography color="primary.main" fontWeight={800}>
                       Step 3 of 6

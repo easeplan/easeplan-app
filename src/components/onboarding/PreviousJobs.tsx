@@ -12,14 +12,19 @@ const PreviousJobs = ({ queryData, token }: any) => {
   const handleNextSlide = async () => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/users`,
-        { onboradStage: 6 },
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${queryData.provider._id}`,
+        { onboardStage: 5 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
       // Check if the response status is 200 (OK)
-      if (response.status === 200) {
-        dispatch(setIntroFive(true));
-        dispatch(setIntroSix(false));
+      if (response.status === 201) {
+        dispatch(setIntroFive(false));
+        dispatch(setIntroSix(true));
       } else {
         console.error(`Request was not successful:`, response);
       }
@@ -70,7 +75,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
               }}
               color="primary.main"
             >
-              Post at least 3 photos
+              Post at least 3 photos of your previous jobs
             </Typography>
           </div>
           <div>

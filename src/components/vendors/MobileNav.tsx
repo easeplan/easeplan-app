@@ -25,7 +25,7 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`);
+      await axios.post(`/api/logout`);
       dispatch(clearCredentials());
       router.push(`/user/findvendors`);
     } catch (error: any) {}

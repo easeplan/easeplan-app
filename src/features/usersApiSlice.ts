@@ -8,7 +8,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     // Login
     login: builder.mutation({
       query: (data) => ({
-        url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/auth`,
+        url: `/api/auth`,
         method: `POST`,
         body: data,
       }),

@@ -45,10 +45,10 @@ const FormInput = ({
 }: InputProps) => {
   const [field, meta] = useField(props);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const trimmedValue = e.target.value.trim(); // Trim leading and trailing whitespace
-    field.onChange(e.target.name)(trimmedValue); // Call the formik field's onChange with the trimmed value
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const trimmedValue = e.target.value.trim(); // Trim leading and trailing whitespace
+  //   field.onChange(e.target.name)(trimmedValue); // Call the formik field's onChange with the trimmed value
+  // };
 
   return (
     <>
@@ -80,7 +80,7 @@ const FormInput = ({
             {...field}
             {...props}
             aria-label={ariaLabel}
-            onChange={handleInputChange}
+            // onChange={handleInputChange}
           />
           {meta.touched && meta.error ? (
             <FormError text={meta.error}></FormError>

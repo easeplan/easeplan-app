@@ -246,8 +246,6 @@ const FormWrapper = styled(`div`)({
   justifyContent: `center`,
   width: `100%`,
   height: `100%`,
-  background: `rgba(183, 233, 246, 0.25)`,
-  backdropFilter: `blur(13px)`,
   paddingTop: `4rem`,
 
   form: {

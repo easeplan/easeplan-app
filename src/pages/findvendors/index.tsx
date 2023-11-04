@@ -254,7 +254,7 @@ const VendorPage = () => {
               </Box>
             ) : (
               <>
-                {data?.length === 0 ? (
+                {data?.data.length === 0 ? (
                   <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
                     <HourglassEmptyIcon />
                     <Typography fontWeight={900} color="primary.main">
@@ -266,7 +266,7 @@ const VendorPage = () => {
                 )}
               </>
             )}
-            {data?.length === 0 ? null : (
+            {data.data?.length === 0 ? null : (
               <Box
                 sx={{
                   display: `flex`,
@@ -276,7 +276,7 @@ const VendorPage = () => {
                 }}
               >
                 <Pagination
-                  count={2}
+                  count={data?.totalPages}
                   color="primary"
                   page={page}
                   onChange={handleChange}

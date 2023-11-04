@@ -10,7 +10,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (userInfo) {
-      router.push(`/account`);
+      router.push(`/user/findvendors`);
     } else {
       router.push(`/login`);
     }

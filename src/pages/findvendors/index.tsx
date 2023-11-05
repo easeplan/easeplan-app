@@ -130,7 +130,7 @@ const VendorPage = ({ token }: Props) => {
   };
 
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-    // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
+  // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
 
   return (
     <>

@@ -4,7 +4,7 @@ import cookie from 'cookie';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const result = await fetch(
-     `https://api.dev.easeplan.io/api/v2/auth/verify_google`,
+      `https://api.dev.easeplan.io/api/v2/auth/verify_google`,
       {
         method: `POST`,
         headers: {
@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     );
     res.status(200).json(data);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return error;
   }
 };

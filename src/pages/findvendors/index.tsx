@@ -254,7 +254,7 @@ const VendorPage = () => {
               </Box>
             ) : (
               <>
-                {dataObj?.data.length === 0 ? (
+                {dataObj?.data?.length === 0 ? (
                   <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
                     <HourglassEmptyIcon />
                     <Typography fontWeight={900} color="primary.main">

@@ -15,7 +15,7 @@ export function useFetchVendors(
   useEffect(() => {
     // Assuming you're fetching data from an API
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/profiles?page=${page}&state=${currentState}&city=${currentCity}&budget=${budget}&service=${service}&searchTerm=${search}`,
+      `https://api.dev.easeplan.io/profiles?page=${page}&state=${currentState}&city=${currentCity}&budget=${budget}&service=${service}&searchTerm=${search}`,
     )
       .then((response) => {
         if (!response.ok) {

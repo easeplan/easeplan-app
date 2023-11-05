@@ -5,8 +5,7 @@ import cookie from 'cookie';
 // A helper function to send error responses
 function sendErrorResponse(res: NextApiResponse, error: any) {
   const status = error.response?.status || 500;
-  const message = error.response?.data?.message`;
-  
+  const message = error.response?.data?.message || `Unexpected Error occured`;
   res.status(status).json({ message });
 }
 

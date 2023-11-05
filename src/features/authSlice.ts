@@ -31,7 +31,7 @@ export const authSlice = createSlice({
     },
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
-      console.log(JSON.stringify(action.payload))
+      console.log(JSON.stringify(action.payload));
       localStorage.setItem(`token`, JSON.stringify(action.payload));
     },
     clearCredentials: (state) => {

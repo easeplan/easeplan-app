@@ -21,6 +21,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+// import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
 export { getServerSideProps } from '@/hooks/useFetchToken';
 
 const services = [
@@ -102,7 +103,12 @@ const services = [
   },
 ];
 
-const VendorPage = () => {
+interface Props {
+  token: string;
+}
+
+const VendorPage = ({ token }: Props) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [page, setPage] = useState(1);
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
@@ -118,10 +124,13 @@ const VendorPage = () => {
     budget,
     service,
   );
-  const dataObj = data as unknown as any;
+
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
+
+  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+    // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
 
   return (
     <>
@@ -148,7 +157,11 @@ const VendorPage = () => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout isSearch handleSearchChange={handleSearchChange}>
+      <Layout
+        isSearch
+        handleSearchChange={handleSearchChange}
+        data={queryData?.provider}
+      >
         <Box
           sx={{
             pt: {
@@ -254,7 +267,7 @@ const VendorPage = () => {
               </Box>
             ) : (
               <>
-                {dataObj?.data?.length === 0 ? (
+                {data?.length === 0 ? (
                   <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
                     <HourglassEmptyIcon />
                     <Typography fontWeight={900} color="primary.main">
@@ -266,7 +279,7 @@ const VendorPage = () => {
                 )}
               </>
             )}
-            {dataObj.data?.length === 0 ? null : (
+            {data?.length === 0 ? null : (
               <Box
                 sx={{
                   display: `flex`,
@@ -276,7 +289,7 @@ const VendorPage = () => {
                 }}
               >
                 <Pagination
-                  count={dataObj?.totalPages}
+                  count={data?.totalPages}
                   color="primary"
                   page={page}
                   onChange={handleChange}

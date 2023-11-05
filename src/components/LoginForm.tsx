@@ -53,8 +53,8 @@ const LoginForm = ({ modal }: any) => {
       if (lastVisitedURL) {
         router.push(lastVisitedURL);
       } else {
-        dispatch(setCloseModal(false));
         router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
+        dispatch(setCloseModal(false));
       }
       if (typeof window !== `undefined`) {
         localStorage.setItem(`userEmail`, `${credentials.email}`);

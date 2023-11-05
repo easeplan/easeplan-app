@@ -54,7 +54,7 @@ export default function SidenavDrawer({ data }: any) {
         <React.Fragment key={anchor}>
           <Tooltip title="Open settings">
             <IconButton onClick={toggleDrawer(anchor, true)}>
-              {data?.profile?.firstName ? (
+              {userInfo ? (
                 <Avatar
                   alt={data?.profile?.firstName}
                   src={data?.profile?.picture}

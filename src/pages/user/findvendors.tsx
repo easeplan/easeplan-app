@@ -21,8 +21,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-// import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
-export { getServerSideProps } from '@/hooks/getServerSideProps';
+export { getServerSideProps } from '@/hooks/useFetchToken';
 
 const services = [
   {
@@ -130,9 +129,6 @@ const VendorPage = ({ token }: Props) => {
   };
 
   const { queryData } = useFetch(`/profiles/${userInfo}`, token);
-
-  // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
-
   return (
     <>
       <Head>
@@ -159,7 +155,6 @@ const VendorPage = ({ token }: Props) => {
         />
       </Head>
       <Layout
-        isSearch
         handleSearchChange={handleSearchChange}
         data={queryData?.provider}
       >
@@ -290,7 +285,7 @@ const VendorPage = ({ token }: Props) => {
                 }}
               >
                 <Pagination
-                  count={2}
+                  count={data?.totalPages}
                   color="primary"
                   page={page}
                   onChange={handleChange}

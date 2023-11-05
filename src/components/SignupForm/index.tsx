@@ -138,7 +138,7 @@ const SignupForm = ({ modal }: any) => {
         });
 
         const data = await result.json();
-        dispatch(setCredentials(data?.user?._id));
+        dispatch(setCredentials(data?.user?.token));
         if (data.success === true) {
           dispatch(setCloseModal(false));
           router.push(`/user/findvendors`);

@@ -183,8 +183,6 @@ const InboxPage = ({ token }: any) => {
 
   const activeConversation = activeUser(activeUserData?.participants);
 
-  console.log(conversationList);
-
   {
     /* Smooth Scroll to the last Message */
   }

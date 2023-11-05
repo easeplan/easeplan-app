@@ -78,7 +78,6 @@ const NavItems = ({ data }: any) => {
       const data = await axios.post(`/api/logout`);
 
       if (data?.data?.message === `Success`) {
-        console.log(data);
         setLoginModal(false);
         dispatch(clearCredentials());
         router.push(`/findvendors`);

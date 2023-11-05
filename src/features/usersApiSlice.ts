@@ -17,7 +17,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     // Sign Up
     signup: builder.mutation({
       query: (data) => ({
-        url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/signup`,
+        url: `/api/signup`,
         method: `POST`,
         body: data,
       }),
@@ -25,7 +25,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     // Logout
     logout: builder.mutation({
       query: () => ({
-        url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/logout`,
+        url: `/api/logout`,
         method: `POST`,
       }),
     }),

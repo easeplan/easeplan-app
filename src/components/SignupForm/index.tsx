@@ -56,7 +56,7 @@ const SignupForm = ({ modal }: any) => {
       });
     }
   };
-  
+
   const getPasswordStrength = (password: string) => {
     let strengthIndicators = -1,
       upper = false,

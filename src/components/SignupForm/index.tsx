@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import { useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from '../GoogleButton';
 import { isLogin, setCloseModal } from '@/features/onboardingSlice';
+import posthog from 'posthog-js';
 
 const strengthLables = [`weak`, `medium`, `strong`];
 
@@ -87,9 +88,20 @@ const SignupForm = ({ modal }: any) => {
     setEmail(event?.target?.value);
   };
 
+  const setReferedBy = () => {
+    const referedBy = localStorage.getItem(`referedBy`);
+    if (referedBy) {
+      // If there`s a referral parameter, capture that event
+      posthog.capture(`sign-up`, {
+        distinct_id: posthog.get_distinct_id(),
+        referedBy: referedBy,
+      });
+    }
+  };
   const submitCredentials = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const credentials = { email: email, password: password };
+    const { referedBy } = router.query;
+    const credentials = { email: email, password: password, referedBy };
     if (!email) {
       setEmailErr(`email is required`);
     } else if (!password) {
@@ -106,6 +118,7 @@ const SignupForm = ({ modal }: any) => {
         const res = await axios.post(`/api/signup`, credentials);
         toast.success(res?.data?.message);
         dispatch(setCredentials(res?.data?.user?._id));
+        setReferedBy();
         // Saving user email, to send along with the verification token
         if (typeof window !== `undefined`) {
           localStorage.setItem(`userEmail`, `${email}`);
@@ -142,6 +155,7 @@ const SignupForm = ({ modal }: any) => {
         if (data.success === true) {
           dispatch(setCloseModal(false));
           router.push(`/user/findvendors`);
+          setReferedBy();
         }
       }
     } catch (error) {

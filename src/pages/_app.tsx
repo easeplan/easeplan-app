@@ -34,6 +34,17 @@ export default function App({ Component, pageProps }: AppProps) {
     });
     posthog.capture(`my event`, { property: `value` });
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const referedBy = urlParams.get(`referedBy`);
+    if (referedBy) {
+      // If there`s a referral parameter, capture that event
+      posthog.capture(`referral-landing`, {
+        distinct_id: posthog.get_distinct_id(),
+        referedBy: referedBy,
+      });
+      localStorage.setItem(`referedBy`, referedBy);
+    }
+
     const handleRouteChange = (url: URL) => {
       /* invoke analytics function only for production */
       if (isProduction) gtag.pageview(url);

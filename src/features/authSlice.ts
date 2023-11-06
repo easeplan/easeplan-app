@@ -13,24 +13,11 @@ interface AuthState {
 }
 
 // Define the initial state using that type
-const getInitialUserInfo = () => {
-  if (typeof window !== `undefined`) {
-    const userInfoString = localStorage.getItem(`token`);
-    try {
-      // Safely attempt to parse the user info, if it exists.
-      return userInfoString !== null ? JSON.parse(userInfoString) : null;
-    } catch (error) {
-      // If an error occurs during parsing, it's likely invalid JSON,
-      // so we'll consider the user info to be null in this case.
-      console.error(`Failed to parse userInfo:`, error);
-      return null;
-    }
-  }
-  return null;
-};
-
 const initialState: AuthState = {
-  userInfo: getInitialUserInfo(),
+  userInfo:
+    typeof window !== `undefined` && localStorage.getItem(`token`)
+      ? JSON.parse(localStorage.getItem(`token`)!)
+      : null,
   queryData: null,
 };
 
@@ -44,7 +31,7 @@ export const authSlice = createSlice({
     },
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
-      localStorage.setItem(`token`, JSON.stringify(action.payload));
+      localStorage.setItem(`userInfo`, JSON.stringify(action.payload));
     },
     clearCredentials: (state) => {
       state.userInfo = null;

@@ -125,6 +125,7 @@ const VendorPage = ({ token }: Props) => {
     service,
   );
 
+  console.log(userInfo);
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };

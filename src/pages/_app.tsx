@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
         distinct_id: posthog.get_distinct_id(),
         referedBy: referedBy,
       });
-      localStorage.setItem('referedBy', referedBy);
+      localStorage.setItem(`referedBy`, referedBy);
     }
 
     const handleRouteChange = (url: URL) => {

@@ -65,7 +65,6 @@ const links = [
   //   href: `/user/support`,
   // },
 ];
-
 const NavItems = ({ data }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();

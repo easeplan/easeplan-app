@@ -17,6 +17,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import { setCloseModal } from '@/features/onboardingSlice';
 import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/features/authSlice';
 
 const OtpSchema = Yup.object().shape({
   token: Yup.string()
@@ -27,11 +28,13 @@ const OtpSchema = Yup.object().shape({
 interface verificationTypes {
   setVerificationModal: any;
   setOtpSuccessful: any;
+  fromLoginPage?: boolean;
 }
 
 const VerifiactionModal = ({
   setVerificationModal,
   setOtpSuccessful,
+  fromLoginPage = false,
 }: verificationTypes) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -74,6 +77,8 @@ const VerifiactionModal = ({
       if (data.status === `success`) {
         setLoginSuccess(data.message);
         toast.success(`Email verified successfully`);
+        const userId = localStorage.getItem(`authUser`);
+        dispatch(setCredentials(userId));
         router.push(`/user/findvendors`);
         setIsLoading(false);
         setLoginError(``);
@@ -138,7 +143,7 @@ const VerifiactionModal = ({
                 />
                 {countDown === 1 ? null : (
                   <Typography my={1} color="primary.main">
-                    {resendCountDown}
+                    {!fromLoginPage && resendCountDown}
                   </Typography>
                 )}
 
@@ -157,7 +162,7 @@ const VerifiactionModal = ({
             )}
           </Formik>
 
-          {countDown === 1 ? (
+          {fromLoginPage || countDown === 1 ? (
             <button onClick={resendHandler} className="resendBtn">
               {isResendLoading ? (
                 <span className="flex items-center">

@@ -19,6 +19,7 @@ import useLastVisitedURL from '@/hooks/useLastVisitedURL';
 import GoogleButton from './GoogleButton';
 import { useGoogleLogin } from '@react-oauth/google';
 import { isLogin, setCloseModal } from '@/features/onboardingSlice';
+import VerifiactionModal from './VerifiactionModal';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required(`Email is required`),
@@ -33,6 +34,9 @@ const LoginForm = ({ modal }: any) => {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState<any>();
   const [previewModal, setPreviewModal] = useState<boolean>();
+  const [verificationModal, setVerificationModal] = useState<any>(false);
+  const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
+
   const [userName] = useState<any>(
     typeof window !== `undefined` ? localStorage.getItem(`userName`) : ``,
   );
@@ -53,8 +57,8 @@ const LoginForm = ({ modal }: any) => {
       if (lastVisitedURL) {
         router.push(lastVisitedURL);
       } else {
-        router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
         dispatch(setCloseModal(false));
+        router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
       }
       if (typeof window !== `undefined`) {
         localStorage.setItem(`userEmail`, `${credentials.email}`);
@@ -62,6 +66,9 @@ const LoginForm = ({ modal }: any) => {
     } catch (error: any) {
       setIsLoading(false);
       setErrorMsg(error.data?.error);
+      if (error.data?.error === `Verify your email to login`) {
+        setVerificationModal(true);
+      }
     }
   };
 
@@ -96,146 +103,154 @@ const LoginForm = ({ modal }: any) => {
 
   return (
     <>
-      <FormWrapper>
-        <Box
-          sx={{
-            width: {
-              xs: `80%`,
-              sm: `90%`,
-              md: `50%`,
-              lg: `45%`,
-              xl: `45%`,
-              paddingBottom: `1rem`,
-            },
-          }}
-        >
-          {userName ? (
-            <Typography
-              sx={{
-                fontWeight: `700`,
-                fontSize: {
-                  xs: `1rem`,
-                  sm: `1rem`,
-                  md: `1.5rem`,
-                  lg: `1.5rem`,
-                },
-                color: `primary.main`,
-                marginBottom: `2rem`,
-                textTransform: `capitalize`,
-              }}
-            >
-              Welcome back, {userName}
-            </Typography>
-          ) : (
-            <Typography
-              sx={{
-                fontWeight: `700`,
-                fontSize: {
-                  xs: `1.2rem`,
-                  sm: `1.2rem`,
-                  md: `1.5rem`,
-                  lg: `1.5rem`,
-                },
-                color: `primary.main`,
-                marginBottom: `2rem`,
-                textTransform: `capitalize`,
-                textAlign: `center`,
-              }}
-            >
-              Login To {modal ? `Continue` : `Easeplan`}
-            </Typography>
-          )}
-          <Box sx={{ display: `flex`, flexDirection: `column` }}>
-            <GoogleButton
-              onClick={handleGoogleLogin}
-              text="Log in with Google"
-            />
-            <Box
-              sx={{
-                textAlign: `center`,
-                mt: 1,
-                mb: 1,
-                fontWeight: `bold`,
-                fontSize: `0.8rem`,
-                color: `primary.main`,
-              }}
-            >
-              OR
-            </Box>
-          </Box>
-          <Formik
-            initialValues={{
-              email: ``,
-              password: ``,
+      {verificationModal ? (
+        <VerifiactionModal
+          setVerificationModal={setVerificationModal}
+          setOtpSuccessful={setOtpSuccessful}
+          fromLoginPage={true}
+        />
+      ) : (
+        <FormWrapper>
+          <Box
+            sx={{
+              width: {
+                xs: `80%`,
+                sm: `90%`,
+                md: `50%`,
+                lg: `45%`,
+                xl: `45%`,
+                paddingBottom: `1rem`,
+              },
             }}
-            onSubmit={(values) => submitCredentials(values)}
-            validationSchema={LoginSchema}
           >
-            {() => (
-              <Form>
-                {errorMsg && (
-                  <Alert sx={{ mb: 2 }} severity="error">
-                    {errorMsg}
-                  </Alert>
-                )}
-                <InputControl>
-                  <div>
-                    <FormInput
-                      ariaLabel="Email"
-                      name="email"
-                      type="text"
-                      placeholder="example@email.com"
-                    />
-                  </div>
-                  <PasswordControl>
-                    <FormInput
-                      ariaLabel="Password"
-                      name="password"
-                      type={showPassword ? `text` : `password`}
-                      placeholder="Password"
-                    />
-                    <div className="password" onClick={handleShowPassword}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </div>
-                  </PasswordControl>
-                </InputControl>
-                <Box sx={{ mt: 4 }}>
-                  <CustomButton
-                    bgPrimary
-                    lgWidth="100%"
-                    mdWidth="100%"
-                    loading={isLoading}
-                    loadingText="Logging In..."
-                    type="submit"
-                  >
-                    LOGIN
-                  </CustomButton>
-                </Box>
-                <RememberDiv>
-                  <Link href="/forgetpassword" className="forgotPassword">
-                    Forgot Password?
-                  </Link>
-                </RememberDiv>
-                <Footer>
-                  Not a member yet?{` `}
-                  {modal ? (
-                    <Button
-                      sx={{ fontWeight: `bold` }}
-                      onClick={() => dispatch(isLogin(false))}
-                    >
-                      Sign up
-                    </Button>
-                  ) : (
-                    <Link href="/signup" className="link">
-                      Sign up
-                    </Link>
-                  )}
-                </Footer>
-              </Form>
+            {userName ? (
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: {
+                    xs: `1rem`,
+                    sm: `1rem`,
+                    md: `1.5rem`,
+                    lg: `1.5rem`,
+                  },
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                }}
+              >
+                Welcome back, {userName}
+              </Typography>
+            ) : (
+              <Typography
+                sx={{
+                  fontWeight: `700`,
+                  fontSize: {
+                    xs: `1.2rem`,
+                    sm: `1.2rem`,
+                    md: `1.5rem`,
+                    lg: `1.5rem`,
+                  },
+                  color: `primary.main`,
+                  marginBottom: `2rem`,
+                  textTransform: `capitalize`,
+                  textAlign: `center`,
+                }}
+              >
+                Login To {modal ? `Continue` : `Easeplan`}
+              </Typography>
             )}
-          </Formik>
-        </Box>
-      </FormWrapper>
+            <Box sx={{ display: `flex`, flexDirection: `column` }}>
+              <GoogleButton
+                onClick={handleGoogleLogin}
+                text="Log in with Google"
+              />
+              <Box
+                sx={{
+                  textAlign: `center`,
+                  mt: 1,
+                  mb: 1,
+                  fontWeight: `bold`,
+                  fontSize: `0.8rem`,
+                  color: `primary.main`,
+                }}
+              >
+                OR
+              </Box>
+            </Box>
+            <Formik
+              initialValues={{
+                email: ``,
+                password: ``,
+              }}
+              onSubmit={(values) => submitCredentials(values)}
+              validationSchema={LoginSchema}
+            >
+              {() => (
+                <Form>
+                  {errorMsg && (
+                    <Alert sx={{ mb: 2 }} severity="error">
+                      {errorMsg}
+                    </Alert>
+                  )}
+                  <InputControl>
+                    <div>
+                      <FormInput
+                        ariaLabel="Email"
+                        name="email"
+                        type="text"
+                        placeholder="example@email.com"
+                      />
+                    </div>
+                    <PasswordControl>
+                      <FormInput
+                        ariaLabel="Password"
+                        name="password"
+                        type={showPassword ? `text` : `password`}
+                        placeholder="Password"
+                      />
+                      <div className="password" onClick={handleShowPassword}>
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </div>
+                    </PasswordControl>
+                  </InputControl>
+                  <Box sx={{ mt: 4 }}>
+                    <CustomButton
+                      bgPrimary
+                      lgWidth="100%"
+                      mdWidth="100%"
+                      loading={isLoading}
+                      loadingText="Logging In..."
+                      type="submit"
+                    >
+                      LOGIN
+                    </CustomButton>
+                  </Box>
+                  <RememberDiv>
+                    <Link href="/forgetpassword" className="forgotPassword">
+                      Forgot Password?
+                    </Link>
+                  </RememberDiv>
+                  <Footer>
+                    Not a member yet?{` `}
+                    {modal ? (
+                      <Button
+                        sx={{ fontWeight: `bold` }}
+                        onClick={() => dispatch(isLogin(false))}
+                      >
+                        Sign up
+                      </Button>
+                    ) : (
+                      <Link href="/signup" className="link">
+                        Sign up
+                      </Link>
+                    )}
+                  </Footer>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </FormWrapper>
+      )}
     </>
   );
 };
@@ -246,7 +261,10 @@ const FormWrapper = styled(`div`)({
   justifyContent: `center`,
   width: `100%`,
   height: `100%`,
+  background: `rgba(183, 233, 246, 0.25)`,
+  backdropFilter: `blur(13px)`,
   paddingTop: `4rem`,
+
   form: {
     width: `100%`,
   },

@@ -15,8 +15,8 @@ interface AuthState {
 // Define the initial state using that type
 const initialState: AuthState = {
   userInfo:
-    typeof window !== `undefined` && localStorage.getItem(`token`)
-      ? JSON.parse(localStorage.getItem(`token`)!)
+    typeof window !== `undefined` && localStorage.getItem(`userInfo`)
+      ? JSON.parse(localStorage.getItem(`userInfo`)!)
       : null,
   queryData: null,
 };

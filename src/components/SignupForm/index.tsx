@@ -46,6 +46,17 @@ const SignupForm = ({ modal }: any) => {
   const [isCheckedMsg, setIsCheckedMsg] = useState(``);
   const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
 
+  const setReferedBy = () => {
+    const referedBy = localStorage.getItem(`referedBy`);
+    if (referedBy) {
+      // If there`s a referral parameter, capture that event
+      posthog.capture(`sign-up`, {
+        distinct_id: posthog.get_distinct_id(),
+        referedBy: referedBy,
+      });
+    }
+  };
+
   const getPasswordStrength = (password: string) => {
     let strengthIndicators = -1,
       upper = false,
@@ -88,20 +99,9 @@ const SignupForm = ({ modal }: any) => {
     setEmail(event?.target?.value);
   };
 
-  const setReferedBy = () => {
-    const referedBy = localStorage.getItem(`referedBy`);
-    if (referedBy) {
-      // If there`s a referral parameter, capture that event
-      posthog.capture(`sign-up`, {
-        distinct_id: posthog.get_distinct_id(),
-        referedBy: referedBy,
-      });
-    }
-  };
   const submitCredentials = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const { referedBy } = router.query;
-    const credentials = { email: email, password: password, referedBy };
+    const credentials = { email: email, password: password };
     if (!email) {
       setEmailErr(`email is required`);
     } else if (!password) {
@@ -117,7 +117,8 @@ const SignupForm = ({ modal }: any) => {
         // const res = await signup(credentials).unwrap();
         const res = await axios.post(`/api/signup`, credentials);
         toast.success(res?.data?.message);
-        dispatch(setCredentials(res?.data?.user?._id));
+        localStorage.setItem(`authUser`, res?.data?.user?._id);
+        // dispatch(setCredentials(res?.data?.user?._id));
         setReferedBy();
         // Saving user email, to send along with the verification token
         if (typeof window !== `undefined`) {
@@ -151,7 +152,7 @@ const SignupForm = ({ modal }: any) => {
         });
 
         const data = await result.json();
-        dispatch(setCredentials(data?.user?.token));
+        dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
           dispatch(setCloseModal(false));
           router.push(`/user/findvendors`);

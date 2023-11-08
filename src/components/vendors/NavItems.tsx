@@ -65,7 +65,6 @@ const links = [
   //   href: `/user/support`,
   // },
 ];
-
 const NavItems = ({ data }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -80,7 +79,7 @@ const NavItems = ({ data }: any) => {
       if (data?.data?.message === `Success`) {
         setLoginModal(false);
         dispatch(clearCredentials());
-        router.push(`/findvendors`);
+        router.push(`/user/findvendors`);
       }
     } catch (error: any) {}
   };

@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -113,7 +113,6 @@ const VendorPage = ({ token }: Props) => {
   const [state, setState] = useState(``);
   const [city, setCity] = useState(``);
   const [budget, setBudget] = useState(``);
-
   const { search, handleSearchChange } = useSearch();
   const { service, handleSetService, handleClearService } = useSearchServices();
   const { data, loading } = useFetchVendors(

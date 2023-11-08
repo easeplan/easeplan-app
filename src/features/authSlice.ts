@@ -15,8 +15,8 @@ interface AuthState {
 // Define the initial state using that type
 const initialState: AuthState = {
   userInfo:
-    typeof window !== `undefined` && localStorage.getItem(`token`)
-      ? JSON.parse(localStorage.getItem(`token`)!)
+    typeof window !== `undefined` && localStorage.getItem(`userInfo`)
+      ? JSON.parse(localStorage.getItem(`userInfo`)!)
       : null,
   queryData: null,
 };
@@ -31,8 +31,7 @@ export const authSlice = createSlice({
     },
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
-      console.log(JSON.stringify(action.payload));
-      localStorage.setItem(`token`, JSON.stringify(action.payload));
+      localStorage.setItem(`userInfo`, JSON.stringify(action.payload));
     },
     clearCredentials: (state) => {
       state.userInfo = null;

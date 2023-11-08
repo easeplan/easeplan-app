@@ -79,7 +79,7 @@ const NavItems = ({ data }: any) => {
       if (data?.data?.message === `Success`) {
         setLoginModal(false);
         dispatch(clearCredentials());
-        router.push(`/user/findvendors`);
+        router.push(`/findvendors`);
       }
     } catch (error: any) {}
   };
@@ -146,7 +146,7 @@ const NavItems = ({ data }: any) => {
               px: 4,
             }}
           >
-            {data?.providerProfile && (
+            {userInfo && (
               <Stack
                 direction="row"
                 sx={{
@@ -182,14 +182,14 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 {link.icon}
-                {data ? (
+                {userInfo ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
                   <NavLink text={link.text} onClick={handleLoginModal} />
                 )}
               </Stack>
             ))}
-            {!data?.providerProfile && (
+            {!userInfo && (
               <Stack
                 direction="row"
                 sx={{
@@ -212,7 +212,7 @@ const NavItems = ({ data }: any) => {
                 />
               </Stack>
             )}
-            {!data ? (
+            {!userInfo ? (
               <Stack
                 direction="row"
                 sx={{

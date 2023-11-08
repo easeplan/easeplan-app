@@ -65,7 +65,19 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
               <Logo />
             </Link>
           </Box>
-          <NavItemWrapper>
+          <Box
+            sx={{
+              alignItems: `center`,
+              justifyContent: `space-between`,
+              display: {
+                xs: `none`,
+                sm: `none`,
+                md: `flex`,
+                lg: `flex`,
+                xl: `flex`,
+              },
+            }}
+          >
             {isSearch && (
               <SearchInput handleSearchChange={handleSearchChange} />
             )}
@@ -103,8 +115,7 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             >
               <SidenavDrawer data={data} />
             </Box>
-          </NavItemWrapper>
-          {/* <MenuIcon className="menuIcon" onClick={handleClick} /> */}
+          </Box>
           <Box
             sx={{
               display: {
@@ -135,7 +146,6 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             <SidenavDrawer data={data} />
           </Box>
         </Flex>
-        {/* <MobileNav show={toggleMenu} handleClick={handleClick} /> */}
       </Container>
     </NavWrapper>
   );

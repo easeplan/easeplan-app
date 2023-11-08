@@ -4,6 +4,7 @@ import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const CardList = ({ data, title }: any) => {
+  console.log(data);
   return (
     <Box
       sx={{
@@ -18,7 +19,7 @@ const CardList = ({ data, title }: any) => {
         gap: `2rem`,
       }}
     >
-      {data?.data?.map((data: any) => (
+      {data?.map((data: any) => (
         <Link href={`/user/profile/${data?.publicId}`} key={data?.id}>
           <Card data={data} />
         </Link>

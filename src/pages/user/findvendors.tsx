@@ -182,7 +182,7 @@ const VendorPage = ({ token }: Props) => {
           <Box
             sx={{
               mt: 2,
-              mb: 10,
+              pb: 10,
             }}
           >
             <Box my={4}>

@@ -36,8 +36,8 @@ export default function SidenavDrawer({ data }: any) {
       sx={{
         width: {
           xs: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
-          sm: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
-          md: anchor === `right` || anchor === `bottom` ? `30vw` : `auto`,
+          sm: anchor === `right` || anchor === `bottom` ? `45vw` : `auto`,
+          md: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
           lg: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
           xl: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
         },

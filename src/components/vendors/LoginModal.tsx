@@ -20,10 +20,10 @@ const style = {
   transform: `translate(-50%, -50%)`,
   width: {
     xs: `85%`,
-    sm: 300,
-    md: `50%`,
-    lg: `40%`,
-    xl: `40%`,
+    sm: `60%`,
+    md: `80%`,
+    lg: `50%`,
+    xl: `50%`,
   },
   bgcolor: `#fff`,
   border: `none`,
@@ -43,7 +43,7 @@ export default function LoginModal({ isOpen, isClose }: any) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="lg">
           <Box sx={style}>
             <Box sx={{ position: `relative` }}>
               <Button

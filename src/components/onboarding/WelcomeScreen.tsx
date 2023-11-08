@@ -76,6 +76,10 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
           dispatch(setIntro(false));
           dispatch(setIntroSix(true));
           break;
+        case 6:
+          dispatch(setIntro(false));
+          dispatch(setIntroSix(true));
+          break;
         default:
           dispatch(setIntro(true));
       }

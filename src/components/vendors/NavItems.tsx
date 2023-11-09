@@ -71,6 +71,7 @@ const NavItems = ({ data }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
+  const isProvider = localStorage.getItem(`isProvider`);
 
   const handleLogout = async () => {
     try {
@@ -146,7 +147,7 @@ const NavItems = ({ data }: any) => {
               px: 4,
             }}
           >
-            {data?.providerProfile && (
+            {userInfo && isProvider && (
               <Stack
                 direction="row"
                 sx={{
@@ -182,14 +183,14 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 {link.icon}
-                {data ? (
+                {userInfo ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
                   <NavLink text={link.text} onClick={handleLoginModal} />
                 )}
               </Stack>
             ))}
-            {!data?.providerProfile && (
+            {userInfo && !isProvider && (
               <Stack
                 direction="row"
                 sx={{
@@ -212,7 +213,7 @@ const NavItems = ({ data }: any) => {
                 />
               </Stack>
             )}
-            {!data ? (
+            {!userInfo ? (
               <Stack
                 direction="row"
                 sx={{

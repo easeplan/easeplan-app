@@ -28,14 +28,11 @@ const Card = ({ data }: any) => {
         <Image
           src={data?.company?.image ? data?.company?.image : eventImg}
           alt="eventImage"
-          height={200}
-          width={300}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
           style={{
-            objectFit: `contain`,
-            height: `200`,
-            width: `300`,
             borderRadius: `10px`,
-            // transform: `scale(1.1)`,
           }}
         />
       </Box>

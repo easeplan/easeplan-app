@@ -21,26 +21,50 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
 export { getServerSideProps } from '@/hooks/useFetchToken';
+import cateringIcon from '@/public/event-icons/catering.png';
+import cakeIcon from '@/public/event-icons/cake.png';
+import decorationIcon from '@/public/event-icons/decoration.png';
+import mcIcon from '@/public/event-icons/mc.png';
+import photograherIcon from '@/public/event-icons/photographer.png';
+import videograherIcon from '@/public/event-icons/photographer (1).png';
+import securityIcon from '@/public/event-icons/security-agent.png';
+import userIcon from '@/public/event-icons/usher.png';
+import djIcon from '@/public/event-icons/dj.png';
+import comedianIcon from '@/public/event-icons/comedian.png';
+import entertainerIcon from '@/public/event-icons/dancer.png';
+import hairStylistIcon from '@/public/event-icons/hair-dye.png';
+import makeUpIcon from '@/public/event-icons/make-up.png';
+import liveBandicon from '@/public/event-icons/live-music.png';
 
 const services = [
   {
     id: 1,
     title: `Catering`,
+    icon: cateringIcon,
   },
   {
     id: 2,
     title: `Photographer`,
+    icon: photograherIcon,
   },
   {
     id: 3,
-    title: `MC`,
+    title: `Baker`,
+    icon: cakeIcon,
   },
-  // {
-  //   id: 5,
-  //   title: `Make-up Artists`,
-  // },
+  {
+    id: 4,
+    title: `MC`,
+    icon: mcIcon,
+  },
+  {
+    id: 5,
+    title: `Make-up Artists`,
+    icon: makeUpIcon,
+  },
   // {
   //   id: 6,
   //   title: `Venue Manager`,
@@ -48,59 +72,69 @@ const services = [
   {
     id: 7,
     title: `Decorator`,
+    icon: decorationIcon,
   },
   {
     id: 8,
     title: `DJ's`,
+    icon: djIcon,
   },
   {
     id: 9,
     title: `Security`,
+    icon: securityIcon,
   },
   {
     id: 10,
     title: `Videographer`,
+    icon: videograherIcon,
   },
-  {
-    id: 11,
-    title: `Print vendor`,
-  },
+  // {
+  //   id: 11,
+  //   title: `Print vendor`,
+  //   icon: userIcon
+  // },
   {
     id: 12,
     title: `Ushering`,
+    icon: userIcon,
   },
   {
     id: 13,
     title: `Entertainer`,
+    icon: entertainerIcon,
   },
   {
     id: 14,
     title: `Live Band`,
+    icon: liveBandicon,
   },
   {
     id: 15,
     title: `Hair Dresser`,
+    icon: hairStylistIcon,
   },
   {
     id: 16,
     title: `Comedian`,
+    icon: comedianIcon,
   },
-  {
-    id: 17,
-    title: `Instrumentalist`,
-  },
-  {
-    id: 18,
-    title: `Sound Engineer`,
-  },
-  {
-    id: 19,
-    title: `Venue Vendor`,
-  },
-  {
-    id: 20,
-    title: `Tailor`,
-  },
+  // {
+  //   id: 17,
+  //   title: `Instrumentalist`,
+  // },
+  // {
+  //   id: 18,
+  //   title: `Sound Engineer`,
+  // },
+  // {
+  //   id: 19,
+  //   title: `Venue Vendor`,
+  // },
+  // {
+  //   id: 20,
+  //   title: `Tailor`,
+  // },
 ];
 
 interface Props {
@@ -124,8 +158,6 @@ const VendorPage = ({ token }: Props) => {
     budget,
     service,
   );
-
-  console.log(userInfo);
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
@@ -207,27 +239,60 @@ const VendorPage = ({ token }: Props) => {
                 }}
               >
                 {services.map((service) => (
-                  <SwiperSlide key={service?.id}>
+                  <SwiperSlide
+                    key={service.id}
+                    style={{ display: `flex`, justifyContent: `center` }}
+                  >
                     <Button
-                      onClick={() => handleSetService(service?.title)}
+                      onClick={() => handleSetService(service.title)}
                       sx={{
+                        display: `flex`,
+                        flexDirection: `column`,
+                        alignItems: `center`,
                         textWrap: `nowrap`,
-                        fontWeight: `900`,
-                        backgroundColor: `#fafafa`,
-                        border: `solid 1px #fafafa`,
+                        fontWeight: `500`,
+                        // border: `solid 1px #fafafa`,
                         cursor: `pointer`,
                         color: `primary.main`,
                         textTransform: `capitalize`,
                         whiteSpace: `nowrap`,
+                        margin: `0.4px`,
+                        padding: `8px`,
+                        '&:hover': {
+                          backgroundColor: `#f0f0f0`,
+                        },
                       }}
                     >
+                    <Box
+  sx={{
+    mb: `4px`,
+    width: { xs: '35px', sm: '40px' }, // Are you sure you want '40rem'? That's extremely large. Maybe '40px'?
+    height: { xs: '35px' }, // Same here, '40rem' is quite large, '40px' might be what you need
+    display: 'inline-block',
+    overflow: 'hidden',
+    position: 'relative',
+    '& img': {
+      objectFit: 'cover',
+      width: '100% !important',
+      height: '100% !important',
+      position: 'absolute',
+    },
+  }}
+>
+  <Image
+    src={service?.icon}
+    alt={`${service.title} icon`}
+    objectFit="contain" 
+    layout="fill"// This may be necessary if you want to enforce the dimensions, remove if you are using responsive dimensions
+  />
+</Box>
                       {service.title}
                     </Button>
                   </SwiperSlide>
                 ))}
               </Swiper>
             </Box>
-            <Box mb={4} sx={{ display: `flex`, alignItems: `center` }}>
+            <Box mb={2} sx={{ display: `flex`, alignItems: `center` }}>
               {service ? (
                 <Button sx={{ fontWeight: `600` }} onClick={handleClearService}>
                   Previous /
@@ -248,7 +313,7 @@ const VendorPage = ({ token }: Props) => {
                   display: `grid`,
                   gridTemplateColumns: {
                     xs: `1fr`,
-                    sm: `1fr`,
+                    sm: `1fr 1fr`,
                     md: `1fr 1fr 1fr`,
                     lg: `1fr 1fr 1fr 1fr`,
                     xl: `1fr 1fr 1fr 1fr`,
@@ -290,6 +355,7 @@ const VendorPage = ({ token }: Props) => {
                 }}
               >
                 <Pagination
+                  style={{ marginBottom: `0.7rem` }}
                   count={dataObj?.totalPages}
                   color="primary"
                   page={page}

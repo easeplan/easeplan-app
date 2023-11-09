@@ -152,6 +152,7 @@ const SignupForm = ({ modal }: any) => {
         });
 
         const data = await result.json();
+        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
           dispatch(setCloseModal(false));

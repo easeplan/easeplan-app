@@ -152,7 +152,7 @@ const NavWrapper = styled(Box)(({ theme }) => ({
   top: `0`,
 
   '@media (max-width: 900px)': {
-    padding: `0.8rem 0 `,
+    padding: `0.3rem 0 `,
   },
 }));
 

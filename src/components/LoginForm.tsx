@@ -57,6 +57,7 @@ const LoginForm = ({ modal }: any) => {
       if (lastVisitedURL) {
         router.push(lastVisitedURL);
       } else {
+        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
         dispatch(setCloseModal(false));
         router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
       }
@@ -85,6 +86,7 @@ const LoginForm = ({ modal }: any) => {
         });
 
         const data = await result.json();
+        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
           router.push(`/user/findvendors`);

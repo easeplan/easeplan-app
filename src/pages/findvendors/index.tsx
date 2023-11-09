@@ -21,6 +21,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
 export { getServerSideProps } from '@/hooks/useFetchToken';
 import cateringIcon from '@/public/event-icons/catering.png';
@@ -249,8 +250,8 @@ const VendorPage = ({ token }: Props) => {
                         flexDirection: `column`,
                         alignItems: `center`,
                         textWrap: `nowrap`,
-                        fontWeight: `700`,
-                        border: `solid 1px #fafafa`,
+                        fontWeight: `500`,
+                        // border: `solid 1px #fafafa`,
                         cursor: `pointer`,
                         color: `primary.main`,
                         textTransform: `capitalize`,
@@ -262,15 +263,29 @@ const VendorPage = ({ token }: Props) => {
                         },
                       }}
                     >
-                      <img
-                        src={service?.icon?.src}
-                        alt={`${service.title} icon`}
-                        style={{
-                          width: `30px`,
-                          height: `30px`,
-                          marginBottom: `4px`,
-                        }}
-                      />
+                    <Box
+  sx={{
+    mb: `4px`,
+    width: { xs: '35px', sm: '40px' }, // Are you sure you want '40rem'? That's extremely large. Maybe '40px'?
+    height: { xs: '35px' }, // Same here, '40rem' is quite large, '40px' might be what you need
+    display: 'inline-block',
+    overflow: 'hidden',
+    position: 'relative',
+    '& img': {
+      objectFit: 'cover',
+      width: '100% !important',
+      height: '100% !important',
+      position: 'absolute',
+    },
+  }}
+>
+  <Image
+    src={service?.icon}
+    alt={`${service.title} icon`}
+    objectFit="contain" 
+    layout="fill"// This may be necessary if you want to enforce the dimensions, remove if you are using responsive dimensions
+  />
+</Box>
                       {service.title}
                     </Button>
                   </SwiperSlide>

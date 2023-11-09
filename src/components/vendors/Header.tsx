@@ -69,7 +69,7 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             {isSearch && (
               <SearchInput handleSearchChange={handleSearchChange} />
             )}
-            {!data?.providerProfile && (
+            {userInfo && !data?.providerProfile && (
               <Button
                 onClick={handledBecomeAVendor}
                 variant="outlined"

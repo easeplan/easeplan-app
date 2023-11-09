@@ -30,7 +30,7 @@ const Layout = ({ children, handleSearchChange, data, isSearch }: any) => {
           </Box>
         )}
       </Box>
-      <Box sx={{ height: `89vh`, mt: { xs: 3, sm: 3, md: 12, lg: 2, xl: 2 } }}>
+      <Box sx={{ height: `89vh`, mt: { xs: 2, sm: 3, md: 12, lg: 2, xl: 2 } }}>
         {children}
       </Box>
     </div>

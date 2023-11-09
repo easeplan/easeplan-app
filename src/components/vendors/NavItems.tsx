@@ -183,7 +183,7 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 {link.icon}
-                {data ? (
+                {userInfo ? (
                   <NavLink text={link.text} href={link.href} />
                 ) : (
                   <NavLink text={link.text} onClick={handleLoginModal} />

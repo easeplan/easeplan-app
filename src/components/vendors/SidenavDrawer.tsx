@@ -31,22 +31,22 @@ export default function SidenavDrawer({ data }: any) {
       setState({ ...state, [anchor]: open });
     };
 
-  const NavItem = (anchor: Anchor) => (
-    <Box
-      sx={{
-        width: {
-          xs: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
-          sm: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
-          md: anchor === `right` || anchor === `bottom` ? `30vw` : `auto`,
-          lg: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
-          xl: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
-        },
-      }}
-      role="presentation"
-    >
-      <NavItems data={data} />
-    </Box>
-  );
+    const NavItem = (anchor: Anchor) => (
+      <Box
+        sx={{
+          width: {
+            xs: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
+            sm: anchor === `right` || anchor === `bottom` ? `45vw` : `auto`,
+            md: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
+            lg: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
+            xl: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
+          },
+        }}
+        role="presentation"
+      >
+        <NavItems data={data} />
+      </Box>
+    );
 
   return (
     <div>

@@ -20,14 +20,14 @@ import { setCloseModal } from '@/features/onboardingSlice';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const links = [
-  {
-    id: 1,
-    icon: (
-      <GroupIcon sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }} />
-    ),
-    text: `Find Vendors`,
-    href: `/user/findvendors`,
-  },
+  // {
+  //   id: 1,
+  //   icon: (
+  //     <GroupIcon sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }} />
+  //   ),
+  //   text: `Find Vendors`,
+  //   href: `/user/findvendors`,
+  // },
   {
     id: 2,
     icon: (
@@ -167,29 +167,49 @@ const NavItems = ({ data }: any) => {
                 <NavLink text="Dashboard" href="/account" />
               </Stack>
             )}
-            {links?.map((link) => (
-              <Stack
-                key={link.id}
-                direction="row"
-                sx={{
-                  alignItems: `center`,
-                  mb: {
-                    xs: 3,
-                    sm: 3,
-                    md: 4,
-                    lg: 4,
-                    xl: 4,
-                  },
-                }}
-              >
-                {link.icon}
-                {userInfo ? (
-                  <NavLink text={link.text} href={link.href} />
-                ) : (
-                  <NavLink text={link.text} onClick={handleLoginModal} />
-                )}
-              </Stack>
-            ))}
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: `center`,
+                mb: {
+                  xs: 3,
+                  sm: 3,
+                  md: 4,
+                  lg: 4,
+                  xl: 4,
+                },
+              }}
+            >
+              <GroupIcon
+                sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+              />
+
+              <NavLink text="Find Vendors" href="user/findvendors" />
+            </Stack>
+            {!isProvider &&
+              links?.map((link) => (
+                <Stack
+                  key={link.id}
+                  direction="row"
+                  sx={{
+                    alignItems: `center`,
+                    mb: {
+                      xs: 3,
+                      sm: 3,
+                      md: 4,
+                      lg: 4,
+                      xl: 4,
+                    },
+                  }}
+                >
+                  {link.icon}
+                  {userInfo ? (
+                    <NavLink text={link.text} href={link.href} />
+                  ) : (
+                    <NavLink text={link.text} onClick={handleLoginModal} />
+                  )}
+                </Stack>
+              ))}
             {userInfo && !isProvider && (
               <Stack
                 direction="row"

@@ -23,7 +23,7 @@ const style = {
   borderRadius: `1rem`,
 };
 
-const AcceptOfferConfirmModal = ({ isOpen, isClose, children }: any) => {
+const AcceptOfferConfirmModal = ({ isOpen, isClose, children, text }: any) => {
   return (
     <Modal
       open={isOpen}
@@ -45,7 +45,7 @@ const AcceptOfferConfirmModal = ({ isOpen, isClose, children }: any) => {
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
-              Accept Job Offer
+              {text}
             </Typography>
             <Typography
               sx={{

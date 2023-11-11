@@ -108,6 +108,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             lg: `200px`,
             xl: `250px`,
           },
+          mt: { xs: 8, sm: -3 },
           my: `1rem`,
           // borderRadius: `10px`,
           position: `relative`,
@@ -222,7 +223,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
           >
             <UserRating
-              rate={queryData?.rating}
+              rate={queryData?.providerProfile.rating}
               token={token}
               role={queryData?.role}
               profileId={queryData?.userId}
@@ -241,7 +242,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
           >
             <RatingStar
-              rate={queryData?.rating}
+              rate={queryData?.providerProfile.rating}
               token={token}
               role={queryData?.role}
               profileId={queryData?.userId}

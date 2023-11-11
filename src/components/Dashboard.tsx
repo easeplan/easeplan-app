@@ -95,11 +95,13 @@ const Dashboard = ({ data }: any) => {
                   >
                     ₦
                   </Typography>
+
                   <Typography variant="h4" fontWeight={800}>
-                    {data?.availableBalance === 0
+                    {data?.provider?.providerProfile?.balance === 0
                       ? `00.00`
                       : formatCurrency(
-                          data?.availableBalance && data?.availableBalance,
+                          data?.provider?.providerProfile?.balance &&
+                            data?.provider?.providerProfile?.balance,
                         )}
                   </Typography>
                 </Box>

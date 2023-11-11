@@ -263,29 +263,29 @@ const VendorPage = ({ token }: Props) => {
                         },
                       }}
                     >
-                    <Box
-  sx={{
-    mb: `4px`,
-    width: { xs: '35px', sm: '40px' }, // Are you sure you want '40rem'? That's extremely large. Maybe '40px'?
-    height: { xs: '35px' }, // Same here, '40rem' is quite large, '40px' might be what you need
-    display: 'inline-block',
-    overflow: 'hidden',
-    position: 'relative',
-    '& img': {
-      objectFit: 'cover',
-      width: '100% !important',
-      height: '100% !important',
-      position: 'absolute',
-    },
-  }}
->
-  <Image
-    src={service?.icon}
-    alt={`${service.title} icon`}
-    objectFit="contain" 
-    layout="fill"// This may be necessary if you want to enforce the dimensions, remove if you are using responsive dimensions
-  />
-</Box>
+                      <Box
+                        sx={{
+                          mb: `4px`,
+                          width: { xs: `35px`, sm: `40px` },
+                          height: { xs: `35px` },
+                          display: `inline-block`,
+                          overflow: `hidden`,
+                          position: `relative`,
+                          '& img': {
+                            objectFit: `cover`,
+                            width: `100% !important`,
+                            height: `100% !important`,
+                            position: `absolute`,
+                          },
+                        }}
+                      >
+                        <Image
+                          src={service?.icon}
+                          alt={`${service.title} icon`}
+                          objectFit="contain"
+                          layout="fill" // This may be necessary if you want to enforce the dimensions, remove if you are using responsive dimensions
+                        />
+                      </Box>
                       {service.title}
                     </Button>
                   </SwiperSlide>

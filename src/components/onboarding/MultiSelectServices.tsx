@@ -50,7 +50,7 @@ export default function MultipleSelect({ name, setServices, services }: any) {
     <div>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">
-          Select Services Your Offer
+          Select Services You Offer
         </InputLabel>
         <Select
           multiple

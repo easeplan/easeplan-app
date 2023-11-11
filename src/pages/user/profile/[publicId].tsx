@@ -52,7 +52,7 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
             <Divider sx={{ mt: 6 }} />
             <PreviousEvent queryData={data} />
             <Divider />
-            <ClientReviews queryData={data} />
+            {/* <ClientReviews queryData={data} /> */}
           </Box>
         </Box>
       </Layout>
@@ -67,18 +67,23 @@ export async function getServerSideProps(
     req,
     query: { publicId },
   } = context;
+
   const { token } = parseCookies(req);
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/profiles/profile/${publicId}`,
   );
 
   const data = await res.json();
 
+  // Ensure that token is not undefined; if it is, set it to null
+  const serializedToken = token === undefined ? null : token;
+
   return {
     props: {
-      data: data?.data,
+      data: data?.data || null, // Also ensure data.data is not undefined
       publicId: publicId,
-      token,
+      token: serializedToken,
     },
   };
 }

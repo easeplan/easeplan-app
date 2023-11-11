@@ -11,25 +11,29 @@ interface Props {
 }
 
 const useFetch = (url: string, token: string) => {
-  const dispatch = useDispatch();
-  const { data, error, isLoading } = useQuery({
-    queryKey: [`userAuthData`],
-    queryFn: async () => {
-      const { data } = await customFetch(
-        `${process.env.NEXT_PUBLIC_API_URL}${url}`,
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer ${token}`,
+  try {
+    const dispatch = useDispatch();
+    const { data, error, isLoading } = useQuery({
+      queryKey: [`userAuthData`],
+      queryFn: async () => {
+        const { data } = await customFetch(
+          `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+          {
+            headers: {
+              'Content-Type': `application/json`,
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      dispatch(setQueryData(data?.data));
-      return data;
-    },
-  });
+        );
+        dispatch(setQueryData(data?.data));
+        return data;
+      },
+    });
 
-  return { queryData: data?.data, error, isLoading };
+    return { queryData: data?.data, error, isLoading };
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default useFetch;

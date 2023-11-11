@@ -122,8 +122,8 @@ const AddPricingSection = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
+                  xs: `100%`,
+                  sm: `90%`,
                   md: `60%`,
                   lg: `50%`,
                   xl: `50%`,
@@ -165,6 +165,15 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                   variant="h4"
                   color="primary.main"
                   mb={2}
+                  sx={{
+                    fontSize: [
+                      `1.4rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                    ], // This will set the sizes for xs, sm, md, lg, and xl respectively
+                  }}
                 >
                   {`Let's Verify Your Phone Number?`}
                 </Typography>
@@ -192,8 +201,16 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                         <Box sx={{ flexGrow: 1, width: `100%` }}>
                           {showPhoneNumber && (
                             <Box>
-                              <Label text="Enter Phone Number" />
                               <FormInput
+                                sx={{
+                                  fontSize: [
+                                    `1.0rem`,
+                                    `1.1rem`,
+                                    `1.2rem`,
+                                    `1rem`,
+                                    `1.1rem`,
+                                  ], // This will set the sizes for xs, sm, md, lg, and xl respectively
+                                }}
                                 ariaLabel="destination"
                                 name="destination"
                                 type="number"
@@ -206,12 +223,20 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                             <>
                               <Box>
                                 <InputController>
-                                  <Label text="Enter Code" />
                                   <FormInput
                                     ariaLabel="code"
                                     name="code"
                                     type="number"
                                     placeholder="Enter Code"
+                                    sx={{
+                                      fontSize: [
+                                        `1.0rem`,
+                                        `1.1rem`,
+                                        `1.2rem`,
+                                        `1rem`,
+                                        `1.1rem`,
+                                      ], // This will set the sizes for xs, sm, md, lg, and xl respectively
+                                    }}
                                   />
                                 </InputController>
                               </Box>

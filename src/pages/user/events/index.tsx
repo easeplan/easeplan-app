@@ -54,6 +54,13 @@ const EventsPage = ({ token }: any) => {
               lg: 4,
               xl: 4,
             },
+            mt: {
+              xs: 5,
+              sm: 5,
+              md: 4,
+              lg: 10,
+              xl: 10,
+            },
           }}
         >
           <StyleIcon

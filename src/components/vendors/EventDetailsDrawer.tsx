@@ -110,7 +110,7 @@ export default function EventDetailsDrawer({ data, id }: any) {
               loggedUserId,
             ) ? (
             <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
-              Pending Request
+              Awaiting Vendor Response
             </Button>
           ) : (
             <Link href="/user/chats">
@@ -125,17 +125,15 @@ export default function EventDetailsDrawer({ data, id }: any) {
     </Box>
   );
 
-  console.log(data);
-
   return (
     <div>
       {([`right`] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button
-            onClick={toggleDrawer(anchor, true)}
+            // onClick={toggleDrawer(anchor, true)}
             sx={{ textTransform: `capitalize` }}
           >
-            View
+            <Link href={`/user/events/${data._id}`}> View</Link>
           </Button>
           <Drawer
             anchor={anchor}

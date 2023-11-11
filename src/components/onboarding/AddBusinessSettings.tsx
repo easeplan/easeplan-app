@@ -192,13 +192,13 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                   color="primary.main"
                   textAlign="center"
                   sx={{
-                    fontSize: {
-                      xs: `1.2rem`,
-                      sm: `1.2rem`,
-                      md: `1.5rem`,
-                      lg: `1.5rem`,
-                      xl: `1.5rem`,
-                    },
+                    fontSize: [
+                      `1.4rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                      `1.5rem`,
+                    ],
                     mb: 4,
                   }}
                 >

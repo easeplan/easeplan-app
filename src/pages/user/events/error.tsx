@@ -3,16 +3,14 @@ import { useRouter } from 'next/router';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Typography, Button, Box, Divider } from '@mui/material';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
-import axios from 'axios';
-import { formatCurrency } from '@/utils';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CheckIcon from '@mui/icons-material/Check';
+import Layout from '@/components/vendors/Layout';
 import Link from 'next/link';
 import theme from '@/styles/theme';
-import CustomButton from '@/components/common/CustomButton';
 import ErrorIcon from '@mui/icons-material/Error';
-import successBanner from '@/public/successBanner.png';
-import Image from 'next/image';
+import useFetch from '@/hooks/useFetch';
+import { useSelector } from 'react-redux';
+import LoadingScreen from '@/components/common/LoadingScreen';
+import ExternalError from '@/components/ErrorPage';
 
 interface Props {
   token: string;
@@ -25,9 +23,22 @@ const ErrorPage = ({ token }: Props) => {
   useEffect(() => {
     setEventID(localStorage.getItem(`eventID`));
   }, []);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
+  const { queryData, error, isLoading } = useFetch(
+    `/profiles/${userInfo}`,
+    token,
+  );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <ExternalError />;
+  }
   return (
-    <DashboardLayout token={token}>
+    <Layout data={queryData?.provider}>
       <section>
         <Box
           sx={{
@@ -36,12 +47,12 @@ const ErrorPage = ({ token }: Props) => {
             gap: `2rem`,
           }}
         >
-          <Box sx={{ width: `50%`, margin: `0 auto` }}>
+          <Box sx={{ width: { xs: `100%` }, margin: `0 auto` }}>
             <Box
               sx={{
                 p: 4,
                 mt: 4,
-                border: `solid 1px ${theme.palette.secondary.main}`,
+                //border: `solid 1px ${theme.palette.secondary.main}`,
                 textAlign: `center`,
                 color: `error.main`,
               }}
@@ -72,7 +83,7 @@ const ErrorPage = ({ token }: Props) => {
                 Please try again or contact us for help!
               </Typography>
               <Divider />
-              <Link href={`/account/event/${eventID}`}>
+              <Link href={`/user/events/${eventID}`}>
                 <Button sx={{ mt: 4 }} variant="contained">
                   Proceed with checkout
                 </Button>
@@ -81,7 +92,7 @@ const ErrorPage = ({ token }: Props) => {
           </Box>
         </Box>
       </section>
-    </DashboardLayout>
+    </Layout>
   );
 };
 

@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
 import StarIcon from '@mui/icons-material/Star';
 import React from 'react';
+import CustomButton from './common/CustomButton';
 
 interface TextAreaProps {
   rows?: number;
@@ -55,21 +56,27 @@ const ReviewFormSchema = Yup.object().shape({
 
 interface PropsTypes {
   token: string;
-  rating: number;
-  profileId: string;
-  role: string;
+  contractId: string;
+  userId: string;
+  submitReview: any;
+  isLoadingData: boolean;
 }
 
 interface FormTypes {
   review?: any;
 }
 
-const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
+const ReviewFormFull = ({
+  token,
+  userId,
+  contractId,
+  submitReview,
+  isLoadingData,
+}: PropsTypes) => {
   const [hover, setHover] = React.useState(-1);
-  const [$rating, setRating] = React.useState(rating);
+  const [$rating, setRating] = React.useState(0);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
-
   const { mutate: updateReview, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.post(`/ratings`, credentials, {
@@ -80,7 +87,7 @@ const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      toast.success(`Thank you for your feedback.`);
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -102,9 +109,9 @@ const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
   const handleFormSubmit = async (credentials: FormTypes) => {
     const data = {
       stars: $rating,
-      role: role,
-      profileId: profileId,
+      userId,
       review: credentials.review,
+      contractId,
     };
     updateReview(data);
   };
@@ -129,7 +136,7 @@ const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
       >
         <div className="ea-center">
           <div>
-            <h3 className="ea-heading-2">Rate event Planner</h3>
+            <h3 className="ea-heading-2">Rate Your Vendor</h3>
             <Rating
               name="hover-feedback"
               size={`large`}
@@ -153,8 +160,17 @@ const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
           initialValues={{
             review: ``,
           }}
-          onSubmit={(values) => handleFormSubmit(values)}
-          validationSchema={ReviewFormSchema}
+          //validationSchema={ReviewFormSchema}
+          onSubmit={(values, { resetForm }) => {
+            const data = {
+              stars: $rating,
+              userId,
+              review: values.review,
+              contractId,
+            };
+            submitReview(data);
+            resetForm();
+          }}
         >
           {({}) => (
             <Form>
@@ -167,14 +183,18 @@ const ReviewFormFull = ({ token, rating, profileId, role }: PropsTypes) => {
                 />
               </Box>
               <Box sx={{ textAlign: `right`, p: 2, mt: 4 }}>
-                <Button
-                  color="primary"
-                  style={{ color: theme.palette.secondary.main }}
-                  variant="contained"
+                <CustomButton
+                  bgPrimary
+                  smWidth="70%"
+                  mdWidth="40%"
+                  lgWidth="40%"
                   type="submit"
+                  className="changeBtn"
+                  loading={isLoadingData}
+                  loadingText="Submiting..."
                 >
-                  Review
-                </Button>
+                  Submit Review
+                </CustomButton>
               </Box>
             </Form>
           )}

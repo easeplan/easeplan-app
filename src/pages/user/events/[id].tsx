@@ -13,7 +13,18 @@ import { useRouter } from 'next/router';
 import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { Typography, Box, Button, Container } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Button,
+  Container,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Divider,
+} from '@mui/material';
 import axios from 'axios';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -22,16 +33,52 @@ import Layout from '@/components/vendors/Layout';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
+import CloseIcon from '@mui/icons-material/Close';
+import ReviewForm from '@/components/ReviewForm';
+import ReviewFormFull from '@/components/ReviewFormFull';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import successBanner from '@/public/successBanner.png';
 
 const ViewEvent = ({ id, data, token }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [eventData, setEventData] = useState(data);
+
   const [userEmail] = useState(
     typeof window !== `undefined` && localStorage.getItem(`userEmail`),
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
+  const [confirmDispute, setConfirmDispute] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const router = useRouter();
 
+  // State to manage the opening and closing of the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [offerAmount, setOfferAmount] = useState(``);
+
+  // Function to open the modal
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Function to handle the submission of the new offer
+  // This should be implemented based on your application logic
+  const handleSubmitNewOffer = () => {
+    // Placeholder for submitting the new offer logic
+    console.log(`Submitting new offer...`);
+    // Close the modal after submitting the offer
+    handleCloseModal();
+  };
+
+  const handleOfferAmountChange = (event: any) => {
+    setOfferAmount(event.target.value);
+  };
   //   console.log(id);
 
   useEffect(() => {
@@ -69,8 +116,125 @@ const ViewEvent = ({ id, data, token }: any) => {
     }
   };
 
-  const handleCancleRequest = () => {
-    console.log(`Are you sure you want to cancel this request!!?`);
+  const handleCancleRequest = async () => {
+    try {
+      setIsLoadingData(true);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles/${eventData._id}/cancel-offer`,
+        {},
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data?.status === `success`) {
+        setEventData(data?.data);
+        setIsLoadingData(false);
+        setConfirmCancel(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [disputeValue, setDisputeValue] = useState(``);
+  const [disputeTypeValue, setDisputeTypeValue] = useState(``);
+
+  const handleDisputeChange = (event: any) => {
+    setDisputeValue(event.target.value);
+  };
+
+  const handleDisputeTypeChange = (event: any) => {
+    setDisputeTypeValue(event.target.value);
+  };
+
+  const disputes = [
+    `Service not provided`,
+    `Service not as described`,
+    `Overcharging`,
+    `Late service delivery`,
+    `Cancellation without notice`,
+    `Property damage`,
+    `No show`,
+    `Unprofessional behavior`,
+    `Other`,
+  ];
+  const disputeEvent = async () => {
+    try {
+      setIsLoadingData(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/disputes`,
+        {
+          description: disputeValue,
+          disputeType: disputeTypeValue,
+          providerId: eventData?.parties?.receiver?._id,
+          contract: eventData?._id,
+        },
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data?.status === `success`) {
+        setEventData(data?.data);
+        setIsLoadingData(false);
+        setConfirmCancel(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submitReview = async (credentials: any) => {
+    console.log(credentials);
+    try {
+      setIsLoadingData(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/ratings`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data?.status === `success`) {
+        setEventData(data?.data);
+        setIsLoadingData(false);
+        setConfirmCancel(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleApprovePayment = async () => {
+    try {
+      setIsLoadingData(true);
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/profiles/${eventData._id}/approved-payment
+        `,
+        {},
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (data?.status === `success`) {
+        setEventData(data?.data);
+        setIsLoadingData(false);
+        setConfirmCancel(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const { queryData, error, isLoading } = useFetch(
@@ -86,21 +250,9 @@ const ViewEvent = ({ id, data, token }: any) => {
     return <ErrorPage />;
   }
 
-  //   console.log(data);
   return (
     <Layout data={queryData?.provider}>
       <Container maxWidth="lg">
-        <AcceptOfferConfirmModal
-          isOpen={confirm}
-          isClose={() => setConfirm(false)}
-        >
-          <Box sx={{ p: 4, textAlign: `center` }}>
-            <Typography mb={4} variant="h5">
-              Yes I want to accept this Job offer
-            </Typography>
-            <CustomButton bgPrimary>Accept Offer</CustomButton>
-          </Box>
-        </AcceptOfferConfirmModal>
         <Box
           sx={{
             display: `grid`,
@@ -116,13 +268,19 @@ const ViewEvent = ({ id, data, token }: any) => {
         >
           <Box>
             <Box
-              key={data?._id}
+              key={eventData?._id}
               sx={{
                 display: `flex`,
                 justifyContent: `space-between`,
                 alignItems: `center`,
                 p: 4,
-                mt: 4,
+                mt: {
+                  xs: 10,
+                  sm: 4,
+                  md: 4,
+                  lg: 14,
+                  xl: 14,
+                },
                 backgroundColor: `secondary.light`,
               }}
             >
@@ -140,6 +298,9 @@ const ViewEvent = ({ id, data, token }: any) => {
                     lg: `1rem`,
                     lx: `1rem`,
                   },
+                  mt: {
+                    sm: `1rem`,
+                  },
                 }}
               >
                 <LocationOnIcon
@@ -153,7 +314,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                     },
                   }}
                 />
-                {data?.state}, {data?.city}
+                {eventData?.state}, {eventData?.city}
               </Typography>
             </Box>
             <Box
@@ -193,78 +354,287 @@ const ViewEvent = ({ id, data, token }: any) => {
                 }}
                 color="primary.main"
               >
-                ₦ {data.budget && formatCurrency(data?.budget)}
+                ₦ {eventData.budget && formatCurrency(eventData?.budget)}
               </Typography>
             </Box>
-            <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-                textAlign: `center`,
-              }}
-            >
-              {data.status === `Requested` ? (
+            {eventData.status === `Requested` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `secondary.light`,
+                  textAlign: `center`,
+                }}
+              >
                 <Typography sx={{ fontWeight: `700`, color: `primary.main` }}>
-                  Awaiting Request
+                  We&apos;ve contacted the vendor, they will respond shortly.
                 </Typography>
-              ) : (
+              </Box>
+            )}
+
+            {eventData.status === `Accepted` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `secondary.light`,
+                  textAlign: `center`,
+                }}
+              >
                 <CustomButton
                   onClick={handlePayment}
                   bgPrimary
-                  disabled={data?.status === `paid` ? true : false}
+                  disabled={eventData.status.toLowerCase() === `paid`}
                   lgWidth="100%"
                   loading={isSuccess}
                 >
-                  {data?.status === `paid` ? `PAID` : `Make Payment`}
+                  {eventData.status.toLowerCase() === `paid`
+                    ? `PAID`
+                    : `Make Payment`}
                 </CustomButton>
-              )}
-            </Box>
-          </Box>
-          <Box>
-            {/* {queryData?.events[id as string] &&
-              queryData?.events[id as string].status !== `Accepted` && (
-                <EventAlert event={queryData?.events[id as string]} />
-              )} */}
-            {/* <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-              }}
-            >
+              </Box>
+            )}
+            {eventData.status === `paid` && (
+              <Box>
+                <section>
+                  <Box
+                    sx={{
+                      display: `grid`,
+                      gridTemplateColumns: `1fr`,
+                      gap: `2rem`,
+                    }}
+                  >
+                    <Box sx={{ width: `100%`, margin: `0 auto` }}>
+                      <Box
+                        sx={{
+                          p: 4,
+                          mt: 4,
+                          border: `solid 1px ${theme.palette.secondary.main}`,
+                          textAlign: `center`,
+                          color: `secondary.main`,
+                        }}
+                      >
+                        <DoneAllIcon
+                          sx={{
+                            width: `50px`,
+                            height: `50px`,
+                            margin: `0 auto`,
+                          }}
+                        />
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          textAlign="center"
+                          mt={2}
+                        >
+                          Your payment is successful
+                        </Typography>
+                        <Typography
+                          color="primary.main"
+                          textAlign="center"
+                          mt={2}
+                          mb={4}
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          We`ve sent a receipt to{` `}
+                          <Typography ml={1} color="secondary.main">
+                            {userEmail}
+                          </Typography>
+                        </Typography>
+                        <Divider />
+                        <Box
+                          sx={{
+                            width: `100%`,
+                            height: `100px`,
+                            position: `relative`,
+                          }}
+                        >
+                          <Image
+                            src={successBanner}
+                            alt="Success Banner"
+                            fill
+                          />
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                </section>
+                {/* <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                  Payment was successful. Proceed to chat with vendor{` `}
+                  <Link href="/user/chat" style={{ fontWeight: 700 }}>
+                    [Chat]
+                  </Link>
+                </Typography> */}
+              </Box>
+            )}
+
+            {eventData.status === `Disputed` && (
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `#fff8e1`,
+                  textAlign: `center`,
+                }}
+              >
+                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                  A ticket has been created for your dispute. Please follow up
+                  on the resolution{` `}
+                  <Link href="/user/dispute" style={{ fontWeight: 700 }}>
+                    {` `}
+                    [Dispute Center].
+                  </Link>
+                </Typography>
+              </Box>
+            )}
+            {eventData.status === `Resolved` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `secondary.light`,
+                  textAlign: `center`,
+                }}
+              >
+                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                  The dispute has been resolved. Thank you for your patience.
+                  Please check the resolution details{` `}
+                  <Link
+                    href="/user/dispute-resolution"
+                    style={{ fontWeight: 700 }}
+                  >
+                    [Resolution Center]
+                  </Link>
+                  . If you have any further questions or require assistance,
+                  feel free to
+                  <Link
+                    href="/user/contact-support"
+                    style={{ fontWeight: 700 }}
+                  >
+                    [Contact Support]
+                  </Link>
+                  .
+                </Typography>
+              </Box>
+            )}
+            {eventData.status === `Completed` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `#fff3e0`,
+                }}
+              >
+                <Typography fontWeight="600" fontSize="1.2rem" color="#d32f2f">
+                  Urgent: Confirm Payment Approval
+                </Typography>
+                <Typography sx={{ color: `#555` }} mt={1}>
+                  The service for your event has been marked as complete. Please
+                  proceed to approve the payment or issue a dispute if you
+                  encountered any problems with the service. You have 24 hours
+                  to respond before the system automatically processes the
+                  payment to the vendor. Timely action is appreciated to ensure
+                  a smooth transaction for both parties.
+                </Typography>
+              </Box>
+            )}
+
+            {(eventData.status === `Approved` ||
+              eventData.status === `Rated`) && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `secondary.light`,
+                }}
+              >
+                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                  Your event has been successfully completed! We hope it was a
+                  great experience. We would love to hear your feedback below
+                  and don&apos;t forget to rate vendor.
+                </Typography>
+              </Box>
+            )}
+            {eventData.status === `Cancelled` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `#ffebee`,
+                  textAlign: `center`,
+                }}
+              >
+                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                  Your event request has been successfully canceled. If you have
+                  any concerns or need assistance, please contact us. We&apos;re
+                  here to help!
+                </Typography>
+              </Box>
+            )}
+
+            {eventData.status === `Declined` && (
+              <Box
+                sx={{
+                  p: 4,
+                  mt: 4,
+                  backgroundColor: `#ffebee`,
+                  textAlign: `center`,
                 }}
               >
                 <Typography
-                  fontWeight="600"
-                  fontSize="1.3rem"
-                  mb={4}
-                  color="primary.main"
-                  textTransform="capitalize"
+                  sx={{ fontWeight: `500`, color: `primary.main`, mb: 2 }}
                 >
-                  {userServiceObj?.type}
+                  Unfortunately, the vendor has declined your offer. You can
+                  choose to make a new offer or browse other vendors.
                 </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ mr: 1 }}
+                  onClick={() => setConfirm(true)}
+                >
+                  Make New Offer
+                </Button>
+                <Button variant="outlined" color="primary">
+                  Find Vendors
+                </Button>
+                <AcceptOfferConfirmModal
+                  isOpen={confirm}
+                  isClose={() => setConfirm(false)}
+                  text="Make New Offer"
+                >
+                  <Box
+                    sx={{ p: 4, textAlign: `center` }}
+                    style={{ minHeight: `100%` }}
+                  >
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="offer-amount"
+                      label="Offer Amount"
+                      type="number"
+                      fullWidth
+                      variant="outlined"
+                      value={offerAmount}
+                      onChange={handleOfferAmountChange}
+                      sx={{ mb: 3 }}
+                    />
+
+                    <CustomButton
+                      //loading={isLoading}
+                      onClick={handleSubmitNewOffer}
+                      bgPrimary
+                    >
+                      Submit Offer
+                    </CustomButton>
+                  </Box>
+                </AcceptOfferConfirmModal>
               </Box>
-              {userServiceObj?.service?.map((list: any) => (
-                <Typography
-                  key={list}
-                  sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    color: `primary.main`,
-                    mt: 1,
-                  }}
-                >
-                  <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} />
-                  {list}
-                </Typography>
-              ))}
-            </Box> */}
+            )}
+          </Box>
+
+          <Box>
             {queryData && (
               <Box>
                 <Box
@@ -277,7 +647,13 @@ const ViewEvent = ({ id, data, token }: any) => {
                       lg: `150px`,
                       xl: `150px`,
                     },
-                    mt: `2rem`,
+                    mt: {
+                      xs: 10,
+                      sm: 4,
+                      md: 4,
+                      lg: 14,
+                      xl: 14,
+                    },
                     mb: `1rem`,
                     borderRadius: `10px`,
                     position: `relative`,
@@ -289,10 +665,12 @@ const ViewEvent = ({ id, data, token }: any) => {
                   }}
                 >
                   <Box>
-                    {/* <Image
+                    <Image
                       src={
-                        queryData?.providerProfile?.company?.image &&
-                        queryData?.providerProfile?.company?.image
+                        eventData?.parties?.receiver?.providerProfile.company
+                          ?.image &&
+                        eventData?.parties?.receiver?.providerProfile.company
+                          ?.image
                       }
                       alt="bannerImage"
                       fill
@@ -303,7 +681,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                         borderRadius: `10px`,
                         objectFit: `cover`,
                       }}
-                    /> */}
+                    />
                   </Box>
                   <Box
                     sx={{
@@ -336,7 +714,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                   >
                     <Box>
                       <Image
-                        src={data?.parties?.receiver?.profile?.picture}
+                        src={eventData?.parties?.receiver?.profile?.picture}
                         alt="bannerImage"
                         fill
                         style={{
@@ -365,44 +743,12 @@ const ViewEvent = ({ id, data, token }: any) => {
                       justifyContent: `center`,
                       position: `relative`,
                     }}
-                  >
-                    {/* <Typography
-                      fontWeight={600}
-                      sx={{
-                        fontSize: {
-                          xs: `1rem`,
-                          sm: `1rem`,
-                          md: `1rem`,
-                          lg: `1.2rem`,
-                        },
-                      }}
-                      textTransform="capitalize"
-                    >
-                      {queryData?.profile?.firstName} {` `}
-                      {queryData?.profile?.lastName}
-                    </Typography> */}
-                  </Box>
-                  {/* <Box
-                    sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      mb: `0.8rem`,
-                    }}
-                  >
-                    <UserRating
-                      rate={queryData?.rating}
-                      token={token}
-                      role={queryData?.role}
-                      profileId={queryData?.userId}
-                      size="small"
-                    />
-                    <Typography ml={1} fontSize="0.9rem">
-                      {queryData?.events.length} Events
-                    </Typography>
-                  </Box> */}
+                  ></Box>
                   <Box
                     sx={{
+                      display: `flex`,
+                      justifyContent: `center`,
+                      flexWrap: `wrap`,
                       textAlign: `center`,
                       margin: `0 auto`,
 
@@ -422,14 +768,138 @@ const ViewEvent = ({ id, data, token }: any) => {
                       },
                     }}
                   >
-                    <Button
-                      variant="outlined"
-                      sx={{ textTransform: `capitalize` }}
-                      onClick={handleCancleRequest}
-                    >
-                      Cancel Request
-                    </Button>
+                    {eventData.status === `Completed` && (
+                      <CustomButton
+                        loading={isLoadingData}
+                        onClick={handleApprovePayment}
+                        sx={{ mr: `1rem` }}
+                        variant="outlined"
+                        style={{ color: `#174E64` }}
+                      >
+                        Approve Payment
+                      </CustomButton>
+                    )}
+                    {(eventData.status === `Requested` ||
+                      eventData.status === `Accepted`) && (
+                      <>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            textTransform: `capitalize`,
+                            mr: 2,
+                            border: `1px solid red`,
+                            color: `red`,
+                          }}
+                          onClick={() => setConfirmCancel(true)}
+                        >
+                          Cancel Request
+                        </Button>
+                        <AcceptOfferConfirmModal
+                          isOpen={confirmCancel}
+                          isClose={() => setConfirmCancel(false)}
+                          text="Confirm Request Cancellation"
+                        >
+                          <Box
+                            sx={{ p: 4, textAlign: `center` }}
+                            style={{ minHeight: `100%` }}
+                          >
+                            <Typography mb={4} variant="h5">
+                              Are you sure you want to cancel request, Vendor
+                              might accept in few more minutes.
+                            </Typography>
+                            <Box
+                              sx={{
+                                display: `flex`,
+                                justifyContent: `space-between`,
+                              }}
+                            >
+                              <CustomButton
+                                //loading={isLoading}
+                                onClick={() => setConfirmCancel(false)}
+                                bgPrimary
+                              >
+                                No
+                              </CustomButton>
+                              <CustomButton
+                                loading={isLoadingData}
+                                onClick={handleCancleRequest}
+                                bgPrimary
+                              >
+                                Yes
+                              </CustomButton>
+                            </Box>
+                          </Box>
+                        </AcceptOfferConfirmModal>
+                      </>
+                    )}
+                    {(eventData.status === `paid` ||
+                      eventData.status === `Completed`) && (
+                      <>
+                        <Button
+                          sx={{
+                            textTransform: `capitalize`,
+                            border: `solid 1px orange`,
+                            color: `orange`,
+                            backgroundColor: `white`,
+                          }}
+                          onClick={() => setConfirmDispute(true)}
+                        >
+                          Dispute Service
+                        </Button>
+                        <AcceptOfferConfirmModal
+                          isOpen={confirmDispute}
+                          isClose={() => setConfirmDispute(false)}
+                          text="Dispute Resolution Form"
+                        >
+                          <Box
+                            sx={{ p: 4, textAlign: `center` }}
+                            style={{ minHeight: `100%` }}
+                          >
+                            <FormControl fullWidth>
+                              <InputLabel id="dispute-select-label">
+                                Dispute Reason
+                              </InputLabel>
+                              <Select
+                                labelId="dispute-select-label"
+                                id="dispute-select"
+                                value={disputeTypeValue}
+                                label="Dispute Reason"
+                                onChange={handleDisputeTypeChange}
+                              >
+                                {disputes.map((reason, index) => (
+                                  <MenuItem key={index} value={reason}>
+                                    {reason}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            <TextField
+                              id="outlined-basic"
+                              label="We love to hear from you"
+                              variant="outlined"
+                              multiline
+                              minRows={10}
+                              sx={{
+                                width: `100%`,
+                                mb: `2rem`,
+                                mt: `1rem`,
+                              }}
+                              value={disputeValue}
+                              onChange={handleDisputeChange}
+                            />
+                            <CustomButton
+                              loading={isLoadingData}
+                              onClick={disputeEvent}
+                              bgPrimary
+                            >
+                              Submit Dispute
+                            </CustomButton>
+                          </Box>
+                        </AcceptOfferConfirmModal>
+                      </>
+                    )}
                   </Box>
+
                   {/* <Box
                     sx={{
                       mt: `2rem`,
@@ -466,17 +936,20 @@ const ViewEvent = ({ id, data, token }: any) => {
                   rating={queryData?.rating}
                   profileId={queryData?.userId}
                 /> */}
+                {(eventData.status === `Approved` ||
+                  eventData.status === `Resolved`) && (
+                  <ReviewFormFull
+                    isLoadingData={isLoadingData}
+                    submitReview={submitReview}
+                    token={token}
+                    userId={eventData?.parties?.receiver?._id}
+                    contractId={eventData?._id}
+                  />
+                )}
               </Box>
             )}
           </Box>
         </Box>
-
-        {/* <ReviewFormFull
-          rating={queryData?.rating}
-          token={token}
-          profileId={queryData?.userId}
-          role={queryData?.role}
-        /> */}
       </Container>
     </Layout>
   );
@@ -521,5 +994,23 @@ export async function getServerSideProps(
     },
   };
 }
+const style = {
+  position: `absolute` as const,
+  top: `50%`,
+  left: `50%`,
+  transform: `translate(-50%, -50%)`,
+  width: {
+    xs: `85%`,
+    sm: `45%`,
+    md: `40%`,
+    lg: `30%`,
+    xl: `30%`,
+  },
+  height: `auto`,
+  bgcolor: `#fff`,
+  border: `none`,
+  boxShadow: 24,
+  borderRadius: `1rem`,
+};
 
 export default ViewEvent;

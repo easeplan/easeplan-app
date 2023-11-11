@@ -15,6 +15,12 @@ import DeclienedOfferConfirmModal from '@/components/DeclienedOfferConfirmModal'
 import CustomButton from '@/components/common/CustomButton';
 import DangerButton from '@/components/common/DangerButton';
 import customFetch from '@/utils/customFetch';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import EventIcon from '@mui/icons-material/Event';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Button from '@mui/material/Button';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 /* TODO:
  *
@@ -46,6 +52,7 @@ const ContractsPage = ({ token, data }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
   const [declined, setDecliend] = useState(false);
+  const [eventData, setEventData] = useState(data);
 
   const handleAcceptOffer = async () => {
     try {
@@ -63,6 +70,7 @@ const ContractsPage = ({ token, data }: Props) => {
         },
       );
       const resData = await res.json();
+      setEventData(resData.data);
       setTimeout(() => {
         setIsLoading(false);
         setIsSuccess(true);
@@ -70,6 +78,29 @@ const ContractsPage = ({ token, data }: Props) => {
     } catch (err) {
       console.log(err);
       setIsSuccess(false);
+    }
+  };
+
+  const handleCompleteRequest = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/${`profiles/${data?._id}/complete-offer`}`,
+        {
+          method: `PUT`,
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const resData = await res.json();
+      setEventData(resData.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -89,11 +120,14 @@ const ContractsPage = ({ token, data }: Props) => {
         },
       );
       const resData = await res.json();
-      setTimeout(() => {
-        setIsLoading(false);
-        setIsSuccess(true);
-        router.push(`/account/`);
-      }, 2000);
+      setEventData(resData.data);
+      setIsLoading(false);
+      setIsSuccess(true);
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      //   setIsSuccess(true);
+      //   router.push(`/account/`);
+      // }, 2000);
     } catch (err) {
       console.log(err);
       setIsSuccess(false);
@@ -218,6 +252,7 @@ const ContractsPage = ({ token, data }: Props) => {
         <AcceptOfferConfirmModal
           isOpen={confirm}
           isClose={() => setConfirm(false)}
+          text="Accept Job Offer"
         >
           <Box sx={{ p: 4, textAlign: `center` }}>
             {isSuccess ? (
@@ -277,67 +312,150 @@ const ContractsPage = ({ token, data }: Props) => {
           </Box>
         </DeclienedOfferConfirmModal>
 
-        <Box>
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="h5">Event details</Typography>
           <Box
             sx={{
-              display: `flex`,
-              justifyContent: `space-between`,
-              alignItems: `center`,
-              p: 4,
-              mt: 4,
-              backgroundColor: `secondary.light`,
+              display: `grid`,
+              gridTemplateColumns: {
+                xs: `1fr`,
+                sm: `1fr`,
+                md: `1fr 1fr`,
+                lg: `1fr 1fr`,
+                xl: `1fr 1fr`,
+              },
+              gap: `2rem`,
             }}
           >
-            <Typography
-              fontWeight="600"
-              fontSize="1rem"
-              color="primary.main"
+            <Box
               sx={{
-                display: `flex`,
-                alignItems: `center`,
-                fontSize: {
-                  xs: `0.8rem`,
-                  sm: `0.8rem`,
-                  md: `1rem`,
-                  lg: `1rem`,
-                  lx: `1rem`,
-                },
+                maxWidth: { xs: 600, md: 500, lg: 600, xl: 500 },
+                mt: 4,
+                border: ` solid 1px #ccc`,
               }}
             >
-              <LocationOnIcon
-                sx={{
-                  fontSize: {
-                    xs: `0.9rem`,
-                    sm: `0.9rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
-                  },
-                }}
-              />
-              {data.state}, {data?.city}
-            </Typography>
-            <Typography
-              fontWeight="600"
-              sx={{
-                fontSize: {
-                  xs: `1rem`,
-                  sm: `1rem`,
-                  md: `1.3rem`,
-                  lg: `1.5rem`,
-                  lx: `1.5rem`,
-                },
-              }}
-              color="primary.main"
-            >
-              {data.budget && formatCurrency(data?.budget)}
-            </Typography>
+              <Card>
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      justifyContent: `space-between`,
+                      mb: 2,
+                      width: `100%`,
+                    }}
+                  >
+                    <Box sx={{ display: `flex` }}>
+                      <LocationOnIcon sx={{ mr: 1 }} color="action" />
+                      <Typography variant="subtitle1" color="text.secondary">
+                        Event Location:
+                      </Typography>
+                    </Box>
+                    <Typography variant="subtitle1" color="text.secondary">
+                      {eventData.state}, {eventData?.city}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      justifyContent: `space-between`,
+                      mb: 2,
+                      width: `100%`,
+                    }}
+                  >
+                    <Box sx={{ display: `flex` }}>
+                      <AttachMoneyIcon sx={{ mr: 1 }} color="action" />
+                      <Typography variant="subtitle1" color="text.secondary">
+                        Offer Amount:
+                      </Typography>
+                    </Box>
+                    <Typography variant="subtitle1" color="text.secondary">
+                      ₦{eventData.budget && formatCurrency(eventData?.budget)}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: `flex`,
+                      justifyContent: `space-between`,
+                      mb: 2,
+                      width: `100%`,
+                    }}
+                  >
+                    <Box sx={{ display: `flex` }}>
+                      <EventIcon sx={{ mr: 1 }} color="action" />
+                      <Typography variant="subtitle1" color="text.secondary">
+                        Event Data:
+                      </Typography>
+                    </Box>
+                    <Typography variant="subtitle1" color="text.secondary">
+                      {eventData.dateTime}
+                    </Typography>
+                  </Box>
+                  {eventData?.parties?.sender?.profile && (
+                    <>
+                      <Box
+                        sx={{
+                          display: `flex`,
+                          justifyContent: `space-between`,
+                          mb: 2,
+                          width: `100%`,
+                        }}
+                      >
+                        <Box sx={{ display: `flex` }}>
+                          <AccountCircleIcon sx={{ mr: 1 }} color="action" />
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            User Fullname:
+                          </Typography>
+                        </Box>
+
+                        <Typography variant="subtitle1" color="text.secondary">
+                          {eventData?.parties?.sender?.profile?.firstName}
+                          {` `}
+                          {eventData?.parties?.sender?.profile?.lastName}
+                        </Typography>
+                      </Box>
+                      {(eventData?.parties?.sender.city ||
+                        eventData?.parties?.sender.city) && (
+                        <Box
+                          sx={{
+                            display: `flex`,
+                            justifyContent: `space-between`,
+                            mb: 2,
+                            width: `100%`,
+                          }}
+                        >
+                          <Box sx={{ display: `flex` }}>
+                            <LocationOnIcon sx={{ mr: 1 }} color="action" />
+                            <Typography
+                              variant="subtitle1"
+                              color="text.secondary"
+                            >
+                              User Location:
+                            </Typography>
+                          </Box>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            {eventData?.parties?.sender.city}
+                            {` `}
+                            {eventData?.parties?.sender.state}
+                          </Typography>
+                        </Box>
+                      )}
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </Box>
           </Box>
+
           <>
-            {data.status === `Accepted` ? (
+            {eventData.status === `Accepted` && (
               <Box
                 sx={{
-                  textAlign: `center`,
                   flexDirection: {
                     xs: `column`,
                     sm: `column`,
@@ -356,19 +474,270 @@ const ContractsPage = ({ token, data }: Props) => {
                     fontSize="1.2rem"
                     color="primary.main"
                   >
-                    Event Planning has started
+                    Offer Accepted - Awaiting Payment
                   </Typography>
                   <Typography color="grey.500" mt={1}>
-                    The countdown is now ticking
+                    You&apos;ll commence service once the payment is received.
+                    Please monitor your account for the payment confirmation.
                   </Typography>
                 </Box>
               </Box>
-            ) : (
+            )}
+
+            {eventData.status === `Cancelled` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px red`, // Changed the border color to red for danger indication
+                  backgroundColor: `#ffebee`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Event Cancellation Notice
+                  </Typography>
+                  <Typography color="grey.800" mt={1}>
+                    Unfortunately, the event has been cancelled. Please check
+                    your email or account for further details regarding the
+                    cancellation policy and potential next steps.
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {eventData.status === `Declined` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px red`, // Changed the border color to red for danger indication
+                  backgroundColor: `#ffebee`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Event Declination Confirmation
+                  </Typography>
+                  <Typography color="grey.800" mt={1}>
+                    You have declined the event offer. Details regarding this
+                    decision have been sent to your email. Please review our
+                    service provider policies for information on declinations
+                    and manage your upcoming events in your account.
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {eventData.status === `paid` && (
+              <Box
+                sx={{
+                  // textAlign: `center`,
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: ` solid 1px #ccc`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Event Planning has started!
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    Provide quality services to get more bookings. Remember to
+                    communicate regularly with the client for any updates or
+                    clarifications.
+                  </Typography>
+                  <CustomButton
+                    loading={isLoading}
+                    onClick={handleCompleteRequest}
+                    sx={{ mt: `1rem` }}
+                    variant="outlined"
+                    style={{ color: `#174E64` }}
+                  >
+                    Mark As Completed
+                  </CustomButton>
+                </Box>
+              </Box>
+            )}
+
+            {eventData.status === `Disputed` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px orange`, // Orange color to indicate caution
+                  backgroundColor: `#fff8e1`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Dispute Notice
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    A dispute has been filed for this event. Please review the
+                    details in your account and respond accordingly
+                    <Link href="/" style={{ fontWeight: 700 }}>
+                      [Dispute resolution Center]
+                    </Link>
+                    .
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {eventData.status === `Completed` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px green`, // Green color to signify resolution
+                  backgroundColor: `#e8f5e9`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Event Completion Confirmation
+                  </Typography>
+                  <Typography color="grey.800" mt={1}>
+                    The event has been marked as completed. We have notified the
+                    client to approve the payment. For a quicker resolution,
+                    consider reaching out directly to the user through chat to
+                    facilitate the approval process.
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {eventData.status === `Resolved` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px green`, // Green color to signify resolution
+                  backgroundColor: `#e8f5e9`,
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Dispute Resolved
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    The dispute for this event has been resolved. Please check
+                    your account for updated details and further instructions.
+                    {` `}
+                    <Link href="/" style={{ fontWeight: 700 }}>
+                      [Dispute resolution Center]
+                    </Link>
+                    .
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+
+            {eventData.status === `Approved` && (
+              <Box
+                sx={{
+                  flexDirection: {
+                    xs: `column`,
+                    sm: `column`,
+                    md: `row`,
+                    lg: `row`,
+                    xl: `row`,
+                  },
+                  p: 4,
+                  mt: 4,
+                  border: `solid 1px #4caf50`, // Green color for a positive message
+                  backgroundColor: `#e8f5e9`, // Light green background for emphasis
+                }}
+              >
+                <Box>
+                  <Typography
+                    fontWeight="600"
+                    fontSize="1.2rem"
+                    color="primary.main"
+                  >
+                    Funds Available for Withdrawal
+                  </Typography>
+                  <Typography color="grey.500" mt={1}>
+                    Congratulations! Your service for this event has been
+                    approved. You can now withdraw your funds. Please visit your
+                    account to proceed with the withdrawal.{` `}
+                    <Link href="/account/wallet" style={{ fontWeight: 700 }}>
+                      [Withraw Funds]
+                    </Link>
+                    .
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            {eventData.status === `Requested` && (
               <Box
                 sx={{
                   display: `flex`,
                   justifyContent: `space-between`,
-                  alignItems: `center`,
+                  // alignItems: `center`,
                   flexDirection: {
                     xs: `column`,
                     sm: `column`,
@@ -421,7 +790,7 @@ const ContractsPage = ({ token, data }: Props) => {
                       fontWeight: `600`,
                     }}
                   >
-                    Declined
+                    Decline
                   </Box>
                   <Box
                     sx={{
@@ -464,7 +833,7 @@ export async function getServerSideProps({ req, params }: any) {
     };
   }
 
-  // Fetch data based on the dynamicParam
+  // Fetch eventData based on the dynamicParam
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {

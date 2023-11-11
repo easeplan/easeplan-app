@@ -231,7 +231,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
               loggedUserId,
             ) ? (
             <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
-              Pending Request
+              Awaiting vendor response
             </Button>
           ) : (
             <Button

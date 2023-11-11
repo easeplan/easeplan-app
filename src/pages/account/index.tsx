@@ -99,25 +99,11 @@ const HomePage = ({ token }: Props) => {
                   }}
                 >
                   <Typography fontWeight={300}>
-                    Verify your account to start getting bookings from client
+                    You have a pending verification{` `}
+                    <Link href="/account/onboard" style={{ fontWeight: `600` }}>
+                      [Continue]
+                    </Link>
                   </Typography>
-                  <Link href="/account/settings/verify">
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        ml: {
-                          xs: `0rem`,
-                          sm: `0rem`,
-                          md: `1rem`,
-                          lg: `1rem`,
-                        },
-                        fontSize: `0.7rem`,
-                      }}
-                      startIcon={<AdminPanelSettingsIcon />}
-                    >
-                      Start Verification
-                    </Button>
-                  </Link>
                 </Box>
               </Alert>
             )}
@@ -143,7 +129,7 @@ const HomePage = ({ token }: Props) => {
             <>
               {contracts
                 ?.filter(
-                  (list: { status: string }) => list.status === `Accepted`,
+                  (list: { status: string }) => list.status === `Requested`,
                 )
                 .map((list: any) => (
                   <Box key={list?._id}>
@@ -166,20 +152,22 @@ const HomePage = ({ token }: Props) => {
                       }}
                     >
                       <Box>
-                        {list.status === `Accepted` ? (
+                        {list.status === `Accepted` && (
                           <>
                             <Typography
                               fontWeight="600"
                               fontSize="1.2rem"
                               color="primary.main"
                             >
-                              Event Planning has started
+                              Awaiting Payment
                             </Typography>
                             <Typography color="grey.500" mt={1}>
-                              The countdown is now ticking
+                              We&apos;ll inform you once customer makes payment
                             </Typography>
                           </>
-                        ) : (
+                        )}
+
+                        {list.status === `Requested` && (
                           <Box>
                             <Typography
                               fontWeight="600"
@@ -207,7 +195,7 @@ const HomePage = ({ token }: Props) => {
                           },
                         }}
                       >
-                        {list.status === `Accepted` ? null : (
+                        {/* {list.status === `Accepted` ? null : (
                           <Box
                             sx={{
                               border: `solid 1px ${theme.palette.primary.main}`,
@@ -219,10 +207,10 @@ const HomePage = ({ token }: Props) => {
                           >
                             <Link href="/">Declined</Link>
                           </Box>
-                        )}
+                        )} */}
 
                         <Link href={`/account/contracts/${list?._id}`}>
-                          <Button variant="outlined">View Event</Button>
+                          <Button variant="outlined">View Offer</Button>
                         </Link>
                       </Box>
                     </Box>

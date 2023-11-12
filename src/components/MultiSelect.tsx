@@ -19,19 +19,19 @@ const MenuProps = {
 };
 
 const services = [
-  `Catering`,
-  `DJ`,
-  `Entertainer`,
-  `Event Decorator`,
-  `MC`,
-  `MakeUp Artist`,
-  `Photographer`,
-  `Print Vendor`,
-  `Security Personnel`,
-  `Transportation Coordinator`,
-  `Userhing`,
-  `Venue Manager`,
-  `Videographer`,
+  'Catering',
+  'DJ',
+  'Entertainer',
+  'Event Decorator',
+  'MC',
+  'MakeUp Artist',
+  'Photographer',
+  'Print Vendor',
+  'Security Personnel',
+  'Transportation Coordinator',
+  'Userhing',
+  'Venue Manager',
+  'Videographer',
 ];
 
 function getStyles(service: string, personName: string[], theme: Theme) {
@@ -58,7 +58,7 @@ export default function MultipleSelect({ setServices }: any) {
     setServices(value);
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === `string` ? value.split(`,`) : value,
+      typeof value === 'string' ? value.split(',') : value,
     );
   };
 
@@ -70,8 +70,8 @@ export default function MultipleSelect({ setServices }: any) {
           displayEmpty
           value={personName}
           onChange={handleChange}
-          sx={{ py: `0.4rem`, borderRadius: `10px` }}
-          inputProps={{ 'aria-label': `Without label` }}
+          sx={{ py: '0.4rem', borderRadius: '10px' }}
+          inputProps={{ 'aria-label': 'Without label' }}
           MenuProps={MenuProps}
         >
           {services.map((service) => (
@@ -79,14 +79,14 @@ export default function MultipleSelect({ setServices }: any) {
               key={service}
               value={service}
               style={getStyles(service, personName, theme)}
-              sx={{ borderBottom: `solid 1px #fff` }}
+              sx={{ borderBottom: 'solid 1px #fff' }}
             >
               <Typography
                 variant="caption"
                 sx={{
-                  backgroundColor: `primary.main`,
-                  color: `secondary.main`,
-                  borderRadius: `8px`,
+                  backgroundColor: 'primary.main',
+                  color: 'secondary.main',
+                  borderRadius: '8px',
                   p: 1,
                 }}
               >

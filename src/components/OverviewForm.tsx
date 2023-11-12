@@ -22,10 +22,10 @@ import SuccessModal from './common/SuccessModal';
 import services from '@/lib/services.json';
 
 const ProfileSchema = Yup.object().shape({
-  name: Yup.string().required(`Name is missing`),
-  serviceType: Yup.string().required(`Service Type is missing`),
+  name: Yup.string().required('Name is missing'),
+  serviceType: Yup.string().required('Service Type is missing'),
   image: Yup.string(),
-  description: Yup.string().required(`Description is missing`),
+  description: Yup.string().required('Description is missing'),
 });
 
 const OverviewForm = ({ token }: any) => {
@@ -40,7 +40,7 @@ const OverviewForm = ({ token }: any) => {
   const submitCredentials = async (credentials: any) => {
     try {
       const formData = new FormData();
-      formData.append(`image`, credentials.image);
+      formData.append('image', credentials.image);
       setIsLoading(true);
       const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/providers/verification/company`,
@@ -52,13 +52,13 @@ const OverviewForm = ({ token }: any) => {
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
       setIsSuccessMessage(data.status);
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsLoading(false);
         setIsSuccess(true);
       }
@@ -96,14 +96,14 @@ const OverviewForm = ({ token }: any) => {
       <h4 className="title">About Company</h4>
       <Formik
         initialValues={{
-          name: queryData?.company?.name ? queryData?.company?.name : ``,
+          name: queryData?.company?.name ? queryData?.company?.name : '',
           serviceType: queryData?.company?.serviceType
             ? queryData?.company?.serviceType
-            : ``,
-          image: ``,
+            : '',
+          image: '',
           description: queryData?.company?.description
             ? queryData?.company?.description
-            : ``,
+            : '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
@@ -194,23 +194,23 @@ const OverviewForm = ({ token }: any) => {
               mt={3}
               textAlign="right"
               sx={{
-                display: ` flex`,
+                display: ' flex',
                 justifyContent: {
-                  xs: `space-between`,
-                  sm: `space-between`,
-                  lg: `end`,
+                  xs: 'space-between',
+                  sm: 'space-between',
+                  lg: 'end',
                 },
               }}
             >
               <Link href="/account/profile">
                 <CustomButton
                   style={{
-                    background: `#fff`,
+                    background: '#fff',
                     border: `solid 1px ${theme.palette.primary.main}`,
-                    borderRadius: `0`,
-                    marginRight: `2rem`,
-                    height: `2.8rem`,
-                    padding: `1rem 5rem`,
+                    borderRadius: '0',
+                    marginRight: '2rem',
+                    height: '2.8rem',
+                    padding: '1rem 5rem',
                   }}
                   bgPrimary
                 >
@@ -225,7 +225,7 @@ const OverviewForm = ({ token }: any) => {
                 loading={isLoading}
                 loadingText="Saving..."
               >
-                {isSuccess ? `SAVED ✔` : `SAVE`}
+                {isSuccess ? 'SAVED ✔' : 'SAVE'}
               </CustomButton>
             </Box>
           </Form>
@@ -235,152 +235,152 @@ const OverviewForm = ({ token }: any) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const Flex = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
+    flexDirection: 'column',
+    gap: '2rem',
   },
 });
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  marginTop: `2rem`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
+  marginTop: '2rem',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));
 
-const FormFooter = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignContent: `center`,
-  justifyContent: `right`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const FormFooter = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignContent: 'center',
+  justifyContent: 'right',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginTop: `1rem`,
-    width: `35%`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginTop: '1rem',
+    width: '35%',
   },
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
+    flexDirection: 'column',
     '.flex': {
-      width: `100%`,
+      width: '100%',
     },
   },
 }));

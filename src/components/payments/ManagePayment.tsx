@@ -9,7 +9,7 @@ import axios from 'axios';
 import Label from '../common/Label';
 
 const PaymentSchema = Yup.object().shape({
-  amount: Yup.string().required(`Amount is required`),
+  amount: Yup.string().required('Amount is required'),
 });
 
 const ManagePayment = () => {
@@ -52,17 +52,17 @@ const ManagePayment = () => {
 
   return (
     <Box>
-      <Box sx={{ border: `solid 1px #ccc`, p: 2 }}>
+      <Box sx={{ border: 'solid 1px #ccc', p: 2 }}>
         <Typography my={2} variant="h6" fontWeight="bold" color="primary.main">
           Pending Contract Payments
         </Typography>
         {/* Balance card */}
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
-            border: `solid 1px #ccc`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            border: 'solid 1px #ccc',
             px: 4,
             mb: 2,
           }}
@@ -81,10 +81,10 @@ const ManagePayment = () => {
         </Box>
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
-            border: `solid 1px #ccc`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            border: 'solid 1px #ccc',
             px: 4,
             mb: 2,
           }}

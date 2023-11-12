@@ -17,7 +17,7 @@ const Input: FC<Props> = ({
   setPreviewImg,
   label,
   accept,
-  type = `text`,
+  type = 'text',
 }) => {
   return (
     <Field name={name}>
@@ -28,7 +28,7 @@ const Input: FC<Props> = ({
           const { target } = event;
 
           setFileName((target?.files && target?.files[0]) || null);
-          if (type === `file`) {
+          if (type === 'file') {
             const file = (target?.files && target?.files[0]) || null;
             setPreviewImg(
               (target?.files && URL.createObjectURL(target?.files[0])) || null,
@@ -44,7 +44,7 @@ const Input: FC<Props> = ({
         return (
           <div>
             <label htmlFor={name}>{label}</label>
-            {type === `file` ? (
+            {type === 'file' ? (
               <input
                 type="file"
                 accept={accept}

@@ -9,13 +9,13 @@ type Props = {
 export default function EventAlert({ event }: Props) {
   return (
     <Box>
-      {event.status !== `Completed` ? (
+      {event.status !== 'Completed' ? (
         <Box
           sx={{
-            textAlign: `center`,
+            textAlign: 'center',
             p: 4,
             mt: 4,
-            backgroundColor: `red`,
+            backgroundColor: 'red',
           }}
         >
           <Typography color="white" fontWeight="600">
@@ -25,15 +25,15 @@ export default function EventAlert({ event }: Props) {
       ) : (
         <Box
           sx={{
-            textAlign: `center`,
+            textAlign: 'center',
             p: 4,
             mt: 4,
-            backgroundColor: `#0DE75A`,
+            backgroundColor: '#0DE75A',
           }}
         >
           <Typography color="white" fontWeight="600">
             <svg
-              style={{ display: `inline-block`, marginRight: 2 }}
+              style={{ display: 'inline-block', marginRight: 2 }}
               width="25"
               height="10"
               viewBox="0 0 32 19"

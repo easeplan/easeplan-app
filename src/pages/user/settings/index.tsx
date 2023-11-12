@@ -13,13 +13,14 @@ import Link from 'next/link';
 const SettingPage = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, isLoading } = useFetch(`/profiles/${userInfo}`, token);
+
   return (
     <Layout data={queryData?.provider}>
       <Container sx={{ py: 8 }} maxWidth="md">
         <Stack
           direction="row"
           sx={{
-            alignItems: `center`,
+            alignItems: 'center',
             mb: {
               xs: 3,
               sm: 3,
@@ -31,16 +32,16 @@ const SettingPage = ({ token }: any) => {
         >
           <SettingsIcon
             sx={{
-              color: `primary.main`,
-              fontSize: `1.5rem`,
+              color: 'primary.main',
+              fontSize: '1.5rem',
               mr: 1,
             }}
           />
           <Typography
             sx={{
               fontWeight: 500,
-              color: `primary.main`,
-              fontSize: `1.5rem`,
+              color: 'primary.main',
+              fontSize: '1.5rem',
             }}
           >
             Settings

@@ -42,27 +42,27 @@ import liveBandicon from '@/public/event-icons/live-music.png';
 const services = [
   {
     id: 1,
-    title: `Catering`,
+    title: 'Catering',
     icon: cateringIcon,
   },
   {
     id: 2,
-    title: `Photographer`,
+    title: 'Photographer',
     icon: photograherIcon,
   },
   {
     id: 3,
-    title: `Baker`,
+    title: 'Baker',
     icon: cakeIcon,
   },
   {
     id: 4,
-    title: `MC`,
+    title: 'MC',
     icon: mcIcon,
   },
   {
     id: 5,
-    title: `Make-up Artists`,
+    title: 'Make-up Artists',
     icon: makeUpIcon,
   },
   // {
@@ -71,22 +71,22 @@ const services = [
   // },
   {
     id: 7,
-    title: `Decorator`,
+    title: 'Decorator',
     icon: decorationIcon,
   },
   {
     id: 8,
-    title: `DJ's`,
+    title: "DJ's",
     icon: djIcon,
   },
   {
     id: 9,
-    title: `Security`,
+    title: 'Security',
     icon: securityIcon,
   },
   {
     id: 10,
-    title: `Videographer`,
+    title: 'Videographer',
     icon: videograherIcon,
   },
   // {
@@ -96,27 +96,27 @@ const services = [
   // },
   {
     id: 12,
-    title: `Ushering`,
+    title: 'Ushering',
     icon: userIcon,
   },
   {
     id: 13,
-    title: `Entertainer`,
+    title: 'Entertainer',
     icon: entertainerIcon,
   },
   {
     id: 14,
-    title: `Live Band`,
+    title: 'Live Band',
     icon: liveBandicon,
   },
   {
     id: 15,
-    title: `Hair Dresser`,
+    title: 'Hair Dresser',
     icon: hairStylistIcon,
   },
   {
     id: 16,
-    title: `Comedian`,
+    title: 'Comedian',
     icon: comedianIcon,
   },
   // {
@@ -144,9 +144,9 @@ interface Props {
 const VendorPage = ({ token }: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [page, setPage] = useState(1);
-  const [state, setState] = useState(``);
-  const [city, setCity] = useState(``);
-  const [budget, setBudget] = useState(``);
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [budget, setBudget] = useState('');
 
   const { search, handleSearchChange } = useSearch();
   const { service, handleSetService, handleClearService } = useSearchServices();
@@ -241,41 +241,41 @@ const VendorPage = ({ token }: Props) => {
                 {services.map((service) => (
                   <SwiperSlide
                     key={service.id}
-                    style={{ display: `flex`, justifyContent: `center` }}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
                     <Button
                       onClick={() => handleSetService(service.title)}
                       sx={{
-                        display: `flex`,
-                        flexDirection: `column`,
-                        alignItems: `center`,
-                        textWrap: `nowrap`,
-                        fontWeight: `500`,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textWrap: 'nowrap',
+                        fontWeight: '500',
                         // border: `solid 1px #fafafa`,
-                        cursor: `pointer`,
-                        color: `primary.main`,
-                        textTransform: `capitalize`,
-                        whiteSpace: `nowrap`,
-                        margin: `0.4px`,
-                        padding: `8px`,
+                        cursor: 'pointer',
+                        color: 'primary.main',
+                        textTransform: 'capitalize',
+                        whiteSpace: 'nowrap',
+                        margin: '0.4px',
+                        padding: '8px',
                         '&:hover': {
-                          backgroundColor: `#f0f0f0`,
+                          backgroundColor: '#f0f0f0',
                         },
                       }}
                     >
                       <Box
                         sx={{
-                          mb: `4px`,
-                          width: { xs: `35px`, sm: `40px` },
-                          height: { xs: `35px` },
-                          display: `inline-block`,
-                          overflow: `hidden`,
-                          position: `relative`,
+                          mb: '4px',
+                          width: { xs: '35px', sm: '40px' },
+                          height: { xs: '35px' },
+                          display: 'inline-block',
+                          overflow: 'hidden',
+                          position: 'relative',
                           '& img': {
-                            objectFit: `cover`,
-                            width: `100% !important`,
-                            height: `100% !important`,
-                            position: `absolute`,
+                            objectFit: 'cover',
+                            width: '100% !important',
+                            height: '100% !important',
+                            position: 'absolute',
                           },
                         }}
                       >
@@ -292,38 +292,38 @@ const VendorPage = ({ token }: Props) => {
                 ))}
               </Swiper>
             </Box>
-            <Box mb={2} sx={{ display: `flex`, alignItems: `center` }}>
+            <Box mb={2} sx={{ display: 'flex', alignItems: 'center' }}>
               {service ? (
-                <Button sx={{ fontWeight: `600` }} onClick={handleClearService}>
+                <Button sx={{ fontWeight: '600' }} onClick={handleClearService}>
                   Previous /
                 </Button>
               ) : null}
               <Typography
-                sx={{ fontSize: `1rem` }}
+                sx={{ fontSize: '1rem' }}
                 fontWeight="900"
                 color="primary.main"
               >
-                All {service ? service : `Categories`}
+                All {service ? service : 'Categories'}
               </Typography>
             </Box>
             {loading ? (
               <Box
                 py={10}
                 sx={{
-                  display: `grid`,
+                  display: 'grid',
                   gridTemplateColumns: {
-                    xs: `1fr`,
-                    sm: `1fr 1fr`,
-                    md: `1fr 1fr 1fr`,
-                    lg: `1fr 1fr 1fr 1fr`,
-                    xl: `1fr 1fr 1fr 1fr`,
+                    xs: '1fr',
+                    sm: '1fr 1fr',
+                    md: '1fr 1fr 1fr',
+                    lg: '1fr 1fr 1fr 1fr',
+                    xl: '1fr 1fr 1fr 1fr',
                   },
-                  gap: `2rem`,
+                  gap: '2rem',
                 }}
               >
                 {[2, 3, 4, 5, 6, 0, 10, 12].map((i) => (
                   <Stack spacing={1} key={i}>
-                    <Skeleton variant="text" sx={{ fontSize: `1rem` }} />
+                    <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
 
                     <Skeleton variant="circular" width={40} height={40} />
                     <Skeleton variant="rectangular" width={210} height={60} />
@@ -334,7 +334,7 @@ const VendorPage = ({ token }: Props) => {
             ) : (
               <>
                 {dataObj?.data?.length === 0 ? (
-                  <Box sx={{ textAlign: `center`, mt: 20, mb: 10 }}>
+                  <Box sx={{ textAlign: 'center', mt: 20, mb: 10 }}>
                     <HourglassEmptyIcon />
                     <Typography fontWeight={900} color="primary.main">
                       {service} is not available
@@ -348,14 +348,14 @@ const VendorPage = ({ token }: Props) => {
             {dataObj?.data?.length === 0 ? null : (
               <Box
                 sx={{
-                  display: `flex`,
-                  justifyContent: `center`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   my: 6,
                 }}
               >
                 <Pagination
-                  style={{ marginBottom: `0.7rem` }}
+                  style={{ marginBottom: '0.7rem' }}
                   count={dataObj?.totalPages}
                   color="primary"
                   page={page}

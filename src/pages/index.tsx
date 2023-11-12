@@ -10,9 +10,9 @@ const HomePage = () => {
 
   useEffect(() => {
     if (userInfo) {
-      router.push(`/user/findvendors`);
+      router.push('/user/findvendors');
     } else {
-      router.push(`/login`);
+      router.push('/login');
     }
   }, [router, userInfo]);
 

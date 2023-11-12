@@ -13,28 +13,28 @@ import { formatCurrency } from '@/utils';
 
 export default function TransactionTable({ data }: any) {
   return (
-    <TableContainer component={Paper} sx={{ px: `1rem`, pb: `1rem` }}>
+    <TableContainer component={Paper} sx={{ px: '1rem', pb: '1rem' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: `800`, color: `primary.main` }}>
+            <TableCell sx={{ fontWeight: '800', color: 'primary.main' }}>
               Amount
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               Date
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               Status
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               Type
             </TableCell>

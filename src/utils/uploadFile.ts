@@ -9,12 +9,12 @@ const s3 = new AWS.S3({
 export const uploadFileToS3 = async (folder: string, file: any) => {
   const bucketName = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
   if (!bucketName) {
-    throw new Error(`Bucket name is not set in the environment variables.`);
+    throw new Error('Bucket name is not set in the environment variables.');
   }
   const currentDate = new Date();
-  const year = format(currentDate, `yyyy`);
-  const month = format(currentDate, `MM`);
-  const day = format(currentDate, `dd`);
+  const year = format(currentDate, 'yyyy');
+  const month = format(currentDate, 'MM');
+  const day = format(currentDate, 'dd');
 
   const params = {
     Bucket: bucketName,
@@ -23,7 +23,7 @@ export const uploadFileToS3 = async (folder: string, file: any) => {
   };
 
   const upload = s3.upload(params);
-  upload.on(`httpUploadProgress`, (p) => {
+  upload.on('httpUploadProgress', (p) => {
     // console.log(p.loaded / p.total);
     //progress.set(p.loaded / p.total);
   });

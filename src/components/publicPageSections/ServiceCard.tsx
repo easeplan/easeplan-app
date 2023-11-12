@@ -47,7 +47,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         role: planData?.role,
         package: {
           service: planData?.package?.basic?.service,
-          type: `basic`,
+          type: 'basic',
         },
       };
       const { data } = await axios.post(
@@ -55,17 +55,17 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setBasicModal(false);
-        localStorage.setItem(`contractID`, `${data?.data?._id}`);
-        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+        localStorage.setItem('contractID', `${data?.data?._id}`);
+        localStorage.setItem('contractRole', `${data?.data?._id}`);
         localStorage.setItem(
-          `recieverID`,
+          'recieverID',
           `${data?.data?.parties?.receiverId}`,
         );
         setContractID(data?.data?._id);
@@ -95,7 +95,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         role: planData?.role,
         package: {
           service: planData?.package?.standard?.service,
-          type: `standard`,
+          type: 'standard',
         },
       };
       const { data } = await axios.post(
@@ -103,16 +103,16 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        localStorage.setItem(`contractID`, `${data?.data?._id}`);
-        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+      if (data.status === 'success') {
+        localStorage.setItem('contractID', `${data?.data?._id}`);
+        localStorage.setItem('contractRole', `${data?.data?._id}`);
         localStorage.setItem(
-          `recieverID`,
+          'recieverID',
           `${data?.data?.parties?.receiverId}`,
         );
         setContractID(data?.data?._id);
@@ -141,7 +141,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         role: planData?.role,
         package: {
           service: planData?.package?.premium?.service,
-          type: `premium`,
+          type: 'premium',
         },
       };
       const { data } = await axios.post(
@@ -149,16 +149,16 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        localStorage.setItem(`contractID`, `${data?.data?._id}`);
-        localStorage.setItem(`contractRole`, `${data?.data?._id}`);
+      if (data.status === 'success') {
+        localStorage.setItem('contractID', `${data?.data?._id}`);
+        localStorage.setItem('contractRole', `${data?.data?._id}`);
         localStorage.setItem(
-          `recieverID`,
+          'recieverID',
           `${data?.data?.parties?.receiverId}`,
         );
         setContractID(data?.data?._id);
@@ -185,8 +185,8 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
   return (
     <Box
       sx={{
-        borderRadius: `10px`,
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+        borderRadius: '10px',
+        boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
         backgroundColor: theme.palette.primary.main,
       }}
     >
@@ -199,14 +199,14 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
         <Box
           sx={{
             mt: 3,
-            display: `flex`,
-            alignItems: `center`,
-            gap: `1rem`,
-            justifyContent: `space-between`,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            justifyContent: 'space-between',
             flexDirection: {
-              xs: `column-reverse`,
-              md: `row`,
-              lg: `row`,
+              xs: 'column-reverse',
+              md: 'row',
+              lg: 'row',
             },
           }}
         >
@@ -214,20 +214,20 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             variant="outlined"
             sx={{
               width: {
-                xs: `20%`,
-                sm: `20%`,
-                md: `20%`,
-                lg: `20%`,
-                xl: `20%`,
+                xs: '20%',
+                sm: '20%',
+                md: '20%',
+                lg: '20%',
+                xl: '20%',
               },
-              borderRadius: `10px`,
-              textTransform: `uppercase`,
-              cursor: `pointer`,
-              fontSize: `0.8rem`,
+              borderRadius: '10px',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
               mt: {
                 xs: 2,
                 sm: 2,
-                md: `0`,
+                md: '0',
               },
             }}
             onClick={handleCloseModal}
@@ -281,9 +281,9 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             <Box
               my={3}
               sx={{
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <CustomButton
@@ -311,21 +311,21 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             <Box
               mt={2}
               sx={{
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Box
                 sx={{
-                  backgroundColor: `#cccc`,
-                  textAlign: `center`,
-                  width: `100%`,
-                  padding: `10px`,
-                  borderRadius: `10px`,
-                  textTransform: `uppercase`,
-                  cursor: `pointer`,
-                  fontSize: `0.8rem`,
+                  backgroundColor: '#cccc',
+                  textAlign: 'center',
+                  width: '100%',
+                  padding: '10px',
+                  borderRadius: '10px',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
                 }}
                 onClick={() =>
                   basicModal
@@ -353,7 +353,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             {formatCurrency(
               data?.package?.basic?.price
                 ? data?.package?.basic?.price
-                : `0.00`,
+                : '0.00',
             )}
           </Typography>
         )}
@@ -362,7 +362,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             {formatCurrency(
               data?.package?.standard?.price
                 ? data?.package?.standard?.price
-                : `0.00`,
+                : '0.00',
             )}
           </Typography>
         )}
@@ -371,14 +371,14 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             {formatCurrency(
               data?.package?.premium?.price
                 ? data?.package?.premium?.price
-                : `0.00`,
+                : '0.00',
             )}
           </Typography>
         )}
 
-        <Divider color="white" sx={{ marginTop: `2rem` }} />
+        <Divider color="white" sx={{ marginTop: '2rem' }} />
 
-        <Box sx={{ width: `100%`, margin: `auto` }}>
+        <Box sx={{ width: '100%', margin: 'auto' }}>
           <Typography color="grey.300" fontWeight={300} mt={3}>
             Features
           </Typography>
@@ -388,20 +388,20 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
                 <Box
                   key={index}
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                   mt={2}
                 >
                   <SendIcon
-                    sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                    sx={{ color: 'secondary.main', fontSize: '0.9rem' }}
                   />
                   <Typography ml={2} color="background.paper" fontWeight={300}>
                     {items}
                   </Typography>
                 </Box>
               ))}
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
@@ -422,13 +422,13 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
                   <Box
                     key={index}
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                     mt={2}
                   >
                     <SendIcon
-                      sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                      sx={{ color: 'secondary.main', fontSize: '0.9rem' }}
                     />
                     <Typography
                       ml={2}
@@ -440,7 +440,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
                   </Box>
                 ),
               )}
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
@@ -460,13 +460,13 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
                     <Box
                       key={index}
                       sx={{
-                        display: `flex`,
-                        alignItems: `center`,
+                        display: 'flex',
+                        alignItems: 'center',
                       }}
                       mt={2}
                     >
                       <SendIcon
-                        sx={{ color: `secondary.main`, fontSize: `0.9rem` }}
+                        sx={{ color: 'secondary.main', fontSize: '0.9rem' }}
                       />
                       <Typography
                         ml={2}
@@ -480,7 +480,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
                   </>
                 ),
               )}
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <CustomButton
                   mt={4}
                   lgWidth="100%"
@@ -503,8 +503,8 @@ const VendorPricingCard = ({ amount, title }: any) => {
   return (
     <Box
       sx={{
-        borderRadius: `10px`,
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+        borderRadius: '10px',
+        boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
         backgroundColor: theme.palette.primary.main,
       }}
     >
@@ -513,7 +513,7 @@ const VendorPricingCard = ({ amount, title }: any) => {
         <Typography color="background.paper" mt={2} fontWeight={600}>
           {formatCurrency(amount)}
         </Typography>
-        <Divider color="white" sx={{ marginTop: `2rem` }} />
+        <Divider color="white" sx={{ marginTop: '2rem' }} />
       </Box>
     </Box>
   );

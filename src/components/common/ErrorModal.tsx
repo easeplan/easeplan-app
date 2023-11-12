@@ -7,22 +7,22 @@ import theme from '@/styles/theme';
 import { Container } from '@mui/system';
 
 const style = {
-  position: `absolute` as const,
-  top: `30%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `80%`,
-    sm: `60%`,
-    md: `50%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '80%',
+    sm: '60%',
+    md: '50%',
+    lg: '30%',
+    xl: '30%',
   },
-  bgcolor: `#fff`,
-  border: `none`,
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  textAlign: `center`,
-  borderRadius: `8px`,
+  textAlign: 'center',
+  borderRadius: '8px',
 };
 
 export default function ErrorModal({
@@ -45,18 +45,18 @@ export default function ErrorModal({
             <ErrorOutlineIcon
               sx={{
                 fontSize: {
-                  xs: `2.5rem`,
-                  sm: `2.5rem`,
-                  lg: `3rem`,
+                  xs: '2.5rem',
+                  sm: '2.5rem',
+                  lg: '3rem',
                 },
-                paddingTop: `0.6rem`,
+                paddingTop: '0.6rem',
                 color: theme.palette.error.main,
               }}
             />
             <Box
               sx={{
-                textAlign: `center`,
-                marginBottom: `0.5rem`,
+                textAlign: 'center',
+                marginBottom: '0.5rem',
                 px: 6,
                 pb: 2,
                 // color: theme.palette.primary.main,

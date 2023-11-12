@@ -35,7 +35,7 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
     const conversationID = data?._id;
     dispatch(setActiveUserData(data));
 
-    const socket = io(`https://apiv3.easeplan.io`, {
+    const socket = io('https://apiv3.easeplan.io', {
       auth: {
         userId: `${userInfo?._id}`,
       },
@@ -49,7 +49,7 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
     //   dispatch(setAllUnreadConversationMessagesCount(count)),
     // );
 
-    socket.emit(`markAsRead`, {
+    socket.emit('markAsRead', {
       conversationId: conversationID,
     });
     try {
@@ -57,7 +57,7 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationID}/messages`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -90,9 +90,9 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
   // console.log(conversations);
 
   function truncateWords(sentence: any, limit = 5) {
-    const words = sentence?.split(` `);
+    const words = sentence?.split(' ');
     if (words?.length > limit) {
-      return words?.slice(0, limit)?.join(` `) + `...`;
+      return words?.slice(0, limit)?.join(' ') + '...';
     }
     return sentence;
   }
@@ -102,34 +102,34 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
       <Box
         onClick={handleSelectChat}
         sx={{
-          display: `flex`,
-          justifyContent: `space-between`,
-          cursor: `pointer`,
-          transition: `all 0.5s ease`,
-          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          cursor: 'pointer',
+          transition: 'all 0.5s ease',
+          boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
           mt: {
             xs: 0,
             md: 2,
             lg: 4,
           },
-          borderRadius: `8px`,
+          borderRadius: '8px',
           '&:hover': {
             background: theme.palette.secondary.light,
           },
           '&::focus': {
             background: theme.palette.primary.main,
           },
-          p: `1rem`,
+          p: '1rem',
         }}
       >
         <Box
           sx={{
-            position: `relative`,
-            width: `40px`,
-            height: `40px`,
-            borderRadius: `50%`,
-            backgroundColor: `primary.main`,
-            marginRight: `0.8rem`,
+            position: 'relative',
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            backgroundColor: 'primary.main',
+            marginRight: '0.8rem',
           }}
         >
           <Image
@@ -137,11 +137,11 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
             alt="profileImg"
             fill
             style={{
-              borderRadius: `50%`,
+              borderRadius: '50%',
             }}
           />
         </Box>
-        <Box sx={{ width: `82%`, position: `relative` }}>
+        <Box sx={{ width: '82%', position: 'relative' }}>
           {/* <Box
             sx={{
               width: `20px`,

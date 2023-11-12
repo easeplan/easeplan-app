@@ -16,8 +16,8 @@ import Link from 'next/link';
 import axios from 'axios';
 
 const OtpSchema = Yup.object().shape({
-  newPassword: Yup.string().required(`Token is required`),
-  confirmPassword: Yup.string().required(`Confirm Password is required`),
+  newPassword: Yup.string().required('Token is required'),
+  confirmPassword: Yup.string().required('Confirm Password is required'),
 });
 
 const ResetForm = () => {
@@ -28,7 +28,7 @@ const ResetForm = () => {
   const [errorMsg, setErrorMsg] = useState<any>();
   const [successMsg, setSuccessMsg] = useState<any>();
   const [userEmail] = useState<any>(
-    typeof window !== `undefined` ? localStorage.getItem(`userEmail`) : ``,
+    typeof window !== 'undefined' ? localStorage.getItem('userEmail') : '',
   );
 
   const submitCredentials = async (credentials: any) => {
@@ -42,8 +42,8 @@ const ResetForm = () => {
           email: userEmail,
         },
       );
-      router.push(`/login`);
-      setSuccessMsg(`Password created succefully`);
+      router.push('/login');
+      setSuccessMsg('Password created succefully');
     } catch (error: any) {
       setIsLoading(false);
       setErrorMsg(error.data.message);
@@ -56,12 +56,12 @@ const ResetForm = () => {
         <FormBody>
           <Typography
             sx={{
-              fontWeight: `700`,
-              fontSize: `1.5rem`,
-              color: `primary.main`,
-              marginBottom: `2rem`,
-              textTransform: `capitalize`,
-              textAlign: `center`,
+              fontWeight: '700',
+              fontSize: '1.5rem',
+              color: 'primary.main',
+              marginBottom: '2rem',
+              textTransform: 'capitalize',
+              textAlign: 'center',
             }}
           >
             Reset Password
@@ -77,8 +77,8 @@ const ResetForm = () => {
           </Typography> */}
           <Formik
             initialValues={{
-              newPassword: ``,
-              confirmPassword: ``,
+              newPassword: '',
+              confirmPassword: '',
             }}
             onSubmit={(values) => submitCredentials(values)}
             validationSchema={OtpSchema}
@@ -104,7 +104,7 @@ const ResetForm = () => {
                     <FormInput
                       ariaLabel="Password"
                       name="newPassword"
-                      type={showPassword ? `text` : `password`}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Password"
                     />
                     <div
@@ -123,7 +123,7 @@ const ResetForm = () => {
                     <FormInput
                       ariaLabel="confirmPassword"
                       name="confirmPassword"
-                      type={showConfirmPassword ? `text` : `password`}
+                      type={showConfirmPassword ? 'text' : 'password'}
                       placeholder="Confirm Password"
                     />
                     <div
@@ -159,53 +159,53 @@ const ResetForm = () => {
   );
 };
 
-const FormWrapper = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `60%`,
-  height: `100%`,
-  paddingTop: `4rem`,
+const FormWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '60%',
+  height: '100%',
+  paddingTop: '4rem',
 
   '@media (max-width: 900px)': {
-    width: `100%`,
+    width: '100%',
   },
 
   form: {
-    width: `100%`,
+    width: '100%',
   },
 });
 
-const FormBody = styled(`div`)({
-  width: `50%`,
+const FormBody = styled('div')({
+  width: '50%',
 
   '@media (max-width: 1020px)': {
-    width: `80%`,
-    padding: `2rem 0`,
+    width: '80%',
+    padding: '2rem 0',
   },
 });
 
-const PasswordControl = styled(`div`)(({ theme }: any) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }: any) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));
 
-const InputControl = styled(`div`)({
-  marginBottom: `0.8rem`,
+const InputControl = styled('div')({
+  marginBottom: '0.8rem',
 });
 
 export default ResetForm;

@@ -4,11 +4,11 @@ import cookie from 'cookie';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const result = await fetch(
-      `https://api.dev.easeplan.io/api/v2/auth/verify_google`,
+      'https://api.dev.easeplan.io/api/v2/auth/verify_google',
       {
-        method: `POST`,
+        method: 'POST',
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ token: req.body.token }),
       },
@@ -16,13 +16,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const data = await result.json();
     res.setHeader(
-      `Set-Cookie`,
-      cookie.serialize(`token`, data.token, {
+      'Set-Cookie',
+      cookie.serialize('token', data.token, {
         httpOnly: true,
-        secure: process.env.NEXT_PUBLIC_NODE_ENV !== `development`,
+        secure: process.env.NEXT_PUBLIC_NODE_ENV !== 'development',
         maxAge: 60 * 60 * 24 * 1, // 1 day
-        sameSite: `strict`,
-        path: `/`,
+        sameSite: 'strict',
+        path: '/',
       }),
     );
     res.status(200).json(data);

@@ -26,7 +26,7 @@ import GoogleButton from '../GoogleButton';
 import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 import posthog from 'posthog-js';
 
-const strengthLables = [`weak`, `medium`, `strong`];
+const strengthLables = ['weak', 'medium', 'strong'];
 
 const SignupForm = ({ modal }: any) => {
   const [signup] = useSignupMutation();
@@ -37,20 +37,20 @@ const SignupForm = ({ modal }: any) => {
   const [errorMsg, setErrorMsg] = useState<any>();
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
-  const [strength, setStrength] = useState(``);
-  const [passErr, setPassErr] = useState<string>(``);
-  const [emailErr, setEmailErr] = useState<string>(``);
-  const [email, setEmail] = useState(``);
-  const [password, setPassword] = useState(``);
+  const [strength, setStrength] = useState('');
+  const [passErr, setPassErr] = useState<string>('');
+  const [emailErr, setEmailErr] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const [isCheckedMsg, setIsCheckedMsg] = useState(``);
+  const [isCheckedMsg, setIsCheckedMsg] = useState('');
   const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
 
   const setReferedBy = () => {
-    const referedBy = localStorage.getItem(`referedBy`);
+    const referedBy = localStorage.getItem('referedBy');
     if (referedBy) {
       // If there`s a referral parameter, capture that event
-      posthog.capture(`sign-up`, {
+      posthog.capture('sign-up', {
         distinct_id: posthog.get_distinct_id(),
         referedBy: referedBy,
       });
@@ -103,26 +103,26 @@ const SignupForm = ({ modal }: any) => {
     event.preventDefault();
     const credentials = { email: email, password: password };
     if (!email) {
-      setEmailErr(`email is required`);
+      setEmailErr('email is required');
     } else if (!password) {
-      setPassErr(`password is required`);
+      setPassErr('password is required');
     } else if (!isChecked) {
-      setIsCheckedMsg(`Terms and Condition is required`);
+      setIsCheckedMsg('Terms and Condition is required');
     } else {
-      setIsCheckedMsg(``);
-      setPassErr(``);
-      setEmailErr(``);
+      setIsCheckedMsg('');
+      setPassErr('');
+      setEmailErr('');
       try {
         setIsLoading(true);
         // const res = await signup(credentials).unwrap();
-        const res = await axios.post(`/api/signup`, credentials);
+        const res = await axios.post('/api/signup', credentials);
         toast.success(res?.data?.message);
-        localStorage.setItem(`authUser`, res?.data?.user?._id);
+        localStorage.setItem('authUser', res?.data?.user?._id);
         // dispatch(setCredentials(res?.data?.user?._id));
         setReferedBy();
         // Saving user email, to send along with the verification token
-        if (typeof window !== `undefined`) {
-          localStorage.setItem(`userEmail`, `${email}`);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('userEmail', `${email}`);
         }
         setVerificationModal(true);
       } catch (error: any) {
@@ -143,20 +143,20 @@ const SignupForm = ({ modal }: any) => {
   const responseGoogle = async (response: any) => {
     try {
       if (response.access_token) {
-        const result = await fetch(`/api/google-auth`, {
-          method: `POST`,
+        const result = await fetch('/api/google-auth', {
+          method: 'POST',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ token: response.access_token }),
         });
 
         const data = await result.json();
-        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
+        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
           dispatch(setCloseModal(false));
-          router.push(`/user/findvendors`);
+          router.push('/user/findvendors');
           setReferedBy();
         }
       }
@@ -186,44 +186,44 @@ const SignupForm = ({ modal }: any) => {
             <Box
               sx={{
                 width: {
-                  xs: `80%`,
-                  sm: `90%`,
-                  md: `50%`,
-                  lg: `45%`,
-                  xl: `45%`,
+                  xs: '80%',
+                  sm: '90%',
+                  md: '50%',
+                  lg: '45%',
+                  xl: '45%',
                 },
               }}
             >
               <Typography
                 sx={{
-                  fontWeight: `700`,
+                  fontWeight: '700',
                   fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
+                    xs: '1.2rem',
+                    sm: '1.2rem',
+                    md: '1.5rem',
+                    lg: '1.5rem',
                   },
-                  color: `primary.main`,
-                  marginBottom: `2rem`,
-                  textTransform: `inherit`,
-                  textAlign: `center`,
+                  color: 'primary.main',
+                  marginBottom: '2rem',
+                  textTransform: 'inherit',
+                  textAlign: 'center',
                 }}
               >
-                Signup To {modal ? `contiune` : `Easeplan`}
+                Signup To {modal ? 'contiune' : 'Easeplan'}
               </Typography>
-              <Box sx={{ display: `flex`, flexDirection: `column` }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <GoogleButton
                   onClick={handleGoogleLogin}
                   text="Sign up with Google"
                 />
                 <Box
                   sx={{
-                    textAlign: `center`,
+                    textAlign: 'center',
                     mt: 1,
                     mb: 1,
-                    fontWeight: `bold`,
-                    fontSize: `0.8rem`,
-                    color: `primary.main`,
+                    fontWeight: 'bold',
+                    fontSize: '0.8rem',
+                    color: 'primary.main',
                   }}
                 >
                   OR
@@ -253,7 +253,7 @@ const SignupForm = ({ modal }: any) => {
                       name="password"
                       value={password}
                       strength={strength}
-                      type={showPassword ? `text` : `password`}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Password"
                       onChange={handleChange}
                     />
@@ -279,9 +279,9 @@ const SignupForm = ({ modal }: any) => {
                   <Box>
                     <Box
                       sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                        cursor: `pointer`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
                       }}
                     >
                       <Checkbox
@@ -301,10 +301,10 @@ const SignupForm = ({ modal }: any) => {
                   </Box>
                 </RememberDiv>
                 <Footer>
-                  Already a member?{` `}
+                  Already a member?{' '}
                   {modal ? (
                     <Button
-                      sx={{ fontWeight: `bold` }}
+                      sx={{ fontWeight: 'bold' }}
                       onClick={() => dispatch(isLogin(true))}
                     >
                       Login
@@ -324,80 +324,80 @@ const SignupForm = ({ modal }: any) => {
   );
 };
 
-const FormWrapper = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `100%`,
-  paddingTop: `4rem`,
+const FormWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  paddingTop: '4rem',
 
   form: {
-    width: `100%`,
+    width: '100%',
   },
 });
 
-const FormBody = styled(`div`)({
-  width: `50%`,
+const FormBody = styled('div')({
+  width: '50%',
 
   '@media (max-width: 1020px)': {
-    width: `80%`,
-    padding: `2rem 0`,
+    width: '80%',
+    padding: '2rem 0',
   },
 });
 
-const PasswordControl = styled(`div`)(({ theme }: any) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }: any) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
     },
   },
 }));
 
-const InputControl = styled(`div`)({
-  marginBottom: `0.3rem`,
+const InputControl = styled('div')({
+  marginBottom: '0.3rem',
 });
 
-const RememberDiv = styled(`div`)(({ theme }: any) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `1rem`,
-  justifyContent: `space-between`,
-  fontSize: `0.9rem`,
-  fontWeight: `600`,
+const RememberDiv = styled('div')(({ theme }: any) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: '1rem',
+  justifyContent: 'space-between',
+  fontSize: '0.9rem',
+  fontWeight: '600',
 
   '.forgotPassword': {
     color: theme.palette.primary.main,
   },
 }));
 
-const Title = styled(`h3`)(({ theme }: any) => ({
-  fontWeight: `700`,
-  fontSize: `1.5rem`,
+const Title = styled('h3')(({ theme }: any) => ({
+  fontWeight: '700',
+  fontSize: '1.5rem',
   color: theme.palette.primary.main,
-  marginBottom: `1.5rem`,
+  marginBottom: '1.5rem',
 }));
 
-const Footer = styled(`p`)(({ theme }: any) => ({
-  borderTop: `solid 1px #ccc`,
-  marginTop: `0.8rem`,
-  paddingTop: `0.8rem`,
-  textAlign: `center`,
-  letterSpacing: `0.5px`,
-  fontSize: `1rem`,
+const Footer = styled('p')(({ theme }: any) => ({
+  borderTop: 'solid 1px #ccc',
+  marginTop: '0.8rem',
+  paddingTop: '0.8rem',
+  textAlign: 'center',
+  letterSpacing: '0.5px',
+  fontSize: '1rem',
   color: theme.palette.primary.main,
 
   '.link': {
     color: theme.palette.primary.main,
-    fontWeight: `700`,
+    fontWeight: '700',
   },
 }));
 

@@ -31,28 +31,28 @@ const links = [
   {
     id: 2,
     icon: (
-      <StyleIcon sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }} />
+      <StyleIcon sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }} />
     ),
-    text: `My Events`,
-    href: `/user/events`,
+    text: 'My Events',
+    href: '/user/events',
   },
   {
     id: 3,
     icon: (
       <InsertCommentIcon
-        sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+        sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
       />
     ),
-    text: `Chats`,
-    href: `/user/chat`,
+    text: 'Chats',
+    href: '/user/chat',
   },
   {
     id: 4,
     icon: (
-      <SettingsIcon sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }} />
+      <SettingsIcon sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }} />
     ),
-    text: `Settings`,
-    href: `/user/settings`,
+    text: 'Settings',
+    href: '/user/settings',
   },
   // {
   //   id: 5,
@@ -71,16 +71,16 @@ const NavItems = ({ data }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
-  const isProvider = localStorage.getItem(`isProvider`);
+  const isProvider = localStorage.getItem('isProvider');
 
   const handleLogout = async () => {
     try {
-      const data = await axios.post(`/api/logout`);
+      const data = await axios.post('/api/logout');
 
-      if (data?.data?.message === `Success`) {
+      if (data?.data?.message === 'Success') {
         setLoginModal(false);
         dispatch(clearCredentials());
-        router.push(`/user/findvendors`);
+        router.push('/user/findvendors');
       }
     } catch (error: any) {}
   };
@@ -92,12 +92,12 @@ const NavItems = ({ data }: any) => {
 
   const handledBecomeAVendor = () => {
     if (data) {
-      router.push(`/account/onboard`);
+      router.push('/account/onboard');
     } else {
       dispatch(setCloseModal(true));
       setLoginModal(true);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, `/account/onboard`);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastVisitedURL', '/account/onboard');
       }
     }
   };
@@ -108,9 +108,9 @@ const NavItems = ({ data }: any) => {
         <Box>
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Tooltip title="Open settings">
@@ -123,7 +123,7 @@ const NavItems = ({ data }: any) => {
                       width: 56,
                       height: 56,
                       mt: 5,
-                      backgroundColor: `primary.main`,
+                      backgroundColor: 'primary.main',
                     }}
                   />
                 ) : (
@@ -134,7 +134,7 @@ const NavItems = ({ data }: any) => {
                       width: 56,
                       height: 56,
                       mt: 5,
-                      backgroundColor: `primary.main`,
+                      backgroundColor: 'primary.main',
                     }}
                   />
                 )}
@@ -151,7 +151,7 @@ const NavItems = ({ data }: any) => {
               <Stack
                 direction="row"
                 sx={{
-                  alignItems: `center`,
+                  alignItems: 'center',
                   mb: {
                     xs: 3,
                     sm: 3,
@@ -162,7 +162,7 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 <AddBusinessIcon
-                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                  sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />
                 <NavLink text="Dashboard" href="/account" />
               </Stack>
@@ -170,7 +170,7 @@ const NavItems = ({ data }: any) => {
             <Stack
               direction="row"
               sx={{
-                alignItems: `center`,
+                alignItems: 'center',
                 mb: {
                   xs: 3,
                   sm: 3,
@@ -181,10 +181,10 @@ const NavItems = ({ data }: any) => {
               }}
             >
               <GroupIcon
-                sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
               />
 
-              <NavLink text="Find Vendors" href="user/findvendors" />
+              <NavLink text="Find Vendors" href="/findvendors" />
             </Stack>
             {!isProvider &&
               links?.map((link) => (
@@ -192,7 +192,7 @@ const NavItems = ({ data }: any) => {
                   key={link.id}
                   direction="row"
                   sx={{
-                    alignItems: `center`,
+                    alignItems: 'center',
                     mb: {
                       xs: 3,
                       sm: 3,
@@ -214,7 +214,7 @@ const NavItems = ({ data }: any) => {
               <Stack
                 direction="row"
                 sx={{
-                  alignItems: `center`,
+                  alignItems: 'center',
                   mb: {
                     xs: 3,
                     sm: 3,
@@ -225,7 +225,7 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 <AddBusinessIcon
-                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                  sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />
                 <NavLink
                   text="Become a vendor"
@@ -237,7 +237,7 @@ const NavItems = ({ data }: any) => {
               <Stack
                 direction="row"
                 sx={{
-                  alignItems: `center`,
+                  alignItems: 'center',
                   mb: {
                     xs: 3,
                     sm: 3,
@@ -248,7 +248,7 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 <LoginIcon
-                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                  sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />
                 <NavLink text="Login" onClick={handleLoginModal} />
               </Stack>
@@ -256,7 +256,7 @@ const NavItems = ({ data }: any) => {
               <Stack
                 direction="row"
                 sx={{
-                  alignItems: `center`,
+                  alignItems: 'center',
                   mb: {
                     xs: 3,
                     sm: 3,
@@ -267,15 +267,15 @@ const NavItems = ({ data }: any) => {
                 }}
               >
                 <LoginIcon
-                  sx={{ mr: 1, fontSize: `1.5rem`, color: `primary.main` }}
+                  sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />
                 <NavLink text="Logout" onClick={handleLogout} />
               </Stack>
             )}
             <Button variant="contained" sx={{ mt: 8 }}>
-              <Stack direction="row" sx={{ alignItems: `center` }}>
+              <Stack direction="row" sx={{ alignItems: 'center' }}>
                 <RateReviewIcon
-                  sx={{ mr: 1, fontSize: `1.5rem`, color: `secondary.light` }}
+                  sx={{ mr: 1, fontSize: '1.5rem', color: 'secondary.light' }}
                 />
                 Feedback
               </Stack>

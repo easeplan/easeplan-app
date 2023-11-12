@@ -23,7 +23,7 @@ const EventsPage = ({ token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -46,7 +46,7 @@ const EventsPage = ({ token }: any) => {
         <Stack
           direction="row"
           sx={{
-            alignItems: `center`,
+            alignItems: 'center',
             mb: {
               xs: 3,
               sm: 3,
@@ -65,16 +65,16 @@ const EventsPage = ({ token }: any) => {
         >
           <StyleIcon
             sx={{
-              color: `primary.main`,
-              fontSize: `1.5rem`,
+              color: 'primary.main',
+              fontSize: '1.5rem',
               mr: 1,
             }}
           />
           <Typography
             sx={{
               fontWeight: 500,
-              color: `primary.main`,
-              fontSize: `1.5rem`,
+              color: 'primary.main',
+              fontSize: '1.5rem',
             }}
           >
             My Events
@@ -88,22 +88,22 @@ const EventsPage = ({ token }: any) => {
               key={contract._id}
               direction="row"
               sx={{
-                justifyContent: `space-around`,
-                alignItems: `center`,
-                border: `solid 1px #ccc`,
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                border: 'solid 1px #ccc',
                 p: 2,
-                borderRadius: `10px`,
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                borderRadius: '10px',
+                boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 mb: 2,
-                backgroundColor: `#fff`,
-                cursor: `pointer`,
+                backgroundColor: '#fff',
+                cursor: 'pointer',
               }}
             >
               <Box>
                 <Box
                   sx={{
-                    margin: `0 auto`,
-                    textAlign: `center`,
+                    margin: '0 auto',
+                    textAlign: 'center',
                   }}
                 >
                   <Avatar
@@ -114,7 +114,7 @@ const EventsPage = ({ token }: any) => {
                       height: 56,
                       mt: 2,
                       mb: 2,
-                      backgroundColor: `primary.main`,
+                      backgroundColor: 'primary.main',
                     }}
                   />
                 </Box>

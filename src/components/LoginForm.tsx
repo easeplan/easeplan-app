@@ -22,8 +22,8 @@ import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 import VerifiactionModal from './VerifiactionModal';
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().required(`Email is required`),
-  password: Yup.string().required(`Password is required`),
+  email: Yup.string().required('Email is required'),
+  password: Yup.string().required('Password is required'),
 });
 
 const LoginForm = ({ modal }: any) => {
@@ -38,7 +38,7 @@ const LoginForm = ({ modal }: any) => {
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
 
   const [userName] = useState<any>(
-    typeof window !== `undefined` ? localStorage.getItem(`userName`) : ``,
+    typeof window !== 'undefined' ? localStorage.getItem('userName') : '',
   );
   const lastVisitedURL = useLastVisitedURL();
 
@@ -57,17 +57,17 @@ const LoginForm = ({ modal }: any) => {
       if (lastVisitedURL) {
         router.push(lastVisitedURL);
       } else {
-        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
+        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
         dispatch(setCloseModal(false));
-        router.push(`/user/findvendors`); // Redirect to the home page if no lastVisitedURL is available
+        router.push('/user/findvendors'); // Redirect to the home page if no lastVisitedURL is available
       }
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`userEmail`, `${credentials.email}`);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('userEmail', `${credentials.email}`);
       }
     } catch (error: any) {
       setIsLoading(false);
       setErrorMsg(error.data?.error);
-      if (error.data?.error === `Verify your email to login`) {
+      if (error.data?.error === 'Verify your email to login') {
         setVerificationModal(true);
       }
     }
@@ -77,19 +77,19 @@ const LoginForm = ({ modal }: any) => {
   const responseGoogle = async (response: any) => {
     try {
       if (response.access_token) {
-        const result = await fetch(`/api/google-auth`, {
-          method: `POST`,
+        const result = await fetch('/api/google-auth', {
+          method: 'POST',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ token: response.access_token }),
         });
 
         const data = await result.json();
-        localStorage.setItem(`isProvider`, `${!!data.user?.providerProfile}`);
+        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
         dispatch(setCredentials(data?.user?._id));
         if (data.success === true) {
-          router.push(`/user/findvendors`);
+          router.push('/user/findvendors');
           dispatch(isLogin(false));
           dispatch(setCloseModal(false));
         }
@@ -116,28 +116,28 @@ const LoginForm = ({ modal }: any) => {
           <Box
             sx={{
               width: {
-                xs: `80%`,
-                sm: `90%`,
-                md: `50%`,
-                lg: `45%`,
-                xl: `45%`,
-                paddingBottom: `1rem`,
+                xs: '80%',
+                sm: '90%',
+                md: '50%',
+                lg: '45%',
+                xl: '45%',
+                paddingBottom: '1rem',
               },
             }}
           >
             {userName ? (
               <Typography
                 sx={{
-                  fontWeight: `700`,
+                  fontWeight: '700',
                   fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
+                    xs: '1rem',
+                    sm: '1rem',
+                    md: '1.5rem',
+                    lg: '1.5rem',
                   },
-                  color: `primary.main`,
-                  marginBottom: `2rem`,
-                  textTransform: `capitalize`,
+                  color: 'primary.main',
+                  marginBottom: '2rem',
+                  textTransform: 'capitalize',
                 }}
               >
                 Welcome back, {userName}
@@ -145,35 +145,35 @@ const LoginForm = ({ modal }: any) => {
             ) : (
               <Typography
                 sx={{
-                  fontWeight: `700`,
+                  fontWeight: '700',
                   fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
+                    xs: '1.2rem',
+                    sm: '1.2rem',
+                    md: '1.5rem',
+                    lg: '1.5rem',
                   },
-                  color: `primary.main`,
-                  marginBottom: `2rem`,
-                  textTransform: `capitalize`,
-                  textAlign: `center`,
+                  color: 'primary.main',
+                  marginBottom: '2rem',
+                  textTransform: 'capitalize',
+                  textAlign: 'center',
                 }}
               >
-                Login To {modal ? `Continue` : `Easeplan`}
+                Login To {modal ? 'Continue' : 'Easeplan'}
               </Typography>
             )}
-            <Box sx={{ display: `flex`, flexDirection: `column` }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <GoogleButton
                 onClick={handleGoogleLogin}
                 text="Log in with Google"
               />
               <Box
                 sx={{
-                  textAlign: `center`,
+                  textAlign: 'center',
                   mt: 1,
                   mb: 1,
-                  fontWeight: `bold`,
-                  fontSize: `0.8rem`,
-                  color: `primary.main`,
+                  fontWeight: 'bold',
+                  fontSize: '0.8rem',
+                  color: 'primary.main',
                 }}
               >
                 OR
@@ -181,8 +181,8 @@ const LoginForm = ({ modal }: any) => {
             </Box>
             <Formik
               initialValues={{
-                email: ``,
-                password: ``,
+                email: '',
+                password: '',
               }}
               onSubmit={(values) => submitCredentials(values)}
               validationSchema={LoginSchema}
@@ -207,7 +207,7 @@ const LoginForm = ({ modal }: any) => {
                       <FormInput
                         ariaLabel="Password"
                         name="password"
-                        type={showPassword ? `text` : `password`}
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Password"
                       />
                       <div className="password" onClick={handleShowPassword}>
@@ -233,10 +233,10 @@ const LoginForm = ({ modal }: any) => {
                     </Link>
                   </RememberDiv>
                   <Footer>
-                    Not a member yet?{` `}
+                    Not a member yet?{' '}
                     {modal ? (
                       <Button
-                        sx={{ fontWeight: `bold` }}
+                        sx={{ fontWeight: 'bold' }}
                         onClick={() => dispatch(isLogin(false))}
                       >
                         Sign up
@@ -257,75 +257,75 @@ const LoginForm = ({ modal }: any) => {
   );
 };
 
-const FormWrapper = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `100%`,
-  height: `100%`,
-  paddingTop: `4rem`,
+const FormWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
+  paddingTop: '4rem',
 
   form: {
-    width: `100%`,
+    width: '100%',
   },
 });
 
-const FormBody = styled(`div`)({
-  width: `40%`,
+const FormBody = styled('div')({
+  width: '40%',
 
   '@media (max-width: 1020px)': {
-    width: `80%`,
-    padding: `2rem 0`,
+    width: '80%',
+    padding: '2rem 0',
   },
 });
 
-const PasswordControl = styled(`div`)(({ theme }: any) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }: any) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.1rem`,
-      right: `1rem`,
+      position: 'absolute',
+      top: '1.1rem',
+      right: '1rem',
     },
   },
 }));
 
-const InputControl = styled(`div`)({
-  marginBottom: `0.8rem`,
+const InputControl = styled('div')({
+  marginBottom: '0.8rem',
 });
 
-const RememberDiv = styled(`div`)(({ theme }: any) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `1rem`,
-  justifyContent: `space-between`,
-  fontSize: `0.9rem`,
+const RememberDiv = styled('div')(({ theme }: any) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: '1rem',
+  justifyContent: 'space-between',
+  fontSize: '0.9rem',
 
   '.forgotPassword': {
     color: theme.palette.primary.main,
-    fontWeight: `500`,
+    fontWeight: '500',
   },
 }));
 
-const Footer = styled(`p`)(({ theme }: any) => ({
-  borderTop: `solid 1px #ccc`,
-  marginTop: `0.8rem`,
-  paddingTop: `0.8rem`,
-  textAlign: `center`,
-  letterSpacing: `0.5px`,
-  fontSize: `1rem`,
+const Footer = styled('p')(({ theme }: any) => ({
+  borderTop: 'solid 1px #ccc',
+  marginTop: '0.8rem',
+  paddingTop: '0.8rem',
+  textAlign: 'center',
+  letterSpacing: '0.5px',
+  fontSize: '1rem',
   color: theme.palette.primary.main,
 
   '.link': {
     color: theme.palette.primary.main,
-    fontWeight: `700`,
+    fontWeight: '700',
   },
 }));
 

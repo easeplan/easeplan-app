@@ -16,30 +16,30 @@ const ProfilePhoto = ({ token, queryData }: any) => {
     <Box
       sx={{
         width: {
-          xs: `70px`,
-          sm: `70px`,
-          md: `100px`,
-          lg: `150px`,
-          xl: `150px`,
+          xs: '70px',
+          sm: '70px',
+          md: '100px',
+          lg: '150px',
+          xl: '150px',
         },
         height: {
-          xs: `70px`,
-          sm: `70px`,
-          md: `100px`,
-          lg: `150px`,
-          xl: `150px`,
+          xs: '70px',
+          sm: '70px',
+          md: '100px',
+          lg: '150px',
+          xl: '150px',
         },
-        position: `absolute`,
-        borderRadius: `50%`,
+        position: 'absolute',
+        borderRadius: '50%',
         bottom: {
-          xs: `-2rem`,
-          sm: `-2rem`,
-          md: `-4rem`,
-          lg: `-4rem`,
+          xs: '-2rem',
+          sm: '-2rem',
+          md: '-4rem',
+          lg: '-4rem',
         },
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-        backgroundColor: `#fff`,
-        border: `solid 4px #fff`,
+        boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#fff',
+        border: 'solid 4px #fff',
       }}
     >
       <Box>
@@ -57,9 +57,9 @@ const ProfilePhoto = ({ token, queryData }: any) => {
           alt="bannerImage"
           fill
           style={{
-            width: `100%`,
-            borderRadius: `50%`,
-            objectFit: `cover`,
+            width: '100%',
+            borderRadius: '50%',
+            objectFit: 'cover',
           }}
         />
       </Box>
@@ -67,24 +67,24 @@ const ProfilePhoto = ({ token, queryData }: any) => {
   );
 };
 
-const ChangeCoverImg = styled(`div`)(({ theme }) => ({
-  position: `absolute`,
-  bottom: `0.2rem`,
-  right: `-1.4rem`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  fontSize: `1.7rem`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  width: `50px`,
-  height: `50px`,
-  background: `#fff`,
-  borderRadius: `50%`,
+const ChangeCoverImg = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  bottom: '0.2rem',
+  right: '-1.4rem',
+  zIndex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  fontSize: '1.7rem',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  width: '50px',
+  height: '50px',
+  background: '#fff',
+  borderRadius: '50%',
   color: theme.palette.primary.main,
-  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
 
   '&:hover': {
     backgroundColor: theme.palette.primary.light,
@@ -92,11 +92,11 @@ const ChangeCoverImg = styled(`div`)(({ theme }) => ({
   },
 
   '@media (max-width: 900px)': {
-    width: `40px`,
-    height: `40px`,
+    width: '40px',
+    height: '40px',
 
     '.icon': {
-      fontSize: `1.2rem`,
+      fontSize: '1.2rem',
     },
   },
 }));

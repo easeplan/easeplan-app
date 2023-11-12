@@ -18,8 +18,8 @@ const SelectAccountType = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      const email = localStorage.getItem(`userEmail`);
+    if (typeof window !== 'undefined') {
+      const email = localStorage.getItem('userEmail');
       setUserEmail(email);
     }
   }, []);
@@ -30,13 +30,13 @@ const SelectAccountType = () => {
       const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
         {
-          role: `user`,
+          role: 'user',
           email: `${userEmail}`,
         },
       );
       const { role, onboardStage, _id } = data?.data;
       dispatch(setCredentials({ role, onboardStage, _id }));
-      router.push(`/onboarding`);
+      router.push('/onboarding');
     } catch (error: any) {
       setIsLoading(false);
       console.log(error);
@@ -68,14 +68,14 @@ const SelectAccountType = () => {
       const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/users/add-role`,
         {
-          role: `provider`,
+          role: 'provider',
           email: `${userEmail}`,
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         const { role, onboardStage, _id } = data?.data;
         dispatch(setCredentials({ role, onboardStage, _id }));
-        router.push(`/onboarding`);
+        router.push('/onboarding');
       }
     } catch (error: any) {
       setIsLoading(false);
@@ -86,18 +86,18 @@ const SelectAccountType = () => {
   return (
     <>
       <Box
-        style={{ zIndex: `99` }}
+        style={{ zIndex: '99' }}
         sx={{
-          position: `fixed`,
-          top: `0`,
-          right: `0`,
-          width: `100%`,
-          height: `100vh`,
+          position: 'fixed',
+          top: '0',
+          right: '0',
+          width: '100%',
+          height: '100vh',
           background: `${theme.palette.primary.main}`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `center`,
-          textAlign: `center`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
         }}
       >
         <Container fixed>
@@ -108,12 +108,12 @@ const SelectAccountType = () => {
               <Typography
                 sx={{
                   fontSize: {
-                    xs: `1.5rem`,
-                    sm: `2rem`,
-                    md: `2.5rem`,
-                    lg: `2.5rem`,
+                    xs: '1.5rem',
+                    sm: '2rem',
+                    md: '2.5rem',
+                    lg: '2.5rem',
                   },
-                  fontWeight: `bold`,
+                  fontWeight: 'bold',
                   color: `${theme.palette.secondary.light}`,
                 }}
               >
@@ -130,13 +130,13 @@ const SelectAccountType = () => {
                   <Card
                     onClick={updateUserRole}
                     sx={{
-                      minHeight: `250px`,
+                      minHeight: '250px',
                       // height: `400px`,
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      textAlign: `center`,
-                      cursor: `pointer`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      cursor: 'pointer',
                       p: 2,
                       '&:hover': {
                         background: `${theme.palette.secondary.light}`,
@@ -153,12 +153,12 @@ const SelectAccountType = () => {
                       <Typography
                         sx={{
                           fontSize: {
-                            xs: `1rem`,
-                            sm: `1rem`,
-                            md: `1.2rem`,
-                            lg: `1.2rem`,
+                            xs: '1rem',
+                            sm: '1rem',
+                            md: '1.2rem',
+                            lg: '1.2rem',
                           },
-                          fontWeight: `700`,
+                          fontWeight: '700',
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom
@@ -214,11 +214,11 @@ const SelectAccountType = () => {
                     onClick={updateVendorRole}
                     sx={{
                       // minHeight: `200px`,
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      textAlign: `center`,
-                      cursor: `pointer`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      cursor: 'pointer',
                       p: 2,
                       '&:hover': {
                         background: `${theme.palette.secondary.light}`,
@@ -235,12 +235,12 @@ const SelectAccountType = () => {
                       <Typography
                         sx={{
                           fontSize: {
-                            xs: `1rem`,
-                            sm: `1rem`,
-                            md: `1.2rem`,
-                            lg: `1.2rem`,
+                            xs: '1rem',
+                            sm: '1rem',
+                            md: '1.2rem',
+                            lg: '1.2rem',
                           },
-                          fontWeight: `700`,
+                          fontWeight: '700',
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom
@@ -249,7 +249,7 @@ const SelectAccountType = () => {
                       </Typography>
                       <Typography
                         sx={{
-                          fontSize: `0.7rem`,
+                          fontSize: '0.7rem',
                           color: `${theme.palette.primary.main}`,
                         }}
                         gutterBottom

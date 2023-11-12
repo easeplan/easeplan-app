@@ -18,26 +18,26 @@ import DragAndDropInput from '../common/DragAndDropInput';
 import { styled } from '@mui/material/styles';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `8px`,
+  borderRadius: '8px',
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  preEventImage: Yup.string().required(`Image is missing`),
+  preEventImage: Yup.string().required('Image is missing'),
 });
 
 interface updateTypes {
@@ -52,13 +52,13 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}/add-sample`, credentials, {
         headers: {
-          'Content-Type': `multipart/form-data`,
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Event Datails Added`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Event Datails Added');
       isClose(false);
     },
     onError: (error: any) => {
@@ -68,7 +68,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const handleEventSubmit = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`sampleImage`, credentials.preEventImage);
+    formData.append('sampleImage', credentials.preEventImage);
     const data = {
       sampleImage: credentials.preEventImage,
     };
@@ -103,7 +103,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    preEventImage: ``,
+                    preEventImage: '',
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -128,9 +128,9 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box
                           mt={2}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -143,13 +143,13 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Save`
+                              'Save'
                             )}
                           </CustomButton>
                           <Typography
                             sx={{
-                              cursor: `pointer`,
-                              textAlign: `center`,
+                              cursor: 'pointer',
+                              textAlign: 'center',
                             }}
                             onClick={isClose}
                           >

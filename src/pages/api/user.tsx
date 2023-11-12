@@ -15,7 +15,7 @@ export default async (
   const { token } = parseCookies(req);
 
   if (!token) {
-    res.status(401).json({ error: `Unauthorized` });
+    res.status(401).json({ error: 'Unauthorized' });
     return;
   }
 
@@ -23,7 +23,7 @@ export default async (
     `${process.env.NEXT_PUBLIC_API_URL}/providers/profile`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },

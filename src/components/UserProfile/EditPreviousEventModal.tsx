@@ -19,26 +19,26 @@ import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `8px`,
+  borderRadius: '8px',
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  editeventImage: Yup.string().required(`Image is missing`),
+  editeventImage: Yup.string().required('Image is missing'),
 });
 
 const EditPreviousEventModal = ({
@@ -58,14 +58,14 @@ const EditPreviousEventModal = ({
         credentials,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Event Updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Event Updated');
       isClose(false);
     },
     onError: (error: any) => {
@@ -75,7 +75,7 @@ const EditPreviousEventModal = ({
 
   const handleEventSubmit = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`sampleImage`, credentials.editeventImage);
+    formData.append('sampleImage', credentials.editeventImage);
     const data = {
       sampleImage: credentials.editeventImage,
     };
@@ -110,7 +110,7 @@ const EditPreviousEventModal = ({
               <Box>
                 <Formik
                   initialValues={{
-                    editeventImage: ``,
+                    editeventImage: '',
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -125,9 +125,9 @@ const EditPreviousEventModal = ({
                         <Box
                           mt={2}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -140,13 +140,13 @@ const EditPreviousEventModal = ({
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Save`
+                              'Save'
                             )}
                           </CustomButton>
                           <Typography
                             sx={{
-                              cursor: `pointer`,
-                              textAlign: `center`,
+                              cursor: 'pointer',
+                              textAlign: 'center',
                             }}
                             onClick={isClose}
                           >

@@ -31,9 +31,9 @@ const AddPreviousSection = ({ token }: PropsTypes) => {
   return (
     <>
       {stepFive && (
-        <Box sx={{ display: `flex`, height: `100%` }}>
+        <Box sx={{ display: 'flex', height: '100%' }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -42,20 +42,20 @@ const AddPreviousSection = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Box>

@@ -23,7 +23,7 @@ const TicketIcon = createSvgIcon(
       fill="#FF9914"
     />
   </svg>,
-  `TicketIcon`,
+  'TicketIcon',
 );
 
 const TicketIconGrey = createSvgIcon(
@@ -40,17 +40,17 @@ const TicketIconGrey = createSvgIcon(
       fill="#134153"
     />
   </svg>,
-  `TicketIconGrey`,
+  'TicketIconGrey',
 );
 
 function formatTimeTo12Hour(date: Date) {
   if (!(date instanceof Date)) {
-    throw new Error(`Invalid Date object.`);
+    throw new Error('Invalid Date object.');
   }
 
-  const formattedTime = date.toLocaleTimeString(`en-US`, {
-    hour: `numeric`,
-    minute: `2-digit`,
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
     hour12: true,
   });
 
@@ -60,24 +60,24 @@ function formatTimeTo12Hour(date: Date) {
 function Ticket({ title, ticketNo, message, createdAt, status }: TicketProps) {
   const time = useCallback(() => formatTimeTo12Hour(createdAt), [createdAt]);
   return (
-    <Box sx={{ background: `#ECFEF2`, padding: `20px`, mb: 3 }}>
+    <Box sx={{ background: '#ECFEF2', padding: '20px', mb: 3 }}>
       <Box>
         <Box
           sx={{
-            display: `flex`,
-            flexDirection: `row`,
-            justifyContent: `space-between`,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <Box sx={{ display: `flex` }}>
+          <Box sx={{ display: 'flex' }}>
             <Box
               sx={{
-                width: `20px`,
-                aspectRatio: `1/1`,
-                mr: `15px`,
+                width: '20px',
+                aspectRatio: '1/1',
+                mr: '15px',
               }}
             >
-              {status === `unresolved` ? <TicketIcon /> : <TicketIconGrey />}
+              {status === 'unresolved' ? <TicketIcon /> : <TicketIconGrey />}
             </Box>
             <Typography>Ticket {ticketNo}</Typography>
           </Box>
@@ -93,9 +93,9 @@ function Ticket({ title, ticketNo, message, createdAt, status }: TicketProps) {
         >
           <Typography
             sx={{
-              fontSize: `1.4rem`,
-              fontWeight: `bold`,
-              my: `.5rem`,
+              fontSize: '1.4rem',
+              fontWeight: 'bold',
+              my: '.5rem',
             }}
           >
             {title}
@@ -107,9 +107,9 @@ function Ticket({ title, ticketNo, message, createdAt, status }: TicketProps) {
   );
 }
 export enum TicketType {
-  ALL = `all`,
-  CLOSED = `closed`,
-  ACTIVE = `active`,
+  ALL = 'all',
+  CLOSED = 'closed',
+  ACTIVE = 'active',
 }
 
 type TicketListProps = {
@@ -118,27 +118,27 @@ type TicketListProps = {
 export default function TicketList({ type }: TicketListProps) {
   const tickets = [
     {
-      title: `Request Refund`,
-      ticketNo: `#1345 - 3457`,
+      title: 'Request Refund',
+      ticketNo: '#1345 - 3457',
       message: `Lorem ipsum dolor sit amet consectetur. 
         Sit diam neque in vestibulum cursus. Lacinia viverra 
         aenean rhoncus massa fusce eget. In netus diam faucibus 
         quis at purus. Ut id et odio adipiscing risus. Nunc 
         bibendum justo tellus amet malesuada et consequat. 
         Nibh aliquet purus bibendum.`,
-      status: `unresolved`,
-      createdAt: new Date(`2023-04-04`),
+      status: 'unresolved',
+      createdAt: new Date('2023-04-04'),
     },
     {
-      title: `Request Refund`,
-      ticketNo: `#1345 - 3456`,
+      title: 'Request Refund',
+      ticketNo: '#1345 - 3456',
       message: `Lorem ipsum dolor sit amet consectetur. 
         Sit diam neque in vestibulum cursus. Lacinia viverra 
         aenean rhoncus massa fusce eget. In netus diam faucibus 
         quis at purus. Ut id et odio adipiscing risus. Nunc 
         bibendum justo tellus amet malesuada et consequat. 
         Nibh aliquet purus bibendum.`,
-      status: `resolved`,
+      status: 'resolved',
       createdAt: new Date(),
     },
   ];
@@ -146,7 +146,7 @@ export default function TicketList({ type }: TicketListProps) {
   return (
     <Box
       sx={{
-        p: `10px`,
+        p: '10px',
       }}
     >
       {tickets.map((ticket, key) => (

@@ -8,11 +8,11 @@ const OnboardSlider = () => {
       <Box
         className="onboardingCoverImg"
         sx={{
-          position: `relative`,
-          width: `300px`,
-          height: `300px`,
-          margin: `6rem auto 3rem auto`,
-          borderRadius: `50%`,
+          position: 'relative',
+          width: '300px',
+          height: '300px',
+          margin: '6rem auto 3rem auto',
+          borderRadius: '50%',
         }}
       >
         <OnboardStickers bgColor="secondary.light" text="Find Event Planners" />

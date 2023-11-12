@@ -10,12 +10,12 @@ const PageTitle = ({ title }: TitleProps) => {
   return <Title>{title}</Title>;
 };
 
-const Title = styled(`h3`)(({ theme }) => ({
-  marginTop: `2rem`,
+const Title = styled('h3')(({ theme }) => ({
+  marginTop: '2rem',
   color: theme.palette.primary.main,
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 }));
 

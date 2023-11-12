@@ -22,15 +22,15 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 const ProfileSchema = Yup.object().shape({
-  homeAddress: Yup.string().required(`Missing field`),
-  officeAddress: Yup.string().required(`Missing field`),
-  phoneNumber: Yup.string().required(`Missing field`),
+  homeAddress: Yup.string().required('Missing field'),
+  officeAddress: Yup.string().required('Missing field'),
+  phoneNumber: Yup.string().required('Missing field'),
   idType: Yup.string(),
   idDocument: Yup.string(),
   introVideo: Yup.string(),
 });
 
-const idTypeData = [`International Passport`, `NIN`, `Drivers License`];
+const idTypeData = ['International Passport', 'NIN', 'Drivers License'];
 
 const VerifyAccountForm = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -45,23 +45,23 @@ const VerifyAccountForm = ({ token }: any) => {
     mutationFn: (credentials) =>
       customFetch.put(
         `/${
-          userInfo?.role === `provider`
+          userInfo?.role === 'provider'
             ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === `planner`
+            : userInfo?.role === 'planner'
             ? `planner-profiles/${userInfo?._id}`
             : `user-profiles/${userInfo?._id}`
         }/`,
         credentials,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -70,8 +70,8 @@ const VerifyAccountForm = ({ token }: any) => {
 
   const submitCredentials = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`idDocument`, credentials.idDocument);
-    formData.append(`introVideo`, credentials.introVideo);
+    formData.append('idDocument', credentials.idDocument);
+    formData.append('introVideo', credentials.introVideo);
     updateProfile(credentials);
   };
 
@@ -104,15 +104,15 @@ const VerifyAccountForm = ({ token }: any) => {
         initialValues={{
           homeAddress: queryData?.business?.homeAddress
             ? queryData?.business?.homeAddress
-            : ``,
+            : '',
           officeAddress: queryData?.business?.officeAddress
             ? queryData?.business?.officeAddress
-            : ``,
-          phoneNumber: queryData?.phoneNumber ? queryData?.phoneNumber : ``,
+            : '',
+          phoneNumber: queryData?.phoneNumber ? queryData?.phoneNumber : '',
           idType: queryData?.identityVerify?.idType
             ? queryData?.identityVerify?.idType
-            : ``,
-          idDocument: ``,
+            : '',
+          idDocument: '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
@@ -221,7 +221,7 @@ const VerifyAccountForm = ({ token }: any) => {
               </InputController>
             </Flex>
             <Divider />
-            <Box sx={{ textAlign: `right`, marginTop: `1rem` }}>
+            <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
               <CustomButton
                 bgPrimary
                 lgWidth="20%"
@@ -229,7 +229,7 @@ const VerifyAccountForm = ({ token }: any) => {
                 loadingText="Saving..."
                 type="submit"
               >
-                {isSuccess ? `SAVED ✔` : `SAVE`}
+                {isSuccess ? 'SAVED ✔' : 'SAVE'}
               </CustomButton>
             </Box>
           </Form>
@@ -239,152 +239,152 @@ const VerifyAccountForm = ({ token }: any) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const Flex = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
+    flexDirection: 'column',
+    gap: '2rem',
   },
 });
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  marginTop: `2rem`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
+  marginTop: '2rem',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));
 
-const FormFooter = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignContent: `center`,
-  justifyContent: `right`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const FormFooter = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignContent: 'center',
+  justifyContent: 'right',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginTop: `1rem`,
-    width: `35%`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginTop: '1rem',
+    width: '35%',
   },
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
+    flexDirection: 'column',
     '.flex': {
-      width: `100%`,
+      width: '100%',
     },
   },
 }));

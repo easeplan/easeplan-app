@@ -32,14 +32,14 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
     <div>
       <textarea
         style={{
-          width: `100%`,
-          padding: `1rem`,
-          border: `none`,
-          resize: `none`,
-          overflowY: `auto`,
-          fontSize: `1rem`,
-          outline: `none`,
-          background: `transparent`,
+          width: '100%',
+          padding: '1rem',
+          border: 'none',
+          resize: 'none',
+          overflowY: 'auto',
+          fontSize: '1rem',
+          outline: 'none',
+          background: 'transparent',
         }}
         {...field}
         {...props}
@@ -51,7 +51,7 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
 
 // Form Input Schema
 const ReviewFormSchema = Yup.object().shape({
-  review: Yup.string().required(`Review Message is required`),
+  review: Yup.string().required('Review Message is required'),
 });
 
 interface PropsTypes {
@@ -79,15 +79,15 @@ const ReviewFormFull = ({
   const queryClient = useQueryClient();
   const { mutate: updateReview, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/ratings`, credentials, {
+      customFetch.post('/ratings', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Thank you for your feedback.`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Thank you for your feedback.');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -95,15 +95,15 @@ const ReviewFormFull = ({
   });
 
   const labels: { [index: string]: string } = {
-    1: `1`,
-    2: `2`,
-    3: `3`,
-    4: `4`,
-    5: `5`,
+    1: '1',
+    2: '2',
+    3: '3',
+    4: '4',
+    5: '5',
   };
 
   function getLabelText(value: number) {
-    return `${value} Star${value !== 1 ? `s` : ``}, ${labels[value]}`;
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
   }
 
   const handleFormSubmit = async (credentials: FormTypes) => {
@@ -126,11 +126,11 @@ const ReviewFormFull = ({
   // };
 
   return (
-    <Box sx={{ display: `flex` }}>
+    <Box sx={{ display: 'flex' }}>
       {/* Form */}
       <Box
         sx={{
-          width: `100%`,
+          width: '100%',
           mt: 8,
         }}
       >
@@ -139,7 +139,7 @@ const ReviewFormFull = ({
             <h3 className="ea-heading-2">Rate Your Vendor</h3>
             <Rating
               name="hover-feedback"
-              size={`large`}
+              size={'large'}
               value={$rating}
               precision={0.5}
               getLabelText={getLabelText}
@@ -153,12 +153,12 @@ const ReviewFormFull = ({
             />
           </div>
         </div>
-        <Box sx={{ p: 2, border: `solid 1px #cccc` }}>
+        <Box sx={{ p: 2, border: 'solid 1px #cccc' }}>
           <p>Write your comments</p>
         </Box>
         <Formik
           initialValues={{
-            review: ``,
+            review: '',
           }}
           //validationSchema={ReviewFormSchema}
           onSubmit={(values, { resetForm }) => {
@@ -174,15 +174,15 @@ const ReviewFormFull = ({
         >
           {({}) => (
             <Form>
-              <Box sx={{ p: 2, border: `solid 1px #cccc`, borderTop: `0px` }}>
+              <Box sx={{ p: 2, border: 'solid 1px #cccc', borderTop: '0px' }}>
                 <TextArea
                   placeholder="Type Message Here!"
                   name="review"
-                  sx={{ border: `none` }}
+                  sx={{ border: 'none' }}
                   rows={6}
                 />
               </Box>
-              <Box sx={{ textAlign: `right`, p: 2, mt: 4 }}>
+              <Box sx={{ textAlign: 'right', p: 2, mt: 4 }}>
                 <CustomButton
                   bgPrimary
                   smWidth="70%"

@@ -27,7 +27,7 @@ const initialState: onboardState = {
 };
 
 export const onboardingSlice = createSlice({
-  name: `onboarding`,
+  name: 'onboarding',
   initialState,
   reducers: {
     setIntro: (state, action) => {

@@ -116,31 +116,31 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
       {intro && (
         <Box
           sx={{
-            display: `flex`,
-            height: `100vh`,
-            width: `100%`,
-            backgroundColor: `primary.main`,
+            display: 'flex',
+            height: '100vh',
+            width: '100%',
+            backgroundColor: 'primary.main',
           }}
         >
           <Box
             sx={{
-              width: `100%`,
+              width: '100%',
               display: {
-                xs: `flex`,
-                sm: `flex`,
-                md: `flex`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'flex',
+                sm: 'flex',
+                md: 'flex',
+                lg: 'flex',
+                xl: 'flex',
               },
-              alignItems: `center`,
+              alignItems: 'center',
               px: {
-                xs: `2rem`,
-                sm: `2rem`,
-                md: `4rem`,
-                lg: `6rem`,
+                xs: '2rem',
+                sm: '2rem',
+                md: '4rem',
+                lg: '6rem',
               },
-              justifyContent: `center`,
-              backgroundColor: `secondary.light`,
+              justifyContent: 'center',
+              backgroundColor: 'secondary.light',
             }}
             component={motion.section}
             {...headContainerAnimation}
@@ -152,9 +152,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                 color="primary.main"
                 sx={{
                   fontSize: {
-                    xs: `1.1rem`,
-                    md: `1.5rem`,
-                    lg: `1.5rem`,
+                    xs: '1.1rem',
+                    md: '1.5rem',
+                    lg: '1.5rem',
                   },
                   mb: 6,
                 }}
@@ -163,15 +163,15 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                 breakdown:
               </Typography>
               <Divider />
-              <Box sx={{ display: `flex`, alignItems: `center`, my: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
                 <StorefrontIcon
                   sx={{
                     fontSize: {
-                      xs: `2rem`,
-                      md: `2rem`,
-                      lg: `2.5rem`,
+                      xs: '2rem',
+                      md: '2rem',
+                      lg: '2.5rem',
                     },
-                    color: `primary.main`,
+                    color: 'primary.main',
                   }}
                 />
                 <Box ml={2}>
@@ -181,9 +181,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `1rem`,
-                        md: `1.2rem`,
-                        lg: `1.2rem`,
+                        xs: '1rem',
+                        md: '1.2rem',
+                        lg: '1.2rem',
                       },
                     }}
                   >
@@ -193,9 +193,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `0.9rem`,
-                        md: `1rem`,
-                        lg: `1rem`,
+                        xs: '0.9rem',
+                        md: '1rem',
+                        lg: '1rem',
                       },
                       mt: 1,
                     }}
@@ -206,15 +206,15 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                 </Box>
               </Box>
               <Divider />
-              <Box sx={{ display: `flex`, alignItems: `center`, my: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
                 <PortraitIcon
                   sx={{
                     fontSize: {
-                      xs: `2rem`,
-                      md: `2rem`,
-                      lg: `2.5rem`,
+                      xs: '2rem',
+                      md: '2rem',
+                      lg: '2.5rem',
                     },
-                    color: `primary.main`,
+                    color: 'primary.main',
                   }}
                 />
                 <Box ml={2}>
@@ -224,9 +224,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `1rem`,
-                        md: `1.2rem`,
-                        lg: `1.2rem`,
+                        xs: '1rem',
+                        md: '1.2rem',
+                        lg: '1.2rem',
                       },
                     }}
                   >
@@ -236,9 +236,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `0.9rem`,
-                        md: `1rem`,
-                        lg: `1rem`,
+                        xs: '0.9rem',
+                        md: '1rem',
+                        lg: '1rem',
                       },
                       mt: 1,
                     }}
@@ -249,15 +249,15 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                 </Box>
               </Box>
               <Divider />
-              <Box sx={{ display: `flex`, alignItems: `center`, my: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
                 <LocalAtmIcon
                   sx={{
                     fontSize: {
-                      xs: `2rem`,
-                      md: `2rem`,
-                      lg: `2.5rem`,
+                      xs: '2rem',
+                      md: '2rem',
+                      lg: '2.5rem',
                     },
-                    color: `primary.main`,
+                    color: 'primary.main',
                   }}
                 />
                 <Box ml={2}>
@@ -267,9 +267,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `1rem`,
-                        md: `1.2rem`,
-                        lg: `1.2rem`,
+                        xs: '1rem',
+                        md: '1.2rem',
+                        lg: '1.2rem',
                       },
                     }}
                   >
@@ -279,9 +279,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     color="primary.main"
                     sx={{
                       fontSize: {
-                        xs: `0.9rem`,
-                        md: `1rem`,
-                        lg: `1rem`,
+                        xs: '0.9rem',
+                        md: '1rem',
+                        lg: '1rem',
                       },
                       mt: 1,
                     }}
@@ -292,22 +292,22 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                 </Box>
               </Box>
               <Divider />
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <Button
                   onClick={handleClickOpen}
                   sx={{
-                    mt: `2rem`,
-                    backgroundColor: `primary.main`,
-                    color: `white`,
+                    mt: '2rem',
+                    backgroundColor: 'primary.main',
+                    color: 'white',
                     '&:hover': {
-                      backgroundColor: `secondary.main`,
-                      color: `primary.main`,
+                      backgroundColor: 'secondary.main',
+                      color: 'primary.main',
                     },
-                    borderRadius: `30px`,
-                    p: `0.7rem 4rem`,
+                    borderRadius: '30px',
+                    p: '0.7rem 4rem',
                     fontWeight: 700,
-                    fontSize: `1rem`,
-                    textTransform: `inherit`,
+                    fontSize: '1rem',
+                    textTransform: 'inherit',
                   }}
                 >
                   Get Started
@@ -323,41 +323,41 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
           <Box
             sx={{
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'flex',
+                xl: 'flex',
               },
-              alignItems: `center`,
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `50%`,
-              height: `100%`,
+              alignItems: 'center',
+              p: '2rem',
+              backgroundColor: 'primary.main',
+              width: '50%',
+              height: '100%',
             }}
           >
             <Box
               sx={{
-                width: `100%`,
+                width: '100%',
               }}
             >
               <Box
                 component={motion.div}
                 {...headTextAnimation}
                 sx={{
-                  position: `relative`,
-                  textAlign: `center`,
-                  mt: `2rem`,
+                  position: 'relative',
+                  textAlign: 'center',
+                  mt: '2rem',
                 }}
               >
                 <Image src={logoImg} alt="logoImage" height={35} width={180} />
               </Box>
               <Box
                 sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `300px`,
-                  mt: `2rem`,
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  mt: '2rem',
                 }}
               >
                 <Image src={IllusImg} alt="logoImage" fill />
@@ -389,27 +389,27 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
             open={open}
             onClose={handleClose}
             style={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Box
               style={{
                 padding: 20,
                 margin: 10,
-                backgroundColor: `white`,
+                backgroundColor: 'white',
                 borderRadius: 10,
                 width: 700,
-                maxHeight: `85vh`,
-                overflowY: `auto`,
+                maxHeight: '85vh',
+                overflowY: 'auto',
               }}
             >
               <Typography variant="h6" style={{ marginBottom: 20 }}>
                 VENDORS’ UNDERSTANDING
               </Typography>
               <Typography variant="body2" style={{ marginBottom: 20 }}>
-                <Typography sx={{ fontSize: `bold`, mt: `1rem`, mb: `1rem` }}>
+                <Typography sx={{ fontSize: 'bold', mt: '1rem', mb: '1rem' }}>
                   Updated 1 August 2023.
                 </Typography>
                 <List>
@@ -433,7 +433,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     <List>
                       <ListItem>
                         <ListItemText
-                          primary={`2. Vendor’s Undertaking and Assurances`}
+                          primary={'2. Vendor’s Undertaking and Assurances'}
                         />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
@@ -457,7 +457,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`4. Payment and Refunds`} />
+                        <ListItemText primary={'4. Payment and Refunds'} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="4.1. When You are engaged to provide a service by a Service Seeker, the Service Seeker will submit the service fee to You through Us and through Our Platform. We will then distribute 50% of the total amount (excluding Value Added Tax or “VAT”) to You. The remaining 50% will be disbursed to You once the Service Seeker is satisfied with Your services. These payments will be transferred to the bank account details You provided when creating Your account with us." />
@@ -468,7 +468,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`5.  Breach`} />
+                        <ListItemText primary={'5.  Breach'} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="5.1. Your account registered on Our Platform will remain valid and active subject to the provision of this clause." />
@@ -483,7 +483,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`6. Liability and Indemnity `} />
+                        <ListItemText primary={'6. Liability and Indemnity '} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="6.1.  In the event that You breach any provision or term outlined in this Understanding, You shall be held accountable to Us for a monetary amount deemed appropriate by Us, reflecting the extent of damage caused by the breach." />
@@ -504,7 +504,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`7. Conflict in Terms`} />
+                        <ListItemText primary={'7. Conflict in Terms'} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="7.1. This Understanding shall compliment the Terms of Use and where any provision of this Understanding is in conflict with the Terms of Use, the provision of this Understanding shall prevail." />
@@ -512,7 +512,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`8. Severability`} />
+                        <ListItemText primary={'8. Severability'} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="In the event that any provision of this Understanding is held to be illegal, invalid or unenforceable by the ruling or judgment of a competent Court of Jurisdiction in Nigeria, such provision shall be deemed separate and divisible from this Understanding and shall not in any way affect the validity or enforceability of the remaining provisions of these terms." />
@@ -520,7 +520,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     </List>
                     <List>
                       <ListItem>
-                        <ListItemText primary={`9. Variation`} />
+                        <ListItemText primary={'9. Variation'} />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
                         <ListItemText primary="We may review and amend this Understanding from time to time. Such amendment shall apply and become effective from the date of publication on the Platform and not before." />
@@ -529,7 +529,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
                     <List>
                       <ListItem>
                         <ListItemText
-                          primary={`10. Law and Dispute Resolution`}
+                          primary={'10. Law and Dispute Resolution'}
                         />
                       </ListItem>
                       <ListItem button style={{ paddingLeft: 32 }}>
@@ -542,22 +542,22 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
               <Typography
                 variant="body2"
                 color="primary"
-                style={{ marginRight: 10, cursor: `pointer` }}
+                style={{ marginRight: 10, cursor: 'pointer' }}
                 onClick={handleExpandClick}
               >
-                {expanded ? `Show Less` : `Read More`}
+                {expanded ? 'Show Less' : 'Read More'}
               </Typography>
-              <Box style={{ marginTop: `2rem` }}>
+              <Box style={{ marginTop: '2rem' }}>
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleNextSlide}
-                  style={{ marginRight: `1rem` }}
+                  style={{ marginRight: '1rem' }}
                 >
                   Agree and Continue
                 </Button>
                 <Button
-                  style={{ borderColor: `red`, color: `red` }}
+                  style={{ borderColor: 'red', color: 'red' }}
                   variant="outlined"
                   onClick={handleClose}
                 >

@@ -26,8 +26,8 @@ const Sidenav = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`/api/logout`);
-      router.push(`/user/findvendors`);
+      await axios.post('/api/logout');
+      router.push('/user/findvendors');
       dispatch(clearCredentials());
     } catch (error: any) {}
   };
@@ -106,72 +106,72 @@ const Sidenav = ({ data }: any) => {
   );
 };
 
-const Navbar = styled(`nav`)(({ theme }) => ({
-  width: `20%`,
+const Navbar = styled('nav')(({ theme }) => ({
+  width: '20%',
   background: theme.palette.primary.main,
-  padding: `2rem 0`,
+  padding: '2rem 0',
 
   '.container': {
-    padding: `0 2rem 0 2rem`,
+    padding: '0 2rem 0 2rem',
 
     '@media (max-width: 1020px)': {
-      padding: `0 2rem 0 1rem`,
-      width: `23%`,
+      padding: '0 2rem 0 1rem',
+      width: '23%',
     },
   },
 
   '@media (max-width: 1020px)': {
-    width: `25%`,
+    width: '25%',
   },
 
   '@media (max-width: 900px)': {
-    display: `none`,
+    display: 'none',
   },
 }));
 
-const NavFooter = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  textAlign: `center`,
-  marginTop: `5rem`,
+const NavFooter = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  marginTop: '5rem',
 
   '.IconWrapper': {
-    display: `flex`,
-    alignItems: `center`,
-    justifyContent: `center`,
-    border: `solid 1px #ccc`,
-    width: `40px`,
-    height: `40px`,
-    borderRadius: `6px`,
-    margin: `0.7rem`,
-    color: `#fff`,
-    cursor: `pointer`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: 'solid 1px #ccc',
+    width: '40px',
+    height: '40px',
+    borderRadius: '6px',
+    margin: '0.7rem',
+    color: '#fff',
+    cursor: 'pointer',
   },
 
   '@media (max-width: 1020px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 });
 
-const NavLinks = styled(`div`)({
-  marginTop: `4rem`,
+const NavLinks = styled('div')({
+  marginTop: '4rem',
 });
 
-const Links = styled(`div`)(({ theme }) => ({
+const Links = styled('div')(({ theme }) => ({
   // marginTop: `1rem`,
-  padding: `1rem 2rem`,
-  transition: `0.5s all ease`,
+  padding: '1rem 2rem',
+  transition: '0.5s all ease',
 
   '&:hover': {
     background: theme.palette.primary.light,
     color: theme.palette.secondary.main,
-    paddingLeft: `0.6rem`,
+    paddingLeft: '0.6rem',
   },
 
   '@media (max-width: 1020px)': {
-    marginTop: `0rem`,
-    padding: `0 0.6rem`,
+    marginTop: '0rem',
+    padding: '0 0.6rem',
   },
 }));
 

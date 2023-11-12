@@ -5,22 +5,22 @@ import { Container } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 const DeclienedOfferConfirmModal = ({ isOpen, isClose, children }: any) => {
@@ -36,12 +36,12 @@ const DeclienedOfferConfirmModal = ({ isOpen, isClose, children }: any) => {
           <Box
             sx={{
               p: 2,
-              backgroundColor: `primary.main`,
-              borderTopRightRadius: `1rem`,
-              borderTopLeftRadius: `1rem`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `space-between`,
+              backgroundColor: 'primary.main',
+              borderTopRightRadius: '1rem',
+              borderTopLeftRadius: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
@@ -49,9 +49,9 @@ const DeclienedOfferConfirmModal = ({ isOpen, isClose, children }: any) => {
             </Typography>
             <Typography
               sx={{
-                cursor: `pointer`,
-                textAlign: `center`,
-                color: `secondary.light`,
+                cursor: 'pointer',
+                textAlign: 'center',
+                color: 'secondary.light',
               }}
             >
               <CloseIcon onClick={isClose} />

@@ -19,33 +19,33 @@ const SuccessPage = ({ token }: Props) => {
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const [userEmail] = useState(
-    typeof window !== `undefined` && localStorage.getItem(`userEmail`),
+    typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
   return (
     <DashboardLayout token={token}>
       <section>
         <Box
           sx={{
-            display: `grid`,
-            gridTemplateColumns: `1fr`,
-            gap: `2rem`,
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '2rem',
           }}
         >
-          <Box sx={{ width: `50%`, margin: `0 auto` }}>
+          <Box sx={{ width: '50%', margin: '0 auto' }}>
             <Box
               sx={{
                 p: 4,
                 mt: 4,
                 border: `solid 1px ${theme.palette.secondary.main}`,
-                textAlign: `center`,
-                color: `secondary.main`,
+                textAlign: 'center',
+                color: 'secondary.main',
               }}
             >
               <DoneAllIcon
                 sx={{
-                  width: `50px`,
-                  height: `50px`,
-                  margin: `0 auto`,
+                  width: '50px',
+                  height: '50px',
+                  margin: '0 auto',
                 }}
               />
               <Typography
@@ -64,14 +64,14 @@ const SuccessPage = ({ token }: Props) => {
                 display="flex"
                 justifyContent="center"
               >
-                We`ve sent a receipt to{` `}
+                We`ve sent a receipt to{' '}
                 <Typography ml={1} color="secondary.main">
                   {userEmail}
                 </Typography>
               </Typography>
               <Divider />
               <Box
-                sx={{ width: `100%`, height: `100px`, position: `relative` }}
+                sx={{ width: '100%', height: '100px', position: 'relative' }}
               >
                 <Image src={successBanner} alt="Success Banner" fill />
               </Box>

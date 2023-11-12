@@ -21,18 +21,18 @@ const OnboardStickers = ({
   return (
     <Box
       sx={{
-        backgroundColor: bgColor ? bgColor : `secondary.main`,
-        position: `absolute`,
+        backgroundColor: bgColor ? bgColor : 'secondary.main',
+        position: 'absolute',
         top: top,
         left: left,
         right: right,
         bottom: down,
-        borderTopLeftRadius: `20px`,
-        borderTopRightRadius: `20px`,
-        borderBottomRightRadius: `20px`,
-        border: `solid 2px #000`,
-        fontWeight: `600`,
-        color: `#333`,
+        borderTopLeftRadius: '20px',
+        borderTopRightRadius: '20px',
+        borderBottomRightRadius: '20px',
+        border: 'solid 2px #000',
+        fontWeight: '600',
+        color: '#333',
       }}
       px={2}
       py={1}

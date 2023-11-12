@@ -87,57 +87,57 @@ const Badge = () => {
   );
 };
 
-const BadgeWrapper = styled(`div`)(({ theme }: any) => ({
-  padding: `2rem`,
+const BadgeWrapper = styled('div')(({ theme }: any) => ({
+  padding: '2rem',
   background: theme.palette.secondary.light,
   color: theme.palette.primary.main,
-  display: `flex`,
-  alignItems: `center`,
-  flexDirection: `row`,
-  justifyContent: `space-between`,
-  margin: ` 3rem 0`,
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  margin: ' 3rem 0',
 
   '.title': {
-    marginBottom: `0.4rem`,
+    marginBottom: '0.4rem',
   },
   '.ButtonLink': {
     color: theme.palette.secondary.main,
     background: theme.palette.primary.main,
-    padding: `1rem 3rem`,
-    fontWeight: `600`,
+    padding: '1rem 3rem',
+    fontWeight: '600',
   },
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    textAlign: `center`,
-    margin: ` 2rem 0`,
+    flexDirection: 'column',
+    textAlign: 'center',
+    margin: ' 2rem 0',
 
     '.ButtonLink': {
-      width: `100%`,
-      textAlign: `center`,
-      marginTop: `1rem`,
-      padding: `0.8rem 3rem`,
+      width: '100%',
+      textAlign: 'center',
+      marginTop: '1rem',
+      padding: '0.8rem 3rem',
     },
   },
 
   '@media (max-width: 500px)': {
-    flexDirection: `column`,
-    margin: ` 2rem 0`,
-    padding: `1rem`,
+    flexDirection: 'column',
+    margin: ' 2rem 0',
+    padding: '1rem',
 
     '.title': {
-      fontSize: `1rem`,
-      marginBottom: `0.2rem`,
+      fontSize: '1rem',
+      marginBottom: '0.2rem',
     },
     p: {
-      fontSize: `0.8rem`,
+      fontSize: '0.8rem',
     },
 
     '.ButtonLink': {
-      width: `100%`,
-      textAlign: `center`,
-      marginTop: `1rem`,
-      padding: `0.8rem 3rem`,
+      width: '100%',
+      textAlign: 'center',
+      marginTop: '1rem',
+      padding: '0.8rem 3rem',
     },
   },
 }));

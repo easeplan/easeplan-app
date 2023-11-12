@@ -29,9 +29,9 @@ import { useRouter } from 'next/router';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
-  officeAddress: Yup.string().required(`Office Address is required`),
-  phoneNumber: Yup.string().required(`Phone Number is required`),
-  gender: Yup.string().required(`Gender is required`),
+  officeAddress: Yup.string().required('Office Address is required'),
+  phoneNumber: Yup.string().required('Phone Number is required'),
+  gender: Yup.string().required('Gender is required'),
 });
 
 interface PropsTypes {
@@ -54,7 +54,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    if (userInfo?.role === `user`) {
+    if (userInfo?.role === 'user') {
       dispatch(setUserIntro(true));
       dispatch(setIntroOne(false));
     } else {
@@ -78,14 +78,14 @@ const VerificationSettings = ({ token }: PropsTypes) => {
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        if (userInfo?.role === `user`) {
-          router.push(`/account`);
+      if (data.status === 'success') {
+        if (userInfo?.role === 'user') {
+          router.push('/account');
         } else {
           dispatch(setIntroOne(false));
           dispatch(setIntroTwo(false));
@@ -101,42 +101,42 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   return (
     <>
       {stepTwo && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
             sx={{
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `45%`,
-              height: `100vh`,
+              p: '2rem',
+              backgroundColor: 'primary.main',
+              width: '45%',
+              height: '100vh',
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'flex',
+                xl: 'flex',
               },
             }}
           >
             <Box
               sx={{
-                width: `100%`,
+                width: '100%',
               }}
             >
               <Box
                 component={motion.div}
                 {...headTextAnimation}
                 sx={{
-                  position: `relative`,
+                  position: 'relative',
                 }}
               >
                 <Image src={logoImg} alt="logoImage" height={30} width={150} />
               </Box>
               <Box
                 sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `400px`,
-                  mt: `8rem`,
+                  position: 'relative',
+                  width: '100%',
+                  height: '400px',
+                  mt: '8rem',
                 }}
               >
                 <Image src={IllusImg} alt="logoImage" fill />
@@ -144,7 +144,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
             </Box>
           </Box>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -153,23 +153,23 @@ const VerificationSettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
+                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                   <HiArrowUturnLeft onClick={handleNextSlide} />
                 </Box>
                 <Box>
@@ -186,15 +186,15 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                 py={1}
                 px={2}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    xl: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    xl: '1rem',
                   },
-                  borderRadius: `10px`,
+                  borderRadius: '10px',
                   // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
                 }}
               >
@@ -209,11 +209,11 @@ const VerificationSettings = ({ token }: PropsTypes) => {
                 color="primary.main"
                 sx={{
                   fontSize: {
-                    xs: `1.3rem`,
-                    sm: `1.3rem`,
-                    md: `1.8rem`,
-                    lg: `2rem`,
-                    xl: `2rem`,
+                    xs: '1.3rem',
+                    sm: '1.3rem',
+                    md: '1.8rem',
+                    lg: '2rem',
+                    xl: '2rem',
                   },
                 }}
               >
@@ -224,9 +224,9 @@ const VerificationSettings = ({ token }: PropsTypes) => {
               <Box mt={2} mb={5}>
                 <Formik
                   initialValues={{
-                    officeAddress: ``,
-                    phoneNumber: ``,
-                    gender: ``,
+                    officeAddress: '',
+                    phoneNumber: '',
+                    gender: '',
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -285,30 +285,30 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({ theme }) => ({
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  border: `solid 1px #ccc`,
-  width: `40%`,
-  whiteSpace: `nowrap`,
-  borderRadius: `10px`,
+const AddButton = styled('label')(({ theme }) => ({
+  padding: '0.8rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  border: 'solid 1px #ccc',
+  width: '40%',
+  whiteSpace: 'nowrap',
+  borderRadius: '10px',
 
   '.fileIcon': {
-    fontSize: `1rem`,
-    marginRight: `1rem`,
+    fontSize: '1rem',
+    marginRight: '1rem',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.6rem 1rem`,
-    width: `65%`,
+    padding: '0.6rem 1rem',
+    width: '65%',
   },
 }));
 

@@ -20,16 +20,14 @@ const EventList = () => {
 
   const resultData = getLastFiveElements(notifyData);
 
-  console.log(resultData);
-
   return (
     <>
-      <Typography sx={{ fontSize: `2rem` }}>Events</Typography>
+      <Typography sx={{ fontSize: '2rem' }}>Events</Typography>
       <Divider />
       {notifyData?.length < 1 ? (
-        <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
-          <StyleIcon sx={{ fontSize: `3rem` }} />
-          <Typography sx={{ fontSize: `1.1rem` }}>
+        <Box sx={{ textAlign: 'center', mt: 10, color: 'grey.500' }}>
+          <StyleIcon sx={{ fontSize: '3rem' }} />
+          <Typography sx={{ fontSize: '1.1rem' }}>
             Your ongoing events will show here
           </Typography>
         </Box>
@@ -42,11 +40,11 @@ const EventList = () => {
               px: 2,
               py: 1,
               my: 2,
-              display: `grid`,
-              borderRadius: `10px`,
-              gridTemplateColumns: `repeat(3, 1fr)`,
-              alignItems: `center`,
-              textAlign: `center`,
+              display: 'grid',
+              borderRadius: '10px',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              alignItems: 'center',
+              textAlign: 'center',
               border: `solid 1px ${theme.palette.primary.main}`,
             }}
           >

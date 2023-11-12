@@ -18,13 +18,13 @@ const GoogleButton = ({ text, onClick, href }: Props) => {
             onClick={onClick}
             variant="outlined"
             sx={{
-              width: `100%`,
-              textTransform: `inherit`,
+              width: '100%',
+              textTransform: 'inherit',
               mb: 2,
-              borderRadius: `10px`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               py: {
                 xs: 1,
                 sm: 1,
@@ -34,23 +34,23 @@ const GoogleButton = ({ text, onClick, href }: Props) => {
               },
 
               '.btnText': {
-                fontWeight: `600`,
+                fontWeight: '600',
                 fontSize: {
-                  xs: `0.8rem`,
-                  sm: `0.8rem`,
-                  md: `0.8rem`,
-                  lg: `0.9rem`,
-                  xl: `0.9rem`,
+                  xs: '0.8rem',
+                  sm: '0.8rem',
+                  md: '0.8rem',
+                  lg: '0.9rem',
+                  xl: '0.9rem',
                 },
               },
 
               '.btnIcon': {
                 fontSize: {
-                  xs: `1.3rem`,
-                  sm: `1.3rem`,
-                  md: `1.2rem`,
-                  lg: `1.2rem`,
-                  xl: `1.5rem`,
+                  xs: '1.3rem',
+                  sm: '1.3rem',
+                  md: '1.2rem',
+                  lg: '1.2rem',
+                  xl: '1.5rem',
                 },
                 mr: {
                   xs: 1,
@@ -71,12 +71,12 @@ const GoogleButton = ({ text, onClick, href }: Props) => {
           onClick={onClick}
           variant="outlined"
           sx={{
-            textTransform: `inherit`,
+            textTransform: 'inherit',
             mb: 2,
-            borderRadius: `10px`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             py: {
               xs: 2,
               sm: 2,
@@ -86,23 +86,23 @@ const GoogleButton = ({ text, onClick, href }: Props) => {
             },
 
             '.btnText': {
-              fontWeight: `600`,
+              fontWeight: '600',
               fontSize: {
-                xs: `0.8rem`,
-                sm: `0.8rem`,
-                md: `0.8rem`,
-                lg: `0.9rem`,
-                xl: `0.9rem`,
+                xs: '0.8rem',
+                sm: '0.8rem',
+                md: '0.8rem',
+                lg: '0.9rem',
+                xl: '0.9rem',
               },
             },
 
             '.btnIcon': {
               fontSize: {
-                xs: `1.3rem`,
-                sm: `1.3rem`,
-                md: `1.2rem`,
-                lg: `1.2rem`,
-                xl: `1.5rem`,
+                xs: '1.3rem',
+                sm: '1.3rem',
+                md: '1.2rem',
+                lg: '1.2rem',
+                xl: '1.5rem',
               },
               mr: {
                 xs: 1,

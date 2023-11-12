@@ -51,54 +51,54 @@ const NotificationDropdown = ({ notificationData }: any) => {
         <Button
           ref={anchorRef}
           id="composition-button"
-          aria-controls={open ? `composition-menu` : undefined}
-          aria-expanded={open ? `true` : undefined}
+          aria-controls={open ? 'composition-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
         >
           <Box
             sx={{
-              position: `relative`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
-              width: `40px`,
-              height: `40px`,
-              border: `solid 1px #ccc`,
-              borderRadius: `9px`,
-              margin: `0 0.5rem`,
-              color: `primary.main`,
-              cursor: `pointer`,
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '40px',
+              height: '40px',
+              border: 'solid 1px #ccc',
+              borderRadius: '9px',
+              margin: '0 0.5rem',
+              color: 'primary.main',
+              cursor: 'pointer',
 
               '.icon': {
-                fontSize: `1.5rem`,
+                fontSize: '1.5rem',
               },
 
               '@media (max-width: 900px)': {
-                width: `35px`,
-                height: `35px`,
+                width: '35px',
+                height: '35px',
               },
             }}
           >
             {notificationData?.length < 1 ? null : (
               <Box
                 sx={{
-                  width: `10px`,
-                  height: `10px`,
-                  border: `solid 2px #fff`,
-                  borderRadius: `16px`,
-                  position: `absolute`,
-                  top: `0.6rem`,
-                  right: `0.6rem`,
+                  width: '10px',
+                  height: '10px',
+                  border: 'solid 2px #fff',
+                  borderRadius: '16px',
+                  position: 'absolute',
+                  top: '0.6rem',
+                  right: '0.6rem',
                   background: theme.palette.info.main,
 
                   '@media (max-width: 900px)': {
-                    width: `9px`,
-                    height: `9px`,
-                    border: `solid 1.5px #fff`,
-                    position: `absolute`,
-                    top: `0.6rem`,
-                    right: `0.5rem`,
+                    width: '9px',
+                    height: '9px',
+                    border: 'solid 1.5px #fff',
+                    position: 'absolute',
+                    top: '0.6rem',
+                    right: '0.5rem',
                   },
                 }}
               ></Box>
@@ -173,11 +173,11 @@ const NotificationDropdown = ({ notificationData }: any) => {
   );
 };
 
-const Button = styled(`button`)({
-  border: `none`,
-  background: `none`,
-  cursor: `pointer`,
-  marginLeft: `1rem`,
+const Button = styled('button')({
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  marginLeft: '1rem',
 });
 
 export default NotificationDropdown;

@@ -46,34 +46,34 @@ const DangerButton = ({
     <Button
       sx={{
         width: {
-          xs: smWidth || `100%`,
-          sm: smWidth || `100%`,
-          md: mdWidth || `100%`,
-          lg: lgWidth || `auto`,
-          xl: lgWidth || `auto`,
+          xs: smWidth || '100%',
+          sm: smWidth || '100%',
+          md: mdWidth || '100%',
+          lg: lgWidth || 'auto',
+          xl: lgWidth || 'auto',
         },
         px: 4,
         mb: mb,
         mt: mt,
         mr: mr,
         ml: ml,
-        fontSize: fontSize || `0.9rem`,
+        fontSize: fontSize || '0.9rem',
       }}
       style={{
-        height: height || `3rem`,
+        height: height || '3rem',
         backgroundColor: theme.palette.error.main,
-        color: `#fff`,
-        borderRadius: `10px`,
+        color: '#fff',
+        borderRadius: '10px',
         padding: p,
-        boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
-        fontWeight: `600`,
+        boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
+        fontWeight: '600',
       }}
       {...props}
     >
       {loading ? (
         <span className="flex items-center">
           <FontAwesomeIcon icon={faCircleNotch} spin />
-          <span style={{ marginLeft: `0.5rem` }}>{loadingText}</span>
+          <span style={{ marginLeft: '0.5rem' }}>{loadingText}</span>
         </span>
       ) : (
         <>{props.children}</>

@@ -27,7 +27,7 @@ const InputField = ({
         placeholder={placeholder}
         onChange={onChange}
       />
-      {type === `password` && (
+      {type === 'password' && (
         <>
           {strength && (
             <div>

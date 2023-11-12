@@ -28,11 +28,11 @@ interface PropsTypes {
 }
 
 const NumberSchema = Yup.object().shape({
-  destination: Yup.string().required(`Phone number is required`),
+  destination: Yup.string().required('Phone number is required'),
 });
 
 const CodeSchema = Yup.object().shape({
-  code: Yup.string().required(`OTP code is required`),
+  code: Yup.string().required('OTP code is required'),
 });
 
 const AddPricingSection = ({ token }: PropsTypes) => {
@@ -40,47 +40,47 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   const { stepTwo } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
-  const [reference_id, setReference_id] = useState(``);
-  const [verificationToken, setVerificationToken] = useState(``);
+  const [reference_id, setReference_id] = useState('');
+  const [verificationToken, setVerificationToken] = useState('');
 
   const queryClient = useQueryClient();
 
   const { mutate: updateNumber, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.post(
-        `/onboarding/company/phone_verify_request`,
+        '/onboarding/company/phone_verify_request',
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       ),
     onSuccess: ({ data }: any) => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`OTP send to your phone`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('OTP send to your phone');
       setShowPhoneNumber(false);
-      setVerificationToken(`visible`);
+      setVerificationToken('visible');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
-      setVerificationToken(``);
+      setVerificationToken('');
       setShowPhoneNumber(true);
     },
   });
 
   const { mutate: updateOTP } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/onboarding/company/verify_otp`, credentials, {
+      customFetch.post('/onboarding/company/verify_otp', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Phone Number verified successfully`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Phone Number verified successfully');
       handleNextSlide();
     },
     onError: (error: any) => {
@@ -98,7 +98,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   const handleVerifyOTP = async (credentials: any) => {
     const data = {
       otp: credentials.code,
-      type: `phone_number`,
+      type: 'phone_number',
       phone: credentials.destination,
     };
     updateOTP(data);
@@ -111,9 +111,9 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   return (
     <>
       {stepTwo && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -122,20 +122,20 @@ const AddPricingSection = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `100%`,
-                  sm: `90%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '100%',
+                  sm: '90%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 {/* <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
@@ -167,22 +167,22 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                   mb={2}
                   sx={{
                     fontSize: [
-                      `1.4rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
+                      '1.4rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
                     ], // This will set the sizes for xs, sm, md, lg, and xl respectively
                   }}
                 >
-                  {`Let's Verify Your Phone Number?`}
+                  {"Let's Verify Your Phone Number?"}
                 </Typography>
 
-                <Box sx={{ borderTop: `solid 1px #ccc` }}>
+                <Box sx={{ borderTop: 'solid 1px #ccc' }}>
                   <Formik
                     initialValues={{
-                      destination: ``,
-                      verificationToken: ``,
+                      destination: '',
+                      verificationToken: '',
                     }}
                     validationSchema={
                       showPhoneNumber ? NumberSchema : CodeSchema
@@ -198,17 +198,17 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                             Verify your phone number?
                           </Typography> */}
                         </Description>
-                        <Box sx={{ flexGrow: 1, width: `100%` }}>
+                        <Box sx={{ flexGrow: 1, width: '100%' }}>
                           {showPhoneNumber && (
                             <Box>
                               <FormInput
                                 sx={{
                                   fontSize: [
-                                    `1.0rem`,
-                                    `1.1rem`,
-                                    `1.2rem`,
-                                    `1rem`,
-                                    `1.1rem`,
+                                    '1.0rem',
+                                    '1.1rem',
+                                    '1.2rem',
+                                    '1rem',
+                                    '1.1rem',
                                   ], // This will set the sizes for xs, sm, md, lg, and xl respectively
                                 }}
                                 ariaLabel="destination"
@@ -230,11 +230,11 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                                     placeholder="Enter Code"
                                     sx={{
                                       fontSize: [
-                                        `1.0rem`,
-                                        `1.1rem`,
-                                        `1.2rem`,
-                                        `1rem`,
-                                        `1.1rem`,
+                                        '1.0rem',
+                                        '1.1rem',
+                                        '1.2rem',
+                                        '1rem',
+                                        '1.1rem',
                                       ], // This will set the sizes for xs, sm, md, lg, and xl respectively
                                     }}
                                   />
@@ -247,7 +247,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                                     color="primary"
                                     onClick={() => {
                                       setShowPhoneNumber(true);
-                                      setVerificationToken(``);
+                                      setVerificationToken('');
                                     }}
                                   >
                                     Didn`t receive a code? Change number
@@ -260,9 +260,9 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                           <Box
                             mt={4}
                             sx={{
-                              display: `flex`,
-                              alignItems: `center`,
-                              justifyContent: `space-between`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
                             }}
                           >
                             {!verificationToken && (
@@ -300,7 +300,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                                 {isLoading ? (
                                   <FontAwesomeIcon icon={faCircleNotch} spin />
                                 ) : (
-                                  `Next`
+                                  'Next'
                                 )}
                               </CustomButton>
                             )}
@@ -321,79 +321,79 @@ const AddPricingSection = ({ token }: PropsTypes) => {
 
 export default AddPricingSection;
 
-const Description = styled(`div`)({
-  paddingTop: `1rem`,
+const Description = styled('div')({
+  paddingTop: '1rem',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `0rem`,
-    width: `100%`,
+    marginTop: '0rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));

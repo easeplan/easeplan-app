@@ -22,7 +22,7 @@ const PlannerMessageForm = () => {
         <Typography p={2}>Send inbox message to planner</Typography>
       </Box>
       <Formik
-        initialValues={{ message: `` }}
+        initialValues={{ message: '' }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

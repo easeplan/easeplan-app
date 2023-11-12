@@ -23,31 +23,31 @@ import NigeriaStatesAndCities from './NigerianStatesAndCities';
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
   image: Yup.mixed()
-    .required(`Image is required`)
-    .test(`fileSize`, `The file should be less than 5mb`, (value: any) => {
+    .required('Image is required')
+    .test('fileSize', 'The file should be less than 5mb', (value: any) => {
       const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }
       return false;
     })
-    .test(`type`, `We only support jpeg`, function (value: any) {
+    .test('type', 'We only support jpeg', function (value: any) {
       return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
+        (value && value[0] && value[0].type === 'image/jpeg') ||
+        'image/png' ||
+        'image/jpg'
       );
     }),
   // operationStates: Yup.string().required(`Operations states is required`),
   // operationCities: Yup.string().required(`Operations Cities is required`),
-  description: Yup.string().required(`Company description is required`),
-  name: Yup.string().required(`Company name is required`),
+  description: Yup.string().required('Company description is required'),
+  name: Yup.string().required('Company name is required'),
   // services: Yup.array()
   // .of(Yup.string())
   // .min(1, 'At least one service must be selected.')
   // .required('Service is required'),
-  minimum: Yup.string().required(`Minimum price is required`),
-  maximum: Yup.string().required(`Maximum price is required`),
+  minimum: Yup.string().required('Minimum price is required'),
+  maximum: Yup.string().required('Maximum price is required'),
 });
 
 interface PropsTypes {
@@ -66,25 +66,25 @@ const BusinessSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const services = [
-    `DJ`,
-    `Catering`,
-    `Photographer`,
-    `MC`,
-    `Make-up Artist`,
-    `Venue manager`,
-    `Event decorator`,
-    `Transportation coordinator`,
-    `Security personnel`,
-    `Videographer`,
-    `Print vendor`,
-    `Ushering`,
-    `Entertainer`,
+    'DJ',
+    'Catering',
+    'Photographer',
+    'MC',
+    'Make-up Artist',
+    'Venue manager',
+    'Event decorator',
+    'Transportation coordinator',
+    'Security personnel',
+    'Videographer',
+    'Print vendor',
+    'Ushering',
+    'Entertainer',
   ];
 
   const handleFormSubmit = async (credentials: any) => {
     try {
       setIsLoading(true);
-      const { Location } = await uploadFileToS3(`images`, credentials.image);
+      const { Location } = await uploadFileToS3('images', credentials.image);
       const resData = {
         company: {
           image: Location,
@@ -104,20 +104,20 @@ const BusinessSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        toast.success(`Company details uploaded successfully`);
+      if (data.status === 'success') {
+        toast.success('Company details uploaded successfully');
         dispatch(setIntroFour(false));
         dispatch(setIntroFive(true));
         setIsLoading(false);
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstName ? credentials?.firstName : ``,
+            'userName',
+            credentials?.firstName ? credentials?.firstName : '',
           );
         }
       }
@@ -129,12 +129,12 @@ const BusinessSettings = ({ token }: PropsTypes) => {
   return (
     <Box>
       {stepFour && (
-        <Box sx={{ display: `flex`, height: `100%` }}>
+        <Box sx={{ display: 'flex', height: '100%' }}>
           <Box
             sx={{
-              width: `100%`,
-              height: `100vh`,
-              backgroundColor: `secondary.light`,
+              width: '100%',
+              height: '100vh',
+              backgroundColor: 'secondary.light',
             }}
             px={3}
             pt={6}
@@ -144,13 +144,13 @@ const BusinessSettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `95%`,
-                  sm: `95%`,
-                  md: `80%`,
-                  lg: `80%`,
-                  xl: `80%`,
+                  xs: '95%',
+                  sm: '95%',
+                  md: '80%',
+                  lg: '80%',
+                  xl: '80%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               {/* Form */}
@@ -158,7 +158,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                 mb={10}
                 mt={5}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   px: {
                     xs: 2,
                     sm: 2,
@@ -167,16 +167,16 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                     xl: 8,
                   },
                   py: 4,
-                  borderRadius: `6px`,
-                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                  borderRadius: '6px',
+                  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: '1rem',
                   }}
                 >
                   <Box>
@@ -193,27 +193,27 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                   textAlign="center"
                   sx={{
                     fontSize: [
-                      `1.4rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
+                      '1.4rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
                     ],
                     mb: 4,
                   }}
                 >
-                  {`Let's Get To Know Your Business`}
+                  {"Let's Get To Know Your Business"}
                 </Typography>
                 <Formik
                   initialValues={{
                     operationStates: [],
                     operationCities: [],
-                    name: ``,
-                    minimum: ``,
-                    maximum: ``,
-                    image: ``,
-                    services: ``,
-                    description: ``,
+                    name: '',
+                    minimum: '',
+                    maximum: '',
+                    image: '',
+                    services: '',
+                    description: '',
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -224,43 +224,44 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                       <Box mb={3}>
                         <Box
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `center`,
-                            position: `relative`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
                           }}
                         >
                           {coverPreviewImg === null ? (
                             <Box
                               sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                border: `solid 1px #ccc`,
-                                borderRadius: `10px`,
-                                backgroundColor: `primary.main`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                textAlign: `center`,
+                                width: '100%',
+                                height: '100px',
+                                border: 'solid 1px #ccc',
+                                borderRadius: '10px',
+                                backgroundColor: 'primary.main',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                textAlign: 'center',
                               }}
                             >
                               <AddCoverButton htmlFor="image">
                                 <Box
                                   sx={{
-                                    width: `3rem`,
-                                    height: `3rem`,
-                                    borderRadius: `50%`,
-                                    backgroundColor: `#fff`,
-                                    display: `flex`,
-                                    alignItems: `center`,
-                                    justifyContent: `center`,
-                                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                    width: '3rem',
+                                    height: '3rem',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#fff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow:
+                                      '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                                   }}
                                 >
                                   <CameraAltIcon
                                     sx={{
-                                      fontSize: `2rem`,
-                                      color: `primary.main`,
+                                      fontSize: '2rem',
+                                      color: 'primary.main',
                                     }}
                                   />
                                 </Box>
@@ -276,12 +277,12 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                           ) : (
                             <Box
                               sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                position: `relative`,
+                                width: '100%',
+                                height: '100px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative',
                               }}
                             >
                               <Image
@@ -291,28 +292,29 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                                 quality={100}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 style={{
-                                  height: `100%`,
-                                  borderRadius: `10px`,
-                                  objectFit: `cover`,
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  objectFit: 'cover',
                                 }}
                               />
                               <Box sx={{ zIndex: 9 }}>
                                 <AddCoverButton htmlFor="image">
                                   <Box
                                     sx={{
-                                      borderRadius: `30px`,
-                                      backgroundColor: `#fff`,
-                                      display: `flex`,
-                                      alignItems: `center`,
-                                      padding: `10px`,
-                                      justifyContent: `center`,
-                                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                      borderRadius: '30px',
+                                      backgroundColor: '#fff',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      padding: '10px',
+                                      justifyContent: 'center',
+                                      boxShadow:
+                                        '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                                     }}
                                   >
                                     <CameraAltIcon
                                       sx={{
-                                        fontSize: `2rem`,
-                                        color: `primary.main`,
+                                        fontSize: '2rem',
+                                        color: 'primary.main',
                                       }}
                                     />
                                   </Box>
@@ -328,27 +330,31 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                             </Box>
                           )}
                         </Box>
-                        <small>{`Upload your business cover image | { jpg, png, jpeg }`}</small>
+                        <small>
+                          {
+                            'Upload your business cover image | { jpg, png, jpeg }'
+                          }
+                        </small>
                       </Box>
 
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
                         <Box>
                           <FormInput
                             style={{
-                              fontSize: `14px`,
+                              fontSize: '14px',
                             }}
                             ariaLabel="companyName"
                             name="name"
@@ -369,22 +375,22 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                       <NigeriaStatesAndCities />
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
                         <Box>
                           <FormInput
                             style={{
-                              fontSize: `14px`,
+                              fontSize: '14px',
                             }}
                             ariaLabel="Minimum Charge"
                             name="minimum"
@@ -395,7 +401,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
                         <Box>
                           <FormInput
                             style={{
-                              fontSize: `16px`,
+                              fontSize: '16px',
                             }}
                             ariaLabel="Maximum Charge"
                             name="maximum"
@@ -437,58 +443,58 @@ const BusinessSettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  width: `50%`,
-  borderRadius: `10px`,
-  position: `absolute`,
-  bottom: `0`,
-  right: `0`,
+const AddButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  width: '50%',
+  borderRadius: '10px',
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
 
   '.icon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    borderRadius: `8px`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    borderRadius: '8px',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 
-const AddCoverButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  borderRadius: `50%`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const AddCoverButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
   '.fileIcon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    color: `primary.main`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    color: 'primary.main',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 

@@ -10,10 +10,10 @@ export default function RatingStar({ rate, size, fontSize }: any) {
   return (
     <Box
       sx={{
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `center`,
-        textAlign: `center`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
       }}
     >
       <Rating

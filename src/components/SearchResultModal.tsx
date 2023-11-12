@@ -12,24 +12,24 @@ import { useSelector } from 'react-redux';
 import Spinner from './common/Spinner';
 
 const style = {
-  position: `absolute` as const,
-  top: `55%`,
+  position: 'absolute' as const,
+  top: '55%',
   // bottom: `-40%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `100%`,
-    sm: `100%`,
-    md: `85%`,
-    lg: `85%`,
-    xl: `85%`,
+    xs: '100%',
+    sm: '100%',
+    md: '85%',
+    lg: '85%',
+    xl: '85%',
   },
-  height: `100vh`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: '100vh',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderTopRightRadius: `1rem`,
-  borderTopLeftRadius: `1rem`,
+  borderTopRightRadius: '1rem',
+  borderTopLeftRadius: '1rem',
 };
 
 const SearchResultModal = ({
@@ -58,11 +58,11 @@ const SearchResultModal = ({
                   py: 0,
                   px: 4,
                   // backgroundColor: `primary.main`,
-                  borderTopRightRadius: `1rem`,
-                  borderTopLeftRadius: `1rem`,
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  borderTopRightRadius: '1rem',
+                  borderTopLeftRadius: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Typography
@@ -74,9 +74,9 @@ const SearchResultModal = ({
                 </Typography>
                 <Typography
                   sx={{
-                    cursor: `pointer`,
-                    textAlign: `center`,
-                    color: `primary.main`,
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    color: 'primary.main',
                     mt: 3,
                   }}
                 >
@@ -86,19 +86,19 @@ const SearchResultModal = ({
               {loadingResult ? (
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
-                    height: `100vh`,
-                    backgroundColor: `primary.main`,
-                    opacity: `0.6`,
-                    position: `relative`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100vh',
+                    backgroundColor: 'primary.main',
+                    opacity: '0.6',
+                    position: 'relative',
                   }}
                 >
                   <Box>
                     <Box
                       sx={{
-                        textAlign: `center`,
+                        textAlign: 'center',
                       }}
                     >
                       <Spinner />
@@ -112,14 +112,14 @@ const SearchResultModal = ({
                 <>
                   <Box
                     sx={{
-                      overflowY: `auto`,
-                      height: `100%`,
+                      overflowY: 'auto',
+                      height: '100%',
                       px: {
                         xs: 3,
                         lg: 10,
                       },
                       pb: 10,
-                      marginTop: `-2rem`,
+                      marginTop: '-2rem',
                     }}
                   >
                     {queryData ? (
@@ -137,9 +137,9 @@ const SearchResultModal = ({
                           <>
                             <Box
                               sx={{
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                                 mt: 2,
                               }}
                             >

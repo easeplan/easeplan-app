@@ -14,28 +14,28 @@ import Label from '../common/Label';
 import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 const PaymentSchema = Yup.object().shape({
   amount: Yup.string()
-    .trim(`The contact name cannot include leading and trailing spaces`)
-    .required(`Amount is required`),
+    .trim('The contact name cannot include leading and trailing spaces')
+    .required('Amount is required'),
 });
 
 const PaymentModal = ({
@@ -53,15 +53,15 @@ const PaymentModal = ({
   const [isError, setIsError] = useState<boolean>();
   const [isErrorMessage, setIsErrorMessage] = useState<any>();
   const [bankData, setBankData] = useState(
-    typeof window !== `undefined` && localStorage.getItem(`bankData`)
-      ? JSON.parse(localStorage.getItem(`bankData`)!)
+    typeof window !== 'undefined' && localStorage.getItem('bankData')
+      ? JSON.parse(localStorage.getItem('bankData')!)
       : null,
   );
 
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      localStorage.getItem(`bankData`)
-        ? setBankData(JSON.parse(localStorage.getItem(`bankData`)!))
+    if (typeof window !== 'undefined') {
+      localStorage.getItem('bankData')
+        ? setBankData(JSON.parse(localStorage.getItem('bankData')!))
         : null;
     }
   }, []);
@@ -78,7 +78,7 @@ const PaymentModal = ({
       bankCode: bankData?.bankCode,
     };
     if (newData?.amount > queryData?.balance) {
-      setIsErrorMessage(`Insuffient Funds!!`);
+      setIsErrorMessage('Insuffient Funds!!');
     } else {
       try {
         setIsLoading(true);
@@ -93,12 +93,12 @@ const PaymentModal = ({
               city: queryData?.providerProfile?.city,
               state: queryData.providerProfile?.state,
               service: credentials.service,
-              'Content-Type': `application/json`,
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
           },
         );
-        if (data.status === `success`) {
+        if (data.status === 'success') {
           setIsLoading(false);
           setIsSuccess(true);
           setIsPaymentOtp(true);
@@ -125,12 +125,12 @@ const PaymentModal = ({
           <Box
             sx={{
               p: 2,
-              backgroundColor: `primary.main`,
-              borderTopRightRadius: `1rem`,
-              borderTopLeftRadius: `1rem`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `space-between`,
+              backgroundColor: 'primary.main',
+              borderTopRightRadius: '1rem',
+              borderTopLeftRadius: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
@@ -138,15 +138,15 @@ const PaymentModal = ({
             </Typography>
             <Typography
               sx={{
-                cursor: `pointer`,
-                textAlign: `center`,
-                color: `secondary.light`,
+                cursor: 'pointer',
+                textAlign: 'center',
+                color: 'secondary.light',
               }}
             >
               <CloseIcon onClick={isClose} />
             </Typography>
           </Box>
-          <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+          <Box sx={{ border: 'solid 1px #ccc', p: 4 }}>
             {isErrorMessage && (
               <Alert severity="error" sx={{ mb: 3 }}>
                 {isErrorMessage}
@@ -156,7 +156,7 @@ const PaymentModal = ({
             <Box>
               <Formik
                 initialValues={{
-                  amount: ``,
+                  amount: '',
                 }}
                 onSubmit={(values) => submitCredentials(values)}
                 validationSchema={PaymentSchema}
@@ -171,7 +171,7 @@ const PaymentModal = ({
                         type="text"
                         placeholder="₦1000.00"
                       />
-                      <Typography sx={{ fontSize: `0.8rem` }}>
+                      <Typography sx={{ fontSize: '0.8rem' }}>
                         Note: Payment will sent to the account details provided
                       </Typography>
                     </Box>

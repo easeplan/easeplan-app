@@ -5,23 +5,23 @@ import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `75%`,
-    md: `70%`,
-    lg: `70%`,
-    xl: `70%`,
+    xs: '85%',
+    sm: '75%',
+    md: '70%',
+    lg: '70%',
+    xl: '70%',
   },
-  height: `90vh`,
-  overflow: `scroll`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: '90vh',
+  overflow: 'scroll',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
@@ -37,12 +37,12 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
           <Box
             sx={{
               p: 2,
-              backgroundColor: `primary.main`,
-              borderTopRightRadius: `1rem`,
-              borderTopLeftRadius: `1rem`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `space-between`,
+              backgroundColor: 'primary.main',
+              borderTopRightRadius: '1rem',
+              borderTopLeftRadius: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <Typography color="secondary.main" fontWeight={600}>
@@ -50,21 +50,21 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
             </Typography>
             <Typography
               sx={{
-                cursor: `pointer`,
-                textAlign: `center`,
-                color: `secondary.light`,
+                cursor: 'pointer',
+                textAlign: 'center',
+                color: 'secondary.light',
               }}
             >
               <CloseIcon onClick={isClose} />
             </Typography>
           </Box>
-          <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+          <Box sx={{ border: 'solid 1px #ccc', p: 4 }}>
             <header>
-              <h2 style={{ marginBottom: `1rem` }}>Privacy Policy</h2>
+              <h2 style={{ marginBottom: '1rem' }}>Privacy Policy</h2>
             </header>
             <main>
               <section id="1">
-                <h4 style={{ marginBottom: `1rem` }}>OVERVIEW</h4>
+                <h4 style={{ marginBottom: '1rem' }}>OVERVIEW</h4>
                 <p>
                   Easeplan Ltd. has meticulously formulated this Privacy Policy
                   to elucidate the manner in which we handle the collection,
@@ -102,7 +102,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </p>
               </section>
               <section id="2">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   DEFINITIONS
                 </h4>
                 <ul>
@@ -190,7 +190,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ul>
               </section>
               <section id="3">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   PERSONAL DATA WE COLLECT
                 </h4>
                 <p>
@@ -256,7 +256,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </div>
               </section>
               <section id="4">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   WE RETAIN PERSONAL DATA
                 </h4>
                 <p>
@@ -273,7 +273,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </p>
               </section>
               <section id="5">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   WE PROCESS PERSONAL DATA
                 </h4>
                 <p>
@@ -341,7 +341,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ul>
               </section>
               <section id="6">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   SHARING PERSONAL DATA
                 </h4>
 
@@ -472,7 +472,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ul>
               </section>
               <section id="7">
-                <h3 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h3 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   WE USE COOKIES
                 </h3>
                 <ol>
@@ -498,7 +498,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="8">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   YOUR PRIVACY CHOICES
                 </h4>
                 <p>
@@ -524,7 +524,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                     </ol>
                   </li>
                   <li>
-                    <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                    <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                       Choices Relating to Cookies
                     </h4>
                     <ol>
@@ -553,7 +553,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                     </ol>
                   </li>
                   <li>
-                    <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                    <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                       Choices Relating to Your Registration and Account
                       Information
                     </h4>
@@ -569,10 +569,10 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                     </p>
                   </li>
                   <li>
-                    <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                    <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                       Choices Relating to Communication
                     </h4>
-                    <h5 style={{ marginBottom: `0.7rem` }}>
+                    <h5 style={{ marginBottom: '0.7rem' }}>
                       Notices, Alerts and Updates from Us:
                     </h5>
                     <ol>
@@ -599,7 +599,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="9">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   YOUR RIGHTS
                 </h4>
                 <ol>
@@ -651,7 +651,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="10">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   WE PROTECT YOUR PERSONAL DATA
                 </h4>
                 <ol>
@@ -673,7 +673,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="11">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   CHILDREN CANNOT USE OUR SERVICES
                 </h4>
                 <ol>
@@ -698,10 +698,10 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="12">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   WHAT ELSE YOU SHOULD KNOW
                 </h4>
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   Changes to This Privacy Statement:
                 </h4>
 
@@ -722,7 +722,7 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </ol>
               </section>
               <section id="13">
-                <h4 style={{ marginBottom: `0.7rem`, marginTop: `1rem` }}>
+                <h4 style={{ marginBottom: '0.7rem', marginTop: '1rem' }}>
                   CONTACT US
                 </h4>
                 <p>
@@ -735,22 +735,20 @@ const TermsAndConditionModal = ({ isOpen, isClose }: any) => {
                 </p>
                 <ol>
                   <li>
-                    Send a email here
-                    {` `}
+                    Send a email here{' '}
                     <a href="mailto:easeplan.team@gmail.com">
                       <strong>easeplan.team@gmail.com</strong>
-                    </a>
-                    {` `}
+                    </a>{' '}
                     to contact us about your Easeplan account or transaction, or
                     a payment made to a vendor.
                   </li>
 
                   <li>
                     Our Data Protection Officer can be contacted via;
-                    <address>Rumuekini, Portharcourt Rivers State.</address>
-                    {` `}
-                    <a href="mailto:clinton@gmail.com">clinton@easeplan.io</a>
-                    {` `}
+                    <address>
+                      Rumuekini, Portharcourt Rivers State.
+                    </address>{' '}
+                    <a href="mailto:clinton@gmail.com">clinton@easeplan.io</a>{' '}
                     <p>
                       Please mark your letter “to the Data Protection Officer”.
                     </p>

@@ -16,7 +16,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 const OtpSchema = Yup.object().shape({
-  resetToken: Yup.string().required(`Token is required`),
+  resetToken: Yup.string().required('Token is required'),
 });
 
 const OtpForm = () => {
@@ -25,7 +25,7 @@ const OtpForm = () => {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState<any>();
   const [userEmail] = useState<any>(
-    typeof window !== `undefined` ? localStorage.getItem(`userEmail`) : ``,
+    typeof window !== 'undefined' ? localStorage.getItem('userEmail') : '',
   );
 
   const submitCredentials = async (credentials: any) => {
@@ -35,7 +35,7 @@ const OtpForm = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-reset-otp`,
         { email: userEmail, resetToken: credentials.resetToken },
       );
-      router.push(`/forgetpassword/reset`);
+      router.push('/forgetpassword/reset');
     } catch (error: any) {
       setIsLoading(false);
       setErrorMsg(error.data.message);
@@ -48,27 +48,27 @@ const OtpForm = () => {
         <FormBody>
           <Typography
             sx={{
-              fontWeight: `700`,
-              fontSize: `1.5rem`,
-              color: `primary.main`,
-              marginBottom: `2rem`,
-              textTransform: `capitalize`,
+              fontWeight: '700',
+              fontSize: '1.5rem',
+              color: 'primary.main',
+              marginBottom: '2rem',
+              textTransform: 'capitalize',
             }}
           >
             Verify OTP
           </Typography>
           <Typography
             sx={{
-              fontSize: `1rem`,
-              color: `primary.main`,
-              marginBottom: `1rem`,
+              fontSize: '1rem',
+              color: 'primary.main',
+              marginBottom: '1rem',
             }}
           >
             A one time OTP is send to <strong>{userEmail}</strong>
           </Typography>
           <Formik
             initialValues={{
-              resetToken: ``,
+              resetToken: '',
             }}
             onSubmit={(values) => submitCredentials(values)}
             validationSchema={OtpSchema}
@@ -116,34 +116,34 @@ const OtpForm = () => {
   );
 };
 
-const FormWrapper = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `60%`,
-  height: `100%`,
-  paddingTop: `4rem`,
+const FormWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '60%',
+  height: '100%',
+  paddingTop: '4rem',
 
   '@media (max-width: 900px)': {
-    width: `100%`,
+    width: '100%',
   },
 
   form: {
-    width: `100%`,
+    width: '100%',
   },
 });
 
-const FormBody = styled(`div`)({
-  width: `50%`,
+const FormBody = styled('div')({
+  width: '50%',
 
   '@media (max-width: 1020px)': {
-    width: `80%`,
-    padding: `2rem 0`,
+    width: '80%',
+    padding: '2rem 0',
   },
 });
 
-const InputControl = styled(`div`)({
-  marginBottom: `0.8rem`,
+const InputControl = styled('div')({
+  marginBottom: '0.8rem',
 });
 
 export default OtpForm;

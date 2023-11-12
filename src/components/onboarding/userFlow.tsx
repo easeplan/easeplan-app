@@ -37,27 +37,27 @@ import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
-  state: Yup.string().required(`State is required`),
-  firstname: Yup.string().required(`First Name is required`),
-  lastname: Yup.string().required(`Last Name is required`),
-  city: Yup.string().required(`City is required`),
+  state: Yup.string().required('State is required'),
+  firstname: Yup.string().required('First Name is required'),
+  lastname: Yup.string().required('Last Name is required'),
+  city: Yup.string().required('City is required'),
   picture: Yup.mixed()
-    .required(`Image is required`)
-    .test(`fileSize`, `The file should be less than 5mb`, (value: any) => {
+    .required('Image is required')
+    .test('fileSize', 'The file should be less than 5mb', (value: any) => {
       const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }
       return false;
     })
-    .test(`type`, `We only support jpeg`, function (value: any) {
+    .test('type', 'We only support jpeg', function (value: any) {
       return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
+        (value && value[0] && value[0].type === 'image/jpeg') ||
+        'image/png' ||
+        'image/jpg'
       );
     }),
-  gender: Yup.string().required(`Gender is required`),
+  gender: Yup.string().required('Gender is required'),
 });
 
 interface PropsTypes {
@@ -92,7 +92,7 @@ const UserFlow = ({ token }: PropsTypes) => {
     try {
       setIsLoading(true);
       const formData = new FormData();
-      formData.append(`picture`, credentials.picture);
+      formData.append('picture', credentials.picture);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding`,
         {
@@ -106,21 +106,21 @@ const UserFlow = ({ token }: PropsTypes) => {
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
 
-      if (data.status === `success`) {
-        if (userInfo?.role === `user`) {
+      if (data.status === 'success') {
+        if (userInfo?.role === 'user') {
           dispatch(setUserIntro(false));
-          router.push(`/account`);
+          router.push('/account');
         }
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstname ? credentials?.firstname : ``,
+            'userName',
+            credentials?.firstname ? credentials?.firstname : '',
           );
         }
       }
@@ -132,42 +132,42 @@ const UserFlow = ({ token }: PropsTypes) => {
   return (
     <Box>
       {userIntro && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
             sx={{
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `45%`,
-              height: `100vh`,
+              p: '2rem',
+              backgroundColor: 'primary.main',
+              width: '45%',
+              height: '100vh',
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'flex',
+                xl: 'flex',
               },
             }}
           >
             <Box
               sx={{
-                width: `100%`,
+                width: '100%',
               }}
             >
               <Box
                 component={motion.div}
                 {...headTextAnimation}
                 sx={{
-                  position: `relative`,
+                  position: 'relative',
                 }}
               >
                 <Image src={logoImg} alt="logoImage" height={30} width={150} />
               </Box>
               <Box
                 sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `400px`,
-                  mt: `8rem`,
+                  position: 'relative',
+                  width: '100%',
+                  height: '400px',
+                  mt: '8rem',
                 }}
               >
                 <Image src={IllusImg} alt="logoImage" fill />
@@ -175,7 +175,7 @@ const UserFlow = ({ token }: PropsTypes) => {
             </Box>
           </Box>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -184,23 +184,23 @@ const UserFlow = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
+                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                   <HiArrowUturnLeft onClick={handleNextSlide} />
                 </Box>
               </Box>
@@ -219,12 +219,12 @@ const UserFlow = ({ token }: PropsTypes) => {
               <Box mt={2} mb={10}>
                 <Formik
                   initialValues={{
-                    state: ``,
-                    firstname: ``,
-                    lastname: ``,
-                    city: ``,
-                    picture: ``,
-                    gender: ``,
+                    state: '',
+                    firstname: '',
+                    lastname: '',
+                    city: '',
+                    picture: '',
+                    gender: '',
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -269,8 +269,8 @@ const UserFlow = ({ token }: PropsTypes) => {
                               (state) => state.name === e.target.value,
                             );
                             setSelectedState(selectedState);
-                            setFieldValue(`state`, e.target.value);
-                            setFieldValue(`city`, ``);
+                            setFieldValue('state', e.target.value);
+                            setFieldValue('city', '');
                           }}
                         >
                           {data?.states?.map((state: any) => {
@@ -327,9 +327,9 @@ const UserFlow = ({ token }: PropsTypes) => {
                       <Box mb={3}>
                         <Box
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <AddButton htmlFor="picture">
@@ -349,7 +349,7 @@ const UserFlow = ({ token }: PropsTypes) => {
                                 alt="profileImg"
                                 height={50}
                                 width={50}
-                                style={{ borderRadius: `50%` }}
+                                style={{ borderRadius: '50%' }}
                               />
                             </div>
                           ) : (
@@ -359,12 +359,16 @@ const UserFlow = ({ token }: PropsTypes) => {
                                 alt="profileImg"
                                 height={50}
                                 width={50}
-                                style={{ borderRadius: `50%` }}
+                                style={{ borderRadius: '50%' }}
                               />
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                        <small>
+                          {
+                            '{ jpg, png, jpeg } | The file should be less than 1mb'
+                          }
+                        </small>
                       </Box>
                       <Box mt={5}>
                         <CustomButton
@@ -389,29 +393,29 @@ const UserFlow = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  border: `solid 1px #ccc`,
-  width: `50%`,
-  borderRadius: `10px`,
+const AddButton = styled('label')(({}) => ({
+  padding: '0.8rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  border: 'solid 1px #ccc',
+  width: '50%',
+  borderRadius: '10px',
 
   '.icon': {
-    fontSize: `1rem`,
-    marginRight: `1rem`,
+    fontSize: '1rem',
+    marginRight: '1rem',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 

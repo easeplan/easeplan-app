@@ -30,34 +30,34 @@ const UserDetails = ({ queryData, token }: any) => {
       <Box
         sx={{
           mt: {
-            xs: `3rem`,
-            sm: `3rem`,
-            md: `5rem`,
-            lg: `5rem`,
+            xs: '3rem',
+            sm: '3rem',
+            md: '5rem',
+            lg: '5rem',
           },
         }}
       >
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            position: `relative`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
           }}
         >
           <Typography
             fontWeight={600}
             sx={{
               fontSize: {
-                xs: `1.2rem`,
-                sm: `1.2rem`,
-                md: `1.4rem`,
-                lg: `1.5rem`,
+                xs: '1.2rem',
+                sm: '1.2rem',
+                md: '1.4rem',
+                lg: '1.5rem',
               },
             }}
             textTransform="capitalize"
           >
-            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
+            {queryData?.profile?.firstName} {queryData?.profile?.lastName}
           </Typography>
           <EditButton onClick={handleOpenModal}>
             <CreateOutlinedIcon className="icon" />
@@ -65,9 +65,9 @@ const UserDetails = ({ queryData, token }: any) => {
         </Box>
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <RatingStar rate={queryData?.providerProfile?.rating} size="small" />
@@ -75,35 +75,35 @@ const UserDetails = ({ queryData, token }: any) => {
         </Box>
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            margin: `0 auto`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto',
             '.preview-btn': {
-              color: `secondary.main`,
-              fontWeight: `bold`,
-              backgroundColor: `primary.main`,
-              border: `none`,
-              cursor: `pointer`,
-              borderRadius: `8px`,
+              color: 'secondary.main',
+              fontWeight: 'bold',
+              backgroundColor: 'primary.main',
+              border: 'none',
+              cursor: 'pointer',
+              borderRadius: '8px',
               // boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-              padding: `0.5rem 1rem`,
+              padding: '0.5rem 1rem',
               width: {
-                xs: `auto`,
-                sm: `auto`,
-                md: `auto`,
-                lg: `140px`,
-                xl: `140px`,
+                xs: 'auto',
+                sm: 'auto',
+                md: 'auto',
+                lg: '140px',
+                xl: '140px',
               },
               height: {
-                xs: `40px`,
-                sm: `40px`,
-                md: `50px`,
-                lg: `50px`,
-                xl: `50px`,
+                xs: '40px',
+                sm: '40px',
+                md: '50px',
+                lg: '50px',
+                xl: '50px',
               },
-              transition: `0.2s`,
-              fontSize: `0.8rem`,
+              transition: '0.2s',
+              fontSize: '0.8rem',
             },
           }}
         >
@@ -124,16 +124,16 @@ const UserDetails = ({ queryData, token }: any) => {
         </Box>
         <Box
           sx={{
-            mt: `5rem`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
+            mt: '5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <Box>
@@ -146,7 +146,7 @@ const UserDetails = ({ queryData, token }: any) => {
                 </Typography>
                 <Box
                   sx={{
-                    display: `flex`,
+                    display: 'flex',
                   }}
                 >
                   {queryData?.providerProfile?.company?.operationStates.map(
@@ -164,13 +164,13 @@ const UserDetails = ({ queryData, token }: any) => {
                 </Typography>
                 <Box
                   sx={{
-                    display: `flex`,
+                    display: 'flex',
                     flexDirection: {
-                      xs: `column`,
-                      sm: `column`,
-                      md: `column`,
-                      lg: `row`,
-                      xl: `row`,
+                      xs: 'column',
+                      sm: 'column',
+                      md: 'column',
+                      lg: 'row',
+                      xl: 'row',
                     },
                   }}
                 >
@@ -197,17 +197,17 @@ const UserDetails = ({ queryData, token }: any) => {
   );
 };
 
-const EditButton = styled(`button`)(({ theme }) => ({
-  border: `none`,
-  backgroundColor: `transparent`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `50%`,
+const EditButton = styled('button')(({ theme }) => ({
+  border: 'none',
+  backgroundColor: 'transparent',
+  zIndex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  borderRadius: '50%',
   color: theme.palette.primary.main,
 
   '&:hover': {
@@ -215,14 +215,14 @@ const EditButton = styled(`button`)(({ theme }) => ({
   },
 
   '.icon': {
-    fontSize: `1.2rem`,
-    marginLeft: `0.4rem`,
-    marginBottom: `0.6rem`,
+    fontSize: '1.2rem',
+    marginLeft: '0.4rem',
+    marginBottom: '0.6rem',
   },
 
   '@media (max-width: 900px)': {
     '.icon': {
-      fontSize: `1.2rem`,
+      fontSize: '1.2rem',
     },
   },
 }));

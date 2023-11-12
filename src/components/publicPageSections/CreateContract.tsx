@@ -18,35 +18,35 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 const style = {
-  position: `absolute` as const,
-  bottom: `-1%`,
+  position: 'absolute' as const,
+  bottom: '-1%',
   left: {
-    xs: `0%`,
-    sm: `0%`,
-    md: `10%`,
-    lg: `10%`,
-    xl: `10%`,
+    xs: '0%',
+    sm: '0%',
+    md: '10%',
+    lg: '10%',
+    xl: '10%',
   },
   // transform: `translate(-50%, -50%)`,
   width: {
-    xs: `100%`,
-    sm: `100%`,
-    md: `50%`,
-    lg: `35%`,
-    xl: `35%`,
+    xs: '100%',
+    sm: '100%',
+    md: '50%',
+    lg: '35%',
+    xl: '35%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderTopRightRadius: `1rem`,
-  borderTopLeftRadius: `1rem`,
+  borderTopRightRadius: '1rem',
+  borderTopLeftRadius: '1rem',
 };
 
 const FormSchema = Yup.object().shape({
-  budget: Yup.string().required(`Budget is missing`),
-  dateTime: Yup.string().required(`Date is missing`),
-  service: Yup.string().required(`Service is missing`),
+  budget: Yup.string().required('Budget is missing'),
+  dateTime: Yup.string().required('Date is missing'),
+  service: Yup.string().required('Service is missing'),
 });
 
 const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
@@ -70,13 +70,13 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
         },
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
       router.push(`/user/events/${data?.data?._id}`);
-      toast.success(`Successfully`);
+      toast.success('Successfully');
     } catch (error: any) {
       toast.success(error?.response?.data?.message);
       setIsLoading(false);
@@ -96,12 +96,12 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: `primary.main`,
-                borderTopRightRadius: `1rem`,
-                borderTopLeftRadius: `1rem`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                backgroundColor: 'primary.main',
+                borderTopRightRadius: '1rem',
+                borderTopLeftRadius: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Typography color="secondary.main" fontWeight={600}>
@@ -109,9 +109,9 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
               </Typography>
               <Typography
                 sx={{
-                  cursor: `pointer`,
-                  textAlign: `center`,
-                  color: `secondary.light`,
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  color: 'secondary.light',
                 }}
               >
                 <CloseIcon onClick={isClose} />
@@ -133,9 +133,9 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    budget: ``,
-                    dateTime: ``,
-                    service: ``,
+                    budget: '',
+                    dateTime: '',
+                    service: '',
                   }}
                   onSubmit={(values) => handleSubmit(values)}
                   validationSchema={FormSchema}
@@ -152,12 +152,12 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                         )}
                         <Box
                           sx={{
-                            display: `flex`,
-                            gap: `10px`,
-                            alignItems: `center`,
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'center',
                           }}
                         >
-                          <Box sx={{ width: `100%` }}>
+                          <Box sx={{ width: '100%' }}>
                             <Label text="Enter your budget" />
                             <FormInput
                               ariaLabel="budget"
@@ -167,7 +167,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                             />
                           </Box>
                         </Box>
-                        <Box sx={{ width: `100%` }}>
+                        <Box sx={{ width: '100%' }}>
                           <Label text="Event Date" />
                           <FormInput
                             ariaLabel="dateTime"
@@ -194,9 +194,9 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box
                           mt={3}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -209,7 +209,7 @@ const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Send Request`
+                              'Send Request'
                             )}
                           </CustomButton>
                         </Box>

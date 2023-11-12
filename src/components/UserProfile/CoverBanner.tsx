@@ -31,13 +31,13 @@ const CoverBanner = ({ queryData, token }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`/profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `multipart/form-data`,
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Saved`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Saved');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -46,35 +46,35 @@ const CoverBanner = ({ queryData, token }: any) => {
 
   const updateCoverBanner = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`image`, credentials.image);
+    formData.append('image', credentials.image);
     updateBannerImg(credentials);
   };
 
   return (
     <Box
       sx={{
-        width: `100%`,
+        width: '100%',
         height: {
-          xs: `120px`,
-          sm: `130px`,
-          md: `200px`,
-          lg: `200px`,
-          xl: `300px`,
+          xs: '120px',
+          sm: '130px',
+          md: '200px',
+          lg: '200px',
+          xl: '300px',
         },
-        my: `1rem`,
-        borderRadius: `10px`,
-        position: `relative`,
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `center`,
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+        my: '1rem',
+        borderRadius: '10px',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
       }}
     >
       <Formik
         initialValues={{
           image: queryData?.providerProfile?.company?.image
             ? queryData?.providerProfile?.company?.image
-            : ``,
+            : '',
         }}
         onSubmit={(values) => updateCoverBanner(values)}
         validationSchema={CoverImageSchema}
@@ -99,9 +99,9 @@ const CoverBanner = ({ queryData, token }: any) => {
                   quality={100}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{
-                    height: `100%`,
-                    borderRadius: `10px`,
-                    objectFit: `cover`,
+                    height: '100%',
+                    borderRadius: '10px',
+                    objectFit: 'cover',
                   }}
                 />
               ) : (
@@ -116,9 +116,9 @@ const CoverBanner = ({ queryData, token }: any) => {
                   quality={100}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{
-                    height: `100%`,
-                    borderRadius: `10px`,
-                    objectFit: `cover`,
+                    height: '100%',
+                    borderRadius: '10px',
+                    objectFit: 'cover',
                   }}
                 />
               )}
@@ -127,7 +127,7 @@ const CoverBanner = ({ queryData, token }: any) => {
                   {isLoading ? (
                     <FontAwesomeIcon icon={faCircleNotch} spin />
                   ) : (
-                    `Save`
+                    'Save'
                   )}
                 </SaveButton>
               )}
@@ -140,22 +140,22 @@ const CoverBanner = ({ queryData, token }: any) => {
   );
 };
 
-const ChangeCoverImg = styled(`label`)(({ theme }) => ({
-  position: `absolute`,
-  top: `1rem`,
-  right: `1rem`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  fontSize: `1.7rem`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  width: `50px`,
-  height: `50px`,
-  background: `#fff`,
-  borderRadius: `50%`,
+const ChangeCoverImg = styled('label')(({ theme }) => ({
+  position: 'absolute',
+  top: '1rem',
+  right: '1rem',
+  zIndex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  fontSize: '1.7rem',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  width: '50px',
+  height: '50px',
+  background: '#fff',
+  borderRadius: '50%',
   color: theme.palette.primary.main,
 
   '&:hover': {
@@ -164,35 +164,35 @@ const ChangeCoverImg = styled(`label`)(({ theme }) => ({
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    width: `40px`,
-    height: `40px`,
-    fontSize: `0.7rem`,
-    top: `0.5rem`,
+    width: '40px',
+    height: '40px',
+    fontSize: '0.7rem',
+    top: '0.5rem',
   },
 }));
 
-const SaveButton = styled(`button`)(({ theme }) => ({
-  position: `absolute`,
-  bottom: `1rem`,
-  right: `1rem`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  fontSize: `1rem`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  padding: `0.4rem 1rem`,
-  border: `none`,
-  background: `#fff`,
-  borderRadius: `6px`,
-  fontWeight: `500`,
-  transition: `all 0.5s ease`,
+const SaveButton = styled('button')(({ theme }) => ({
+  position: 'absolute',
+  bottom: '1rem',
+  right: '1rem',
+  zIndex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  fontSize: '1rem',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  padding: '0.4rem 1rem',
+  border: 'none',
+  background: '#fff',
+  borderRadius: '6px',
+  fontWeight: '500',
+  transition: 'all 0.5s ease',
   color: theme.palette.primary.main,
 
   '&:hover': {
@@ -201,12 +201,12 @@ const SaveButton = styled(`button`)(({ theme }) => ({
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    fontSize: `0.8rem`,
-    bottom: `0.5rem`,
+    fontSize: '0.8rem',
+    bottom: '0.5rem',
   },
 }));
 

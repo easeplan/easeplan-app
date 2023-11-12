@@ -9,26 +9,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       req.body,
     );
     if (!data) {
-      res.status(401).json({ error: `Invalid credentials` });
+      res.status(401).json({ error: 'Invalid credentials' });
       return;
     }
 
     const token = data?.token;
 
     res.setHeader(
-      `Set-Cookie`,
-      cookie.serialize(`token`, token, {
+      'Set-Cookie',
+      cookie.serialize('token', token, {
         httpOnly: true,
-        secure: process.env.NEXT_PUBLIC_NODE_ENV !== `development`,
+        secure: process.env.NEXT_PUBLIC_NODE_ENV !== 'development',
         maxAge: 60 * 60 * 24 * 1, // 1 day
-        sameSite: `strict`,
-        path: `/`,
+        sameSite: 'strict',
+        path: '/',
       }),
     );
 
     res.status(200).json(data);
   } catch (error: any) {
-    console.log(error.response.data.message);
     return res.status(401).json({ error: error.response.data.message });
   }
 };

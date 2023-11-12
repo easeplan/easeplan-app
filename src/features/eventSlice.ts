@@ -5,7 +5,7 @@ export const eventSlice = apiSlice.injectEndpoints({
     addEvent: builder.mutation({
       query: (data) => ({
         url: `${process.env.NEXT_PUBLIC_NEXT_API}/api/auth`,
-        method: `PUT`,
+        method: 'PUT',
         body: data,
       }),
     }),

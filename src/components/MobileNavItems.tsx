@@ -19,16 +19,16 @@ function MobileNavItems({ href, text, icon }: NavProps) {
   return (
     <ItemWrapper>
       <NextLink href={href}>
-        <Box sx={{ textAlign: `center` }}>
+        <Box sx={{ textAlign: 'center' }}>
           <div
             style={
               isActive
                 ? {
-                    fontWeight: `bold`,
+                    fontWeight: 'bold',
                     color: `${theme.palette.secondary.main}`,
                   }
                 : {
-                    fontWeight: `normal`,
+                    fontWeight: 'normal',
                     color: `${theme.palette.secondary.light}`,
                   }
             }
@@ -40,15 +40,15 @@ function MobileNavItems({ href, text, icon }: NavProps) {
               style={
                 isActive
                   ? {
-                      fontSize: `0.7rem`,
-                      margin: `0`,
+                      fontSize: '0.7rem',
+                      margin: '0',
                       color: `${theme.palette.secondary.main}`,
                     }
                   : {
-                      fontWeight: `normal`,
-                      margin: `0`,
+                      fontWeight: 'normal',
+                      margin: '0',
                       color: `${theme.palette.secondary.light}`,
-                      fontSize: `0.7rem`,
+                      fontSize: '0.7rem',
                     }
               }
             >
@@ -61,21 +61,21 @@ function MobileNavItems({ href, text, icon }: NavProps) {
   );
 }
 
-const ItemWrapper = styled(`div`)({
+const ItemWrapper = styled('div')({
   color: theme.palette.secondary.contrastText,
-  transition: `0.1s all ease`,
-  margin: `0`,
+  transition: '0.1s all ease',
+  margin: '0',
 
   button: {
-    border: `none`,
-    background: `none`,
-    outline: `none`,
-    margin: `0`,
+    border: 'none',
+    background: 'none',
+    outline: 'none',
+    margin: '0',
   },
 
   '@media (max-width: 1020px)': {
     color: theme.palette.primary.main,
-    transition: `0.5s all ease`,
+    transition: '0.5s all ease',
   },
 });
 export default MobileNavItems;

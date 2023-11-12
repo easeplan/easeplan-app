@@ -26,16 +26,16 @@ const Header = ({ publicId }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`/api/logout`);
+      await axios.post('/api/logout');
       dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      router.push('/user/findvendors');
     } catch (error: any) {}
   };
 
   const handledLogin = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+    router.push('/login');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastVisitedURL', `/account/profile/${publicId}`);
     }
   };
 
@@ -81,48 +81,48 @@ const Header = ({ publicId }: any) => {
 
 const NavWrapper = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  display: `flex`,
-  alignItems: `center`,
-  padding: `1rem 0`,
-  position: `fixed`,
-  top: `0`,
-  width: `100%`,
-  zIndex: `10`,
+  display: 'flex',
+  alignItems: 'center',
+  padding: '1rem 0',
+  position: 'fixed',
+  top: '0',
+  width: '100%',
+  zIndex: '10',
 
   '@media (max-width: 900px)': {
-    padding: `0.8rem 0 `,
+    padding: '0.8rem 0 ',
   },
 }));
 
 const Flex = styled(Box)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
-  padding: `0 4rem`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '0 4rem',
 
   '@media (max-width: 1020px)': {
-    padding: ` 0 `,
+    padding: ' 0 ',
   },
 
   '.menuIcon': {
     color: theme.palette.secondary.main,
-    display: `none`,
-    cursor: `pointer`,
+    display: 'none',
+    cursor: 'pointer',
 
     '@media (max-width: 1020px)': {
-      display: `block`,
-      fontSize: `2rem`,
+      display: 'block',
+      fontSize: '2rem',
     },
   },
 }));
 
 const NavItemWrapper = styled(Box)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 
   '@media (max-width: 1020px)': {
-    display: `none`,
+    display: 'none',
   },
 });
 

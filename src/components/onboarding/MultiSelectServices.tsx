@@ -41,7 +41,7 @@ export default function MultipleSelect({ name, setServices, services }: any) {
     setServices(value);
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === `string` ? value.split(`,`) : value,
+      typeof value === 'string' ? value.split(',') : value,
     );
     setValue(value || []);
   };
@@ -60,17 +60,17 @@ export default function MultipleSelect({ name, setServices, services }: any) {
           value={personName}
           onChange={handleChange}
           sx={{
-            borderRadius: `10px`,
-            overflowX: `hidden`,
+            borderRadius: '10px',
+            overflowX: 'hidden',
             width: {
-              xs: `100%`,
-              sm: `100%`,
-              md: `100%`,
-              lg: `100%`,
-              xl: `100%`,
+              xs: '100%',
+              sm: '100%',
+              md: '100%',
+              lg: '100%',
+              xl: '100%',
             },
           }}
-          inputProps={{ 'aria-label': `Without label` }}
+          inputProps={{ 'aria-label': 'Without label' }}
           MenuProps={MenuProps}
         >
           {services?.map((service: any) => (
@@ -78,12 +78,12 @@ export default function MultipleSelect({ name, setServices, services }: any) {
               key={service}
               value={service}
               style={getStyles(service, personName, theme)}
-              sx={{ borderBottom: `solid 1px #fff`, overflowX: `hidden` }}
+              sx={{ borderBottom: 'solid 1px #fff', overflowX: 'hidden' }}
             >
               <Typography
                 variant="caption"
                 style={{
-                  fontSize: `14px`,
+                  fontSize: '14px',
                 }}
               >
                 {service}

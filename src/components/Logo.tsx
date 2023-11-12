@@ -16,24 +16,24 @@ const Logo = () => {
 
 const LogoWrapper = styled(Box)(({ theme }) => ({
   color: theme.palette.secondary.main,
-  textAlign: `center`,
-  display: `flex`,
-  alignItems: `center`,
+  textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
   ...theme.typography.h6,
 
   '@media (max-width: 900px)': {
     img: {
-      width: `70%`,
-      height: `70%`,
+      width: '70%',
+      height: '70%',
     },
   },
 }));
 
-const Text = styled(`p`)({
-  fontSize: `1.5rem;`,
+const Text = styled('p')({
+  fontSize: '1.5rem;',
 
   '@media (max-width: 900px)': {
-    display: `none`,
+    display: 'none',
     // fontSize: `1rem;`,
   },
 });

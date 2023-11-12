@@ -15,32 +15,32 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
   const { messages } = useSelector((state: RootState) => state.chatsData);
 
   return (
-    <Box sx={{ overflowY: `hidden` }}>
+    <Box sx={{ overflowY: 'hidden' }}>
       <Box
         sx={{
-          position: `relative`,
-          width: `100%`,
-          height: `100%`,
-          backgroundColor: `secondary.light`,
-          borderRadius: `8px`,
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'secondary.light',
+          borderRadius: '8px',
         }}
       >
-        <Box sx={{ p: `1rem`, background: `#fff` }}>
+        <Box sx={{ p: '1rem', background: '#fff' }}>
           {/* Active User at Header */}
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `space-between`,
-              cursor: `pointer`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              cursor: 'pointer',
             }}
           >
             <Box
               sx={{
-                position: `relative`,
-                width: `30px`,
-                height: `30px`,
-                borderRadius: `50%`,
+                position: 'relative',
+                width: '30px',
+                height: '30px',
+                borderRadius: '50%',
                 background: theme.palette.primary.main,
               }}
             >
@@ -49,11 +49,11 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
                 alt="profileImg"
                 fill
                 style={{
-                  borderRadius: `50%`,
+                  borderRadius: '50%',
                 }}
               />
             </Box>
-            <Box sx={{ width: `95%` }}>
+            <Box sx={{ width: '95%' }}>
               <Typography
                 fontWeight="bold"
                 fontSize="0.8rem"
@@ -67,16 +67,16 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
         {/*  Chats */}
         <Box
           sx={{
-            overflowY: `scroll`,
-            height: `100%`,
-            px: `1rem`,
-            pt: `2rem`,
-            pb: `12rem`,
+            overflowY: 'scroll',
+            height: '100%',
+            px: '1rem',
+            pt: '2rem',
+            pb: '12rem',
           }}
         >
           {messages?.length < 1 ? (
-            <Box sx={{ textAlign: `center`, mt: `4rem` }}>
-              <ChatIcon sx={{ fontSize: `3rem`, color: `#ccc` }} />
+            <Box sx={{ textAlign: 'center', mt: '4rem' }}>
+              <ChatIcon sx={{ fontSize: '3rem', color: '#ccc' }} />
               <Typography color="#ccc">You have no messages yet!</Typography>
             </Box>
           ) : (
@@ -88,16 +88,16 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
         {/* Form for sending message */}
         <Box
           sx={{
-            position: `absolute`,
-            bottom: `0`,
-            width: `100%`,
-            p: `1rem`,
+            position: 'absolute',
+            bottom: '0',
+            width: '100%',
+            p: '1rem',
             background: theme.palette.secondary.light,
-            borderTop: `solid 1px #ccc`,
+            borderTop: 'solid 1px #ccc',
           }}
         >
           <form onSubmit={sendMessage}>
-            <Box sx={{ display: `flex` }}>
+            <Box sx={{ display: 'flex' }}>
               <IconButton aria-label="delete" size="large">
                 <AttachFileIcon />
               </IconButton>
@@ -110,12 +110,12 @@ const ChatBoard = ({ sendMessage, setChatMessage, chatMessage }: any) => {
                 cols={50}
                 placeholder="Type here"
                 style={{
-                  width: `100%`,
-                  padding: `1rem`,
-                  overflowY: `scroll`,
-                  resize: `none`,
-                  border: `none`,
-                  outline: `none`,
+                  width: '100%',
+                  padding: '1rem',
+                  overflowY: 'scroll',
+                  resize: 'none',
+                  border: 'none',
+                  outline: 'none',
                 }}
               />
               <Button

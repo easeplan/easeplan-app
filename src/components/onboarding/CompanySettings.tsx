@@ -25,22 +25,22 @@ import { RootState } from '@/store/store';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
-  name: Yup.string().required(`Business name is required`),
+  name: Yup.string().required('Business name is required'),
   serviceType: Yup.string(),
   image: Yup.mixed()
-    .required(`Business Banner is required`)
-    .test(`fileSize`, `It hould be less than 5mb`, (value: any) => {
+    .required('Business Banner is required')
+    .test('fileSize', 'It hould be less than 5mb', (value: any) => {
       const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }
       return false;
     })
-    .test(`type`, `We only support jpeg`, function (value: any) {
+    .test('type', 'We only support jpeg', function (value: any) {
       return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
+        (value && value[0] && value[0].type === 'image/jpeg') ||
+        'image/png' ||
+        'image/jpg'
       );
     }),
 });
@@ -74,7 +74,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append(`image`, credentials.image);
+      formData.append('image', credentials.image);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company`,
         {
@@ -86,13 +86,13 @@ const CompanySettings = ({ token }: PropsTypes) => {
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        router.push(`/account`);
+      if (data.status === 'success') {
+        router.push('/account');
       }
     } catch (error) {
       setIsLoading(false);
@@ -102,42 +102,42 @@ const CompanySettings = ({ token }: PropsTypes) => {
   return (
     <>
       {stepThree && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
             sx={{
-              p: `2rem`,
-              backgroundColor: `primary.main`,
-              width: `45%`,
-              height: `100vh`,
+              p: '2rem',
+              backgroundColor: 'primary.main',
+              width: '45%',
+              height: '100vh',
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `none`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'flex',
+                xl: 'flex',
               },
             }}
           >
             <Box
               sx={{
-                width: `100%`,
+                width: '100%',
               }}
             >
               <Box
                 component={motion.div}
                 {...headTextAnimation}
                 sx={{
-                  position: `relative`,
+                  position: 'relative',
                 }}
               >
                 <Image src={logoImg} alt="logoImage" height={30} width={150} />
               </Box>
               <Box
                 sx={{
-                  position: `relative`,
-                  width: `100%`,
-                  height: `400px`,
-                  mt: `8rem`,
+                  position: 'relative',
+                  width: '100%',
+                  height: '400px',
+                  mt: '8rem',
                 }}
               >
                 <Image src={IllusImg} alt="logoImage" fill />
@@ -145,7 +145,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
             </Box>
           </Box>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -154,23 +154,23 @@ const CompanySettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
+                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                   <HiArrowUturnLeft onClick={handleNextSlide} />
                 </Box>
                 <Box>
@@ -187,15 +187,15 @@ const CompanySettings = ({ token }: PropsTypes) => {
                 py={1}
                 pl={2}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    xl: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    xl: '1rem',
                   },
-                  borderRadius: `10px`,
+                  borderRadius: '10px',
                   // boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
                 }}
               >
@@ -209,11 +209,11 @@ const CompanySettings = ({ token }: PropsTypes) => {
                 color="primary.main"
                 sx={{
                   fontSize: {
-                    xs: `1.3rem`,
-                    sm: `1.3rem`,
-                    md: `1.8rem`,
-                    lg: `2rem`,
-                    xl: `2rem`,
+                    xs: '1.3rem',
+                    sm: '1.3rem',
+                    md: '1.8rem',
+                    lg: '2rem',
+                    xl: '2rem',
                   },
                 }}
               >
@@ -224,10 +224,10 @@ const CompanySettings = ({ token }: PropsTypes) => {
               <Box mt={2} mb={10}>
                 <Formik
                   initialValues={{
-                    name: ``,
-                    serviceType: ``,
-                    image: ``,
-                    description: ``,
+                    name: '',
+                    serviceType: '',
+                    image: '',
+                    description: '',
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   validationSchema={ProfileSchema}
@@ -242,7 +242,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
                           placeholder="Company Name"
                         />
                       </Box>
-                      {userInfo?.role === `provider` && (
+                      {userInfo?.role === 'provider' && (
                         <Box>
                           <FormInput
                             isSelect
@@ -261,9 +261,9 @@ const CompanySettings = ({ token }: PropsTypes) => {
                       <Box mb={3}>
                         <Box
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <AddButton htmlFor="image">
@@ -280,13 +280,13 @@ const CompanySettings = ({ token }: PropsTypes) => {
                           {previewImg === null ? (
                             <Box
                               sx={{
-                                width: `50px`,
-                                height: `50px`,
-                                border: `solid 1px #ccc`,
-                                borderRadius: `50%`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
+                                width: '50px',
+                                height: '50px',
+                                border: 'solid 1px #ccc',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                               }}
                             >
                               <ImageOutlinedIcon />
@@ -298,12 +298,16 @@ const CompanySettings = ({ token }: PropsTypes) => {
                                 alt="profileImg"
                                 height={50}
                                 width={80}
-                                style={{ borderRadius: `10px` }}
+                                style={{ borderRadius: '10px' }}
                               />
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                        <small>
+                          {
+                            '{ jpg, png, jpeg } | The file should be less than 1mb'
+                          }
+                        </small>
                       </Box>
                       <Box>
                         <TextArea
@@ -334,32 +338,32 @@ const CompanySettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
+const AddButton = styled('label')(({}) => ({
   // display: `flex`,
   // alignItems: `center`,
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  border: `solid 1px #ccc`,
-  width: `50%`,
-  whiteSpace: `nowrap`,
-  borderRadius: `10px`,
+  padding: '0.8rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  border: 'solid 1px #ccc',
+  width: '50%',
+  whiteSpace: 'nowrap',
+  borderRadius: '10px',
 
   '.fileIcon': {
-    fontSize: `1rem`,
-    marginRight: `1rem`,
+    fontSize: '1rem',
+    marginRight: '1rem',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.6rem 1rem`,
-    width: `60%`,
+    padding: '0.6rem 1rem',
+    width: '60%',
   },
 }));
 

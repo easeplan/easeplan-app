@@ -34,14 +34,14 @@ export default function EventDetailsDrawer({ data, id }: any) {
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === `keydown` &&
-        ((event as React.KeyboardEvent).key === `Tab` ||
-          (event as React.KeyboardEvent).key === `Shift`)
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
       ) {
         return;
       }
 
-      console.log(`ID:`, id);
+      console.log('ID:', id);
 
       setState({ ...state, [anchor]: open });
     };
@@ -52,11 +52,11 @@ export default function EventDetailsDrawer({ data, id }: any) {
     <Box
       sx={{
         width: {
-          xs: anchor === `right` || anchor === `bottom` ? `70vw` : `auto`,
-          sm: anchor === `right` || anchor === `bottom` ? `70vw` : `auto`,
-          md: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
-          lg: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
-          xl: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
+          xs: anchor === 'right' || anchor === 'bottom' ? '70vw' : 'auto',
+          sm: anchor === 'right' || anchor === 'bottom' ? '70vw' : 'auto',
+          md: anchor === 'right' || anchor === 'bottom' ? '20vw' : 'auto',
+          lg: anchor === 'right' || anchor === 'bottom' ? '20vw' : 'auto',
+          xl: anchor === 'right' || anchor === 'bottom' ? '20vw' : 'auto',
         },
       }}
       role="presentation"
@@ -64,9 +64,9 @@ export default function EventDetailsDrawer({ data, id }: any) {
       <Box sx={{ p: 2 }}>
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Box>
@@ -78,7 +78,7 @@ export default function EventDetailsDrawer({ data, id }: any) {
                 height: 56,
                 mt: 2,
                 mb: 2,
-                backgroundColor: `primary.main`,
+                backgroundColor: 'primary.main',
               }}
             />
           </Box>
@@ -86,8 +86,7 @@ export default function EventDetailsDrawer({ data, id }: any) {
         {/* Details */}
         <Box>
           <Typography textAlign="center">
-            {data?.parties?.receiver?.profile?.firstName}
-            {` `}
+            {data?.parties?.receiver?.profile?.firstName}{' '}
             {data?.parties?.receiver?.profile?.lastName}
           </Typography>
           <Typography textAlign="center">{data?.service}</Typography>
@@ -96,12 +95,12 @@ export default function EventDetailsDrawer({ data, id }: any) {
             {formatCurrency(data?.budget)}
           </Typography>
         </Box>
-        <Box mt={3} sx={{ textAlign: `center` }}>
+        <Box mt={3} sx={{ textAlign: 'center' }}>
           {data?.parties?.receiver?.providerProfile?.currentlyHiredBy?.includes(
             loggedUserId,
           ) ? (
             <Link href="/account/chats">
-              <Button variant="contained" sx={{ textTransform: `capitalize` }}>
+              <Button variant="contained" sx={{ textTransform: 'capitalize' }}>
                 <TelegramIcon sx={{ mr: 1 }} />
                 Message Vendor
               </Button>
@@ -109,12 +108,12 @@ export default function EventDetailsDrawer({ data, id }: any) {
           ) : data?.parties?.receiver?.providerProfile?.currentlyRequestedBy?.includes(
               loggedUserId,
             ) ? (
-            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
+            <Button variant="contained" sx={{ color: 'secondary.main', px: 6 }}>
               Awaiting Vendor Response
             </Button>
           ) : (
             <Link href="/user/chats">
-              <Button variant="contained" sx={{ textTransform: `capitalize` }}>
+              <Button variant="contained" sx={{ textTransform: 'capitalize' }}>
                 <TelegramIcon sx={{ mr: 1 }} />
                 Message Vendor
               </Button>
@@ -127,11 +126,11 @@ export default function EventDetailsDrawer({ data, id }: any) {
 
   return (
     <div>
-      {([`right`] as const).map((anchor) => (
+      {(['right'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button
             // onClick={toggleDrawer(anchor, true)}
-            sx={{ textTransform: `capitalize` }}
+            sx={{ textTransform: 'capitalize' }}
           >
             <Link href={`/user/events/${data._id}`}> View</Link>
           </Button>
@@ -142,7 +141,7 @@ export default function EventDetailsDrawer({ data, id }: any) {
           >
             <Box pt={2} pl={2}>
               <Button variant="outlined" onClick={toggleDrawer(anchor, false)}>
-                <CloseIcon sx={{ color: `grey` }} />
+                <CloseIcon sx={{ color: 'grey' }} />
               </Button>
             </Box>
             <Box p={1}>{NavItem(anchor)}</Box>

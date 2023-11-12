@@ -1,141 +1,153 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import avatarImg from '@/public/avatar.png';
-// import { Navigation, Pagination } from 'swiper';
+import React from 'react';
+import {
+  Box,
+  Typography,
+  Rating,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import theme from '@/styles/theme';
+import SwiperCore, { FreeMode, Mousewheel } from 'swiper';
 
-const ClientReviews = ({ queryData }: any) => {
-  return (
-    <>
-      {queryData?.providerProfile?.ratings.length > 0 && (
-        <Box
-          mt={8}
-          mb={13}
-          sx={{
-            paddingBottom: {
-              xs: `1rem`,
-              sm: `1rem`,
-              md: `2rem`,
-              lg: `3rem`,
-              xl: `3rem`,
-            },
-          }}
-        >
-          <Typography
-            fontWeight={800}
-            sx={{
-              fontSize: {
-                xs: `1.5rem`,
-                sm: `1.5rem`,
-                md: `1.5rem`,
-                lg: `2rem`,
-              },
-              textAlign: `center`,
-              color: `primary.main`,
+// Swiper modules initialization
+SwiperCore.use([FreeMode, Mousewheel]);
+
+const reviews = [];
+
+const ReviewSlider = ({ queryData }: any) => {
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const reviewCards = queryData?.providerProfile?.ratings.map(
+    (review, index) => (
+      <Box
+        key={index}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'start',
+          p: 3,
+          mb: { xs: 4, md: 0 }, // Margin bottom only on xs screens
+          border: { xs: 'solid 1px #ccc', md: 'none' }, // Borders only on xs screens
+          borderRadius: '10px',
+          maxWidth: { xs: '100%', md: 500 }, // Full width on xs screens, max width on larger screens
+          boxShadow: { sm: 'none', md: 3 }, // Shadow on md screens and larger
+          // Other styles here...
+          height: '100%',
+        }}
+      >
+        {' '}
+        {/* Review card content */}
+        <Box sx={{ display: 'flex', mb: 3, alignItems: 'center' }}>
+          <Rating
+            name="read-only"
+            value={review.stars}
+            readOnly
+            precision={0.1}
+            sx={{ fontSize: 20 }}
+          />
+          <Typography>{review.date}</Typography>
+        </Box>
+        <Typography>{review.review}</Typography>
+        <Box sx={{ display: 'flex', mt: 2, alignItems: 'center' }}>
+          <Image
+            src={
+              review?.ratedBy?.profile?.picture
+                ? review?.ratedBy?.profile?.picture
+                : avatarImg
+            }
+            alt="profile"
+            style={{
+              marginRight: 16,
+              borderRadius: '50%',
+              width: 40,
+              height: 40,
             }}
-          >
-            My Customer Reviews
-          </Typography>
-          <Box
-            sx={{
-              mt: `3rem`,
-            }}
-          >
-            <Swiper
-              centeredSlides={true}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
-              // modules={[Pagination, Navigation]}
-              navigation={true}
-              slidesPerView={1}
-              spaceBetween={40}
-              breakpoints={{
-                640: {
-                  spaceBetween: 30,
-                  slidesPerView: 1,
-                },
-                768: {
-                  spaceBetween: 30,
-                  slidesPerView: 1,
-                },
-                1024: {
-                  spaceBetween: 30,
-                  slidesPerView: 2,
-                },
-              }}
-            >
-              {queryData?.providerProfile?.ratings.map((reviews: any) => (
-                <SwiperSlide key={reviews.id}>
-                  <Box
-                    sx={{
-                      margin: `0 auto`,
-                      // height: `200px`,
-                      textAlign: `center`,
-                      backgroundColor: `#fff`,
-                      borderRadius: `10px`,
-                      padding: {
-                        xs: `1.5rem`,
-                        sm: `1.5rem`,
-                        md: `2rem`,
-                        lg: `2rem 1rem`,
-                      },
-                      color: `primary.main`,
-                      // color: `#fff`,
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                      borderBottom: `solid 1rem ${theme.palette.primary.main}`,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: {
-                          xs: `1rem`,
-                          sm: `1rem`,
-                          md: `1.2rem`,
-                          lg: `1.2rem`,
-                        },
-                      }}
-                    >
-                      {reviews?.review}
-                    </Typography>
-                    <Box
-                      sx={{
-                        textAlign: `center`,
-                      }}
-                    >
-                      <Box mt={3}>
-                        <Image
-                          src={reviews?.ratedBy?.picture}
-                          alt="profileImg"
-                          width={60}
-                          height={60}
-                          style={{
-                            borderRadius: `50%`,
-                            boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                          }}
-                        />
-                        <Typography fontSize="1.1rem" mt={1}>
-                          {reviews?.ratedBy?.firstName} {` `}
-                          {reviews?.ratedBy?.lastName}
-                        </Typography>
-                      </Box>
-                      {/* <Typography mt={1}>CEO of FANTACY</Typography> */}
-                    </Box>
-                  </Box>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+          />
+          <Box>
+            <Typography>
+              {review?.ratedBy?.profile?.firstName + 'John'}
+            </Typography>
+            <Typography>{review?.ratedBy?.profile?.state + 'Delta'}</Typography>
           </Box>
         </Box>
-      )}
-    </>
+      </Box>
+    ),
   );
+
+  const reviewCount = queryData?.providerProfile?.ratings?.length || 0;
+  const reviewsNumb = `${reviewCount} review${reviewCount === 1 ? '' : 's'}`;
+  // Determine the layout based on the screen width
+  if (isLgUp) {
+    // Grid layout for lg and xl screens
+    return (
+      <Box sx={{ mb: 10 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          {reviewsNumb}
+        </Typography>
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1 vcdfrem',
+          }}
+        >
+          {reviewCards}
+        </Box>
+      </Box>
+    );
+  } else if (isMdUp) {
+    // Grid layout for md screens
+    return (
+      <Box sx={{ mb: 10 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          {reviewsNumb}
+        </Typography>
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '2rem',
+          }}
+        >
+          {reviewCards}
+        </Box>
+      </Box>
+    );
+  } else {
+    // Swiper for xs and sm screens
+    return (
+      <Box sx={{ mb: 10 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          {reviewsNumb}
+        </Typography>
+
+        <Swiper
+          spaceBetween={16}
+          slidesPerView={1.1} // Show 2 cards and part of the next
+          centeredSlides={false} // Align slides to the start of the swiper container
+          freeMode={true}
+          mousewheel={true}
+          pagination={{
+            clickable: true,
+          }}
+        >
+          {reviewCards.map((card, index) => (
+            <SwiperSlide key={index} style={{ width: 'auto', height: 'auto' }}>
+              {card}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
+    );
+  }
 };
 
-export default ClientReviews;
+export default ReviewSlider;

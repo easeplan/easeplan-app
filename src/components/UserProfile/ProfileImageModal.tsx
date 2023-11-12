@@ -17,23 +17,23 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 const style = {
-  position: `absolute` as const,
-  top: `30%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  textAlign: `center`,
-  borderRadius: `8px`,
+  textAlign: 'center',
+  borderRadius: '8px',
 };
 
 type Props = {
@@ -47,7 +47,7 @@ const ProfileFileInput: React.FC<Props> = ({
   name,
   setProfileImg,
   label,
-  type = `text`,
+  type = 'text',
 }) => {
   return (
     <Field name={name}>
@@ -58,7 +58,7 @@ const ProfileFileInput: React.FC<Props> = ({
           event: React.ChangeEvent<HTMLInputElement>,
         ) => {
           const { target } = event;
-          if (type === `file`) {
+          if (type === 'file') {
             const file = (target?.files && target?.files[0]) || null;
             setProfileImg(
               (target?.files && URL.createObjectURL(target?.files[0])) || null,
@@ -100,13 +100,13 @@ export default function UpdateProfileModal({
     mutationFn: (credentials) =>
       customFetch.put(`/profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `multipart/form-data`,
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
       isClose(false);
     },
     onError: (error: any) => {
@@ -116,7 +116,7 @@ export default function UpdateProfileModal({
 
   const updateProfileImg = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`picture`, credentials.picture);
+    formData.append('picture', credentials.picture);
     updateProfile(credentials);
   };
   return (
@@ -131,7 +131,7 @@ export default function UpdateProfileModal({
           <Box sx={style}>
             <Box
               sx={{
-                textAlign: `center`,
+                textAlign: 'center',
                 pt: {
                   xs: 2,
                   lg: 4,
@@ -145,7 +145,7 @@ export default function UpdateProfileModal({
               <Box>
                 <Formik
                   initialValues={{
-                    picture: queryData?.picture ? queryData?.picture : ``,
+                    picture: queryData?.picture ? queryData?.picture : '',
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileImgSchema}
@@ -155,24 +155,25 @@ export default function UpdateProfileModal({
                       <Box
                         sx={{
                           width: {
-                            xs: `70px`,
-                            sm: `70px`,
-                            md: `100px`,
-                            lg: `150px`,
-                            xl: `150px`,
+                            xs: '70px',
+                            sm: '70px',
+                            md: '100px',
+                            lg: '150px',
+                            xl: '150px',
                           },
                           height: {
-                            xs: `70px`,
-                            sm: `70px`,
-                            md: `100px`,
-                            lg: `150px`,
-                            xl: `150px`,
+                            xs: '70px',
+                            sm: '70px',
+                            md: '100px',
+                            lg: '150px',
+                            xl: '150px',
                           },
-                          margin: `0 auto`,
-                          position: `relative`,
-                          borderRadius: `6px`,
-                          backgroundColor: `primary.main`,
-                          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                          margin: '0 auto',
+                          position: 'relative',
+                          borderRadius: '6px',
+                          backgroundColor: 'primary.main',
+                          boxShadow:
+                            '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                         }}
                       >
                         <ChangeCoverImg htmlFor="picture">
@@ -189,9 +190,9 @@ export default function UpdateProfileModal({
                             alt="bannerImage"
                             fill
                             style={{
-                              width: `100%`,
-                              borderRadius: `6px`,
-                              objectFit: `cover`,
+                              width: '100%',
+                              borderRadius: '6px',
+                              objectFit: 'cover',
                             }}
                           />
                         ) : (
@@ -200,22 +201,22 @@ export default function UpdateProfileModal({
                             alt="bannerImage"
                             fill
                             style={{
-                              width: `100%`,
-                              borderRadius: `6px`,
-                              objectFit: `cover`,
+                              width: '100%',
+                              borderRadius: '6px',
+                              objectFit: 'cover',
                             }}
                           />
                         )}
                       </Box>
                       <Box
                         sx={{
-                          textAlign: `center`,
-                          width: `100%`,
-                          display: `flex`,
-                          alignItems: `center`,
-                          flexWrap: `wrap`,
-                          justifyContent: `center`,
-                          padding: `1rem 0`,
+                          textAlign: 'center',
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                          justifyContent: 'center',
+                          padding: '1rem 0',
                         }}
                       >
                         {previewProfileImg && (
@@ -223,7 +224,7 @@ export default function UpdateProfileModal({
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Save`
+                              'Save'
                             )}
                           </SaveButton>
                         )}
@@ -240,24 +241,24 @@ export default function UpdateProfileModal({
   );
 }
 
-const ChangeCoverImg = styled(`label`)(({ theme }) => ({
-  position: `absolute`,
-  bottom: `0.2rem`,
-  right: `-1.4rem`,
-  zIndex: `9`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  fontSize: `1.7rem`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  width: `50px`,
-  height: `50px`,
-  background: `#fff`,
-  borderRadius: `50%`,
+const ChangeCoverImg = styled('label')(({ theme }) => ({
+  position: 'absolute',
+  bottom: '0.2rem',
+  right: '-1.4rem',
+  zIndex: '9',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  fontSize: '1.7rem',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  width: '50px',
+  height: '50px',
+  background: '#fff',
+  borderRadius: '50%',
   color: theme.palette.primary.main,
-  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
 
   '&:hover': {
     backgroundColor: theme.palette.primary.light,
@@ -265,34 +266,34 @@ const ChangeCoverImg = styled(`label`)(({ theme }) => ({
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    width: `40px`,
-    height: `40px`,
+    width: '40px',
+    height: '40px',
 
     '.icon': {
-      fontSize: `1.2rem`,
+      fontSize: '1.2rem',
     },
   },
 }));
 
-const SaveButton = styled(`button`)(({ theme }) => ({
-  zIndex: `9`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  fontSize: `1rem`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  padding: `0.5rem 3rem`,
-  border: `none`,
-  background: `#fff`,
-  borderRadius: `6px`,
-  fontWeight: `500`,
-  transition: `all 0.5s ease`,
+const SaveButton = styled('button')(({ theme }) => ({
+  zIndex: '9',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  fontSize: '1rem',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  padding: '0.5rem 3rem',
+  border: 'none',
+  background: '#fff',
+  borderRadius: '6px',
+  fontWeight: '500',
+  transition: 'all 0.5s ease',
   color: theme.palette.secondary.main,
   backgroundColor: theme.palette.primary.main,
 
@@ -302,6 +303,6 @@ const SaveButton = styled(`button`)(({ theme }) => ({
   },
 
   '@media (max-width: 900px)': {
-    fontSize: `0.8rem`,
+    fontSize: '0.8rem',
   },
 }));

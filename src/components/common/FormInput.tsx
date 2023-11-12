@@ -53,7 +53,7 @@ const FormInput = ({
   return (
     <>
       {isSelect ? (
-        <FormControl fullWidth sx={{ mb: `0.4rem` }}>
+        <FormControl fullWidth sx={{ mb: '0.4rem' }}>
           <InputLabel id="demo-simple-select-label">
             {selectPlaceholder}
           </InputLabel>
@@ -61,9 +61,9 @@ const FormInput = ({
             {...field}
             {...props}
             label={selectPlaceholder}
-            inputProps={{ 'aria-label': `Without label` }}
-            sx={{ borderRadius: `10px` }}
-            className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
+            inputProps={{ 'aria-label': 'Without label' }}
+            sx={{ borderRadius: '10px' }}
+            className={` ${meta.touched && meta.error ? 'border-red-500' : ''}`}
             MenuProps={MenuProps}
           >
             {props.children}
@@ -91,27 +91,27 @@ const FormInput = ({
   );
 };
 
-const InputWrapper = styled(`div`)({
-  marginBottom: `0.5rem`,
+const InputWrapper = styled('div')({
+  marginBottom: '0.5rem',
 });
 
-const Input = styled(`input`)({
-  padding: `0.9rem 1.5rem`,
-  outline: `none`,
-  width: `100%`,
-  borderRadius: `10px`,
-  fontSize: `1rem`,
-  border: `solid 1px #ccc;`,
-  marginTop: `0.3rem`,
-  background: `transparent`,
+const Input = styled('input')({
+  padding: '0.9rem 1.5rem',
+  outline: 'none',
+  width: '100%',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  border: 'solid 1px #ccc;',
+  marginTop: '0.3rem',
+  background: 'transparent',
 
   '@media (max-width: 1020px)': {
-    fontSize: `0.8rem`,
-    padding: `1.2rem 1rem`,
+    fontSize: '0.8rem',
+    padding: '1.2rem 1rem',
   },
 
   '&:-webkit-autofill': {
-    BackgroundColor: `transparent`,
+    BackgroundColor: 'transparent',
   },
 });
 

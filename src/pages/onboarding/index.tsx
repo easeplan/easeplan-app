@@ -15,7 +15,7 @@ interface PropsTypes {
 
 const OnboardingPage = ({ token }: PropsTypes) => {
   useEffect(() => {
-    localStorage.setItem(`isFinsihedOnboarding`, `false`);
+    localStorage.setItem('isFinsihedOnboarding', 'false');
   }, []);
 
   return (

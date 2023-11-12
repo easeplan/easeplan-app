@@ -5,22 +5,22 @@ import CloseIcon from '@mui/icons-material/Close';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 const ErrorModal = ({ isOpen, isClose }: any) => {
@@ -37,31 +37,31 @@ const ErrorModal = ({ isOpen, isClose }: any) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: `primary.main`,
-                borderTopRightRadius: `1rem`,
-                borderTopLeftRadius: `1rem`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                backgroundColor: 'primary.main',
+                borderTopRightRadius: '1rem',
+                borderTopLeftRadius: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Typography
                 sx={{
-                  cursor: `pointer`,
-                  textAlign: `center`,
-                  color: `secondary.light`,
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  color: 'secondary.light',
                 }}
               >
                 <CloseIcon onClick={isClose} />
               </Typography>
             </Box>
-            <Box sx={{ px: `1rem`, py: `3rem`, textAlign: `center` }}>
-              <TaskAltIcon sx={{ fontSize: `5rem`, color: `secondary.main` }} />
+            <Box sx={{ px: '1rem', py: '3rem', textAlign: 'center' }}>
+              <TaskAltIcon sx={{ fontSize: '5rem', color: 'secondary.main' }} />
               <Typography
                 sx={{
-                  cursor: `pointer`,
-                  textAlign: `center`,
-                  color: `primary.main`,
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  color: 'primary.main',
                 }}
               >
                 Payment Successful

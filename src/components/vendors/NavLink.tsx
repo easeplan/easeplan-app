@@ -24,13 +24,13 @@ function NavLink({ href, text, onClick }: NavProps) {
             style={
               isActive
                 ? {
-                    fontWeight: `bold`,
+                    fontWeight: 'bold',
                     color: `${theme.palette.primary.main}`,
-                    textTransform: `capitalize`,
+                    textTransform: 'capitalize',
                   }
                 : {
-                    fontWeight: `500`,
-                    textTransform: `capitalize`,
+                    fontWeight: '500',
+                    textTransform: 'capitalize',
                     color: `${theme.palette.primary.main}`,
                   }
             }
@@ -41,17 +41,17 @@ function NavLink({ href, text, onClick }: NavProps) {
       ) : (
         <ItemWrapper>
           <NextLink
-            href={href ? href : ``}
+            href={href ? href : ''}
             style={
               isActive
                 ? {
-                    fontWeight: `bold`,
+                    fontWeight: 'bold',
                     color: `${theme.palette.primary.main}`,
-                    textTransform: `capitalize`,
+                    textTransform: 'capitalize',
                   }
                 : {
-                    fontWeight: `500`,
-                    textTransform: `capitalize`,
+                    fontWeight: '500',
+                    textTransform: 'capitalize',
                     color: `${theme.palette.primary.main}`,
                   }
             }
@@ -64,17 +64,17 @@ function NavLink({ href, text, onClick }: NavProps) {
   );
 }
 
-const ItemWrapper = styled(`li`)({
-  listStyle: `none`,
+const ItemWrapper = styled('li')({
+  listStyle: 'none',
   //   marginRight: `2.5rem`,
   //   color: theme.palette.secondary.light,
-  textTransform: `uppercase`,
+  textTransform: 'uppercase',
   //   lineHeight: `16px`,
-  cursor: `pointer`,
-  fontSize: `1rem`,
-  fontWeight: `600`,
-  whiteSpace: `nowrap`,
-  transition: `0.1s all ease`,
+  cursor: 'pointer',
+  fontSize: '1rem',
+  fontWeight: '600',
+  whiteSpace: 'nowrap',
+  transition: '0.1s all ease',
 
   '@media (max-width: 1025px)': {
     // marginRight: `2rem`,
@@ -83,13 +83,13 @@ const ItemWrapper = styled(`li`)({
   '@media (max-width: 1020px)': {
     // color: theme.palette.primary.main,
     // lineHeight: `3rem`,
-    fontSize: `1rem`,
-    transition: `0.5s all ease`,
+    fontSize: '1rem',
+    transition: '0.5s all ease',
 
     '&:hover': {
-      opacity: `0.8`,
-      paddingLeft: `1rem`,
-      fontWeight: `bold`,
+      opacity: '0.8',
+      paddingLeft: '1rem',
+      fontWeight: 'bold',
     },
   },
 });

@@ -12,8 +12,8 @@ import type { NextApiRequest } from 'next';
 
 const ViewProfilePage = ({ data, token }: any) => {
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      localStorage.removeItem(`lastVisitedURL`);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('lastVisitedURL');
     }
   }, []);
 

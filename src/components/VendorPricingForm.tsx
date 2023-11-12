@@ -15,8 +15,8 @@ import SuccessModal from './common/SuccessModal';
 import Link from 'next/link';
 
 const ProfileSchema = Yup.object().shape({
-  maximum: Yup.string().required(`Maximum amount is required`),
-  minimum: Yup.string().required(`Minimum amount is required`),
+  maximum: Yup.string().required('Maximum amount is required'),
+  minimum: Yup.string().required('Minimum amount is required'),
 });
 
 const VendorPricingForm = ({ token }: any) => {
@@ -42,12 +42,12 @@ const VendorPricingForm = ({ token }: any) => {
         budgetStructure,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsLoading(false);
         setIsSuccess(true);
       }
@@ -98,15 +98,15 @@ const VendorPricingForm = ({ token }: any) => {
       <h4 className="title">Packages</h4>
       <Formik
         initialValues={{
-          minimum: queryData?.budget?.minimum ? queryData?.budget?.minimum : ``,
-          maximum: queryData?.budget?.maximum ? queryData?.budget?.maximum : ``,
+          minimum: queryData?.budget?.minimum ? queryData?.budget?.minimum : '',
+          maximum: queryData?.budget?.maximum ? queryData?.budget?.maximum : '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
       >
         {() => (
           <Form>
-            <Box sx={{ flexGrow: 1, width: `100%` }}>
+            <Box sx={{ flexGrow: 1, width: '100%' }}>
               <Grid
                 container
                 rowSpacing={1}
@@ -126,26 +126,26 @@ const VendorPricingForm = ({ token }: any) => {
                   <Box>
                     <InputController>
                       <Box sx={{ mb: 2, pt: 2 }}>
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Maximum amount
                         </Typography>
                         <FormInput
                           ariaLabel="maximum"
                           name="maximum"
                           type="text"
-                          sx={{ padding: `0.7rem` }}
+                          sx={{ padding: '0.7rem' }}
                           placeholder="100,000"
                         />
                       </Box>
                       <Box sx={{ mb: 2, pt: 2 }}>
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Minimum amount
                         </Typography>
                         <FormInput
                           ariaLabel="minimum"
                           name="minimum"
                           type="text"
-                          sx={{ padding: `0.7rem` }}
+                          sx={{ padding: '0.7rem' }}
                           placeholder="100,000"
                         />
                       </Box>
@@ -161,7 +161,7 @@ const VendorPricingForm = ({ token }: any) => {
                   loadingText="Saving..."
                   type="submit"
                 >
-                  {isSuccess ? `SAVED ✔` : `SAVE`}
+                  {isSuccess ? 'SAVED ✔' : 'SAVE'}
                 </CustomButton>
               </Box>
             </Box>
@@ -172,96 +172,96 @@ const VendorPricingForm = ({ token }: any) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));

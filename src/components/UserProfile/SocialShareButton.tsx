@@ -12,7 +12,7 @@ const SocialShareButton = ({ message, url, toggleIcon }: any) => {
   const shareMessage = `Check out this awesome post: ${message}`;
 
   return (
-    <Box className={toggleIcon ? `show-links` : `button-links`}>
+    <Box className={toggleIcon ? 'show-links' : 'button-links'}>
       <TwitterShareButton url={url} title={shareMessage}>
         <BsTwitter className="icon" />
       </TwitterShareButton>

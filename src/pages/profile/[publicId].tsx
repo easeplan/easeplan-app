@@ -11,8 +11,8 @@ import type { NextApiRequest } from 'next';
 
 const PublicProfilePage = ({ data, publicId }: any) => {
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      localStorage.removeItem(`lastVisitedURL`);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('lastVisitedURL');
     }
   }, []);
 
@@ -20,7 +20,7 @@ const PublicProfilePage = ({ data, publicId }: any) => {
     <>
       <Head>
         <title>
-          Book {data?.providerProfile?.company?.name} a vendor in{` `}
+          Book {data?.providerProfile?.company?.name} a vendor in{' '}
           {data?.providerProfile?.state}
         </title>
         <meta name="theme-color" content="#134153" />
@@ -65,12 +65,12 @@ const PublicProfilePage = ({ data, publicId }: any) => {
           <Hero queryData={data} publicId={publicId} />
           <Box
             sx={{
-              margin: `0 auto`,
+              margin: '0 auto',
               width: {
-                xs: `80%`,
-                sm: `80%`,
-                md: `80%`,
-                lg: `80%`,
+                xs: '80%',
+                sm: '80%',
+                md: '80%',
+                lg: '80%',
               },
             }}
           >

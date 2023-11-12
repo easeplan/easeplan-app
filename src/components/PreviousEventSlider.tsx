@@ -25,24 +25,24 @@ const PreviousEventSlider = ({ samplesData }: SlideProps) => {
           key={slide._id}
           sx={{
             width: {
-              xs: `100%`,
-              sm: `100%`,
-              md: `80%`,
-              lg: `80%`,
-              xl: `80%`,
+              xs: '100%',
+              sm: '100%',
+              md: '80%',
+              lg: '80%',
+              xl: '80%',
             },
-            height: `200px`,
-            position: `relative`,
+            height: '200px',
+            position: 'relative',
           }}
         >
           <Image src={slide?.image} alt="EventIcon" fill quality={100} />
           <div className="previousEventGradient">
             <Box
               sx={{
-                width: `100%`,
-                display: `flex`,
-                alignItems: `end`,
-                justifyContent: `start`,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'end',
+                justifyContent: 'start',
               }}
             >
               <Box p={3}>

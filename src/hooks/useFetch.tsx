@@ -14,13 +14,13 @@ const useFetch = (url: string, token: string) => {
   try {
     const dispatch = useDispatch();
     const { data, error, isLoading } = useQuery({
-      queryKey: [`userAuthData`],
+      queryKey: ['userAuthData'],
       queryFn: async () => {
         const { data } = await customFetch(
           `${process.env.NEXT_PUBLIC_API_URL}${url}`,
           {
             headers: {
-              'Content-Type': `application/json`,
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
           },

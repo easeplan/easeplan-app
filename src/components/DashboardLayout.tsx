@@ -33,16 +33,16 @@ const DashboardLayout = ({ children, token }: ILayout) => {
   );
 };
 
-const Layout = styled(`div`)(({}) => ({
-  display: `flex`,
-  height: `100vh`,
-  overflow: `hidden`,
+const Layout = styled('div')(({}) => ({
+  display: 'flex',
+  height: '100vh',
+  overflow: 'hidden',
 }));
 
-const Main = styled(`main`)(({}) => ({
-  width: `100%`,
-  overflowY: `auto`,
-  paddingBottom: `8rem`,
+const Main = styled('main')(({}) => ({
+  width: '100%',
+  overflowY: 'auto',
+  paddingBottom: '8rem',
 }));
 
 export default DashboardLayout;

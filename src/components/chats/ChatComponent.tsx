@@ -5,9 +5,9 @@ import Image from 'next/image';
 const ChatComponent = ({ userInfoId, messages }: any) => {
   function formatTime(timestamp: any) {
     const date = new Date(timestamp);
-    const options = { hour: `2-digit`, minute: `2-digit`, hour12: true };
+    const options = { hour: '2-digit', minute: '2-digit', hour12: true };
     const formattedTime = new Intl.DateTimeFormat(
-      `en-US`,
+      'en-US',
       options as any,
     ).format(date);
 
@@ -31,9 +31,9 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
             xs={12}
             key={index}
             style={{
-              display: `flex`,
-              flexDirection: isCurrentUser ? `row-reverse` : `row`,
-              alignItems: `flex-end`, // Align to the bottom of the chat box
+              display: 'flex',
+              flexDirection: isCurrentUser ? 'row-reverse' : 'row',
+              alignItems: 'flex-end', // Align to the bottom of the chat box
             }}
           >
             {/* <Image
@@ -53,9 +53,9 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
 
             <div
               style={{
-                display: `flex`,
-                flexDirection: `column`,
-                alignItems: isCurrentUser ? `flex-end` : `flex-start`,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: isCurrentUser ? 'flex-end' : 'flex-start',
                 flex: 1,
               }}
             >
@@ -66,13 +66,13 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                     py: 1,
                     pl: 2,
                     pr: 2,
-                    maxWidth: `80%`,
-                    borderRadius: `10px`,
-                    backgroundColor: isCurrentUser ? `#fff` : `primary.light`,
-                    color: isCurrentUser ? `primary.main` : `#fff`,
+                    maxWidth: '80%',
+                    borderRadius: '10px',
+                    backgroundColor: isCurrentUser ? '#fff' : 'primary.light',
+                    color: isCurrentUser ? 'primary.main' : '#fff',
                   }}
                 >
-                  {message.type === `text` ? (
+                  {message.type === 'text' ? (
                     <span>{message.message}</span>
                   ) : (
                     <img src={message.image} alt="Chat content" width={150} />

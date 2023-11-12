@@ -27,16 +27,16 @@ const CompanyPage = ({ token }: any) => {
   );
 };
 
-const Flex = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `2rem`,
+const Flex = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: '2rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginRight: `2rem`,
+    marginRight: '2rem',
     '@media (max-width: 900px)': {
-      fontSize: `0.7rem`,
+      fontSize: '0.7rem',
     },
   },
   '.active': {
@@ -44,7 +44,7 @@ const Flex = styled(`div`)(({ theme }) => ({
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 }));
 

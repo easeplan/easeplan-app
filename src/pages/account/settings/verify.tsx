@@ -40,17 +40,17 @@ const VerifyPage = ({ token }: any) => {
         <Link href="/account/settings">
           <Button
             variant="outlined"
-            sx={{ fontSize: `0.7rem` }}
+            sx={{ fontSize: '0.7rem' }}
             startIcon={<AdminPanelSettingsIcon />}
           >
             Profile Settings
           </Button>
         </Link>
-        {queryData?.role !== `user` && (
+        {queryData?.role !== 'user' && (
           <Link href="/account/settings/verify">
             <Button
               variant="contained"
-              sx={{ marginLeft: `1rem`, fontSize: `0.7rem` }}
+              sx={{ marginLeft: '1rem', fontSize: '0.7rem' }}
               startIcon={<AdminPanelSettingsIcon />}
             >
               Verification
@@ -61,9 +61,9 @@ const VerifyPage = ({ token }: any) => {
       {/* <VerifyAccountForm token={token} /> */}
       <Box
         sx={{
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `center`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           marginTop: {
             xs: 20,
             md: 20,
@@ -77,9 +77,9 @@ const VerifyPage = ({ token }: any) => {
           )}
           <Box>
             {queryData?.provider?.providerProfile?.verified || isVerified ? (
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <VerifiedUserIcon
-                  sx={{ fontSize: `4rem`, color: `secondary.main` }}
+                  sx={{ fontSize: '4rem', color: 'secondary.main' }}
                 />
                 <Typography color="primary.main" fontWeight={500} mt={4}>
                   Your account has been verified
@@ -88,7 +88,7 @@ const VerifyPage = ({ token }: any) => {
             ) : (
               <Button
                 variant="contained"
-                sx={{ py: `1rem` }}
+                sx={{ py: '1rem' }}
                 onClick={() => setStartVerification(true)}
               >
                 Start Verification
@@ -101,18 +101,18 @@ const VerifyPage = ({ token }: any) => {
   );
 };
 
-const Flex = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `2rem`,
+const Flex = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: '2rem',
   // color: theme.palette.primary.main,
   color: theme.palette.grey[500],
 
   '.title': {
-    marginRight: `0.5rem`,
-    fontSize: `1rem`,
+    marginRight: '0.5rem',
+    fontSize: '1rem',
     '@media (max-width: 900px)': {
-      fontSize: `0.7rem`,
+      fontSize: '0.7rem',
     },
   },
   '.active': {
@@ -120,7 +120,7 @@ const Flex = styled(`div`)(({ theme }) => ({
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 }));
 

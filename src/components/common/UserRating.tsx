@@ -9,15 +9,15 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 const labels: { [index: string]: string } = {
-  1: `1`,
-  2: `2`,
-  3: `3`,
-  4: `4`,
-  5: `5`,
+  1: '1',
+  2: '2',
+  3: '3',
+  4: '4',
+  5: '5',
 };
 
 function getLabelText(value: number) {
-  return `${value} Star${value !== 1 ? `s` : ``}, ${labels[value]}`;
+  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 
 export default function UserRating({
@@ -34,14 +34,14 @@ export default function UserRating({
 
   const { mutate: updateRating } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/ratings`, credentials, {
+      customFetch.post('/ratings', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
     },
   });
 
@@ -57,10 +57,10 @@ export default function UserRating({
   return (
     <Box
       sx={{
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `center`,
-        textAlign: `center`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
       }}
     >
       <Rating

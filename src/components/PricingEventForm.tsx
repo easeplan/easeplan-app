@@ -43,67 +43,67 @@ const PricingEventForm = ({ token }: any) => {
       const newData = {
         basic: [
           {
-            serviceName: `DJ`,
+            serviceName: 'DJ',
             amount: credentials.basicCost,
           },
           {
-            serviceName: `Caterer`,
+            serviceName: 'Caterer',
             amount: credentials.basicCaterer,
           },
           {
-            serviceName: `Security`,
+            serviceName: 'Security',
             amount: credentials.basicSecurity,
           },
           {
-            serviceName: `Cost`,
+            serviceName: 'Cost',
             amount: credentials.basicCost,
           },
           {
-            serviceName: `Guest`,
+            serviceName: 'Guest',
             amount: credentials.basicGuest,
           },
         ],
         premium: [
           {
-            serviceName: `DJ`,
+            serviceName: 'DJ',
             amount: credentials.premiumCost,
           },
           {
-            serviceName: `Caterer`,
+            serviceName: 'Caterer',
             amount: credentials.premiumCaterer,
           },
           {
-            serviceName: `Security`,
+            serviceName: 'Security',
             amount: credentials.premiumSecurity,
           },
           {
-            serviceName: `Cost`,
+            serviceName: 'Cost',
             amount: credentials.premiumCost,
           },
           {
-            serviceName: `Guest`,
+            serviceName: 'Guest',
             amount: credentials.premiumGuest,
           },
         ],
         standard: [
           {
-            serviceName: `DJ`,
+            serviceName: 'DJ',
             amount: credentials.standardCost,
           },
           {
-            serviceName: `Caterer`,
+            serviceName: 'Caterer',
             amount: credentials.standardCaterer,
           },
           {
-            serviceName: `Security`,
+            serviceName: 'Security',
             amount: credentials.standardSecurity,
           },
           {
-            serviceName: `Cost`,
+            serviceName: 'Cost',
             amount: credentials.standardCost,
           },
           {
-            serviceName: `Guest`,
+            serviceName: 'Guest',
             amount: credentials.standardGuest,
           },
         ],
@@ -114,12 +114,12 @@ const PricingEventForm = ({ token }: any) => {
         newData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsLoading(false);
         setIsSuccess(true);
       }
@@ -139,7 +139,7 @@ const PricingEventForm = ({ token }: any) => {
         title="Successful"
         message="Awesome your pricing has been set!"
       >
-        {queryData?.details?.role === `user` ? (
+        {queryData?.details?.role === 'user' ? (
           <Link href="/account">
             <CustomButton
               mt={2}
@@ -184,28 +184,28 @@ const PricingEventForm = ({ token }: any) => {
       <h4 className="title">Packages</h4>
       <Formik
         initialValues={{
-          basicDJ: ``,
-          basicCaterer: ``,
-          basicSecurity: ``,
-          basicCost: ``,
-          basicGuest: ``,
-          standardDJ: ``,
-          standardCaterer: ``,
-          standardSecurity: ``,
-          standardCost: ``,
-          standardGuest: ``,
-          premiumDJ: ``,
-          premiumCaterer: ``,
-          premiumSecurity: ``,
-          premiumCost: ``,
-          premiumGuest: ``,
+          basicDJ: '',
+          basicCaterer: '',
+          basicSecurity: '',
+          basicCost: '',
+          basicGuest: '',
+          standardDJ: '',
+          standardCaterer: '',
+          standardSecurity: '',
+          standardCost: '',
+          standardGuest: '',
+          premiumDJ: '',
+          premiumCaterer: '',
+          premiumSecurity: '',
+          premiumCost: '',
+          premiumGuest: '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
       >
         {() => (
           <Form>
-            <Box sx={{ flexGrow: 1, width: `100%` }}>
+            <Box sx={{ flexGrow: 1, width: '100%' }}>
               <Description>
                 <p>
                   You can upload upto 3 images of your previous events this
@@ -218,7 +218,7 @@ const PricingEventForm = ({ token }: any) => {
                 columnSpacing={{ xs: 1, sm: 2, md: 5 }}
               >
                 <Grid item xs={12} sm={4} md={4}>
-                  <Box sx={{ my: 5, border: `solid 1px #ccc` }}>
+                  <Box sx={{ my: 5, border: 'solid 1px #ccc' }}>
                     <InputController>
                       <Box sx={{ mb: 2, pt: 2, px: 2 }}>
                         <Typography fontWeight="bold">Basic</Typography>
@@ -226,27 +226,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           DJ&apos;s
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="BasicDJ"
                             name="basicDJ"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -254,27 +254,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Caterer
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="basicCaterer"
                             name="basicCaterer"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -282,81 +282,81 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Security
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="basicSecurity"
                             name="basicSecurity"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Your Cost
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="basicCost"
                             name="basicCost"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Number of Guest
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="basicGuest"
                             name="basicGuest"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="500"
                           />
                         </Box>
@@ -393,7 +393,7 @@ const PricingEventForm = ({ token }: any) => {
                 </Grid>
 
                 <Grid item xs={12} sm={4} md={4}>
-                  <Box sx={{ my: 5, border: `solid 1px #ccc` }}>
+                  <Box sx={{ my: 5, border: 'solid 1px #ccc' }}>
                     <InputController>
                       <Box sx={{ mb: 2, pt: 2, px: 2 }}>
                         <Typography fontWeight="bold">Standard</Typography>
@@ -401,27 +401,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           DJ&apos;s
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="standardDJ"
                             name="standardDJ"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -429,27 +429,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Caterer
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="standardCaterer"
                             name="standardCaterer"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -457,81 +457,81 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Security
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="standardSecurity"
                             name="standardSecurity"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Your Cost
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="standardCost"
                             name="standardCost"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Number of Guest
                         </Typography>
                         <Box
                           sx={{
-                            width: `60%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '60%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="standardGuest"
                             name="standardGuest"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="500"
                           />
                         </Box>
@@ -567,7 +567,7 @@ const PricingEventForm = ({ token }: any) => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={4} md={4}>
-                  <Box sx={{ my: 5, border: `solid 1px #ccc` }}>
+                  <Box sx={{ my: 5, border: 'solid 1px #ccc' }}>
                     <InputController>
                       <Box sx={{ mb: 2, pt: 2, px: 2 }}>
                         <Typography fontWeight="bold">Premium</Typography>
@@ -575,27 +575,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           DJ&apos;s
                         </Typography>
                         <Box
                           sx={{
-                            width: `50%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="premiumDJ"
                             name="premiumDJ"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -603,27 +603,27 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Caterer
                         </Typography>
                         <Box
                           sx={{
-                            width: `50%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="premiumCaterer"
                             name="premiumCaterer"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
@@ -631,81 +631,81 @@ const PricingEventForm = ({ token }: any) => {
                       <Box
                         className="packages"
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Security
                         </Typography>
                         <Box
                           sx={{
-                            width: `50%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="premiumSecurity"
                             name="premiumSecurity"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `1rem` }}>
+                        <Typography sx={{ fontSize: '1rem' }}>
                           Your Cost
                         </Typography>
                         <Box
                           sx={{
-                            width: `50%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="premiumCost"
                             name="premiumCost"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="100,000"
                           />
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          padding: `0 0.8rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0 0.8rem',
                         }}
                       >
-                        <Typography sx={{ fontSize: `0.9rem` }}>
+                        <Typography sx={{ fontSize: '0.9rem' }}>
                           Number of Guest
                         </Typography>
                         <Box
                           sx={{
-                            width: `50%`,
-                            display: `flex`,
-                            alignItems: `center`,
+                            width: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
                           }}
                         >
                           <FormInput
                             ariaLabel="premiumGuest"
                             name="premiumGuest"
                             type="text"
-                            sx={{ padding: `0.7rem` }}
+                            sx={{ padding: '0.7rem' }}
                             placeholder="500"
                           />
                         </Box>
@@ -766,7 +766,7 @@ const PricingEventForm = ({ token }: any) => {
                 loadingText="Saving..."
                 type="submit"
               >
-                {isSuccess ? `SAVED ✔` : `SAVE`}
+                {isSuccess ? 'SAVED ✔' : 'SAVE'}
               </CustomButton>
             </Box>
           </Form>
@@ -776,151 +776,151 @@ const PricingEventForm = ({ token }: any) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const Flex = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
+    flexDirection: 'column',
+    gap: '2rem',
   },
 });
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));
 
-const FormFooter = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignContent: `center`,
-  justifyContent: `right`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const FormFooter = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignContent: 'center',
+  justifyContent: 'right',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginTop: `1rem`,
-    width: `35%`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginTop: '1rem',
+    width: '35%',
   },
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
+    flexDirection: 'column',
     '.flex': {
-      width: `100%`,
+      width: '100%',
     },
   },
 }));

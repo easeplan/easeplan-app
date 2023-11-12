@@ -23,37 +23,37 @@ import {
 } from '@/features/searchResultSlice';
 
 const style = {
-  position: `absolute` as const,
-  bottom: `-1%`,
+  position: 'absolute' as const,
+  bottom: '-1%',
   left: {
-    xs: `0%`,
-    sm: `0%`,
-    md: `10%`,
-    lg: `10%`,
-    xl: `10%`,
+    xs: '0%',
+    sm: '0%',
+    md: '10%',
+    lg: '10%',
+    xl: '10%',
   },
   // transform: `translate(-50%, -50%)`,
   width: {
-    xs: `100%`,
-    sm: `100%`,
-    md: `40%`,
-    lg: `35%`,
-    xl: `35%`,
+    xs: '100%',
+    sm: '100%',
+    md: '40%',
+    lg: '35%',
+    xl: '35%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderTopRightRadius: `1rem`,
-  borderTopLeftRadius: `1rem`,
+  borderTopRightRadius: '1rem',
+  borderTopLeftRadius: '1rem',
 };
 
 const FormSchema = Yup.object().shape({
-  state: Yup.string().required(`State is missing`),
-  city: Yup.string().required(`City is missing`),
-  guest: Yup.string().required(`Guest is missing`),
-  eventDate: Yup.string().required(`Date is missing`),
-  selectedService: Yup.string().required(`Service Type is missing`),
+  state: Yup.string().required('State is missing'),
+  city: Yup.string().required('City is missing'),
+  guest: Yup.string().required('Guest is missing'),
+  eventDate: Yup.string().required('Date is missing'),
+  selectedService: Yup.string().required('Service Type is missing'),
 });
 
 const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
@@ -70,15 +70,15 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
         (key) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(credentials[key])}`,
       )
-      .join(`&`);
+      .join('&');
 
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/planner-profiles/profiles/search?${queryString}`,
         {
-          method: `GET`,
+          method: 'GET',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -129,12 +129,12 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: `primary.main`,
-                borderTopRightRadius: `1rem`,
-                borderTopLeftRadius: `1rem`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                backgroundColor: 'primary.main',
+                borderTopRightRadius: '1rem',
+                borderTopLeftRadius: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Typography color="secondary.main" fontWeight={600}>
@@ -142,9 +142,9 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
               </Typography>
               <Typography
                 sx={{
-                  cursor: `pointer`,
-                  textAlign: `center`,
-                  color: `secondary.light`,
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  color: 'secondary.light',
                 }}
               >
                 <CloseIcon onClick={isClose} />
@@ -165,11 +165,11 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
               <Box>
                 <Formik
                   initialValues={{
-                    state: queryData?.state ? queryData?.state : ``,
-                    city: queryData?.city ? queryData?.city : ``,
-                    guest: ``,
-                    eventDate: ``,
-                    selectedService: `Event Planner`,
+                    state: queryData?.state ? queryData?.state : '',
+                    city: queryData?.city ? queryData?.city : '',
+                    guest: '',
+                    eventDate: '',
+                    selectedService: 'Event Planner',
                   }}
                   onSubmit={(values) => handleSubmit(values)}
                   validationSchema={FormSchema}
@@ -187,8 +187,8 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
                                 (state) => state.name === e.target.value,
                               );
                               setSelectedState(selectedState);
-                              setFieldValue(`state`, e.target.value);
-                              setFieldValue(`city`, ``);
+                              setFieldValue('state', e.target.value);
+                              setFieldValue('city', '');
                             }}
                           >
                             {data?.states?.map((state: any) => {
@@ -220,12 +220,12 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
                         )}
                         <Box
                           sx={{
-                            display: `flex`,
-                            gap: `10px`,
-                            alignItems: `center`,
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'center',
                           }}
                         >
-                          <Box sx={{ width: `50%` }}>
+                          <Box sx={{ width: '50%' }}>
                             <Label text="Number Of Guests" />
                             <FormInput
                               ariaLabel="guest"
@@ -234,7 +234,7 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
                               placeholder="430"
                             />
                           </Box>
-                          <Box sx={{ width: `50%` }}>
+                          <Box sx={{ width: '50%' }}>
                             <Label text="Minimum Budget" />
                             <FormInput
                               ariaLabel="budget"
@@ -264,9 +264,9 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box
                           mt={3}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -279,7 +279,7 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Search`
+                              'Search'
                             )}
                           </CustomButton>
                         </Box>

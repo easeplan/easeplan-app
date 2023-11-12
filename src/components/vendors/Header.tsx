@@ -31,11 +31,11 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
 
   const handledBecomeAVendor = () => {
     if (userInfo) {
-      router.push(`/account/onboard`);
+      router.push('/account/onboard');
     } else {
-      router.push(`/login`);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, `/account/onboard`);
+      router.push('/login');
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastVisitedURL', '/account/onboard');
       }
     }
   };
@@ -53,11 +53,11 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
           <Box
             sx={{
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `block`,
-                lg: `block`,
-                xl: `block`,
+                xs: 'none',
+                sm: 'none',
+                md: 'block',
+                lg: 'block',
+                xl: 'block',
               },
             }}
           >
@@ -67,14 +67,14 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
           </Box>
           <Box
             sx={{
-              alignItems: `center`,
-              justifyContent: `space-between`,
+              alignItems: 'center',
+              justifyContent: 'space-between',
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `flex`,
-                lg: `flex`,
-                xl: `flex`,
+                xs: 'none',
+                sm: 'none',
+                md: 'flex',
+                lg: 'flex',
+                xl: 'flex',
               },
             }}
           >
@@ -86,15 +86,15 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
                 onClick={handledBecomeAVendor}
                 variant="outlined"
                 sx={{
-                  color: `secondary.main`,
-                  borderColor: `secondary.main`,
-                  textTransform: `inherit`,
-                  whiteSpace: `nowrap`,
+                  color: 'secondary.main',
+                  borderColor: 'secondary.main',
+                  textTransform: 'inherit',
+                  whiteSpace: 'nowrap',
                   mr: 6,
                   '&:hover': {
-                    borderColor: `secondary.main`,
-                    color: `primary.main`,
-                    backgroundColor: `secondary.main`,
+                    borderColor: 'secondary.main',
+                    color: 'primary.main',
+                    backgroundColor: 'secondary.main',
                   },
                 }}
               >
@@ -105,11 +105,11 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
               sx={{
                 flexGrow: 0,
                 display: {
-                  xs: `none`,
-                  sm: `none`,
-                  md: `none`,
-                  lg: `block`,
-                  xl: `block`,
+                  xs: 'none',
+                  sm: 'none',
+                  md: 'none',
+                  lg: 'block',
+                  xl: 'block',
                 },
               }}
             >
@@ -120,11 +120,11 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
           <Box
             sx={{
               display: {
-                xs: `block`,
-                sm: `block`,
-                md: `none`,
-                lg: `none`,
-                xl: `none`,
+                xs: 'block',
+                sm: 'block',
+                md: 'none',
+                lg: 'none',
+                xl: 'none',
               },
             }}
           >
@@ -136,11 +136,11 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             sx={{
               flexGrow: 0,
               display: {
-                xs: `block`,
-                sm: `block`,
-                md: `block`,
-                lg: `none`,
-                xl: `none`,
+                xs: 'block',
+                sm: 'block',
+                md: 'block',
+                lg: 'none',
+                xl: 'none',
               },
             }}
           >
@@ -155,48 +155,48 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
 
 const NavWrapper = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  display: `flex`,
-  alignItems: `center`,
-  padding: `1rem 0`,
-  position: `fixed`,
-  width: `100%`,
-  zIndex: `10`,
-  top: `0`,
+  display: 'flex',
+  alignItems: 'center',
+  padding: '1rem 0',
+  position: 'fixed',
+  width: '100%',
+  zIndex: '10',
+  top: '0',
 
   '@media (max-width: 900px)': {
-    padding: `0.3rem 0 `,
+    padding: '0.3rem 0 ',
   },
 }));
 
 const Flex = styled(Box)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
-  padding: `0 4rem`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '0 4rem',
 
   '@media (max-width: 1020px)': {
-    padding: ` 0 `,
+    padding: ' 0 ',
   },
 
   '.menuIcon': {
     color: theme.palette.secondary.main,
-    display: `none`,
-    cursor: `pointer`,
+    display: 'none',
+    cursor: 'pointer',
 
     '@media (max-width: 1020px)': {
-      display: `block`,
-      fontSize: `2rem`,
+      display: 'block',
+      fontSize: '2rem',
     },
   },
 }));
 
 const NavItemWrapper = styled(Box)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 
   '@media (max-width: 1020px)': {
-    display: `none`,
+    display: 'none',
   },
 });
 

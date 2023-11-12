@@ -5,17 +5,17 @@ import Footer from '../Footer';
 
 const Layout = ({ children, publicId }: any) => {
   return (
-    <Box sx={{ background: `#fafafa` }}>
+    <Box sx={{ background: '#fafafa' }}>
       <Header publicId={publicId} />
       <Box
         sx={{
           width: {
-            xs: `100%`,
-            sm: `100%`,
-            md: `100%`,
-            lg: `100%`,
+            xs: '100%',
+            sm: '100%',
+            md: '100%',
+            lg: '100%',
           },
-          margin: `0 auto`,
+          margin: '0 auto',
         }}
       >
         {children}

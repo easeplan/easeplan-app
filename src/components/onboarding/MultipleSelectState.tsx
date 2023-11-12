@@ -69,17 +69,17 @@ export default function MultipleSelectState({
           value={personName}
           onChange={handleChange}
           sx={{
-            borderRadius: `10px`,
-            overflowX: `hidden`,
+            borderRadius: '10px',
+            overflowX: 'hidden',
             width: {
-              xs: `100%`,
-              sm: `100%`,
-              md: `100%`,
-              lg: `100%`,
-              xl: `100%`,
+              xs: '100%',
+              sm: '100%',
+              md: '100%',
+              lg: '100%',
+              xl: '100%',
             },
           }}
-          inputProps={{ 'aria-label': `Without label` }}
+          inputProps={{ 'aria-label': 'Without label' }}
           MenuProps={MenuProps}
         >
           {states?.map((state: any) => (
@@ -87,16 +87,16 @@ export default function MultipleSelectState({
               key={state.name}
               value={state.name}
               style={getStyles(state, personName, theme)}
-              sx={{ borderBottom: `solid 1px #fff` }}
+              sx={{ borderBottom: 'solid 1px #fff' }}
             >
               <Typography
                 variant="caption"
                 sx={{
-                  color: `primary.main`,
-                  fontWeight: `500`,
-                  textOverflow: `ellipsis`,
-                  whiteSpace: `nowrap`,
-                  overflow: `hidden`,
+                  color: 'primary.main',
+                  fontWeight: '500',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
                 }}
               >
                 {state.name}

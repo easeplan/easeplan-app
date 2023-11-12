@@ -7,22 +7,22 @@ import theme from '@/styles/theme';
 import { Container } from '@mui/system';
 
 const style = {
-  position: `absolute` as const,
-  top: `40%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
+    xs: '85%',
     sm: 300,
-    md: `50%`,
-    lg: `30%`,
-    xl: `30%`,
+    md: '50%',
+    lg: '30%',
+    xl: '30%',
   },
-  bgcolor: `#fff`,
-  border: `none`,
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  textAlign: `center`,
-  borderRadius: `8px`,
+  textAlign: 'center',
+  borderRadius: '8px',
 };
 
 export default function SuccessModal({
@@ -44,7 +44,7 @@ export default function SuccessModal({
           <Box sx={style}>
             <Box
               sx={{
-                textAlign: `center`,
+                textAlign: 'center',
                 pt: {
                   xs: 2,
                   lg: 4,
@@ -58,9 +58,9 @@ export default function SuccessModal({
               <TaskAltIcon
                 sx={{
                   fontSize: {
-                    xs: `2.5rem`,
-                    sm: `2.5rem`,
-                    lg: `3rem`,
+                    xs: '2.5rem',
+                    sm: '2.5rem',
+                    lg: '3rem',
                   },
                   color: theme.palette.primary.main,
                 }}
@@ -68,8 +68,8 @@ export default function SuccessModal({
             </Box>
             <Box
               sx={{
-                textAlign: `center`,
-                marginBottom: `0.5rem`,
+                textAlign: 'center',
+                marginBottom: '0.5rem',
                 px: 6,
                 pb: 2,
                 // color: theme.palette.primary.main,

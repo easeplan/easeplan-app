@@ -6,15 +6,15 @@ const PricingSection = ({ queryData, token }: any) => {
   return (
     <Box mb={5} id="pricingSection">
       <Box>
-        {queryData?.role === `planner` && (
+        {queryData?.role === 'planner' && (
           <>
             <Box
               mb={4}
               sx={{
-                mt: `2rem`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                mt: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Typography
@@ -22,10 +22,10 @@ const PricingSection = ({ queryData, token }: any) => {
                 color="primary.main"
                 sx={{
                   fontSize: {
-                    xs: `1.2rem`,
-                    sm: `1.2rem`,
-                    md: `1.5rem`,
-                    lg: `2rem`,
+                    xs: '1.2rem',
+                    sm: '1.2rem',
+                    md: '1.5rem',
+                    lg: '2rem',
                   },
                 }}
               >
@@ -48,8 +48,7 @@ const PricingSection = ({ queryData, token }: any) => {
               </Grid>
             </Grid>
           </>
-        )}
-        {` `}
+        )}{' '}
         {/* {queryData?.role === `provider` && (
           <>
             <Grid

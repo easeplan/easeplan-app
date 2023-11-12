@@ -12,32 +12,32 @@ const SuggestedVendorCard = ({ data }: any) => {
     <Box
       p={3}
       sx={{
-        display: `flex`,
+        display: 'flex',
         flexDirection: {
-          xs: `column`,
-          sm: `column`,
-          md: `column`,
-          lg: `row`,
-          xl: `row`,
+          xs: 'column',
+          sm: 'column',
+          md: 'column',
+          lg: 'row',
+          xl: 'row',
         },
         backgroundColor: theme.palette.primary.main,
       }}
     >
       <Box
         sx={{
-          background: `red`,
-          position: `relative`,
+          background: 'red',
+          position: 'relative',
           height: {
-            xs: `130px`,
-            sm: `150px`,
-            md: `150px`,
-            lg: `200px`,
+            xs: '130px',
+            sm: '150px',
+            md: '150px',
+            lg: '200px',
           },
-          width: `100%`,
+          width: '100%',
           marginBottom: {
-            xs: `1rem`,
-            sm: `1rem`,
-            lg: `1rem`,
+            xs: '1rem',
+            sm: '1rem',
+            lg: '1rem',
           },
         }}
       >
@@ -46,22 +46,22 @@ const SuggestedVendorCard = ({ data }: any) => {
       <Box
         color="common.white"
         sx={{
-          width: `100%`,
+          width: '100%',
           paddingLeft: {
-            sx: `2px`,
-            sm: `2px`,
-            md: `2px`,
-            lg: `1rem`,
+            sx: '2px',
+            sm: '2px',
+            md: '2px',
+            lg: '1rem',
           },
         }}
       >
         <Box
           mb={1}
           sx={{
-            width: `100%`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <Typography>Service: {data.service}</Typography>
@@ -71,10 +71,10 @@ const SuggestedVendorCard = ({ data }: any) => {
         <Typography
           mb={1}
           sx={{
-            width: `100%`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           Ratings: <UserRating size="small" /> ({data.numEvent} events)
@@ -86,12 +86,12 @@ const SuggestedVendorCard = ({ data }: any) => {
           mt={2}
           pt={1}
           sx={{
-            width: `100%`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `space-between`,
-            borderTop: `solid 1px ${theme.palette.grey[`500`]}`,
-            cursor: `pointer`,
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderTop: `solid 1px ${theme.palette.grey['500']}`,
+            cursor: 'pointer',
           }}
         >
           <Typography color="info.main">Reject</Typography>

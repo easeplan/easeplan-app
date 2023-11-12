@@ -18,6 +18,7 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
+import IdentityVerificationModal from './UserProfile';
 
 type Props = {
   queryData: QueryData;
@@ -31,8 +32,8 @@ const Hero = ({ queryData, token, searchResult }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [vendorData, setVendorData] = useState(
-    typeof window !== `undefined`
-      ? JSON.parse(localStorage.getItem(`findVendorData`)!)
+    typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem('findVendorData')!)
       : null,
   );
 
@@ -40,15 +41,15 @@ const Hero = ({ queryData, token, searchResult }: any) => {
 
   const { mutate: handleUpdateContract, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/profiles/create-offer`, credentials, {
+      customFetch.post('/profiles/create-offer', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Contract send successfully`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Contract send successfully');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -77,7 +78,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -90,6 +91,16 @@ const Hero = ({ queryData, token, searchResult }: any) => {
 
   const loggedUserId = userInfo;
 
+  // const [open, setModal] = useState(true);
+
+  // const handleModal = () => {
+  //   setOpenModal(true);
+  // };
+
+  // const handleClose = () => {
+  //   setModal(false);
+  // };
+
   return (
     <Box>
       <CreateContractModal
@@ -98,28 +109,31 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         token={token}
         queryData={queryData}
       />
+
       <Box
         sx={{
-          width: `100%`,
+          width: '100%',
           height: {
-            xs: `120px`,
-            sm: `130px`,
-            md: `200px`,
-            lg: `200px`,
-            xl: `250px`,
+            xs: '120px',
+            sm: '130px',
+            md: '200px',
+            lg: '200px',
+            xl: '250px',
           },
           mt: { xs: 8, sm: -3 },
-          my: `1rem`,
+          my: '1rem',
           // borderRadius: `10px`,
-          position: `relative`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `center`,
-          boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-          backgroundColor: `primary.main`,
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+          backgroundColor: 'primary.main',
         }}
       >
         <Box>
+          {/* <IdentityVerificationModal open={open} handleClose={handleClose} />
+          <Button onClick={handleModal}>Open Modal</Button> */}
           <Image
             src={
               queryData?.providerProfile?.company?.image
@@ -131,39 +145,39 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             quality={100}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{
-              height: `100%`,
+              height: '100%',
               // borderRadius: `10px`,
-              objectFit: `cover`,
+              objectFit: 'cover',
             }}
           />
         </Box>
         <Box
           sx={{
             width: {
-              xs: `70px`,
-              sm: `70px`,
-              md: `100px`,
-              lg: `150px`,
-              xl: `150px`,
+              xs: '70px',
+              sm: '70px',
+              md: '100px',
+              lg: '150px',
+              xl: '150px',
             },
             height: {
-              xs: `70px`,
-              sm: `70px`,
-              md: `100px`,
-              lg: `150px`,
-              xl: `150px`,
+              xs: '70px',
+              sm: '70px',
+              md: '100px',
+              lg: '150px',
+              xl: '150px',
             },
-            position: `absolute`,
-            borderRadius: `50%`,
+            position: 'absolute',
+            borderRadius: '50%',
             bottom: {
-              xs: `-2rem`,
-              sm: `-2rem`,
-              md: `-4rem`,
-              lg: `-4rem`,
+              xs: '-2rem',
+              sm: '-2rem',
+              md: '-4rem',
+              lg: '-4rem',
             },
-            boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-            backgroundColor: `#fff`,
-            border: `solid 4px #fff`,
+            boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#fff',
+            border: 'solid 4px #fff',
           }}
         >
           <Box>
@@ -172,9 +186,9 @@ const Hero = ({ queryData, token, searchResult }: any) => {
               alt="bannerImage"
               fill
               style={{
-                width: `100%`,
-                borderRadius: `50%`,
-                objectFit: `cover`,
+                width: '100%',
+                borderRadius: '50%',
+                objectFit: 'cover',
               }}
             />
           </Box>
@@ -183,43 +197,43 @@ const Hero = ({ queryData, token, searchResult }: any) => {
       <Box
         sx={{
           mt: {
-            xs: `3rem`,
-            sm: `3rem`,
-            md: `5rem`,
-            lg: `5rem`,
+            xs: '3rem',
+            sm: '3rem',
+            md: '5rem',
+            lg: '5rem',
           },
         }}
       >
         <Box
           sx={{
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            position: `relative`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
           }}
         >
           <Typography
             fontWeight={600}
             sx={{
               fontSize: {
-                xs: `1.2rem`,
-                sm: `1.2rem`,
-                md: `1.4rem`,
-                lg: `1.5rem`,
+                xs: '1.2rem',
+                sm: '1.2rem',
+                md: '1.4rem',
+                lg: '1.5rem',
               },
             }}
             textTransform="capitalize"
           >
-            {queryData?.profile?.firstName} {` `} {queryData?.profile?.lastName}
+            {queryData?.profile?.firstName} {queryData?.profile?.lastName}
           </Typography>
         </Box>
-        {userInfo && userInfo.role === `user` ? (
+        {userInfo && userInfo.role === 'user' ? (
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
-              my: `0.5rem`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              my: '0.5rem',
             }}
           >
             <UserRating
@@ -234,11 +248,11 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         ) : (
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
-              mt: `0.5rem`,
-              mb: `1rem`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mt: '0.5rem',
+              mb: '1rem',
             }}
           >
             <RatingStar
@@ -253,22 +267,22 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         )}
         <Box
           sx={{
-            textAlign: `center`,
-            margin: `0 auto`,
+            textAlign: 'center',
+            margin: '0 auto',
 
             '.btn': {
-              border: `none`,
-              cursor: `pointer`,
-              borderRadius: `8px`,
-              boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-              margin: `1rem`,
-              padding: `1rem 1.5rem`,
+              border: 'none',
+              cursor: 'pointer',
+              borderRadius: '8px',
+              boxShadow: '0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)',
+              margin: '1rem',
+              padding: '1rem 1.5rem',
             },
             '.preview-btn': {
-              color: `secondary.main`,
-              fontWeight: `bold`,
-              backgroundColor: `primary.main`,
-              border: `solid 1px #1111`,
+              color: 'secondary.main',
+              fontWeight: 'bold',
+              backgroundColor: 'primary.main',
+              border: 'solid 1px #1111',
             },
           }}
         >
@@ -280,11 +294,11 @@ const Hero = ({ queryData, token, searchResult }: any) => {
           {queryData.providerProfile?.currentlyHiredBy?.includes(
             loggedUserId,
           ) ? (
-            <Link href="/account/chats">
+            <Link href="/user/chat">
               <Button
                 startIcon={<ChatIcon />}
                 variant="contained"
-                sx={{ color: `secondary.main`, px: 6 }}
+                sx={{ color: 'secondary.main', px: 6 }}
               >
                 Chat
               </Button>
@@ -292,38 +306,38 @@ const Hero = ({ queryData, token, searchResult }: any) => {
           ) : queryData.providerProfile?.currentlyRequestedBy?.includes(
               loggedUserId,
             ) ? (
-            <Button variant="contained" sx={{ color: `secondary.main`, px: 6 }}>
-              Pending Request
+            <Button variant="contained" sx={{ color: 'secondary.main', px: 6 }}>
+              Awaiting Vendor Response
             </Button>
           ) : (
             <Button
               variant="contained"
-              sx={{ color: `secondary.main`, px: 6 }}
+              sx={{ color: 'secondary.main', px: 6 }}
               onClick={vendorData ? handledSendContract : openCreateHireMeModal}
             >
-              {isLoading ? `Loading...` : `Hire Me`}
+              {isLoading ? 'Loading...' : 'Hire Me'}
             </Button>
           )}
         </Box>
         <Container maxWidth="lg">
           <Box
             sx={{
-              mt: `5rem`,
-              display: `flex`,
-              justifyContent: `space-between`,
+              mt: '5rem',
+              display: 'flex',
+              justifyContent: 'space-between',
               gap: {
-                xs: `0.7rem`,
-                sm: `0.7rem`,
-                md: `1rem`,
-                lg: `4rem`,
-                xl: `4rem`,
+                xs: '0.7rem',
+                sm: '0.7rem',
+                md: '1rem',
+                lg: '4rem',
+                xl: '4rem',
               },
               flexDirection: {
-                xs: `column`,
-                sm: `column`,
-                md: `row`,
-                lg: `row`,
-                xl: `row`,
+                xs: 'column',
+                sm: 'column',
+                md: 'row',
+                lg: 'row',
+                xl: 'row',
               },
             }}
           >
@@ -331,44 +345,44 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             <Box
               sx={{
                 mb: {
-                  xs: `1rem`,
-                  sm: `1rem`,
-                  nd: `2rem`,
-                  lg: `3rem`,
-                  xl: `3rem`,
+                  xs: '1rem',
+                  sm: '1rem',
+                  nd: '2rem',
+                  lg: '3rem',
+                  xl: '3rem',
                 },
                 width: {
-                  xs: `auto`,
-                  sm: `auto`,
-                  md: `70%`,
-                  lg: `70%`,
-                  xl: `70%`,
+                  xs: 'auto',
+                  sm: 'auto',
+                  md: '70%',
+                  lg: '70%',
+                  xl: '70%',
                 },
-                background: `#fff`,
+                background: '#fff',
                 padding: 4,
                 // boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-                border: `solid 1px #3333`,
-                borderRadius: `6px`,
+                border: 'solid 1px #3333',
+                borderRadius: '6px',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Typography
                   fontWeight={600}
                   sx={{
                     fontSize: {
-                      xs: `1.2rem`,
-                      sm: `1.2rem`,
-                      md: `1.4rem`,
-                      lg: `1.5rem`,
+                      xs: '1.2rem',
+                      sm: '1.2rem',
+                      md: '1.4rem',
+                      lg: '1.5rem',
                     },
-                    color: `primary.main`,
-                    mb: `1rem`,
+                    color: 'primary.main',
+                    mb: '1rem',
                   }}
                 >
                   {queryData?.providerProfile?.company?.name}
@@ -385,37 +399,36 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                 // display: `flex`,
                 // alignItems: `center`,
                 width: {
-                  xs: `100%`,
-                  sm: `100%`,
-                  md: `30%`,
-                  lg: `30%`,
-                  xl: `30%`,
+                  xs: '100%',
+                  sm: '100%',
+                  md: '30%',
+                  lg: '30%',
+                  xl: '30%',
                 },
               }}
             >
               <Box
                 sx={{
-                  background: `#fff`,
+                  background: '#fff',
                   padding: 4,
                   // boxShadow: `0px 2.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-                  border: `solid 1px #3333`,
-                  borderRadius: `6px`,
+                  border: 'solid 1px #3333',
+                  borderRadius: '6px',
                 }}
               >
                 <Box>
                   <Typography fontWeight={600} color="primary.main">
-                    <LocationOnIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} />
+                    <LocationOnIcon sx={{ mr: 0.5, fontSize: '1.3rem' }} />
                     Location:
                   </Typography>
                   <Typography fontWeight={500} color="primary.main">
-                    {queryData?.providerProfile?.state}
-                    {` `}
+                    {queryData?.providerProfile?.state}{' '}
                     {queryData?.providerProfile?.city}
                   </Typography>
                 </Box>
                 <Box mt={4}>
                   <Typography fontWeight={600} color="primary.main">
-                    <BadgeIcon sx={{ mr: 0.5, fontSize: `1.3rem` }} /> Member
+                    <BadgeIcon sx={{ mr: 0.5, fontSize: '1.3rem' }} /> Member
                     Since:
                   </Typography>
                   <Typography fontWeight={500} color="primary.main">

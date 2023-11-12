@@ -19,8 +19,8 @@ import AuthHero from '@/components/UserProfile/Hero';
 const PublicProfilePage = ({ data, publicId, token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      localStorage.removeItem(`lastVisitedURL`);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('lastVisitedURL');
     }
   }, []);
 
@@ -28,7 +28,6 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
     `/profiles/${userInfo}`,
     token,
   );
-
   return (
     <>
       <Layout data={queryData?.provider}>
@@ -40,19 +39,18 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
           )}
           <Box
             sx={{
-              margin: `0 auto`,
+              margin: '0 auto',
               width: {
-                xs: `80%`,
-                sm: `80%`,
-                md: `80%`,
-                lg: `80%`,
+                xs: '90%',
+                sm: '90%',
+                md: '90%',
+                lg: '90%',
               },
             }}
           >
-            <Divider sx={{ mt: 6 }} />
+            {/* <Divider sx={{ mt: 6 }} /> */}
             <PreviousEvent queryData={data} />
-            <Divider />
-            {/* <ClientReviews queryData={data} /> */}
+            <ClientReviews queryData={data} />
           </Box>
         </Box>
       </Layout>

@@ -10,13 +10,13 @@ type ErrorProps = {
 const FormError = ({ text }: ErrorProps) => (
   <Box
     sx={{
-      display: `flex`,
-      alignItems: `center`,
-      color: `red`,
-      width: `100%`,
+      display: 'flex',
+      alignItems: 'center',
+      color: 'red',
+      width: '100%',
     }}
   >
-    <ErrorOutlineIcon sx={{ fontSize: `0.9rem`, mr: `0.5rem` }} />
+    <ErrorOutlineIcon sx={{ fontSize: '0.9rem', mr: '0.5rem' }} />
     <Typography fontSize="0.8rem">{text}</Typography>
   </Box>
 );

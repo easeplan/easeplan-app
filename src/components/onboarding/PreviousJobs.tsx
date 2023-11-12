@@ -26,11 +26,11 @@ const PreviousJobs = ({ queryData, token }: any) => {
         dispatch(setIntroFive(false));
         dispatch(setIntroSix(true));
       } else {
-        console.error(`Request was not successful:`, response);
+        console.error('Request was not successful:', response);
       }
     } catch (error) {
       // Handle the error (you can dispatch another action here if needed)
-      console.error(`Error during the request:`, error);
+      console.error('Error during the request:', error);
     }
   };
 
@@ -44,16 +44,16 @@ const PreviousJobs = ({ queryData, token }: any) => {
       <Box mt={5} mb={20}>
         <Box
           sx={{
-            display: `flex`,
+            display: 'flex',
             // alignItems: `center`,
-            justifyContent: `space-between`,
+            justifyContent: 'space-between',
           }}
         >
           <div>
             <Typography
               fontWeight={800}
               sx={{
-                fontSize: [`1.4rem`, `1.5rem`, `1.5rem`, `1.5rem`, `1.5rem`],
+                fontSize: ['1.4rem', '1.5rem', '1.5rem', '1.5rem', '1.5rem'],
                 mb: 4,
               }}
               color="primary.main"
@@ -63,10 +63,10 @@ const PreviousJobs = ({ queryData, token }: any) => {
             <Typography
               sx={{
                 fontSize: {
-                  xs: `1rem`,
-                  sm: `1rem`,
-                  md: `1rem`,
-                  lg: `1rem`,
+                  xs: '1rem',
+                  sm: '1rem',
+                  md: '1rem',
+                  lg: '1rem',
                 },
               }}
               color="primary.main"
@@ -88,32 +88,32 @@ const PreviousJobs = ({ queryData, token }: any) => {
         </Box>
         <Box
           sx={{
-            display: `grid`,
+            display: 'grid',
             gridTemplateColumns: {
-              xs: `1fr`,
-              sm: `1fr`,
-              md: `1fr 1fr 1fr`,
-              lg: `1fr 1fr 1fr`,
+              xs: '1fr',
+              sm: '1fr',
+              md: '1fr 1fr 1fr',
+              lg: '1fr 1fr 1fr',
             },
-            gridTemplateAreas: `item2 item1`,
-            alignItem: `center`,
-            gap: `1rem`,
-            mt: `1rem`,
+            gridTemplateAreas: 'item2 item1',
+            alignItem: 'center',
+            gap: '1rem',
+            mt: '1rem',
           }}
         >
           <Box
             sx={{
-              borderRadius: `1px`,
+              borderRadius: '1px',
               height: `${
                 !queryData?.provider?.providerProfile?.samples?.length
-                  ? `250px`
-                  : `100%`
+                  ? '250px'
+                  : '100%'
               }`,
-              width: `100%`,
-              background: `#ccc`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
+              width: '100%',
+              background: '#ccc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Button variant="outlined" onClick={() => setIsOpen(true)}>
@@ -124,25 +124,25 @@ const PreviousJobs = ({ queryData, token }: any) => {
             <Box
               key={data?._id}
               sx={{
-                borderRadius: `1px`,
-                height: `100%`,
-                position: `relative`,
+                borderRadius: '1px',
+                height: '100%',
+                position: 'relative',
               }}
             >
               <Box
                 sx={{
-                  width: `100%`,
+                  width: '100%',
                   height: {
-                    xs: `300px`,
-                    sm: `300px`,
-                    md: `300px`,
-                    lg: `300px`,
-                    xl: `300px`,
+                    xs: '300px',
+                    sm: '300px',
+                    md: '300px',
+                    lg: '300px',
+                    xl: '300px',
                   },
-                  borderRadius: `10px`,
-                  position: `relative`,
+                  borderRadius: '10px',
+                  position: 'relative',
                   '.item2': {
-                    gridArea: `item2`,
+                    gridArea: 'item2',
                   },
                 }}
               >
@@ -153,7 +153,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
                   quality={100}
                   priority={true}
                   style={{
-                    objectFit: `cover`,
+                    objectFit: 'cover',
                   }}
                 />
               </Box>

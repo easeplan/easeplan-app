@@ -49,86 +49,86 @@ const LoginPage = () => {
   );
 };
 
-const Main = styled(`main`)({
-  height: `100vh`,
-  display: `grid`,
-  gridTemplateColumns: `repeat(2, 1fr)`,
+const Main = styled('main')({
+  height: '100vh',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, 1fr)',
 
   '@media (max-width: 1020px)': {
-    marginTop: `0rem`,
-    gridTemplateColumns: `repeat(1, 1fr)`,
+    marginTop: '0rem',
+    gridTemplateColumns: 'repeat(1, 1fr)',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `0rem`,
-    gridTemplateColumns: `repeat(1, 1fr)`,
-    gap: `1rem`,
+    marginTop: '0rem',
+    gridTemplateColumns: 'repeat(1, 1fr)',
+    gap: '1rem',
   },
 
   '.bgimgStyle': {
-    position: `fixed`,
-    bottom: `0`,
-    left: `0`,
-    width: `25%`,
-    height: `auto`,
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    width: '25%',
+    height: 'auto',
 
     '@media (max-width: 1020px)': {
-      width: `20%`,
-      height: `auto`,
+      width: '20%',
+      height: 'auto',
     },
     '@media (max-width: 900px)': {
-      display: `none`,
+      display: 'none',
     },
   },
 });
 
-const ImageSection = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  height: `100vh`,
+const ImageSection = styled('div')(({ theme }) => ({
+  width: '100%',
+  height: '100vh',
   background: theme.palette.primary.main,
-  display: `flex`,
-  justifyContent: `center`,
-  alignItems: `center`,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 
   '@media (max-width: 1020px)': {
-    display: `none`,
+    display: 'none',
   },
 }));
 
-const ImgBanner = styled(`div`)({
-  width: `70%`,
-  height: `70vh`,
-  marginTop: `4rem`,
-  background: `rgba(183, 233, 246, 0.25)`,
-  backdropFilter: `blur(13px)`,
-  borderRadius: `1rem`,
-  padding: `2.5rem`,
-  color: `#fff`,
-  position: `relative`,
-  zIndex: `9`,
+const ImgBanner = styled('div')({
+  width: '70%',
+  height: '70vh',
+  marginTop: '4rem',
+  background: 'rgba(183, 233, 246, 0.25)',
+  backdropFilter: 'blur(13px)',
+  borderRadius: '1rem',
+  padding: '2.5rem',
+  color: '#fff',
+  position: 'relative',
+  zIndex: '9',
 
   '.imgStyle': {
-    position: `absolute`,
-    bottom: `0`,
-    left: `4rem`,
-    width: `55%`,
-    height: `auto`,
+    position: 'absolute',
+    bottom: '0',
+    left: '4rem',
+    width: '55%',
+    height: 'auto',
   },
 });
 
-const Title = styled(`h4`)({
-  fontWeight: `700`,
-  fontSize: `1.5rem`,
+const Title = styled('h4')({
+  fontWeight: '700',
+  fontSize: '1.5rem',
 });
 
-const FormSection = styled(`div`)({
-  width: `100%`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const FormSection = styled('div')({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
   '@media (max-width: 1020px)': {
-    height: `100%`,
+    height: '100%',
   },
 });
 

@@ -20,8 +20,8 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 const ProfileSchema = Yup.object().shape({
-  firstName: Yup.string().required(`First Name is required`),
-  lastName: Yup.string().required(`Last Name is required`),
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
   city: Yup.string(),
   state: Yup.string(),
   picture: Yup.string(),
@@ -50,13 +50,13 @@ const ProfileForm = ({ token, queryData }: Props) => {
     mutationFn: (credentials) =>
       customFetch.put(`profiles/${userInfo?._id}`, credentials, {
         headers: {
-          'Content-Type': `multipart/form-data`,
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -65,7 +65,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
 
   const submitCredentials = async (credentials: any) => {
     const formData = new FormData();
-    formData.append(`picture`, credentials.picture);
+    formData.append('picture', credentials.picture);
     updateProfile(credentials);
   };
 
@@ -76,15 +76,15 @@ const ProfileForm = ({ token, queryData }: Props) => {
         initialValues={{
           firstName: queryData?.profile?.firstName
             ? queryData?.profile?.firstName
-            : ``,
+            : '',
           lastName: queryData?.profile?.lastName
             ? queryData?.profile?.lastName
-            : ``,
+            : '',
           picture: queryData?.profile?.picture
             ? queryData?.profile?.picture
-            : ``,
-          password: ``,
-          confirmPassword: ``,
+            : '',
+          password: '',
+          confirmPassword: '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
@@ -126,17 +126,17 @@ const ProfileForm = ({ token, queryData }: Props) => {
                 </div>
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: '1rem',
                   }}
                 >
                   <div>
                     <AddButton htmlFor="picture">
                       {queryData?.profile?.picture
-                        ? `Change Photo`
-                        : `Add Photo`}
+                        ? 'Change Photo'
+                        : 'Add Photo'}
                       <Input
                         type="file"
                         setPreviewImg={setPreviewImg}
@@ -153,7 +153,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                           alt="profileImg"
                           height={50}
                           width={50}
-                          style={{ borderRadius: `50%` }}
+                          style={{ borderRadius: '50%' }}
                         />
                       </div>
                     ) : (
@@ -163,7 +163,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                           alt="profileImg"
                           height={60}
                           width={60}
-                          style={{ borderRadius: `50%` }}
+                          style={{ borderRadius: '50%' }}
                         />
                       </Box>
                     )}
@@ -227,7 +227,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                           <FormInput
                             ariaLabel="Password"
                             name="password"
-                            type={showPassword ? `text` : `password`}
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
                           />
                           <div
@@ -246,7 +246,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
                           <FormInput
                             ariaLabel="confirm password"
                             name="confirmpassword"
-                            type={showConfirmPassword ? `text` : `password`}
+                            type={showConfirmPassword ? 'text' : 'password'}
                             placeholder="Confirm Password"
                           />
                           <div
@@ -264,13 +264,13 @@ const ProfileForm = ({ token, queryData }: Props) => {
                   <PasswordBtn
                     onClick={() => setChangePassword(!changePassword)}
                   >
-                    {changePassword ? `Hide Password` : `Change Password`}
+                    {changePassword ? 'Hide Password' : 'Change Password'}
                   </PasswordBtn>
                 </div>
               </InputController>
             </Flex>
             <Divider />
-            <Box sx={{ textAlign: `right`, marginTop: `1rem` }}>
+            <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
               <CustomButton
                 bgPrimary
                 lgWidth="20%"
@@ -290,176 +290,176 @@ const ProfileForm = ({ token, queryData }: Props) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const PasswordBtn = styled(`label`)(({ theme }) => ({
-  display: `inline-block`,
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `10px`,
-  backgroundColor: `transparent`,
+const PasswordBtn = styled('label')(({ theme }) => ({
+  display: 'inline-block',
+  padding: '0.8rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  borderRadius: '10px',
+  backgroundColor: 'transparent',
   color: theme.palette.primary.main,
   border: `solid 1px ${theme.palette.primary.main}`,
-  boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
+  boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
 
   '&:hover': {
     backgroundColor: theme.palette.primary.light,
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {},
 }));
 
-const AddButton = styled(`label`)(({ theme }) => ({
-  display: `inline-block`,
-  padding: `0.8rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `10px`,
-  backgroundColor: `transparent`,
+const AddButton = styled('label')(({ theme }) => ({
+  display: 'inline-block',
+  padding: '0.8rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  borderRadius: '10px',
+  backgroundColor: 'transparent',
   color: theme.palette.primary.main,
   border: `solid 1px ${theme.palette.primary.main}`,
-  boxShadow: `0 3px 10px rgb(0 0 0 / 0.2)`,
+  boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
 
   '&:hover': {
     backgroundColor: theme.palette.primary.light,
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {},
 }));
 
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `1rem`,
+const Flex = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '6rem',
+  marginBottom: '1rem',
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
+    flexDirection: 'column',
+    gap: '2rem',
   },
 });
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  marginTop: `2rem`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
+  marginTop: '2rem',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.img-flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    justifyContent: `space-between`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    justifyContent: 'space-between',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `70px`,
-      height: `70px`,
-      borderRadius: `50%`,
+      width: '70px',
+      height: '70px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    justifyContent: `space-between`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    justifyContent: 'space-between',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `70px`,
-        height: `70px`,
-        marginTop: `1rem`,
+        width: '70px',
+        height: '70px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));

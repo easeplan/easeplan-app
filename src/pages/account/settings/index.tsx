@@ -34,7 +34,7 @@ const SettingsPage = ({ token }: any) => {
         <Link href="/account/settings">
           <Button
             variant="outlined"
-            sx={{ fontSize: `0.7rem` }}
+            sx={{ fontSize: '0.7rem' }}
             startIcon={<AdminPanelSettingsIcon />}
           >
             Profile Settings
@@ -45,7 +45,7 @@ const SettingsPage = ({ token }: any) => {
           <Link href="/account/settings/verify">
             <Button
               variant="contained"
-              sx={{ marginLeft: `1rem`, fontSize: `0.7rem` }}
+              sx={{ marginLeft: '1rem', fontSize: '0.7rem' }}
               startIcon={<AdminPanelSettingsIcon />}
             >
               Verification
@@ -58,18 +58,18 @@ const SettingsPage = ({ token }: any) => {
   );
 };
 
-const Flex = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  marginTop: `2rem`,
+const Flex = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: '2rem',
   // color: theme.palette.primary.main,
   color: theme.palette.grey[500],
 
   '.title': {
-    marginRight: `0.5rem`,
-    fontSize: `1rem`,
+    marginRight: '0.5rem',
+    fontSize: '1rem',
     '@media (max-width: 900px)': {
-      fontSize: `0.7rem`,
+      fontSize: '0.7rem',
     },
   },
   '.active': {
@@ -77,7 +77,7 @@ const Flex = styled(`div`)(({ theme }) => ({
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 }));
 

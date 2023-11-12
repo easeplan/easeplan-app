@@ -13,7 +13,7 @@ const AboutCompany = ({ queryData, token }: any) => {
   return (
     <Box
       sx={{
-        mb: `3rem`,
+        mb: '3rem',
       }}
     >
       <EditCompanyModal
@@ -24,20 +24,20 @@ const AboutCompany = ({ queryData, token }: any) => {
       />
       <Box
         sx={{
-          mt: `5rem`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `space-between`,
+          mt: '5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography
           fontWeight={600}
           sx={{
             fontSize: {
-              xs: `1.2rem`,
-              sm: `1.2rem`,
-              md: `1.4rem`,
-              lg: `1.5rem`,
+              xs: '1.2rem',
+              sm: '1.2rem',
+              md: '1.4rem',
+              lg: '1.5rem',
             },
           }}
         >
@@ -56,17 +56,17 @@ const AboutCompany = ({ queryData, token }: any) => {
   );
 };
 
-const EditButton = styled(`button`)(({ theme }) => ({
-  border: `none`,
-  backgroundColor: `transparent`,
-  zIndex: `1`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  cursor: `pointer`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `50%`,
+const EditButton = styled('button')(({ theme }) => ({
+  border: 'none',
+  backgroundColor: 'transparent',
+  zIndex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  borderRadius: '50%',
   color: theme.palette.primary.main,
 
   '&:hover': {
@@ -74,14 +74,14 @@ const EditButton = styled(`button`)(({ theme }) => ({
   },
 
   '.icon': {
-    fontSize: `2rem`,
-    marginLeft: `0.4rem`,
-    marginBottom: `0.6rem`,
+    fontSize: '2rem',
+    marginLeft: '0.4rem',
+    marginBottom: '0.6rem',
   },
 
   '@media (max-width: 900px)': {
     '.icon': {
-      fontSize: `1.2rem`,
+      fontSize: '1.2rem',
     },
   },
 }));

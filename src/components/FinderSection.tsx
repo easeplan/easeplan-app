@@ -95,8 +95,8 @@ const FinderSection = ({ queryData, token }: any) => {
         <Box mt={8}>
           <Typography
             sx={{
-              textAlign: `center`,
-              fontSize: { xs: `1.5rem`, sm: `1.5rem`, lg: `2rem` },
+              textAlign: 'center',
+              fontSize: { xs: '1.5rem', sm: '1.5rem', lg: '2rem' },
             }}
           >
             Hello {queryData?.data?.profile?.firstName}, Let`s help you find a
@@ -112,20 +112,20 @@ const FinderSection = ({ queryData, token }: any) => {
   );
 };
 
-const DashboardWrapper = styled(`section`)(({ theme }) => ({
-  position: `relative`,
-  height: `100%`,
-  marginTop: `2rem`,
+const DashboardWrapper = styled('section')(({ theme }) => ({
+  position: 'relative',
+  height: '100%',
+  marginTop: '2rem',
   color: theme.palette.primary.main,
 
   '.sectionTitle': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 }));
 

@@ -21,27 +21,27 @@ import {
 } from '@/features/searchResultSlice';
 
 const services = [
-  `Dj`,
-  `Catering`,
-  `Photographer`,
-  `MC`,
-  `Make-up Artist`,
-  `Venue manager`,
-  `Event decorator`,
-  `Transportation coordinator`,
-  `Security personnel`,
-  `Videographer`,
-  `Print vendor`,
-  `Ushering`,
-  `Entertainer`,
+  'Dj',
+  'Catering',
+  'Photographer',
+  'MC',
+  'Make-up Artist',
+  'Venue manager',
+  'Event decorator',
+  'Transportation coordinator',
+  'Security personnel',
+  'Videographer',
+  'Print vendor',
+  'Ushering',
+  'Entertainer',
 ];
 
 const FormSchema = Yup.object().shape({
-  budget: Yup.string().required(`Budget is missing`),
-  state: Yup.string().required(`State is missing`),
-  city: Yup.string().required(`City is missing`),
-  eventDate: Yup.string().required(`Date is missing`),
-  selectedService: Yup.string().required(`Service Type is missing`),
+  budget: Yup.string().required('Budget is missing'),
+  state: Yup.string().required('State is missing'),
+  city: Yup.string().required('City is missing'),
+  eventDate: Yup.string().required('Date is missing'),
+  selectedService: Yup.string().required('Service Type is missing'),
 });
 
 const FindVendorModal = ({ token }: any) => {
@@ -59,8 +59,8 @@ const FindVendorModal = ({ token }: any) => {
       service: credentials?.selectedService,
       eventDate: credentials.eventDate,
     };
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`findVendorData`, JSON.stringify(findVendorData));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('findVendorData', JSON.stringify(findVendorData));
     }
     setIsLoading(true);
     const queryString = Object.keys(credentials)
@@ -68,15 +68,15 @@ const FindVendorModal = ({ token }: any) => {
         (key) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(credentials[key])}`,
       )
-      .join(`&`);
+      .join('&');
 
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/profiles/provider/search?${queryString}`,
         {
-          method: `GET`,
+          method: 'GET',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -117,18 +117,18 @@ const FindVendorModal = ({ token }: any) => {
         >
           <Box
             sx={{
-              background: `#fff`,
-              p: `2rem`,
-              borderRadius: `30px`,
-              boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+              background: '#fff',
+              p: '2rem',
+              borderRadius: '30px',
+              boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
             }}
           >
             <Formik
               initialValues={{
-                state: ``,
-                city: ``,
-                eventDate: ``,
-                selectedService: ``,
+                state: '',
+                city: '',
+                eventDate: '',
+                selectedService: '',
               }}
               onSubmit={(values) => handleSubmit(values)}
               validationSchema={FormSchema}
@@ -145,20 +145,20 @@ const FindVendorModal = ({ token }: any) => {
                     )}
                     <Box
                       sx={{
-                        display: `grid`,
+                        display: 'grid',
                         gridTemplateColumns: {
-                          xs: `1fr`,
-                          sm: `1fr`,
-                          md: `1fr 1fr`,
-                          lg: `1fr 1fr 1fr`,
-                          xl: `1fr 1fr 1fr`,
+                          xs: '1fr',
+                          sm: '1fr',
+                          md: '1fr 1fr',
+                          lg: '1fr 1fr 1fr',
+                          xl: '1fr 1fr 1fr',
                         },
                         gap: {
-                          xs: `0rem`,
-                          sm: `0rem`,
-                          md: `1rem`,
-                          lg: `2rem`,
-                          xl: `2rem`,
+                          xs: '0rem',
+                          sm: '0rem',
+                          md: '1rem',
+                          lg: '2rem',
+                          xl: '2rem',
                         },
                       }}
                     >
@@ -171,8 +171,8 @@ const FindVendorModal = ({ token }: any) => {
                               (state) => state.name === e.target.value,
                             );
                             setSelectedState(selectedState);
-                            setFieldValue(`state`, e.target.value);
-                            setFieldValue(`city`, ``);
+                            setFieldValue('state', e.target.value);
+                            setFieldValue('city', '');
                           }}
                         >
                           {data?.states?.map((state: any) => {
@@ -214,20 +214,20 @@ const FindVendorModal = ({ token }: any) => {
                     </Box>
                     <Box
                       sx={{
-                        display: `grid`,
+                        display: 'grid',
                         gridTemplateColumns: {
-                          xs: `1fr`,
-                          sm: `1fr`,
-                          md: `1fr 1fr`,
-                          lg: `1fr 1fr 1fr`,
-                          xl: `1fr 1fr 1fr`,
+                          xs: '1fr',
+                          sm: '1fr',
+                          md: '1fr 1fr',
+                          lg: '1fr 1fr 1fr',
+                          xl: '1fr 1fr 1fr',
                         },
                         gap: {
-                          xs: `0rem`,
-                          sm: `0rem`,
-                          md: `1rem`,
-                          lg: `2rem`,
-                          xl: `2rem`,
+                          xs: '0rem',
+                          sm: '0rem',
+                          md: '1rem',
+                          lg: '2rem',
+                          xl: '2rem',
                         },
                       }}
                     >
@@ -250,9 +250,9 @@ const FindVendorModal = ({ token }: any) => {
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                         }}
                       >
                         <CustomButton
@@ -266,7 +266,7 @@ const FindVendorModal = ({ token }: any) => {
                           {isLoading ? (
                             <FontAwesomeIcon icon={faCircleNotch} spin />
                           ) : (
-                            `Search`
+                            'Search'
                           )}
                         </CustomButton>
                       </Box>

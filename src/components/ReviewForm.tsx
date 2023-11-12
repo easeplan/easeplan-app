@@ -29,14 +29,14 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
     <div>
       <textarea
         style={{
-          width: `100%`,
-          padding: `1rem`,
-          border: `none`,
-          resize: `none`,
-          overflowY: `auto`,
-          fontSize: `1rem`,
-          outline: `none`,
-          background: `transparent`,
+          width: '100%',
+          padding: '1rem',
+          border: 'none',
+          resize: 'none',
+          overflowY: 'auto',
+          fontSize: '1rem',
+          outline: 'none',
+          background: 'transparent',
         }}
         {...field}
         {...props}
@@ -48,7 +48,7 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
 
 // Form Input Schema
 const ReviewFormSchema = Yup.object().shape({
-  review: Yup.string().required(`Review Message is required`),
+  review: Yup.string().required('Review Message is required'),
 });
 
 interface PropsTypes {
@@ -68,15 +68,15 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
 
   const { mutate: updateReview, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/ratings`, credentials, {
+      customFetch.post('/ratings', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -94,21 +94,21 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
   };
 
   return (
-    <Box sx={{ display: `flex` }}>
+    <Box sx={{ display: 'flex' }}>
       {/* Form */}
       <Box
         sx={{
-          border: `solid 1px #ccc`,
-          width: `100%`,
+          border: 'solid 1px #ccc',
+          width: '100%',
           mt: 8,
         }}
       >
-        <Box sx={{ p: 2, borderBottom: `solid 1px #cccc` }}>
+        <Box sx={{ p: 2, borderBottom: 'solid 1px #cccc' }}>
           <Typography>Send message</Typography>
         </Box>
         <Formik
           initialValues={{
-            review: ``,
+            review: '',
           }}
           onSubmit={(values) => handleFormSubmit(values)}
           validationSchema={ReviewFormSchema}
@@ -119,12 +119,12 @@ const ReviewForm = ({ token, rating, profileId, role }: PropsTypes) => {
                 <TextArea
                   placeholder="Type Message Here!"
                   name="review"
-                  sx={{ border: `none` }}
+                  sx={{ border: 'none' }}
                   rows={6}
                 />
               </Box>
               <Box
-                sx={{ textAlign: `right`, p: 2, borderTop: `solid 1px #ccc` }}
+                sx={{ textAlign: 'right', p: 2, borderTop: 'solid 1px #ccc' }}
               >
                 <Button
                   color="primary"

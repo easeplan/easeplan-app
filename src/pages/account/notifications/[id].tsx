@@ -30,12 +30,12 @@ const NotificationPage = ({ token, data }: Props) => {
           <Box key={data?._id}>
             <Box
               sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                alignItems: `center`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 p: 4,
                 mt: 4,
-                backgroundColor: `secondary.light`,
+                backgroundColor: 'secondary.light',
               }}
             >
               <Typography
@@ -43,8 +43,8 @@ const NotificationPage = ({ token, data }: Props) => {
                 fontSize="1rem"
                 color="primary.main"
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 <LocationOnIcon /> {data.state}, {data?.city}
@@ -61,7 +61,7 @@ const NotificationPage = ({ token, data }: Props) => {
               sx={{
                 p: 4,
                 mt: 4,
-                backgroundColor: `secondary.light`,
+                backgroundColor: 'secondary.light',
               }}
             >
               <Typography fontWeight="600" fontSize="1rem" color="primary.main">
@@ -69,44 +69,44 @@ const NotificationPage = ({ token, data }: Props) => {
               </Typography>
               <Typography
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'primary.main',
                   mt: 1,
                 }}
               >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
+                <CheckIcon sx={{ color: 'secondary.main', mr: 1 }} /> Basic
               </Typography>
               <Typography
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'primary.main',
                   mt: 1,
                 }}
               >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
+                <CheckIcon sx={{ color: 'secondary.main', mr: 1 }} /> Basic
               </Typography>
               <Typography
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  color: `primary.main`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'primary.main',
                   mt: 1,
                 }}
               >
-                <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} /> Basic
+                <CheckIcon sx={{ color: 'secondary.main', mr: 1 }} /> Basic
               </Typography>
             </Box>
             {/* Support CTA */}
             <Box
               sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                alignItems: `center`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 p: 4,
                 mt: 4,
-                backgroundColor: `primary.main`,
+                backgroundColor: 'primary.main',
               }}
             >
               <Box>
@@ -123,11 +123,11 @@ const NotificationPage = ({ token, data }: Props) => {
               </Box>
               <Box
                 sx={{
-                  backgroundColor: `secondary.main`,
-                  color: `primary.main`,
+                  backgroundColor: 'secondary.main',
+                  color: 'primary.main',
                   py: 1,
                   px: 2,
-                  fontWeight: `600`,
+                  fontWeight: '600',
                 }}
               >
                 <Link href="/dashboard/support">Resolution center</Link>
@@ -147,7 +147,7 @@ export async function getServerSideProps({ req, params }: any) {
   if (!token) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: '/login',
         permanent: false,
       },
     };
@@ -158,7 +158,7 @@ export async function getServerSideProps({ req, params }: any) {
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },

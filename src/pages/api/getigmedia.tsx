@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!access_token || !user_id) {
     return res
       .status(401)
-      .json({ error: `Unauthorized. Missing Instagram data in cookies.` });
+      .json({ error: 'Unauthorized. Missing Instagram data in cookies.' });
   }
 
   const endpoint = `https://graph.instagram.com/${user_id}/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp&access_token=${access_token}`;
@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json(responseData);
   } catch (error: any) {
     return res.status(500).json({
-      error: `Failed to fetch Instagram media`,
+      error: 'Failed to fetch Instagram media',
       details: error.message,
     });
   }

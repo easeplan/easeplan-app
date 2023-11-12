@@ -35,14 +35,14 @@ interface Props {
 }
 
 enum EventStatus {
-  REQUESTED = `Requested`,
-  ACCEPTED = `Accepted`,
-  DECLINED = `Declined`,
-  CANCELLED = `Cancelled`,
-  COMPLETED = `Completed`,
-  DISPUTED = `Disputed`,
-  RESOLVED = `Resolved`,
-  PAID = `Paid`,
+  REQUESTED = 'Requested',
+  ACCEPTED = 'Accepted',
+  DECLINED = 'Declined',
+  CANCELLED = 'Cancelled',
+  COMPLETED = 'Completed',
+  DISPUTED = 'Disputed',
+  RESOLVED = 'Resolved',
+  PAID = 'Paid',
 }
 
 const ContractsPage = ({ token, data }: Props) => {
@@ -62,9 +62,9 @@ const ContractsPage = ({ token, data }: Props) => {
           process.env.NEXT_PUBLIC_API_URL
         }/${`profiles/${data?._id}/accept-offer`}`,
         {
-          method: `PUT`,
+          method: 'PUT',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -89,9 +89,9 @@ const ContractsPage = ({ token, data }: Props) => {
           process.env.NEXT_PUBLIC_API_URL
         }/${`profiles/${data?._id}/complete-offer`}`,
         {
-          method: `PUT`,
+          method: 'PUT',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -112,9 +112,9 @@ const ContractsPage = ({ token, data }: Props) => {
           process.env.NEXT_PUBLIC_API_URL
         }/${`profiles/${data?._id}/decline-offer`}`,
         {
-          method: `PUT`,
+          method: 'PUT',
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -138,8 +138,8 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.COMPLETED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `primary.main`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'primary.main',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -151,8 +151,8 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.ACCEPTED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `primary.main`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'primary.main',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -164,8 +164,8 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.RESOLVED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `primary.main`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'primary.main',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -177,8 +177,8 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.REQUESTED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `primary.main`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'primary.main',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -190,8 +190,8 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.PAID]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `primary.main`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'primary.main',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -203,9 +203,9 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.CANCELLED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `yellow`,
-          color: `red`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'yellow',
+          color: 'red',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -217,9 +217,9 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.DECLINED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `red`,
-          color: `white`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'red',
+          color: 'white',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -231,9 +231,9 @@ const ContractsPage = ({ token, data }: Props) => {
     [EventStatus.DISPUTED]: () => (
       <Typography
         sx={{
-          padding: `0.3rem 1rem`,
-          backgroundColor: `red`,
-          color: `white`,
+          padding: '0.3rem 1rem',
+          backgroundColor: 'red',
+          color: 'white',
         }}
         fontWeight="600"
         fontSize="1rem"
@@ -254,7 +254,7 @@ const ContractsPage = ({ token, data }: Props) => {
           isClose={() => setConfirm(false)}
           text="Accept Job Offer"
         >
-          <Box sx={{ p: 4, textAlign: `center` }}>
+          <Box sx={{ p: 4, textAlign: 'center' }}>
             {isSuccess ? (
               <Typography mb={4} variant="h6">
                 Offer Accepted ✨🎉⭐🤝
@@ -291,7 +291,7 @@ const ContractsPage = ({ token, data }: Props) => {
           isOpen={declined}
           isClose={() => setDecliend(false)}
         >
-          <Box sx={{ p: 4, textAlign: `center` }}>
+          <Box sx={{ p: 4, textAlign: 'center' }}>
             {isSuccess ? (
               <Typography mb={4} variant="h6">
                 Declined 😥😥😥
@@ -316,35 +316,35 @@ const ContractsPage = ({ token, data }: Props) => {
           <Typography variant="h5">Event details</Typography>
           <Box
             sx={{
-              display: `grid`,
+              display: 'grid',
               gridTemplateColumns: {
-                xs: `1fr`,
-                sm: `1fr`,
-                md: `1fr 1fr`,
-                lg: `1fr 1fr`,
-                xl: `1fr 1fr`,
+                xs: '1fr',
+                sm: '1fr',
+                md: '1fr 1fr',
+                lg: '1fr 1fr',
+                xl: '1fr 1fr',
               },
-              gap: `2rem`,
+              gap: '2rem',
             }}
           >
             <Box
               sx={{
                 maxWidth: { xs: 600, md: 500, lg: 600, xl: 500 },
                 mt: 4,
-                border: ` solid 1px #ccc`,
+                border: ' solid 1px #ccc',
               }}
             >
               <Card>
                 <CardContent>
                   <Box
                     sx={{
-                      display: `flex`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       mb: 2,
-                      width: `100%`,
+                      width: '100%',
                     }}
                   >
-                    <Box sx={{ display: `flex` }}>
+                    <Box sx={{ display: 'flex' }}>
                       <LocationOnIcon sx={{ mr: 1 }} color="action" />
                       <Typography variant="subtitle1" color="text.secondary">
                         Event Location:
@@ -356,13 +356,13 @@ const ContractsPage = ({ token, data }: Props) => {
                   </Box>
                   <Box
                     sx={{
-                      display: `flex`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       mb: 2,
-                      width: `100%`,
+                      width: '100%',
                     }}
                   >
-                    <Box sx={{ display: `flex` }}>
+                    <Box sx={{ display: 'flex' }}>
                       <AttachMoneyIcon sx={{ mr: 1 }} color="action" />
                       <Typography variant="subtitle1" color="text.secondary">
                         Offer Amount:
@@ -374,13 +374,13 @@ const ContractsPage = ({ token, data }: Props) => {
                   </Box>
                   <Box
                     sx={{
-                      display: `flex`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       mb: 2,
-                      width: `100%`,
+                      width: '100%',
                     }}
                   >
-                    <Box sx={{ display: `flex` }}>
+                    <Box sx={{ display: 'flex' }}>
                       <EventIcon sx={{ mr: 1 }} color="action" />
                       <Typography variant="subtitle1" color="text.secondary">
                         Event Data:
@@ -394,13 +394,13 @@ const ContractsPage = ({ token, data }: Props) => {
                     <>
                       <Box
                         sx={{
-                          display: `flex`,
-                          justifyContent: `space-between`,
+                          display: 'flex',
+                          justifyContent: 'space-between',
                           mb: 2,
-                          width: `100%`,
+                          width: '100%',
                         }}
                       >
-                        <Box sx={{ display: `flex` }}>
+                        <Box sx={{ display: 'flex' }}>
                           <AccountCircleIcon sx={{ mr: 1 }} color="action" />
                           <Typography
                             variant="subtitle1"
@@ -411,8 +411,7 @@ const ContractsPage = ({ token, data }: Props) => {
                         </Box>
 
                         <Typography variant="subtitle1" color="text.secondary">
-                          {eventData?.parties?.sender?.profile?.firstName}
-                          {` `}
+                          {eventData?.parties?.sender?.profile?.firstName}{' '}
                           {eventData?.parties?.sender?.profile?.lastName}
                         </Typography>
                       </Box>
@@ -420,13 +419,13 @@ const ContractsPage = ({ token, data }: Props) => {
                         eventData?.parties?.sender.city) && (
                         <Box
                           sx={{
-                            display: `flex`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            justifyContent: 'space-between',
                             mb: 2,
-                            width: `100%`,
+                            width: '100%',
                           }}
                         >
-                          <Box sx={{ display: `flex` }}>
+                          <Box sx={{ display: 'flex' }}>
                             <LocationOnIcon sx={{ mr: 1 }} color="action" />
                             <Typography
                               variant="subtitle1"
@@ -439,8 +438,7 @@ const ContractsPage = ({ token, data }: Props) => {
                             variant="subtitle1"
                             color="text.secondary"
                           >
-                            {eventData?.parties?.sender.city}
-                            {` `}
+                            {eventData?.parties?.sender.city}{' '}
                             {eventData?.parties?.sender.state}
                           </Typography>
                         </Box>
@@ -453,19 +451,19 @@ const ContractsPage = ({ token, data }: Props) => {
           </Box>
 
           <>
-            {eventData.status === `Accepted` && (
+            {eventData.status === 'Accepted' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: ` solid 1px #ccc`,
+                  border: ' solid 1px #ccc',
                 }}
               >
                 <Box>
@@ -484,20 +482,20 @@ const ContractsPage = ({ token, data }: Props) => {
               </Box>
             )}
 
-            {eventData.status === `Cancelled` && (
+            {eventData.status === 'Cancelled' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px red`, // Changed the border color to red for danger indication
-                  backgroundColor: `#ffebee`,
+                  border: 'solid 1px red', // Changed the border color to red for danger indication
+                  backgroundColor: '#ffebee',
                 }}
               >
                 <Box>
@@ -516,20 +514,20 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
               </Box>
             )}
-            {eventData.status === `Declined` && (
+            {eventData.status === 'Declined' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px red`, // Changed the border color to red for danger indication
-                  backgroundColor: `#ffebee`,
+                  border: 'solid 1px red', // Changed the border color to red for danger indication
+                  backgroundColor: '#ffebee',
                 }}
               >
                 <Box>
@@ -549,20 +547,20 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
               </Box>
             )}
-            {eventData.status === `paid` && (
+            {eventData.status === 'paid' && (
               <Box
                 sx={{
                   // textAlign: `center`,
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: ` solid 1px #ccc`,
+                  border: ' solid 1px #ccc',
                 }}
               >
                 <Box>
@@ -581,9 +579,9 @@ const ContractsPage = ({ token, data }: Props) => {
                   <CustomButton
                     loading={isLoading}
                     onClick={handleCompleteRequest}
-                    sx={{ mt: `1rem` }}
+                    sx={{ mt: '1rem' }}
                     variant="outlined"
-                    style={{ color: `#174E64` }}
+                    style={{ color: '#174E64' }}
                   >
                     Mark As Completed
                   </CustomButton>
@@ -591,20 +589,20 @@ const ContractsPage = ({ token, data }: Props) => {
               </Box>
             )}
 
-            {eventData.status === `Disputed` && (
+            {eventData.status === 'Disputed' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px orange`, // Orange color to indicate caution
-                  backgroundColor: `#fff8e1`,
+                  border: 'solid 1px orange', // Orange color to indicate caution
+                  backgroundColor: '#fff8e1',
                 }}
               >
                 <Box>
@@ -626,20 +624,20 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
               </Box>
             )}
-            {eventData.status === `Completed` && (
+            {eventData.status === 'Completed' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px green`, // Green color to signify resolution
-                  backgroundColor: `#e8f5e9`,
+                  border: 'solid 1px green', // Green color to signify resolution
+                  backgroundColor: '#e8f5e9',
                 }}
               >
                 <Box>
@@ -659,20 +657,20 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
               </Box>
             )}
-            {eventData.status === `Resolved` && (
+            {eventData.status === 'Resolved' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px green`, // Green color to signify resolution
-                  backgroundColor: `#e8f5e9`,
+                  border: 'solid 1px green', // Green color to signify resolution
+                  backgroundColor: '#e8f5e9',
                 }}
               >
                 <Box>
@@ -685,8 +683,7 @@ const ContractsPage = ({ token, data }: Props) => {
                   </Typography>
                   <Typography color="grey.500" mt={1}>
                     The dispute for this event has been resolved. Please check
-                    your account for updated details and further instructions.
-                    {` `}
+                    your account for updated details and further instructions.{' '}
                     <Link href="/" style={{ fontWeight: 700 }}>
                       [Dispute resolution Center]
                     </Link>
@@ -696,20 +693,20 @@ const ContractsPage = ({ token, data }: Props) => {
               </Box>
             )}
 
-            {eventData.status === `Approved` && (
+            {eventData.status === 'Approved' && (
               <Box
                 sx={{
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: `solid 1px #4caf50`, // Green color for a positive message
-                  backgroundColor: `#e8f5e9`, // Light green background for emphasis
+                  border: 'solid 1px #4caf50', // Green color for a positive message
+                  backgroundColor: '#e8f5e9', // Light green background for emphasis
                 }}
               >
                 <Box>
@@ -723,7 +720,7 @@ const ContractsPage = ({ token, data }: Props) => {
                   <Typography color="grey.500" mt={1}>
                     Congratulations! Your service for this event has been
                     approved. You can now withdraw your funds. Please visit your
-                    account to proceed with the withdrawal.{` `}
+                    account to proceed with the withdrawal.{' '}
                     <Link href="/account/wallet" style={{ fontWeight: 700 }}>
                       [Withraw Funds]
                     </Link>
@@ -732,22 +729,22 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
               </Box>
             )}
-            {eventData.status === `Requested` && (
+            {eventData.status === 'Requested' && (
               <Box
                 sx={{
-                  display: `flex`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  justifyContent: 'space-between',
                   // alignItems: `center`,
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: ` solid 1px #ccc`,
+                  border: ' solid 1px #ccc',
                 }}
               >
                 <Box>
@@ -765,13 +762,13 @@ const ContractsPage = ({ token, data }: Props) => {
                 </Box>
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    gap: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '1rem',
                     mt: {
-                      xs: `2rem`,
-                      sm: `2rem`,
+                      xs: '2rem',
+                      sm: '2rem',
                     },
                   }}
                 >
@@ -779,7 +776,7 @@ const ContractsPage = ({ token, data }: Props) => {
                     onClick={() => setDecliend(true)}
                     sx={{
                       border: `solid 1px ${theme.palette.primary.main}`,
-                      color: `primary.main`,
+                      color: 'primary.main',
                       py: 1,
                       px: {
                         xs: 2,
@@ -787,15 +784,15 @@ const ContractsPage = ({ token, data }: Props) => {
                         md: 3,
                         lg: 4,
                       },
-                      fontWeight: `600`,
+                      fontWeight: '600',
                     }}
                   >
                     Decline
                   </Box>
                   <Box
                     sx={{
-                      backgroundColor: `primary.main`,
-                      color: `secondary.main`,
+                      backgroundColor: 'primary.main',
+                      color: 'secondary.main',
                       py: 1,
                       px: {
                         xs: 2,
@@ -803,8 +800,8 @@ const ContractsPage = ({ token, data }: Props) => {
                         md: 3,
                         lg: 4,
                       },
-                      fontWeight: `600`,
-                      cursor: `pointer`,
+                      fontWeight: '600',
+                      cursor: 'pointer',
                     }}
                     onClick={() => setConfirm(true)}
                   >
@@ -827,7 +824,7 @@ export async function getServerSideProps({ req, params }: any) {
   if (!token) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: '/login',
         permanent: false,
       },
     };
@@ -838,7 +835,7 @@ export async function getServerSideProps({ req, params }: any) {
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },

@@ -5,59 +5,59 @@ const PreviousEvent = ({ queryData }: any) => {
   return (
     <>
       {queryData?.providerProfile?.samples.length > 0 ? (
-        <Box mt={5} mb={20}>
+        <Box mt={5} mb={10}>
           <Typography
             fontWeight={800}
             sx={{
               fontSize: {
-                xs: `1.2rem`,
-                sm: `1.2rem`,
-                md: `1.5rem`,
-                lg: `2rem`,
+                xs: '1.2rem',
+                sm: '1.2rem',
+                md: '1.5rem',
+                lg: '2rem',
               },
             }}
             color="primary.main"
           >
-            Previous Events
+            Previous Jobs
           </Typography>
           <Box
             sx={{
-              display: `grid`,
+              display: 'grid',
               gridTemplateColumns: {
-                xs: `1fr`,
-                sm: `1fr`,
-                md: `1fr 1fr 1fr`,
-                lg: `1fr 1fr 1fr`,
+                xs: '1fr',
+                sm: '1fr',
+                md: '1fr 1fr 1fr',
+                lg: '1fr 1fr 1fr',
               },
-              gridTemplateAreas: `item2 item1`,
-              alignItem: `center`,
-              gap: `0.2rem`,
-              mt: `3rem`,
+              gridTemplateAreas: 'item2 item1',
+              alignItem: 'center',
+              gap: '0.2rem',
+              mt: '3rem',
             }}
           >
             {queryData?.providerProfile?.samples?.map((data: any) => (
               <Box
                 key={data?._id}
                 sx={{
-                  borderRadius: `1px`,
-                  height: `100%`,
-                  position: `relative`,
+                  borderRadius: '1px',
+                  height: '100%',
+                  position: 'relative',
                 }}
               >
                 <Box
                   sx={{
-                    width: `100%`,
+                    width: '100%',
                     height: {
-                      xs: `300px`,
-                      sm: `300px`,
-                      md: `350px`,
-                      lg: `350px`,
-                      xl: `350px`,
+                      xs: '300px',
+                      sm: '300px',
+                      md: '350px',
+                      lg: '350px',
+                      xl: '350px',
                     },
-                    borderRadius: `10px`,
-                    position: `relative`,
+                    borderRadius: '10px',
+                    position: 'relative',
                     '.item2': {
-                      gridArea: `item2`,
+                      gridArea: 'item2',
                     },
                   }}
                 >
@@ -67,7 +67,7 @@ const PreviousEvent = ({ queryData }: any) => {
                     fill
                     quality={100}
                     style={{
-                      objectFit: `cover`,
+                      objectFit: 'cover',
                     }}
                   />
                 </Box>

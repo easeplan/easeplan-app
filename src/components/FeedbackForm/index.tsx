@@ -15,7 +15,7 @@ import ErrorModal from '../common/ErrorModal';
 
 // Form Input Schema
 const FeedbackSchema = Yup.object().shape({
-  content: Yup.string().required(`Message is required`),
+  content: Yup.string().required('Message is required'),
 });
 
 interface PropsTypes {
@@ -41,13 +41,13 @@ const FeedbackForm = ({ token }: PropsTypes) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
 
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsSuccessMessage(data.status);
         setIsSuccess(true);
         setIsLoading(false);
@@ -78,9 +78,9 @@ const FeedbackForm = ({ token }: PropsTypes) => {
         </CustomButton>
       </ErrorModal>
 
-      <Box sx={{ display: `flex` }} mt={10}>
+      <Box sx={{ display: 'flex' }} mt={10}>
         <Box
-          sx={{ width: `100%` }}
+          sx={{ width: '100%' }}
           px={3}
           py={3}
           component={motion.section}
@@ -89,13 +89,13 @@ const FeedbackForm = ({ token }: PropsTypes) => {
           <Box
             sx={{
               width: {
-                xs: `90%`,
-                sm: `80%`,
-                md: `60%`,
-                lg: `40%`,
-                xl: `40%`,
+                xs: '90%',
+                sm: '80%',
+                md: '60%',
+                lg: '40%',
+                xl: '40%',
               },
-              margin: `0 auto`,
+              margin: '0 auto',
             }}
           >
             <Typography
@@ -116,7 +116,7 @@ const FeedbackForm = ({ token }: PropsTypes) => {
             <Box mt={2} mb={10}>
               <Formik
                 initialValues={{
-                  content: ``,
+                  content: '',
                 }}
                 onSubmit={(values) => handleFormSubmit(values)}
                 validationSchema={FeedbackSchema}

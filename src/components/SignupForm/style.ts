@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const InputWrapper = styled(`div`)`
+export const InputWrapper = styled('div')`
   .bars {
     margin: 5px 0;
     flex: 1 1 auto;
@@ -46,7 +46,7 @@ export const InputWrapper = styled(`div`)`
   }
 `;
 
-export const Input = styled(`input`)`
+export const Input = styled('input')`
   border: 1px solid #dfe1f0;
   outline: none;
   width: 100%;

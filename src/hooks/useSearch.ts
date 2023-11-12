@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useSearch = (searchTerm = ``) => {
+export const useSearch = (searchTerm = '') => {
   const [search, setSearch] = useState(searchTerm);
 
   const handleSearchChange = (event: any) => {
@@ -8,7 +8,7 @@ export const useSearch = (searchTerm = ``) => {
     if (value.length >= 3) {
       setSearch(value);
     } else {
-      setSearch(``); // or you can keep the value without triggering a search
+      setSearch(''); // or you can keep the value without triggering a search
     }
   };
 

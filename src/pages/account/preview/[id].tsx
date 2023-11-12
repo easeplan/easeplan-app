@@ -34,7 +34,7 @@ export async function getServerSideProps({ req, params }: any) {
   if (!token) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: '/login',
         permanent: false,
       },
     };
@@ -45,7 +45,7 @@ export async function getServerSideProps({ req, params }: any) {
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },
@@ -55,13 +55,13 @@ export async function getServerSideProps({ req, params }: any) {
 
   const resData = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/${
-      data?.data?.role && data?.data?.role === `planner`
-        ? `planner-profiles`
-        : `provider-profiles`
+      data?.data?.role && data?.data?.role === 'planner'
+        ? 'planner-profiles'
+        : 'provider-profiles'
     }/${data?.data?.parties.receiverId}`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },

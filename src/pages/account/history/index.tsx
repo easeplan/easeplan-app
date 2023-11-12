@@ -23,7 +23,7 @@ const HistoryPage = ({ token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -52,13 +52,13 @@ const HistoryPage = ({ token }: any) => {
 
   return (
     <DashboardLayout token={token}>
-      <Box sx={{ width: `100%`, margin: `2rem auto` }}>
+      <Box sx={{ width: '100%', margin: '2rem auto' }}>
         <Typography
           sx={{
-            fontSize: `1.5rem`,
-            fontWeight: `700`,
-            color: `primary.main`,
-            mb: `1rem`,
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            color: 'primary.main',
+            mb: '1rem',
           }}
         >
           Events

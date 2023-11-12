@@ -29,7 +29,7 @@ interface Props {
 const EventDetailsPage = ({ token, data, queryData }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [userEmail] = useState(
-    typeof window !== `undefined` && localStorage.getItem(`userEmail`),
+    typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
@@ -37,8 +37,8 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
   const { id } = router.query;
 
   useEffect(() => {
-    localStorage.setItem(`eventID`, `${id}`);
-    localStorage.setItem(`contract`, `${data}`);
+    localStorage.setItem('eventID', `${id}`);
+    localStorage.setItem('contract', `${data}`);
   }, []);
 
   // const userServiceObj =
@@ -58,7 +58,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -81,7 +81,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
           isOpen={confirm}
           isClose={() => setConfirm(false)}
         >
-          <Box sx={{ p: 4, textAlign: `center` }}>
+          <Box sx={{ p: 4, textAlign: 'center' }}>
             <Typography mb={4} variant="h5">
               Yes I want to accept this Job offer
             </Typography>
@@ -90,15 +90,15 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
         </AcceptOfferConfirmModal>
         <Box
           sx={{
-            display: `grid`,
+            display: 'grid',
             gridTemplateColumns: {
-              xs: `1fr`,
-              sm: `1fr`,
-              md: `1fr 1fr`,
-              lg: `1fr 1fr`,
-              xl: `1fr 1fr`,
+              xs: '1fr',
+              sm: '1fr',
+              md: '1fr 1fr',
+              lg: '1fr 1fr',
+              xl: '1fr 1fr',
             },
-            gap: `2rem`,
+            gap: '2rem',
           }}
         >
           <Box>
@@ -109,12 +109,12 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
             <Box
               key={data?._id}
               sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                alignItems: `center`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 p: 4,
                 mt: 4,
-                backgroundColor: `secondary.light`,
+                backgroundColor: 'secondary.light',
               }}
             >
               <Typography
@@ -122,25 +122,25 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 fontSize="1rem"
                 color="primary.main"
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    lx: '1rem',
                   },
                 }}
               >
                 <LocationOnIcon
                   sx={{
                     fontSize: {
-                      xs: `0.9rem`,
-                      sm: `0.9rem`,
-                      md: `1rem`,
-                      lg: `1rem`,
-                      lx: `1rem`,
+                      xs: '0.9rem',
+                      sm: '0.9rem',
+                      md: '1rem',
+                      lg: '1rem',
+                      lx: '1rem',
                     },
                   }}
                 />
@@ -190,23 +190,23 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
               <Box>
                 <Box
                   sx={{
-                    width: `100%`,
+                    width: '100%',
                     height: {
-                      xs: `120px`,
-                      sm: `130px`,
-                      md: `130px`,
-                      lg: `150px`,
-                      xl: `150px`,
+                      xs: '120px',
+                      sm: '130px',
+                      md: '130px',
+                      lg: '150px',
+                      xl: '150px',
                     },
-                    mt: `4rem`,
-                    mb: `1rem`,
-                    borderRadius: `10px`,
-                    position: `relative`,
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
-                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                    backgroundColor: `primary.main`,
+                    mt: '4rem',
+                    mb: '1rem',
+                    borderRadius: '10px',
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: 'primary.main',
                   }}
                 >
                   <Box>
@@ -220,39 +220,39 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                       quality={100}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{
-                        height: `100%`,
-                        borderRadius: `10px`,
-                        objectFit: `cover`,
+                        height: '100%',
+                        borderRadius: '10px',
+                        objectFit: 'cover',
                       }}
                     />
                   </Box>
                   <Box
                     sx={{
                       width: {
-                        xs: `70px`,
-                        sm: `70px`,
-                        md: `100px`,
-                        lg: `120px`,
-                        xl: `120px`,
+                        xs: '70px',
+                        sm: '70px',
+                        md: '100px',
+                        lg: '120px',
+                        xl: '120px',
                       },
                       height: {
-                        xs: `70px`,
-                        sm: `70px`,
-                        md: `100px`,
-                        lg: `120px`,
-                        xl: `120px`,
+                        xs: '70px',
+                        sm: '70px',
+                        md: '100px',
+                        lg: '120px',
+                        xl: '120px',
                       },
-                      position: `absolute`,
-                      borderRadius: `50%`,
+                      position: 'absolute',
+                      borderRadius: '50%',
                       bottom: {
-                        xs: `-2rem`,
-                        sm: `-2rem`,
-                        md: `-4rem`,
-                        lg: `-4rem`,
+                        xs: '-2rem',
+                        sm: '-2rem',
+                        md: '-4rem',
+                        lg: '-4rem',
                       },
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                      backgroundColor: `#fff`,
-                      border: `solid 4px #fff`,
+                      boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+                      backgroundColor: '#fff',
+                      border: 'solid 4px #fff',
                     }}
                   >
                     <Box>
@@ -261,9 +261,9 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                         alt="bannerImage"
                         fill
                         style={{
-                          width: `100%`,
-                          borderRadius: `50%`,
-                          objectFit: `cover`,
+                          width: '100%',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
                         }}
                       />
                     </Box>
@@ -272,43 +272,43 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 <Box
                   sx={{
                     mt: {
-                      xs: `3rem`,
-                      sm: `3rem`,
-                      md: `5rem`,
-                      lg: `5rem`,
+                      xs: '3rem',
+                      sm: '3rem',
+                      md: '5rem',
+                      lg: '5rem',
                     },
                   }}
                 >
                   <Box
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      position: `relative`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
                     }}
                   >
                     <Typography
                       fontWeight={600}
                       sx={{
                         fontSize: {
-                          xs: `1rem`,
-                          sm: `1rem`,
-                          md: `1rem`,
-                          lg: `1.2rem`,
+                          xs: '1rem',
+                          sm: '1rem',
+                          md: '1rem',
+                          lg: '1.2rem',
                         },
                       }}
                       textTransform="capitalize"
                     >
-                      {queryData?.profile?.firstName} {` `}
+                      {queryData?.profile?.firstName}{' '}
                       {queryData?.profile?.lastName}
                     </Typography>
                   </Box>
                   <Box
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      mb: `0.8rem`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mb: '0.8rem',
                     }}
                   >
                     <UserRating
@@ -324,22 +324,22 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                   </Box>
                   <Box
                     sx={{
-                      textAlign: `center`,
-                      margin: `0 auto`,
+                      textAlign: 'center',
+                      margin: '0 auto',
 
                       '.btn': {
-                        border: `none`,
-                        cursor: `pointer`,
-                        borderRadius: `8px`,
-                        boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-                        margin: `1rem`,
-                        padding: `1rem 1.5rem`,
+                        border: 'none',
+                        cursor: 'pointer',
+                        borderRadius: '8px',
+                        boxShadow: '0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)',
+                        margin: '1rem',
+                        padding: '1rem 1.5rem',
                       },
                       '.preview-btn': {
-                        color: `secondary.main`,
-                        fontWeight: `bold`,
-                        backgroundColor: `primary.main`,
-                        border: `solid 1px #1111`,
+                        color: 'secondary.main',
+                        fontWeight: 'bold',
+                        backgroundColor: 'primary.main',
+                        border: 'solid 1px #1111',
                       },
                     }}
                   >
@@ -407,14 +407,14 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 fontSize="1rem"
                 color="primary.main"
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    lx: '1rem',
                   },
                 }}
               >
@@ -424,11 +424,11 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 fontWeight="600"
                 sx={{
                   fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
+                    xs: '1rem',
+                    sm: '1rem',
+                    md: '1.3rem',
+                    lg: '1.5rem',
+                    lx: '1.5rem',
                   },
                 }}
                 color="primary.main"
@@ -440,23 +440,23 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
               sx={{
                 p: 4,
                 mt: 4,
-                backgroundColor: `secondary.light`,
-                textAlign: `center`,
+                backgroundColor: 'secondary.light',
+                textAlign: 'center',
               }}
             >
-              {data.status === `Requested` ? (
-                <Typography sx={{ fontWeight: `700`, color: `primary.main` }}>
+              {data.status === 'Requested' ? (
+                <Typography sx={{ fontWeight: '700', color: 'primary.main' }}>
                   Awaiting Request
                 </Typography>
               ) : (
                 <CustomButton
                   onClick={handlePayment}
                   bgPrimary
-                  disabled={data?.status === `paid` ? true : false}
+                  disabled={data?.status === 'paid' ? true : false}
                   lgWidth="100%"
                   loading={isSuccess}
                 >
-                  {data?.status === `paid` ? `PAID` : `Make Payment`}
+                  {data?.status === 'paid' ? 'PAID' : 'Make Payment'}
                 </CustomButton>
               )}
             </Box>
@@ -466,26 +466,26 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
         {/* Support CTA */}
         <Box
           sx={{
-            display: `flex`,
-            justifyContent: `space-between`,
-            alignItems: `center`,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             flexDirection: {
-              xs: `column`,
-              sm: `column`,
-              md: `row`,
-              lg: `row`,
-              xl: `row`,
+              xs: 'column',
+              sm: 'column',
+              md: 'row',
+              lg: 'row',
+              xl: 'row',
             },
             p: 4,
             mt: 10,
-            backgroundColor: `primary.main`,
+            backgroundColor: 'primary.main',
           }}
         >
           <Box
             sx={{
               mb: {
-                xs: `2rem`,
-                sm: `2rem`,
+                xs: '2rem',
+                sm: '2rem',
               },
             }}
           >
@@ -502,11 +502,11 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
           </Box>
           <Box
             sx={{
-              backgroundColor: `secondary.main`,
-              color: `primary.main`,
+              backgroundColor: 'secondary.main',
+              color: 'primary.main',
               py: 1,
               px: 2,
-              fontWeight: `600`,
+              fontWeight: '600',
             }}
           >
             {/* TODO: Design The Resolution Center */}
@@ -532,7 +532,7 @@ export async function getServerSideProps({ req, params }: any) {
   if (!token) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: '/login',
         permanent: false,
       },
     };
@@ -543,7 +543,7 @@ export async function getServerSideProps({ req, params }: any) {
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },

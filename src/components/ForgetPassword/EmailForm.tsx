@@ -16,7 +16,7 @@ import { setCredentials } from '@/features/authSlice';
 import axios from 'axios';
 
 const EmailSchema = Yup.object().shape({
-  email: Yup.string().required(`Email is required`),
+  email: Yup.string().required('Email is required'),
 });
 
 const EmailForm = () => {
@@ -28,20 +28,19 @@ const EmailForm = () => {
 
   const submitCredentials = async (credentials: any) => {
     try {
-      console.log(credentials);
       setIsLoading(true);
       // await sendEmail(credentials).unwrap();
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,
         credentials,
       );
-      router.push(`/forgetpassword/verify`);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`userEmail`, `${credentials.email}`);
+      router.push('/forgetpassword/verify');
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('userEmail', `${credentials.email}`);
       }
     } catch (error: any) {
       setIsLoading(false);
-      setErrorMsg(`Email does not exist!`);
+      setErrorMsg('Email does not exist!');
       console.log(error);
     }
   };
@@ -52,19 +51,19 @@ const EmailForm = () => {
         <FormBody>
           <Typography
             sx={{
-              fontWeight: `700`,
-              fontSize: `1.5rem`,
-              textAlign: `center`,
-              color: `primary.main`,
-              marginBottom: `2rem`,
-              textTransform: `capitalize`,
+              fontWeight: '700',
+              fontSize: '1.5rem',
+              textAlign: 'center',
+              color: 'primary.main',
+              marginBottom: '2rem',
+              textTransform: 'capitalize',
             }}
           >
             Reset Password
           </Typography>
           <Formik
             initialValues={{
-              email: ``,
+              email: '',
             }}
             onSubmit={(values) => submitCredentials(values)}
             validationSchema={EmailSchema}
@@ -107,34 +106,34 @@ const EmailForm = () => {
   );
 };
 
-const FormWrapper = styled(`div`)({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `60%`,
-  height: `100%`,
-  paddingTop: `4rem`,
+const FormWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '60%',
+  height: '100%',
+  paddingTop: '4rem',
 
   '@media (max-width: 900px)': {
-    width: `100%`,
+    width: '100%',
   },
 
   form: {
-    width: `100%`,
+    width: '100%',
   },
 });
 
-const FormBody = styled(`div`)({
-  width: `50%`,
+const FormBody = styled('div')({
+  width: '50%',
 
   '@media (max-width: 1020px)': {
-    width: `80%`,
-    padding: `2rem 0`,
+    width: '80%',
+    padding: '2rem 0',
   },
 });
 
-const InputControl = styled(`div`)({
-  marginBottom: `0.8rem`,
+const InputControl = styled('div')({
+  marginBottom: '0.8rem',
 });
 
 export default EmailForm;

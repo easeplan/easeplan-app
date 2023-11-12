@@ -15,35 +15,35 @@ export default function BasicTable({ data }: any) {
   return (
     <TableContainer
       component={Paper}
-      sx={{ border: `solid 1px #ccc`, px: `1rem`, pb: `1rem` }}
+      sx={{ border: 'solid 1px #ccc', px: '1rem', pb: '1rem' }}
     >
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: `800`, color: `primary.main` }}>
+            <TableCell sx={{ fontWeight: '800', color: 'primary.main' }}>
               Budget
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               Status
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               State
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               City
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontWeight: `800`, color: `primary.main` }}
+              sx={{ fontWeight: '800', color: 'primary.main' }}
             >
               Action
             </TableCell>
@@ -58,21 +58,20 @@ export default function BasicTable({ data }: any) {
               <TableCell
                 component="th"
                 scope="row"
-                sx={{ fontWeight: `700`, color: `primary.main` }}
+                sx={{ fontWeight: '700', color: 'primary.main' }}
               >
-                <small>₦</small>
-                {` `} {formatCurrency(row?.budget)}
+                <small>₦</small> {formatCurrency(row?.budget)}
               </TableCell>
               <TableCell align="right">{row.status}</TableCell>
               <TableCell align="right">{row.state}</TableCell>
               <TableCell align="right">{row.city}</TableCell>
               <TableCell
                 align="right"
-                sx={{ fontWeight: `700`, color: `secondary.main` }}
+                sx={{ fontWeight: '700', color: 'secondary.main' }}
               >
                 <Link href={`/account/contracts/${row?._id}`}>
                   <Button
-                    sx={{ fontSize: `1rem`, textTransform: `capitalize` }}
+                    sx={{ fontSize: '1rem', textTransform: 'capitalize' }}
                   >
                     View
                   </Button>

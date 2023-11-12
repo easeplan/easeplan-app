@@ -5,7 +5,7 @@ const Messages = () => {
   return (
     <>
       {
-        <Box sx={{ display: `flex` }}>
+        <Box sx={{ display: 'flex' }}>
           <h1>Hello Message Card</h1>
         </Box>
       }

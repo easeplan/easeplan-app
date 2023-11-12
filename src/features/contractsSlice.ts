@@ -9,7 +9,7 @@ const initialState: notifyState = {
 };
 
 export const notificationsSlice = createSlice({
-  name: `notifications`,
+  name: 'notifications',
   initialState,
   reducers: {
     setNotifyData: (state, action) => {

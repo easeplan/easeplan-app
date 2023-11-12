@@ -20,22 +20,22 @@ import MultipleSelectCity from '../onboarding/MultipleSelectCity';
 import MultipleSelectState from '../onboarding/MultipleSelectState';
 
 const style = {
-  position: `absolute` as const,
-  top: `40%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `8px`,
+  borderRadius: '8px',
 };
 
 const ProfileSchema = Yup.object().shape({
@@ -58,13 +58,13 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
       isClose(false);
     },
     onError: (error: any) => {
@@ -104,18 +104,18 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                   initialValues={{
                     firstName: queryData?.profile?.firstName
                       ? queryData?.profile?.firstName
-                      : ``,
+                      : '',
                     lastName: queryData?.profile?.lastName
                       ? queryData?.profile?.lastName
-                      : ``,
+                      : '',
                     operationStates: queryData?.providerProfile?.company
                       ?.operationStates
                       ? queryData?.providerProfile?.company?.operationStates
-                      : ``,
+                      : '',
                     operationCities: queryData?.providerProfile?.company
                       ?.operationCities
                       ? queryData?.providerProfile?.company?.operationCities
-                      : ``,
+                      : '',
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileSchema}
@@ -168,9 +168,9 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box
                           mt={2}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -183,13 +183,13 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Save`
+                              'Save'
                             )}
                           </CustomButton>
                           <Typography
                             sx={{
-                              cursor: `pointer`,
-                              textAlign: `center`,
+                              cursor: 'pointer',
+                              textAlign: 'center',
                             }}
                             onClick={isClose}
                           >

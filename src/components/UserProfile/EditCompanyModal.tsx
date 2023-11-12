@@ -16,27 +16,27 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 
 const style = {
-  position: `absolute` as const,
-  top: `40%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `8px`,
+  borderRadius: '8px',
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  name: Yup.string().required(`Name is missing`),
-  description: Yup.string().required(`Description is missing`),
+  name: Yup.string().required('Name is missing'),
+  description: Yup.string().required('Description is missing'),
 });
 
 const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
@@ -47,13 +47,13 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Company Details Updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Company Details Updated');
       isClose(false);
     },
     onError: (error: any) => {
@@ -93,11 +93,11 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
                   initialValues={{
                     name: queryData?.providerProfile?.company?.name
                       ? queryData?.providerProfile?.company?.name
-                      : ``,
+                      : '',
                     description: queryData?.providerProfile?.company
                       ?.description
                       ? queryData?.providerProfile?.company?.description
-                      : ``,
+                      : '',
                   }}
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={CompanyProfileSchema}
@@ -128,9 +128,9 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
                         <Box
                           mt={2}
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `space-between`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <CustomButton
@@ -143,13 +143,13 @@ const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
                             {isLoading ? (
                               <FontAwesomeIcon icon={faCircleNotch} spin />
                             ) : (
-                              `Save`
+                              'Save'
                             )}
                           </CustomButton>
                           <Typography
                             sx={{
-                              cursor: `pointer`,
-                              textAlign: `center`,
+                              cursor: 'pointer',
+                              textAlign: 'center',
                             }}
                             onClick={isClose}
                           >

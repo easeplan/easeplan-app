@@ -27,25 +27,25 @@ const MobileNav = ({
   const router = useRouter();
   const dispatch = useDispatch();
   const handledLogin = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/account/profile/${publicId}`);
+    router.push('/login');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastVisitedURL', `/account/profile/${publicId}`);
     }
   };
 
   const handleLogout = async () => {
     try {
-      await axios.post(`/api/logout`);
+      await axios.post('/api/logout');
       dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      router.push('/user/findvendors');
     } catch (error: any) {}
   };
 
   return (
     <MobileWrapper
       style={{
-        transform: `${show ? `translateX(0%)` : `translateX(-100%)`}`,
-        zIndex: `99`,
+        transform: `${show ? 'translateX(0%)' : 'translateX(-100%)'}`,
+        zIndex: '99',
       }}
     >
       {!userInfo ? (
@@ -74,32 +74,32 @@ const MobileNav = ({
 
 const MobileWrapper = styled(Box)(({ theme }) => ({
   background: theme.palette.secondary.light,
-  position: `fixed`,
-  top: `0`,
-  left: `0`,
-  height: `100vh`,
-  transition: `0.3s all ease`,
-  width: `100%`,
-  padding: `3rem`,
-  overflowX: `auto`,
-  zIndex: `99`,
+  position: 'fixed',
+  top: '0',
+  left: '0',
+  height: '100vh',
+  transition: '0.3s all ease',
+  width: '100%',
+  padding: '3rem',
+  overflowX: 'auto',
+  zIndex: '99',
 
   '.menuIcon': {
-    position: `absolute`,
-    top: `2rem`,
-    right: `2rem`,
+    position: 'absolute',
+    top: '2rem',
+    right: '2rem',
     color: theme.palette.primary.main,
-    display: `none`,
-    cursor: `pointer`,
+    display: 'none',
+    cursor: 'pointer',
 
     '@media (max-width: 1020px)': {
-      display: `block`,
-      fontSize: `2rem`,
+      display: 'block',
+      fontSize: '2rem',
     },
   },
 
   '@media (min-width: 1020px)': {
-    display: `none`,
+    display: 'none',
   },
 }));
 

@@ -14,14 +14,14 @@ const TextArea = ({ rows = 10, ...props }: TextAreaProps) => {
     <div>
       <textarea
         style={{
-          width: `100%`,
-          padding: `1rem`,
+          width: '100%',
+          padding: '1rem',
           // border: `solid 1px #ccc`,
-          resize: `none`,
-          overflowY: `auto`,
-          fontSize: `1rem`,
-          background: `transparent`,
-          borderRadius: `10px`,
+          resize: 'none',
+          overflowY: 'auto',
+          fontSize: '1rem',
+          background: 'transparent',
+          borderRadius: '10px',
         }}
         {...field}
         {...props}

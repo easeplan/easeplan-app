@@ -12,23 +12,23 @@ const RecentChats = ({
   return (
     <>
       <Box className="mobileRecentChat">
-        <Box sx={{ p: `1rem` }}>
+        <Box sx={{ p: '1rem' }}>
           <Typography
             fontWeight="bold"
             fontSize="1rem"
             color="primary.main"
-            sx={{ borderBottom: `solid 1px #cccc`, mt: 1, pb: 2 }}
+            sx={{ borderBottom: 'solid 1px #cccc', mt: 1, pb: 2 }}
           >
             Recent Messages
           </Typography>
         </Box>
         <Box
           sx={{
-            overflowY: `scroll`,
-            height: `100%`,
-            width: `100%`,
-            pb: `3.5rem`,
-            px: `1rem`,
+            overflowY: 'scroll',
+            height: '100%',
+            width: '100%',
+            pb: '3.5rem',
+            px: '1rem',
           }}
         >
           {conversationList?.conversations?.length > 0 ? (
@@ -47,13 +47,13 @@ const RecentChats = ({
           ) : (
             <Box
               sx={{
-                height: `100%`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `center`,
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              <Box sx={{ textAlign: `center`, color: `#ccc` }}>
+              <Box sx={{ textAlign: 'center', color: '#ccc' }}>
                 <CommentsDisabledIcon />
                 <Typography>No Recent Messages</Typography>
               </Box>

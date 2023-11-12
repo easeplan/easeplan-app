@@ -9,16 +9,16 @@ const LoadingScreen = () => {
     <Box
       sx={{
         background: `${theme.palette.primary.main}`,
-        height: `100vh`,
-        width: `100%`,
-        position: `fixed`,
-        top: `0`,
-        left: `0`,
-        zIndex: `99`,
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `center`,
-        textAlign: `center`,
+        height: '100vh',
+        width: '100%',
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        zIndex: '99',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
       }}
     >
       <div>

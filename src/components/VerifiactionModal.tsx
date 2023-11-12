@@ -21,8 +21,8 @@ import { setCredentials } from '@/features/authSlice';
 
 const OtpSchema = Yup.object().shape({
   token: Yup.string()
-    .required(`OTP is required`)
-    .min(4, `OTP must be at least 4 characters long`),
+    .required('OTP is required')
+    .min(4, 'OTP must be at least 4 characters long'),
 });
 
 interface verificationTypes {
@@ -48,15 +48,15 @@ const VerifiactionModal = ({
   const [isResendLoading, setIsResendLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      setUserEmail(localStorage.getItem(`userEmail`));
+    if (typeof window !== 'undefined') {
+      setUserEmail(localStorage.getItem('userEmail'));
     }
 
     let count = 60;
     const interval = setInterval(function () {
       const minutes = Math.floor(count / 60);
       const seconds = count % 60;
-      const timer = minutes + `:` + (seconds < 10 ? `0` : ``) + seconds;
+      const timer = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
       count--;
       setResendCountDown(timer);
       setCountDown(seconds);
@@ -74,14 +74,14 @@ const VerifiactionModal = ({
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
         { email: userEmail, token },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setLoginSuccess(data.message);
-        toast.success(`Email verified successfully`);
-        const userId = localStorage.getItem(`authUser`);
+        toast.success('Email verified successfully');
+        const userId = localStorage.getItem('authUser');
         dispatch(setCredentials(userId));
-        router.push(`/user/findvendors`);
+        router.push('/user/findvendors');
         setIsLoading(false);
-        setLoginError(``);
+        setLoginError('');
         dispatch(setCloseModal(false));
       }
     } catch (error: any) {
@@ -99,9 +99,9 @@ const VerifiactionModal = ({
         `${process.env.NEXT_PUBLIC_API_URL}/auth/request-new-token`,
         { email: userEmail },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsResendLoading(false);
-        toast.success(`Check your email for your token`);
+        toast.success('Check your email for your token');
       }
     } catch (error: any) {
       setIsResendLoading(false);
@@ -124,7 +124,7 @@ const VerifiactionModal = ({
         <div className="otpForm">
           <Formik
             initialValues={{
-              token: ``,
+              token: '',
             }}
             onSubmit={(values) => submitOtp(values)}
             validationSchema={OtpSchema}
@@ -167,7 +167,7 @@ const VerifiactionModal = ({
               {isResendLoading ? (
                 <span className="flex items-center">
                   <FontAwesomeIcon icon={faCircleNotch} spin />
-                  <span style={{ marginLeft: `0.5rem` }}>RESENDING....</span>
+                  <span style={{ marginLeft: '0.5rem' }}>RESENDING....</span>
                 </span>
               ) : (
                 <>RESEND CODE</>
@@ -187,57 +187,57 @@ const VerifiactionModal = ({
   );
 };
 
-const VerificationModal = styled(`div`)(({ theme }) => ({
-  background: `rgba(183, 233, 246, 0.107)`,
-  height: `100vh`,
-  width: `100%`,
-  textAlign: `center`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const VerificationModal = styled('div')(({ theme }) => ({
+  background: 'rgba(183, 233, 246, 0.107)',
+  height: '100vh',
+  width: '100%',
+  textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   color: theme.palette.primary.main,
-  paddingTop: `4rem`,
+  paddingTop: '4rem',
 
   '.otpContainer': {
-    width: `50%`,
+    width: '50%',
 
     '@media (max-width: 1020px)': {
-      width: `80%`,
-      padding: `2rem 0`,
+      width: '80%',
+      padding: '2rem 0',
     },
   },
 
   '.resendBtn': {
-    fontWeight: `800`,
-    border: `none`,
-    background: `none`,
-    outline: `none`,
-    marginBottom: `1rem`,
-    cursor: `pointer`,
+    fontWeight: '800',
+    border: 'none',
+    background: 'none',
+    outline: 'none',
+    marginBottom: '1rem',
+    cursor: 'pointer',
     color: theme.palette.secondary.main,
 
     '@media (max-width: 1020px)': {
-      width: `80%`,
+      width: '80%',
     },
   },
 
   '.otpForm': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
   },
 
   '.box': {
-    width: `40%`,
-    height: `120px`,
-    margin: `2rem auto`,
-    position: `relative`,
+    width: '40%',
+    height: '120px',
+    margin: '2rem auto',
+    position: 'relative',
   },
 
   '@media (max-width: 900px)': {
     '.box': {
-      width: `40%`,
-      height: `100px`,
-      margin: `2rem auto`,
-      position: `relative`,
+      width: '40%',
+      height: '100px',
+      margin: '2rem auto',
+      position: 'relative',
     },
   },
 }));

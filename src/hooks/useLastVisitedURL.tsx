@@ -6,19 +6,19 @@ export default function useLastVisitedURL() {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, url);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastVisitedURL', url);
       }
     };
 
-    router.events.on(`routeChangeComplete`, handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
-      router.events.off(`routeChangeComplete`, handleRouteChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
 
   return (
-    typeof window !== `undefined` && localStorage.getItem(`lastVisitedURL`)
+    typeof window !== 'undefined' && localStorage.getItem('lastVisitedURL')
   );
 }

@@ -21,7 +21,7 @@ const PaymentPage = ({ token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/account-details/${userInfo?._id}`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -56,7 +56,7 @@ const PaymentPage = ({ token }: any) => {
         Wallet
       </Typography>
       <Divider sx={{ my: 1 }} />
-      <Box sx={{ flexGrow: 1, width: `100%`, mt: 2 }}>
+      <Box sx={{ flexGrow: 1, width: '100%', mt: 2 }}>
         <AvailableFunds
           token={token}
           bankDetails={bankDetails}

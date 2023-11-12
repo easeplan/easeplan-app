@@ -25,34 +25,34 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`/api/logout`);
+      await axios.post('/api/logout');
       dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      router.push('/user/findvendors');
     } catch (error: any) {}
   };
 
   const handledBecomeAVendor = () => {
     if (userInfo) {
-      router.push(`/account/onboarding`);
+      router.push('/account/onboarding');
     } else {
-      router.push(`/login`);
-      if (typeof window !== `undefined`) {
-        localStorage.setItem(`lastVisitedURL`, `/account/onboarding`);
+      router.push('/login');
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lastVisitedURL', '/account/onboarding');
       }
     }
   };
 
   const handledLoginRoute = () => {
-    router.push(`/login`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/findVendors`);
+    router.push('/login');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastVisitedURL', '/findVendors');
     }
   };
 
   const handledRegRoute = () => {
-    router.push(`/signup`);
-    if (typeof window !== `undefined`) {
-      localStorage.setItem(`lastVisitedURL`, `/findVendors`);
+    router.push('/signup');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastVisitedURL', '/findVendors');
     }
   };
 
@@ -61,8 +61,8 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
   return (
     <MobileWrapper
       style={{
-        transform: `${show ? `translateX(0%)` : `translateX(-100%)`}`,
-        zIndex: `99`,
+        transform: `${show ? 'translateX(0%)' : 'translateX(-100%)'}`,
+        zIndex: '99',
       }}
     >
       {!userInfo ? (
@@ -111,67 +111,67 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
   );
 };
 
-const ItemWrapper = styled(`li`)({
-  listStyle: `none`,
-  marginRight: `2.5rem`,
-  marginBottom: `2rem`,
+const ItemWrapper = styled('li')({
+  listStyle: 'none',
+  marginRight: '2.5rem',
+  marginBottom: '2rem',
   color: theme.palette.secondary.light,
-  textTransform: `uppercase`,
-  lineHeight: `16px`,
-  letterSpacing: `0.0125em`,
-  fontSize: `0.8rem`,
-  fontWeight: `500`,
-  whiteSpace: `nowrap`,
-  transition: `0.1s all ease`,
+  textTransform: 'uppercase',
+  lineHeight: '16px',
+  letterSpacing: '0.0125em',
+  fontSize: '0.8rem',
+  fontWeight: '500',
+  whiteSpace: 'nowrap',
+  transition: '0.1s all ease',
 
   '@media (max-width: 1025px)': {
-    marginRight: `2rem`,
+    marginRight: '2rem',
   },
 
   '@media (max-width: 1020px)': {
     color: theme.palette.primary.main,
-    lineHeight: `5rem`,
-    fontSize: `1.2rem`,
-    transition: `0.5s all ease`,
+    lineHeight: '5rem',
+    fontSize: '1.2rem',
+    transition: '0.5s all ease',
 
     '&:hover': {
-      opacity: `0.8`,
-      paddingLeft: `1rem`,
-      fontWeight: `bold`,
+      opacity: '0.8',
+      paddingLeft: '1rem',
+      fontWeight: 'bold',
     },
   },
 });
 
 const MobileWrapper = styled(Box)(({ theme }) => ({
   background: theme.palette.secondary.light,
-  position: `fixed`,
-  top: `0`,
-  left: `0`,
-  height: `100vh`,
-  transition: `0.3s all ease`,
-  width: `100%`,
-  paddingTop: `6rem`,
-  paddingLeft: `3rem`,
-  paddingRight: `3rem`,
-  overflowX: `auto`,
-  zIndex: `99`,
+  position: 'fixed',
+  top: '0',
+  left: '0',
+  height: '100vh',
+  transition: '0.3s all ease',
+  width: '100%',
+  paddingTop: '6rem',
+  paddingLeft: '3rem',
+  paddingRight: '3rem',
+  overflowX: 'auto',
+  zIndex: '99',
 
   '.menuIcon': {
-    position: `absolute`,
-    top: `2rem`,
-    right: `2rem`,
+    position: 'absolute',
+    top: '2rem',
+    right: '2rem',
     color: theme.palette.primary.main,
-    display: `none`,
-    cursor: `pointer`,
+    display: 'none',
+    cursor: 'pointer',
 
     '@media (max-width: 1020px)': {
-      display: `block`,
-      fontSize: `2rem`,
+      display: 'block',
+      fontSize: '2rem',
     },
   },
 
   '@media (min-width: 1020px)': {
-    display: `none`,
+    display: 'none',
   },
 }));
 

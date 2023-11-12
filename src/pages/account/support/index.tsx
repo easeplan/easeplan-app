@@ -45,7 +45,7 @@ const SearchIcon = createSvgIcon(
       fill="#0F3443"
     />
   </svg>,
-  `Search`,
+  'Search',
 );
 
 function TabPanel(props: TabPanelProps) {
@@ -55,9 +55,9 @@ function TabPanel(props: TabPanelProps) {
     <div
       role="tabpanel"
       style={{
-        border: `1px solid #BDC7C1`,
-        overflowY: `auto`,
-        marginTop: `20px`,
+        border: '1px solid #BDC7C1',
+        overflowY: 'auto',
+        marginTop: '20px',
       }}
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
@@ -82,9 +82,9 @@ interface StyledTabProps {
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
-  textTransform: `none`,
+  textTransform: 'none',
   minWidth: 0,
-  [theme.breakpoints.up(`sm`)]: {
+  [theme.breakpoints.up('sm')]: {
     minWidth: 0,
   },
   marginRight: theme.spacing(1),
@@ -92,10 +92,10 @@ const StyledTab = styled((props: StyledTabProps) => (
     opacity: 1,
   },
   '&.Mui-selected': {
-    color: `#0DE75A`,
+    color: '#0DE75A',
   },
   '&.Mui-focusVisible': {
-    backgroundColor: `#d1eaff`,
+    backgroundColor: '#d1eaff',
   },
 }));
 
@@ -134,25 +134,25 @@ const SupportPage = ({ token }: PropsTypes) => {
         <div className="ea-line" />
         <Box
           sx={{
-            display: `flex`,
+            display: 'flex',
             pt: 6,
             flexDirection: {
-              xs: `column`,
-              sm: `column`,
-              md: `row`,
-              lg: `row`,
-              xl: `row`,
+              xs: 'column',
+              sm: 'column',
+              md: 'row',
+              lg: 'row',
+              xl: 'row',
             },
           }}
         >
           <Box
             sx={{
               width: {
-                xs: `100%`,
-                sm: `100%`,
-                md: `43%`,
-                lg: `43%`,
-                xl: `43%`,
+                xs: '100%',
+                sm: '100%',
+                md: '43%',
+                lg: '43%',
+                xl: '43%',
               },
             }}
           >
@@ -162,8 +162,8 @@ const SupportPage = ({ token }: PropsTypes) => {
             <Box>
               <Box
                 sx={{
-                  display: `flex`,
-                  flexDirection: `row`,
+                  display: 'flex',
+                  flexDirection: 'row',
                 }}
               >
                 <div className="ea-form-control">
@@ -179,9 +179,9 @@ const SupportPage = ({ token }: PropsTypes) => {
                 <Button
                   color="primary"
                   style={{
-                    color: `#0F3443`,
-                    height: `100%`,
-                    backgroundColor: `#71F79F`,
+                    color: '#0F3443',
+                    height: '100%',
+                    backgroundColor: '#71F79F',
                   }}
                   variant="contained"
                   onClick={() => setValue(3)}
@@ -194,11 +194,11 @@ const SupportPage = ({ token }: PropsTypes) => {
               <Box sx={{ mt: 2 }}>
                 <BasicAccordion
                   header="Payment"
-                  content={[`Request Refund`, `Cancel Event`]}
+                  content={['Request Refund', 'Cancel Event']}
                 />
                 <BasicAccordion
                   header="Inquiry"
-                  content={[`About us`, `Services`]}
+                  content={['About us', 'Services']}
                 />
               </Box>
             </Box>
@@ -206,21 +206,21 @@ const SupportPage = ({ token }: PropsTypes) => {
           <Box
             sx={{
               width: {
-                xs: `100%`,
-                sm: `100%`,
-                md: `57%`,
-                lg: `57%`,
-                xl: `57%`,
+                xs: '100%',
+                sm: '100%',
+                md: '57%',
+                lg: '57%',
+                xl: '57%',
               },
             }}
           >
             <Box
               sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                flexDirection: `row`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
                 pb: 2,
-                borderBottom: `1px solid #BDC7C1`,
+                borderBottom: '1px solid #BDC7C1',
               }}
             >
               <Tabs
@@ -228,7 +228,7 @@ const SupportPage = ({ token }: PropsTypes) => {
                 onChange={handleChange}
                 aria-label="basic tabs example"
                 TabIndicatorProps={{
-                  style: { display: `none` },
+                  style: { display: 'none' },
                 }}
               >
                 <StyledTab label="All Ticket" {...a11yProps(0)} />

@@ -21,8 +21,8 @@ function NavItem({ href, text, onClick }: NavProps) {
         href={href}
         style={
           isActive
-            ? { fontWeight: `bold`, color: `${theme.palette.secondary.main}` }
-            : { fontWeight: `normal` }
+            ? { fontWeight: 'bold', color: `${theme.palette.secondary.main}` }
+            : { fontWeight: 'normal' }
         }
       >
         <span className="capsize md:text-1xl">{text}</span>
@@ -31,32 +31,32 @@ function NavItem({ href, text, onClick }: NavProps) {
   );
 }
 
-const ItemWrapper = styled(`li`)({
-  listStyle: `none`,
-  marginRight: `2.5rem`,
+const ItemWrapper = styled('li')({
+  listStyle: 'none',
+  marginRight: '2.5rem',
   color: theme.palette.secondary.light,
-  textTransform: `uppercase`,
-  lineHeight: `16px`,
-  letterSpacing: `0.0125em`,
-  fontSize: `0.8rem`,
-  fontWeight: `500`,
-  whiteSpace: `nowrap`,
-  transition: `0.1s all ease`,
+  textTransform: 'uppercase',
+  lineHeight: '16px',
+  letterSpacing: '0.0125em',
+  fontSize: '0.8rem',
+  fontWeight: '500',
+  whiteSpace: 'nowrap',
+  transition: '0.1s all ease',
 
   '@media (max-width: 1025px)': {
-    marginRight: `2rem`,
+    marginRight: '2rem',
   },
 
   '@media (max-width: 1020px)': {
     color: theme.palette.primary.main,
-    lineHeight: `5rem`,
-    fontSize: `1.2rem`,
-    transition: `0.5s all ease`,
+    lineHeight: '5rem',
+    fontSize: '1.2rem',
+    transition: '0.5s all ease',
 
     '&:hover': {
-      opacity: `0.8`,
-      paddingLeft: `1rem`,
-      fontWeight: `bold`,
+      opacity: '0.8',
+      paddingLeft: '1rem',
+      fontWeight: 'bold',
     },
   },
 });

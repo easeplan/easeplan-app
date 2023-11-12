@@ -21,9 +21,9 @@ import SuccessModal from './common/SuccessModal';
 import Link from 'next/link';
 
 const ProfileSchema = Yup.object().shape({
-  image: Yup.string().required(`Image is missing`),
-  title: Yup.string().required(`title is missing`),
-  subTitle: Yup.string().required(`subTitle is missing`),
+  image: Yup.string().required('Image is missing'),
+  title: Yup.string().required('title is missing'),
+  subTitle: Yup.string().required('subTitle is missing'),
 });
 
 interface EventProps {
@@ -42,7 +42,7 @@ const PreviousEventForm = ({ token }: EventProps) => {
   const submitCredentials = async (credentials: any) => {
     try {
       const formData = new FormData();
-      formData.append(`image`, credentials.image);
+      formData.append('image', credentials.image);
       setIsLoading(true);
       const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/providers/samples`,
@@ -53,12 +53,12 @@ const PreviousEventForm = ({ token }: EventProps) => {
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsLoading(false);
         setIsSuccess(true);
       }
@@ -105,9 +105,9 @@ const PreviousEventForm = ({ token }: EventProps) => {
       <h4 className="title">Upload Images</h4>
       <Formik
         initialValues={{
-          image: ``,
-          title: ``,
-          subTitle: ``,
+          image: '',
+          title: '',
+          subTitle: '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
@@ -116,7 +116,7 @@ const PreviousEventForm = ({ token }: EventProps) => {
           <Form>
             {isSuccess && <FormSuccess text={isSuccessMessage} />}
             {isError && <FormError text={isErrorMessage} />}
-            <Box sx={{ flexGrow: 1, width: `100%` }}>
+            <Box sx={{ flexGrow: 1, width: '100%' }}>
               <Description>
                 <p>
                   You can upload upto 3 images of your previous events this
@@ -125,13 +125,13 @@ const PreviousEventForm = ({ token }: EventProps) => {
               </Description>
               <Box
                 sx={{
-                  margin: `0 auto`,
+                  margin: '0 auto',
                   width: {
-                    xs: `80%`,
-                    sm: `80%`,
-                    md: `60%`,
-                    lg: `50%`,
-                    xl: `50%`,
+                    xs: '80%',
+                    sm: '80%',
+                    md: '60%',
+                    lg: '50%',
+                    xl: '50%',
                   },
                 }}
               >
@@ -191,7 +191,7 @@ const PreviousEventForm = ({ token }: EventProps) => {
                     loadingText="Submitting..."
                     type="submit"
                   >
-                    {isSuccess ? `Submitted ✔` : `Submit`}
+                    {isSuccess ? 'Submitted ✔' : 'Submit'}
                   </CustomButton>
                 </Box>
               </Box>
@@ -203,152 +203,152 @@ const PreviousEventForm = ({ token }: EventProps) => {
   );
 };
 
-const Section = styled(`div`)(({ theme }) => ({
-  marginTop: `4rem`,
+const Section = styled('div')(({ theme }) => ({
+  marginTop: '4rem',
   color: theme.palette.primary.main,
 
   '.title': {
-    marginTop: `0.6rem`,
-    borderBottom: `solid 0.5px #ccc`,
-    paddingBottom: `0.5rem`,
-    marginBottom: `0.5rem`,
+    marginTop: '0.6rem',
+    borderBottom: 'solid 0.5px #ccc',
+    paddingBottom: '0.5rem',
+    marginBottom: '0.5rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `2rem`,
+    marginTop: '2rem',
   },
 }));
 
-const Flex = styled(`div`)({
-  display: `flex`,
-  flexDirection: `row`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const Flex = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
-    gap: `2rem`,
+    flexDirection: 'column',
+    gap: '2rem',
   },
 });
 
-const Description = styled(`div`)({
-  marginTop: `2rem`,
-  width: `70%`,
+const Description = styled('div')({
+  marginTop: '2rem',
+  width: '70%',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    width: `100%`,
+    marginTop: '1rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  marginTop: `2rem`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
+  marginTop: '2rem',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));
 
-const FormFooter = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignContent: `center`,
-  justifyContent: `right`,
-  gap: `6rem`,
-  marginBottom: `2rem`,
+const FormFooter = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignContent: 'center',
+  justifyContent: 'right',
+  gap: '6rem',
+  marginBottom: '2rem',
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginTop: `1rem`,
-    width: `35%`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginTop: '1rem',
+    width: '35%',
   },
 
   '@media (max-width: 900px)': {
-    flexDirection: `column`,
+    flexDirection: 'column',
     '.flex': {
-      width: `100%`,
+      width: '100%',
     },
   },
 }));

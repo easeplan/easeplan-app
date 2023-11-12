@@ -28,7 +28,7 @@ const SelectState = ({
 }: SelectProps) => {
   const [field, meta] = useField(props);
   return (
-    <FormControl fullWidth sx={{ mb: `1rem` }}>
+    <FormControl fullWidth sx={{ mb: '1rem' }}>
       <InputLabel id="demo-simple-select-label">{selectPlaceholder}</InputLabel>
       <Select
         {...field}
@@ -36,9 +36,9 @@ const SelectState = ({
         label={selectPlaceholder}
         id="demo-simple-select"
         onChange={onChange}
-        sx={{ borderRadius: `10px` }}
-        inputProps={{ 'aria-label': `Without label` }}
-        className={` ${meta.touched && meta.error ? `border-red-500` : ``}`}
+        sx={{ borderRadius: '10px' }}
+        inputProps={{ 'aria-label': 'Without label' }}
+        className={` ${meta.touched && meta.error ? 'border-red-500' : ''}`}
         MenuProps={MenuProps}
       >
         {props.children}

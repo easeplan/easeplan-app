@@ -45,7 +45,7 @@ export default function MultipleSelectCity({ name, setServices, cities }: any) {
     setServices(value);
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === `string` ? value.split(`,`) : value,
+      typeof value === 'string' ? value.split(',') : value,
     );
     setValue(value || []);
   };
@@ -61,17 +61,17 @@ export default function MultipleSelectCity({ name, setServices, cities }: any) {
           value={personName}
           onChange={handleChange}
           sx={{
-            borderRadius: `10px`,
-            overflowX: `hidden`,
+            borderRadius: '10px',
+            overflowX: 'hidden',
             width: {
-              xs: `100%`,
-              sm: `100%`,
-              md: `100%`,
-              lg: `100%`,
-              xl: `100%`,
+              xs: '100%',
+              sm: '100%',
+              md: '100%',
+              lg: '100%',
+              xl: '100%',
             },
           }}
-          inputProps={{ 'aria-label': `Without label` }}
+          inputProps={{ 'aria-label': 'Without label' }}
           MenuProps={MenuProps}
         >
           {cities?.map((city: any, i: any) => (
@@ -79,13 +79,13 @@ export default function MultipleSelectCity({ name, setServices, cities }: any) {
               key={i}
               value={city}
               style={getStyles(city, personName, theme)}
-              sx={{ borderBottom: `solid 1px #fff` }}
+              sx={{ borderBottom: 'solid 1px #fff' }}
             >
               <Typography
                 variant="caption"
                 sx={{
-                  color: `primary.main`,
-                  fontWeight: `500`,
+                  color: 'primary.main',
+                  fontWeight: '500',
                 }}
               >
                 {city}

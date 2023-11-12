@@ -55,11 +55,11 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       let pictureUrl;
       // Check if the picture is a file object or URL
       if (
-        typeof credentials.picture === `object` &&
+        typeof credentials.picture === 'object' &&
         credentials.picture instanceof File
       ) {
         const uploadedPicture = await uploadFileToS3(
-          `pictures`,
+          'pictures',
           credentials.picture,
         );
         pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
@@ -79,20 +79,20 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         dispatch(setIntroThree(false));
         dispatch(setIntroFour(true));
-        toast.success(`Details uploaded successfully`);
+        toast.success('Details uploaded successfully');
         setIsLoading(false);
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstName ? credentials?.firstName : ``,
+            'userName',
+            credentials?.firstName ? credentials?.firstName : '',
           );
         }
       }
@@ -103,25 +103,25 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
   // Form Input Schema
   const ProfileSchema = Yup.object().shape({
-    state: Yup.string().required(`State is required`),
-    firstName: Yup.string().required(`First Name is required`),
-    lastName: Yup.string().required(`Last Name is required`),
-    city: Yup.string().required(`City is required`),
-    gender: Yup.string().required(`Gender is required`),
+    state: Yup.string().required('State is required'),
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    city: Yup.string().required('City is required'),
+    gender: Yup.string().required('Gender is required'),
     dob: Yup.date()
-      .max(eighteenYearsAgo, `You must be at least 18 years old.`)
-      .required(`Date of birth is required`),
+      .max(eighteenYearsAgo, 'You must be at least 18 years old.')
+      .required('Date of birth is required'),
   });
 
   return (
     <Box>
       {stepThree && (
-        <Box sx={{ display: `flex`, height: `100%` }}>
+        <Box sx={{ display: 'flex', height: '100%' }}>
           <Box
             sx={{
-              width: `100%`,
-              height: `100vh`,
-              backgroundColor: `secondary.light`,
+              width: '100%',
+              height: '100vh',
+              backgroundColor: 'secondary.light',
             }}
             px={3}
             pt={6}
@@ -131,13 +131,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `95%`,
-                  sm: `95%`,
-                  md: `80%`,
-                  lg: `80%`,
-                  xl: `80%`,
+                  xs: '95%',
+                  sm: '95%',
+                  md: '80%',
+                  lg: '80%',
+                  xl: '80%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               {/* Form */}
@@ -145,7 +145,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 mb={10}
                 mt={5}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   px: {
                     xs: 2,
                     sm: 2,
@@ -154,21 +154,21 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     xl: 8,
                   },
                   py: 4,
-                  borderRadius: `6px`,
-                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                  borderRadius: '6px',
+                  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: '1rem',
                   }}
                 >
                   <Box
                     color="primary.main"
-                    sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
+                    sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}
                   ></Box>
                   <Box>
                     <Typography color="primary.main" fontWeight={800}>
@@ -184,32 +184,32 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   textAlign="center"
                   sx={{
                     fontSize: [
-                      `1.4rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
+                      '1.4rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
                     ],
                     mb: 4,
                   }}
                 >
-                  {`Let's Get To Know You`}
+                  {"Let's Get To Know You"}
                 </Typography>
                 <Formik
                   initialValues={{
                     firstName: queryData?.provider.profile?.firstName
                       ? queryData?.provider.profile?.firstName
-                      : ``,
+                      : '',
                     lastName: queryData?.provider.profile?.lastName
                       ? queryData?.provider.profile?.lastName
-                      : ``,
+                      : '',
                     picture: queryData?.provider.profile?.picture
                       ? queryData?.provider.profile?.picture
-                      : ``,
-                    state: ``,
-                    city: ``,
-                    gender: ``,
-                    dob: ``,
+                      : '',
+                    state: '',
+                    city: '',
+                    gender: '',
+                    dob: '',
                   }}
                   onSubmit={(values) => {
                     handleFormSubmit(values);
@@ -220,9 +220,9 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     <Form>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `center`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           mb: 4,
                         }}
                       >
@@ -230,20 +230,20 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         <Box>
                           <Box
                             sx={{
-                              display: `flex`,
-                              alignItems: `center`,
-                              justifyContent: `center`,
-                              position: `relative`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              position: 'relative',
                             }}
                           >
                             <AddButton htmlFor="picture">
                               <CameraAltIcon
                                 className="icon"
                                 sx={{
-                                  color: `primary.main`,
-                                  backgroundColor: `secondary.main`,
-                                  p: `0.2rem`,
-                                  borderRaduis: `10px`,
+                                  color: 'primary.main',
+                                  backgroundColor: 'secondary.main',
+                                  p: '0.2rem',
+                                  borderRaduis: '10px',
                                 }}
                               />
                               <Input
@@ -261,7 +261,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                   alt="profileImg"
                                   height={80}
                                   width={80}
-                                  style={{ borderRadius: `50%` }}
+                                  style={{ borderRadius: '50%' }}
                                 />
                               </div>
                             ) : (
@@ -271,27 +271,27 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                   alt="profileImg"
                                   height={80}
                                   width={80}
-                                  style={{ borderRadius: `50%` }}
+                                  style={{ borderRadius: '50%' }}
                                 />
                               </Box>
                             )}
                           </Box>
-                          <small
-                            style={{ fontSize: `13px` }}
-                          >{`upload a profile picture`}</small>
+                          <small style={{ fontSize: '13px' }}>
+                            {'upload a profile picture'}
+                          </small>
                         </Box>
                       </Box>
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -315,15 +315,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -349,15 +349,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       </Box>
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -370,8 +370,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                 (state) => state.name === e.target.value,
                               );
                               setSelectedState(selectedState);
-                              setFieldValue(`state`, e.target.value);
-                              setFieldValue(`city`, ``);
+                              setFieldValue('state', e.target.value);
+                              setFieldValue('city', '');
                             }}
                           >
                             {data?.states?.map((state: any) => {
@@ -435,12 +435,12 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
   ariaLabel,
   name,
   placeholder,
-  type = `text`,
+  type = 'text',
 }) => {
   const [inputType, setInputType] = useState(type);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
+    <div onFocus={() => setInputType('date')}>
       <FormInput
         aria-label={ariaLabel}
         name={name}
@@ -451,58 +451,58 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  width: `50%`,
-  borderRadius: `10px`,
-  position: `absolute`,
-  bottom: `0`,
-  right: `0`,
+const AddButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  width: '50%',
+  borderRadius: '10px',
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
 
   '.icon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    borderRadius: `8px`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    borderRadius: '8px',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 
-const AddCoverButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  borderRadius: `50%`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const AddCoverButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
   '.fileIcon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    color: `primary.main`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    color: 'primary.main',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 

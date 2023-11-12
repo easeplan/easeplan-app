@@ -65,7 +65,7 @@ const DragAndDropInput: React.FC<FileInputProps> = ({
         className="input-file-upload"
         onChange={handleInputChange}
       />
-      {error ? <div style={{ color: `red` }}>{error}</div> : null}
+      {error ? <div style={{ color: 'red' }}>{error}</div> : null}
 
       <button className="file-btn">
         {value ? (
@@ -101,49 +101,49 @@ const DragAndDropInput: React.FC<FileInputProps> = ({
   );
 };
 
-const InputStyle = styled(`div`)(({ theme }) => ({
-  height: `10rem`,
-  maxWidth: `100%`,
-  textAlign: `center`,
-  position: `relative`,
-  marginTop: `0.7rem`,
-  overflow: `hidden`,
+const InputStyle = styled('div')(({ theme }) => ({
+  height: '10rem',
+  maxWidth: '100%',
+  textAlign: 'center',
+  position: 'relative',
+  marginTop: '0.7rem',
+  overflow: 'hidden',
 
   p: {
-    fontSize: `0.8rem`,
+    fontSize: '0.8rem',
     color: theme.palette.primary.main,
 
     span: {
-      fontWeight: `700`,
+      fontWeight: '700',
       color: theme.palette.secondary.main,
     },
   },
 
   '.input-file-upload': {
-    position: `absolute`,
-    fontSize: `100px`,
-    opacity: `0`,
-    right: `0`,
-    top: `0`,
+    position: 'absolute',
+    fontSize: '100px',
+    opacity: '0',
+    right: '0',
+    top: '0',
   },
 
   '.file-btn': {
-    height: `100%`,
-    width: `100%`,
-    display: `flex`,
-    alignItems: `center`,
-    justifyContent: `center`,
-    borderWidth: `2px`,
-    borderStyle: `dashed`,
-    borderColor: `#cbd5e1`,
-    backgroundColor: `#f8fafc`,
-    overflow: `hidden`,
-    padding: `1rem`,
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: '2px',
+    borderStyle: 'dashed',
+    borderColor: '#cbd5e1',
+    backgroundColor: '#f8fafc',
+    overflow: 'hidden',
+    padding: '1rem',
 
     '.previewImg': {
-      objectFit: `cover`,
-      width: `100%`,
-      height: `10rem`,
+      objectFit: 'cover',
+      width: '100%',
+      height: '10rem',
     },
   },
 }));

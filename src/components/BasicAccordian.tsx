@@ -16,7 +16,7 @@ const Caretdown = createSvgIcon(
       fill="#73877B"
     />
   </svg>,
-  `Caretdown`,
+  'Caretdown',
 );
 
 type BAccordProps = {
@@ -27,7 +27,7 @@ type BAccordProps = {
 export default function BasicAccordion({ header, content }: BAccordProps) {
   return (
     <div>
-      <Accordion style={{ boxShadow: `none` }}>
+      <Accordion style={{ boxShadow: 'none' }}>
         <AccordionSummary
           expandIcon={<Caretdown />}
           aria-controls="panel1a-content"
@@ -35,13 +35,13 @@ export default function BasicAccordion({ header, content }: BAccordProps) {
         >
           <Box
             sx={{
-              display: `flex`,
+              display: 'flex',
             }}
           >
-            <Box sx={{ display: `flex`, alignItems: `center` }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box
                 sx={{
-                  background: `#0F3443`,
+                  background: '#0F3443',
                   width: 20,
                   height: 20,
                   marginRight: 1,
@@ -50,7 +50,7 @@ export default function BasicAccordion({ header, content }: BAccordProps) {
                 &nbsp;
               </Box>
             </Box>
-            <Typography sx={{ fontWeight: `bold` }}>{header}</Typography>
+            <Typography sx={{ fontWeight: 'bold' }}>{header}</Typography>
           </Box>
         </AccordionSummary>
         <AccordionDetails>

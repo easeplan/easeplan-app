@@ -30,11 +30,11 @@ const NavHeader = ({ token }: any) => {
             color="primary.main"
             sx={{
               display: {
-                xs: `none`,
-                sm: `none`,
-                md: `block`,
-                lg: `block`,
-                xl: `block`,
+                xs: 'none',
+                sm: 'none',
+                md: 'block',
+                lg: 'block',
+                xl: 'block',
               },
             }}
           >
@@ -42,20 +42,20 @@ const NavHeader = ({ token }: any) => {
           </Typography>
           <Box
             sx={{
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `space-between`,
-              position: `relative`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              position: 'relative',
 
               '.linkButton': {
-                backgroundColor: `primary.main`,
-                color: `secondary.main`,
-                padding: `0.9rem 2.5rem`,
-                fontWeight: `700`,
-                transition: `all 0.5s ease`,
+                backgroundColor: 'primary.main',
+                color: 'secondary.main',
+                padding: '0.9rem 2.5rem',
+                fontWeight: '700',
+                transition: 'all 0.5s ease',
 
                 '&:hover': {
-                  opacity: `0.8`,
+                  opacity: '0.8',
                 },
               },
             }}
@@ -65,10 +65,10 @@ const NavHeader = ({ token }: any) => {
                 <Button
                   variant="outlined"
                   sx={{
-                    textTransform: `capitalize`,
-                    fontWeight: `700`,
-                    paddingX: `0.9rem`,
-                    paddingY: `0.6rem`,
+                    textTransform: 'capitalize',
+                    fontWeight: '700',
+                    paddingX: '0.9rem',
+                    paddingY: '0.6rem',
                   }}
                 >
                   Become a Vendor
@@ -93,61 +93,61 @@ const NavHeader = ({ token }: any) => {
   );
 };
 
-const Navbar = styled(`nav`)({
-  width: `100%`,
-  borderBottom: `solid 1px #ccc`,
-  position: `sticky`,
-  top: `0`,
-  padding: `0.5rem  0`,
-  zIndex: `9`,
-  background: `#fff`,
+const Navbar = styled('nav')({
+  width: '100%',
+  borderBottom: 'solid 1px #ccc',
+  position: 'sticky',
+  top: '0',
+  padding: '0.5rem  0',
+  zIndex: '9',
+  background: '#fff',
 });
 
-const Flex = styled(`div`)(({ theme }) => ({
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
+const Flex = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 
   '.title': {
     color: theme.palette.primary.main,
-    textTransform: `capitalize`,
+    textTransform: 'capitalize',
   },
 
   '.logoWrapper': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
     '.title': {
       color: theme.palette.primary.main,
-      display: `none`,
+      display: 'none',
     },
     '.logoWrapper': {
-      display: `block`,
+      display: 'block',
     },
   },
 }));
 
-const Icon = styled(`div`)(({ theme }) => ({
-  position: `relative`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
-  width: `40px`,
-  height: `40px`,
-  border: `solid 1px #ccc`,
-  borderRadius: `9px`,
-  margin: `0 0.5rem`,
+const Icon = styled('div')(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '40px',
+  height: '40px',
+  border: 'solid 1px #ccc',
+  borderRadius: '9px',
+  margin: '0 0.5rem',
   color: theme.palette.primary.main,
-  cursor: `pointer`,
+  cursor: 'pointer',
 
   '.icon': {
-    fontSize: `1.5rem`,
+    fontSize: '1.5rem',
   },
 
   '@media (max-width: 900px)': {
-    width: `35px`,
-    height: `35px`,
+    width: '35px',
+    height: '35px',
   },
 }));
 export default NavHeader;

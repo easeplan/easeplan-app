@@ -45,9 +45,9 @@ export default function AvatarMenu({
   // Logout function
   const handleLogout = async () => {
     try {
-      await axios.post(`/api/logout`);
+      await axios.post('/api/logout');
       dispatch(clearCredentials());
-      router.push(`/user/findvendors`);
+      router.push('/user/findvendors');
       setOpen(false);
     } catch (error: any) {}
   };
@@ -64,10 +64,10 @@ export default function AvatarMenu({
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === `Tab`) {
+    if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === `Escape`) {
+    } else if (event.key === 'Escape') {
       setOpen(false);
     }
   }
@@ -88,8 +88,8 @@ export default function AvatarMenu({
         <Button
           ref={anchorRef}
           id="composition-button"
-          aria-controls={open ? `composition-menu` : undefined}
-          aria-expanded={open ? `true` : undefined}
+          aria-controls={open ? 'composition-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
         >
@@ -102,7 +102,7 @@ export default function AvatarMenu({
                 alt="profileImg"
                 height={50}
                 width={50}
-                style={{ borderRadius: `50%` }}
+                style={{ borderRadius: '50%' }}
               />
             )}
             {/* <div className="imgCircle"></div> */}
@@ -123,10 +123,10 @@ export default function AvatarMenu({
             <Grow
               {...TransitionProps}
               style={{
-                background: `#fff`,
-                color: `#333`,
+                background: '#fff',
+                color: '#333',
                 transformOrigin:
-                  placement === `bottom-start` ? `left top` : `left bottom`,
+                  placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
               <Paper>
@@ -140,8 +140,8 @@ export default function AvatarMenu({
                     <Link href="/account/wallet">
                       <MenuItem
                         sx={{
-                          color: `primary.main`,
-                          fontWeight: `500`,
+                          color: 'primary.main',
+                          fontWeight: '500',
                           px: 6,
                           py: 2,
                         }}
@@ -154,8 +154,8 @@ export default function AvatarMenu({
                     <Link href="/account/history">
                       <MenuItem
                         sx={{
-                          color: `primary.main`,
-                          fontWeight: `500`,
+                          color: 'primary.main',
+                          fontWeight: '500',
                           px: 6,
                           py: 2,
                         }}
@@ -168,8 +168,8 @@ export default function AvatarMenu({
                     <Link href="/account/settings">
                       <MenuItem
                         sx={{
-                          color: `primary.main`,
-                          fontWeight: `500`,
+                          color: 'primary.main',
+                          fontWeight: '500',
                           px: 6,
                           py: 2,
                         }}
@@ -182,8 +182,8 @@ export default function AvatarMenu({
                     <Link href="/account/support">
                       <MenuItem
                         sx={{
-                          color: `primary.main`,
-                          fontWeight: `500`,
+                          color: 'primary.main',
+                          fontWeight: '500',
                           px: 6,
                           py: 2,
                         }}
@@ -195,8 +195,8 @@ export default function AvatarMenu({
                     <Divider />
                     <MenuItem
                       sx={{
-                        color: `primary.main`,
-                        fontWeight: `500`,
+                        color: 'primary.main',
+                        fontWeight: '500',
                         px: 6,
                         py: 2,
                       }}
@@ -215,31 +215,31 @@ export default function AvatarMenu({
   );
 }
 
-const ImageWrapper = styled(`div`)(({ theme }) => ({
+const ImageWrapper = styled('div')(({ theme }) => ({
   img: {
-    width: `50px`,
-    height: `50px`,
-    borderRadius: `50%`,
+    width: '50px',
+    height: '50px',
+    borderRadius: '50%',
     border: `solid 2px ${theme.palette.secondary.main}`,
 
     '@media (max-width: 900px)': {
-      width: `40px`,
-      height: `40px`,
-      border: `solid 1.5px #fff`,
+      width: '40px',
+      height: '40px',
+      border: 'solid 1.5px #fff',
     },
   },
 
   '.imgCircle': {
-    width: `40px`,
-    height: `40px`,
-    borderRadius: `50%`,
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
     background: theme.palette.primary.main,
   },
 }));
 
-const Button = styled(`button`)({
-  border: `none`,
-  background: `none`,
-  cursor: `pointer`,
-  marginLeft: `1rem`,
+const Button = styled('button')({
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  marginLeft: '1rem',
 });

@@ -40,7 +40,7 @@ const InboxPage = ({ token }: any) => {
   );
   const [conversationList, setConversationList] = useState<any>();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const [chatMessage, setChatMessage] = useState<any>(``);
+  const [chatMessage, setChatMessage] = useState<any>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
@@ -48,17 +48,17 @@ const InboxPage = ({ token }: any) => {
   // console.log(userInfo);
 
   useEffect(() => {
-    const socket = io(`https://apiv3.easeplan.io`, {
+    const socket = io('https://apiv3.easeplan.io', {
       auth: {
         userId: `${userInfo}`,
       },
     });
 
-    socket.on(`unreadConversationMessagesCount`, (count) =>
+    socket.on('unreadConversationMessagesCount', (count) =>
       dispatch(setUnreadConversationMessagesCount(count)),
     );
 
-    socket.on(`allUnreadConversationMessagesCount`, (count) =>
+    socket.on('allUnreadConversationMessagesCount', (count) =>
       dispatch(setAllUnreadConversationMessagesCount(count)),
     );
 
@@ -73,7 +73,7 @@ const InboxPage = ({ token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/conversations`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -112,18 +112,18 @@ const InboxPage = ({ token }: any) => {
 
     try {
       const formData = new FormData();
-      formData.append(`image`, selectedImage);
-      formData.append(`conversationId`, activeUserData?._id);
+      formData.append('image', selectedImage);
+      formData.append('conversationId', activeUserData?._id);
 
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/conversations/image`,
         {
-          image: selectedImage || ``,
-          conversationId: activeUserData?._id || ``,
+          image: selectedImage || '',
+          conversationId: activeUserData?._id || '',
         },
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -132,30 +132,30 @@ const InboxPage = ({ token }: any) => {
       dispatch(setMessages([...messages, data?.message]));
       setPreviewOpen(false);
     } catch (error) {
-      console.error(`Error occurred during image upload:`, error);
+      console.error('Error occurred during image upload:', error);
     }
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const socket = io(`https://apiv3.easeplan.io`, {
+    const socket = io('https://apiv3.easeplan.io', {
       auth: {
         userId: `${userInfo}`,
       },
     });
 
-    socket.emit(`message`, {
+    socket.emit('message', {
       sender: userInfo,
       conversationId: activeUserData?._id,
       message: chatMessage,
     });
 
-    setChatMessage(``);
+    setChatMessage('');
   };
 
   useEffect(() => {
-    const socket = io(`https://apiv3.easeplan.io`, {
+    const socket = io('https://apiv3.easeplan.io', {
       auth: {
         userId: `${userInfo}`,
       },
@@ -210,9 +210,9 @@ const InboxPage = ({ token }: any) => {
       <Container
         sx={{
           // background: `red`,
-          display: `flex`,
-          alignItems: `center`,
-          justifyContent: `end`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'end',
         }}
         maxWidth="lg"
       >
@@ -221,7 +221,7 @@ const InboxPage = ({ token }: any) => {
           {activeUserData ? (
             <Box
               className={`${
-                mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
+                mobileChatModal ? 'mobileOpenSlider' : 'mobileCloseSlider'
               }`}
             >
               {/* The Image Preview Modal */}
@@ -231,17 +231,17 @@ const InboxPage = ({ token }: any) => {
                     <img
                       src={URL.createObjectURL(selectedImage)}
                       alt="Selected Preview"
-                      style={{ width: `100%` }}
+                      style={{ width: '100%' }}
                     />
                   )}
                 </DialogContent>
                 <DialogActions>
                   <Box
                     sx={{
-                      display: `flex`,
+                      display: 'flex',
                       // alignItems: `center`,
-                      justifyContent: `space-between`,
-                      width: `100%`,
+                      justifyContent: 'space-between',
+                      width: '100%',
                     }}
                   >
                     <Button onClick={handleClosePreview} color="primary">
@@ -253,15 +253,15 @@ const InboxPage = ({ token }: any) => {
                   </Box>
                 </DialogActions>
               </Dialog>
-              <Box sx={{ background: `#fff` }}>
+              <Box sx={{ background: '#fff' }}>
                 {/* Active User at Header */}
                 {activeConversation?.map((user: any) => (
                   <Box
                     key={user?._id}
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                       pt: 6,
                       pb: 2,
                       px: 2,
@@ -269,18 +269,18 @@ const InboxPage = ({ token }: any) => {
                   >
                     <Box
                       sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                        justifyContent: `center`,
-                        cursor: `pointer`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
                       }}
                     >
                       <Box
                         sx={{
-                          position: `relative`,
-                          width: `30px`,
-                          height: `30px`,
-                          borderRadius: `50%`,
+                          position: 'relative',
+                          width: '30px',
+                          height: '30px',
+                          borderRadius: '50%',
                           background: theme.palette.primary.main,
                         }}
                       >
@@ -289,7 +289,7 @@ const InboxPage = ({ token }: any) => {
                           alt="profileImg"
                           fill
                           style={{
-                            borderRadius: `50%`,
+                            borderRadius: '50%',
                           }}
                         />
                       </Box>
@@ -298,7 +298,7 @@ const InboxPage = ({ token }: any) => {
                           fontWeight="bold"
                           fontSize="0.8rem"
                           color="primary.main"
-                          sx={{ marginLeft: `1rem` }}
+                          sx={{ marginLeft: '1rem' }}
                         >
                           {user?.profile?.firstName} {user?.profile?.lastName}
                         </Typography>
@@ -315,21 +315,21 @@ const InboxPage = ({ token }: any) => {
               <Box
                 ref={divRef}
                 sx={{
-                  overflowY: `auto`,
-                  height: `100%`,
-                  scrollBehavior: `smooth`,
+                  overflowY: 'auto',
+                  height: '100%',
+                  scrollBehavior: 'smooth',
                 }}
               >
                 <Box
                   sx={{
-                    px: `1rem`,
-                    pt: `2rem`,
+                    px: '1rem',
+                    pt: '2rem',
                     pb: {
-                      xs: `13rem`,
-                      sm: `13rem`,
-                      md: `13rem`,
-                      lg: `13rem`,
-                      xl: `13rem`,
+                      xs: '13rem',
+                      sm: '13rem',
+                      md: '13rem',
+                      lg: '13rem',
+                      xl: '13rem',
                     },
                   }}
                 >
@@ -339,20 +339,20 @@ const InboxPage = ({ token }: any) => {
               {/* Form for sending message */}
               <Box
                 sx={{
-                  position: `absolute`,
-                  bottom: `0`,
-                  width: `100%`,
-                  p: `1rem`,
+                  position: 'absolute',
+                  bottom: '0',
+                  width: '100%',
+                  p: '1rem',
                   background: theme.palette.secondary.light,
-                  borderTop: `solid 1px #ccc`,
+                  borderTop: 'solid 1px #ccc',
                 }}
               >
                 <form onSubmit={handleSubmit}>
                   <Box
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}
                   >
                     <IconButton
@@ -363,7 +363,7 @@ const InboxPage = ({ token }: any) => {
                       <input
                         type="file"
                         accept="image/*"
-                        style={{ display: `none` }}
+                        style={{ display: 'none' }}
                         ref={fileInputRef}
                         onChange={handleFileInputChange}
                       />
@@ -379,28 +379,28 @@ const InboxPage = ({ token }: any) => {
                       required
                       placeholder="Type here"
                       style={{
-                        width: `100%`,
-                        padding: `1rem`,
-                        overflowY: `scroll`,
-                        resize: `none`,
-                        border: `none`,
-                        outline: `none`,
+                        width: '100%',
+                        padding: '1rem',
+                        overflowY: 'scroll',
+                        resize: 'none',
+                        border: 'none',
+                        outline: 'none',
                       }}
                     />
                     <IconButton
                       type="submit"
                       sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                        justifyContent: `center`,
-                        width: `40px`,
-                        height: `40px`,
-                        borderRadius: `50%`,
-                        backgroundColor: `primary.main`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        backgroundColor: 'primary.main',
                         ml: 2,
                       }}
                     >
-                      <SendIcon sx={{ mx: 1, color: `secondary.main` }} />
+                      <SendIcon sx={{ mx: 1, color: 'secondary.main' }} />
                     </IconButton>
                   </Box>
                 </form>
@@ -409,20 +409,20 @@ const InboxPage = ({ token }: any) => {
           ) : (
             <Box
               className={`${
-                mobileChatModal ? `mobileOpenSlider` : `mobileCloseSlider`
+                mobileChatModal ? 'mobileOpenSlider' : 'mobileCloseSlider'
               }`}
               sx={{
-                position: `relative`,
-                width: `100%`,
-                height: `100%`,
-                backgroundColor: `secondary.light`,
-                borderRadius: `8px`,
-                display: `flex`,
-                justifyContent: `center`,
-                alignItems: `center`,
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'secondary.light',
+                borderRadius: '8px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <Box sx={{ textAlign: `center` }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <Image
                   src={chatPreviewImg}
                   alt="previewChatScreen"

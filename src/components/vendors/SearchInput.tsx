@@ -6,26 +6,26 @@ const SearchInput = ({ handleSearchChange }: any) => {
   return (
     <Box
       sx={{
-        boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-        color: `primary.main`,
-        background: `#fff`,
-        borderRadius: `10px`,
-        borderColor: `secondary.main`,
-        textTransform: `inherit`,
+        boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+        color: 'primary.main',
+        background: '#fff',
+        borderRadius: '10px',
+        borderColor: 'secondary.main',
+        textTransform: 'inherit',
         mr: 6,
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `space-between`,
-        position: `relative`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        position: 'relative',
         width: {
-          xs: `100%`,
-          sm: `100%`,
-          md: `20rem`,
-          lg: `20rem`,
-          xl: `20rem`,
+          xs: '100%',
+          sm: '100%',
+          md: '20rem',
+          lg: '20rem',
+          xl: '20rem',
         },
         '&:hover': {
-          background: `#fff`,
+          background: '#fff',
         },
       }}
     >

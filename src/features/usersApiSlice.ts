@@ -8,46 +8,46 @@ export const userApiSlice = apiSlice.injectEndpoints({
     // Login
     login: builder.mutation({
       query: (data) => ({
-        url: `/api/auth`,
-        method: `POST`,
+        url: '/api/auth',
+        method: 'POST',
         body: data,
       }),
-      invalidatesTags: [`User`],
+      invalidatesTags: ['User'],
     }),
     // Sign Up
     signup: builder.mutation({
       query: (data) => ({
-        url: `/api/signup`,
-        method: `POST`,
+        url: '/api/signup',
+        method: 'POST',
         body: data,
       }),
     }),
     // Logout
     logout: builder.mutation({
       query: () => ({
-        url: `/api/logout`,
-        method: `POST`,
+        url: '/api/logout',
+        method: 'POST',
       }),
     }),
     // Forget Password (Email)
     sendEmail: builder.mutation({
       query: () => ({
         url: `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,
-        method: `POST`,
+        method: 'POST',
       }),
     }),
     // Verify Change Password token
     verifyToken: builder.mutation({
       query: () => ({
         url: `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-reset-otp`,
-        method: `POST`,
+        method: 'POST',
       }),
     }),
     // Reset password (newPassword & confirmPassword)
     resetPassword: builder.mutation({
       query: () => ({
         url: `${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`,
-        method: `POST`,
+        method: 'POST',
       }),
     }),
   }),

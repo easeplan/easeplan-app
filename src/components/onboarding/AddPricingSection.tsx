@@ -29,8 +29,8 @@ interface PropsTypes {
 }
 
 const VendorSchema = Yup.object().shape({
-  maximum: Yup.string().required(`Maximum amount is required`),
-  minimum: Yup.string().required(`Minimum amount is required`),
+  maximum: Yup.string().required('Maximum amount is required'),
+  minimum: Yup.string().required('Minimum amount is required'),
 });
 
 const AddPricingSection = ({ token }: PropsTypes) => {
@@ -46,14 +46,14 @@ const AddPricingSection = ({ token }: PropsTypes) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`/profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Service Price Updated`);
-      router.push(`/account/profile`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Service Price Updated');
+      router.push('/account/profile');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -78,9 +78,9 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   return (
     <>
       {stepFour && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -89,23 +89,23 @@ const AddPricingSection = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
+                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
                   <HiArrowUturnLeft onClick={handleNextSlide} />
                 </Box>
                 <Box>
@@ -135,22 +135,22 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                 >
                   What`s your service charge?
                 </Typography>
-                <Box sx={{ borderTop: `solid 1px #ccc` }}>
+                <Box sx={{ borderTop: 'solid 1px #ccc' }}>
                   <Formik
                     initialValues={{
                       minimum: queryData?.budget?.minimum
                         ? queryData?.budget?.minimum
-                        : ``,
+                        : '',
                       maximum: queryData?.budget?.maximum
                         ? queryData?.budget?.maximum
-                        : ``,
+                        : '',
                     }}
                     validationSchema={VendorSchema}
                     onSubmit={(values) => handleVendorPricing(values)}
                   >
                     {() => (
                       <Form>
-                        <Box sx={{ flexGrow: 1, width: `100%` }}>
+                        <Box sx={{ flexGrow: 1, width: '100%' }}>
                           <Box>
                             <Description>
                               <Typography
@@ -188,9 +188,9 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                           <Box
                             mt={4}
                             sx={{
-                              display: `flex`,
-                              alignItems: `center`,
-                              justifyContent: `space-between`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
                             }}
                           >
                             <CustomButton
@@ -204,7 +204,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                               {isLoading ? (
                                 <FontAwesomeIcon icon={faCircleNotch} spin />
                               ) : (
-                                `Proceed`
+                                'Proceed'
                               )}
                             </CustomButton>
                           </Box>
@@ -224,79 +224,79 @@ const AddPricingSection = ({ token }: PropsTypes) => {
 
 export default AddPricingSection;
 
-const Description = styled(`div`)({
-  paddingTop: `1rem`,
+const Description = styled('div')({
+  paddingTop: '1rem',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `0rem`,
-    width: `100%`,
+    marginTop: '0rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));

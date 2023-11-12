@@ -40,7 +40,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [sentID, setSentID] = useState(false);
-  const [reference_id, setReferenceId] = useState(``);
+  const [reference_id, setReferenceId] = useState('');
   const [showDojah, setShowDojah] = useState(false);
 
   const handleFormSubmit = async (credentials: any) => {
@@ -56,20 +56,20 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setReferenceId(data.reference_id);
         setSentID(true);
-        toast.success(`An OTP was sent to your phone number`);
+        toast.success('An OTP was sent to your phone number');
         setIsLoading(false);
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstName ? credentials?.firstName : ``,
+            'userName',
+            credentials?.firstName ? credentials?.firstName : '',
           );
         }
       }
@@ -90,39 +90,39 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
-        toast.success(`OTP verified successfully`);
+      if (data.status === 'success') {
+        toast.success('OTP verified successfully');
         setShowDojah(true);
         setIsLoading(false);
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstName ? credentials?.firstName : ``,
+            'userName',
+            credentials?.firstName ? credentials?.firstName : '',
           );
         }
       }
     } catch (error) {
-      toast.error(`Token expired or invalid`);
+      toast.error('Token expired or invalid');
       setIsLoading(false);
     }
   };
 
   // Form Input Schema
   const IDSchema = Yup.object().shape({
-    documentType: Yup.string().required(`Document type is required`),
-    docNo: Yup.string().required(`Document Id is required`),
+    documentType: Yup.string().required('Document type is required'),
+    docNo: Yup.string().required('Document Id is required'),
   });
 
   const OTPSchema = Yup.object().shape({
-    otp: Yup.string().required(`OTP is required`),
+    otp: Yup.string().required('OTP is required'),
   });
 
-  const type = `custom`;
+  const type = 'custom';
 
   const config = {
     debug: true,
@@ -146,24 +146,24 @@ const ProfileSettings = ({ token }: PropsTypes) => {
    * This is the data from doja
    */
   const response = (type: string, data: string) => {
-    if (type === `success`) {
-      router.push(`/account/profile`);
-    } else if (type === `error`) {
-    } else if (type === `close`) {
-    } else if (type === `begin`) {
-    } else if (type === `loading`) {
+    if (type === 'success') {
+      router.push('/account/profile');
+    } else if (type === 'error') {
+    } else if (type === 'close') {
+    } else if (type === 'begin') {
+    } else if (type === 'loading') {
     }
   };
 
   return (
     <Box>
       {stepSix && (
-        <Box sx={{ display: `flex`, height: `100%` }}>
+        <Box sx={{ display: 'flex', height: '100%' }}>
           <Box
             sx={{
-              width: `100%`,
-              height: `100vh`,
-              backgroundColor: `secondary.light`,
+              width: '100%',
+              height: '100vh',
+              backgroundColor: 'secondary.light',
             }}
             px={3}
             pt={6}
@@ -183,13 +183,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `95%`,
-                  sm: `95%`,
-                  md: `50%`,
-                  lg: `50%`,
-                  xl: `60%`,
+                  xs: '95%',
+                  sm: '95%',
+                  md: '50%',
+                  lg: '50%',
+                  xl: '60%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               {/* Form */}
@@ -197,7 +197,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 mb={10}
                 mt={5}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   px: {
                     xs: 2,
                     sm: 2,
@@ -206,21 +206,21 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     xl: 8,
                   },
                   py: 4,
-                  borderRadius: `6px`,
-                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                  borderRadius: '6px',
+                  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: '1rem',
                   }}
                 >
                   <Box
                     color="primary.main"
-                    sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
+                    sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}
                   >
                     {/* <HiArrowUturnLeft onClick={handleNextSlide} /> */}
                   </Box>
@@ -238,22 +238,22 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   textAlign="center"
                   sx={{
                     fontSize: [
-                      `1.4rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
-                      `1.5rem`,
+                      '1.4rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
+                      '1.5rem',
                     ],
                     mb: 4,
                   }}
                 >
-                  {`Let's Verify Your Identity`}
+                  {"Let's Verify Your Identity"}
                 </Typography>
                 <Formik
                   initialValues={{
-                    otp: ``,
-                    documentType: ``,
-                    docNo: ``,
+                    otp: '',
+                    documentType: '',
+                    docNo: '',
                   }}
                   onSubmit={(values) => {
                     {
@@ -295,7 +295,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                 name="docNo"
                                 type="number"
                                 placeholder="Document Number"
-                                style={{ fontSize: `15px` }}
+                                style={{ fontSize: '15px' }}
                               />
                             </Box>
                           </Box>
@@ -326,15 +326,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       )}
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -345,7 +345,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           loading={isLoading}
                           loadingText="Please wait..."
                         >
-                          {sentID ? `Next` : `Verify`}
+                          {sentID ? 'Next' : 'Verify'}
                         </CustomButton>
                       </Box>
                     </Form>
@@ -371,12 +371,12 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
   ariaLabel,
   name,
   placeholder,
-  type = `text`,
+  type = 'text',
 }) => {
   const [inputType, setInputType] = useState(type);
 
   return (
-    <div onFocus={() => setInputType(`date`)}>
+    <div onFocus={() => setInputType('date')}>
       <FormInput
         aria-label={ariaLabel}
         name={name}
@@ -387,58 +387,58 @@ const CustomFormInput: React.FC<CustomFormInputProps> = ({
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  width: `50%`,
-  borderRadius: `10px`,
-  position: `absolute`,
-  bottom: `0`,
-  right: `0`,
+const AddButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  width: '50%',
+  borderRadius: '10px',
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
 
   '.icon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    borderRadius: `8px`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    borderRadius: '8px',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 
-const AddCoverButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  borderRadius: `50%`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const AddCoverButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
   '.fileIcon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    color: `primary.main`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    color: 'primary.main',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 

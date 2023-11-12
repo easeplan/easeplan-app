@@ -14,26 +14,26 @@ import CloseIcon from '@mui/icons-material/Close';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 const PaymentSchema = Yup.object().shape({
-  token: Yup.string().required(`Amount is required`),
+  token: Yup.string().required('Amount is required'),
 });
 
 const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
@@ -54,12 +54,12 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         setIsLoading(false);
         // setIsSuccess(true);
         await axios.post(
@@ -69,7 +69,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
           },
           {
             headers: {
-              'Content-Type': `application/json`,
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
           },
@@ -96,44 +96,44 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: `primary.main`,
-                borderTopRightRadius: `1rem`,
-                borderTopLeftRadius: `1rem`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `space-between`,
+                backgroundColor: 'primary.main',
+                borderTopRightRadius: '1rem',
+                borderTopLeftRadius: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
               <Typography color="secondary.main" fontWeight={600}>
-                {isSuccess ? `Successfully` : `Enter Payment OTP`}
+                {isSuccess ? 'Successfully' : 'Enter Payment OTP'}
               </Typography>
               <Typography
                 sx={{
-                  cursor: `pointer`,
-                  textAlign: `center`,
-                  color: `secondary.light`,
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  color: 'secondary.light',
                 }}
               >
                 <CloseIcon onClick={isClose} />
               </Typography>
             </Box>
             {isSuccess ? (
-              <Box sx={{ px: `1rem`, py: `3rem`, textAlign: `center` }}>
+              <Box sx={{ px: '1rem', py: '3rem', textAlign: 'center' }}>
                 <TaskAltIcon
-                  sx={{ fontSize: `5rem`, color: `secondary.main` }}
+                  sx={{ fontSize: '5rem', color: 'secondary.main' }}
                 />
                 <Typography
                   sx={{
-                    cursor: `pointer`,
-                    textAlign: `center`,
-                    color: `primary.main`,
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    color: 'primary.main',
                   }}
                 >
                   Payment Successful
                 </Typography>
               </Box>
             ) : (
-              <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+              <Box sx={{ border: 'solid 1px #ccc', p: 4 }}>
                 {isErrorMessage && (
                   <Alert severity="error" sx={{ mb: 3 }}>
                     {isErrorMessage}
@@ -143,7 +143,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
                   <Typography>An OTP has been send to your email</Typography>
                   <Formik
                     initialValues={{
-                      token: ``,
+                      token: '',
                     }}
                     onSubmit={(values) => submitCredentials(values)}
                     validationSchema={PaymentSchema}
@@ -159,7 +159,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
                             placeholder="Enter OTP"
                           />
                         </Box>
-                        <Box sx={{ textAlign: `center` }}>
+                        <Box sx={{ textAlign: 'center' }}>
                           <CustomButton
                             bgPrimary
                             loading={isLoading}

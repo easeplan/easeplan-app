@@ -38,9 +38,9 @@ interface PropsTypes {
 }
 
 const CompanySchema = Yup.object().shape({
-  rc_number: Yup.string().required(`CAC number is required`),
-  company_name: Yup.string().required(`Company name is required`),
-  isRegistered: Yup.string().required(`This field is required`),
+  rc_number: Yup.string().required('CAC number is required'),
+  company_name: Yup.string().required('Company name is required'),
+  isRegistered: Yup.string().required('This field is required'),
 });
 
 const VerifyRegistration = ({ token }: PropsTypes) => {
@@ -55,15 +55,15 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
 
   const { mutate: verifyCompany, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/onboarding/company/verify_company`, credentials, {
+      customFetch.post('/onboarding/company/verify_company', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Company Registration Verified Successfully`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Company Registration Verified Successfully');
       handleNextSlide();
     },
     onError: (error: any) => {
@@ -87,9 +87,9 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
   return (
     <>
       {stepOne && (
-        <Box sx={{ display: `flex`, height: `100vh` }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             py={3}
             component={motion.section}
@@ -98,20 +98,20 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `90%`,
-                  sm: `80%`,
-                  md: `60%`,
-                  lg: `50%`,
-                  xl: `50%`,
+                  xs: '90%',
+                  sm: '80%',
+                  md: '60%',
+                  lg: '50%',
+                  xl: '50%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 {/* <Box sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}>
@@ -145,15 +145,15 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                   Is your business registered?
                 </Typography>
 
-                <Box sx={{ borderTop: `solid 1px #ccc` }}>
+                <Box sx={{ borderTop: 'solid 1px #ccc' }}>
                   <Formik
                     initialValues={{
-                      isRegistered: ``, // Add this initial value
-                      cac_number: ``,
+                      isRegistered: '', // Add this initial value
+                      cac_number: '',
                     }}
                     validationSchema={CompanySchema}
                     onSubmit={(values) => {
-                      if (values.isRegistered === `yes`) {
+                      if (values.isRegistered === 'yes') {
                         handleCompanyVerify(values);
                       }
                     }}
@@ -162,7 +162,7 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                       { values }, // Destructure `values` from Formik render props
                     ) => (
                       <Form>
-                        <Box sx={{ flexGrow: 1, width: `100%` }}>
+                        <Box sx={{ flexGrow: 1, width: '100%' }}>
                           <Box>
                             <Description>
                               <Typography
@@ -193,7 +193,7 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                                         />
                                       </RadioGroup>
                                       {meta.touched && meta.error && (
-                                        <div style={{ color: `red` }}>
+                                        <div style={{ color: 'red' }}>
                                           {meta.error}
                                         </div>
                                       )}
@@ -204,7 +204,7 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                             </Field>
                           </Box>
 
-                          {values.isRegistered === `yes` && (
+                          {values.isRegistered === 'yes' && (
                             // Show this block only if the value of isRegistered is "yes"
                             <Box>
                               <Description>
@@ -244,9 +244,9 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                           <Box
                             mt={4}
                             sx={{
-                              display: `flex`,
-                              alignItems: `center`,
-                              justifyContent: `space-between`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
                             }}
                           >
                             <CustomButton
@@ -255,12 +255,12 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                               mdWidth="40%"
                               lgWidth="40%"
                               type={
-                                values.isRegistered === `yes`
-                                  ? `submit`
-                                  : `button`
+                                values.isRegistered === 'yes'
+                                  ? 'submit'
+                                  : 'button'
                               }
                               onClick={
-                                values.isRegistered !== `yes`
+                                values.isRegistered !== 'yes'
                                   ? handleNextSlide
                                   : undefined
                               }
@@ -269,7 +269,7 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                               {isLoading ? (
                                 <FontAwesomeIcon icon={faCircleNotch} spin />
                               ) : (
-                                `Proceed`
+                                'Proceed'
                               )}
                             </CustomButton>
                           </Box>
@@ -289,79 +289,79 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
 
 export default VerifyRegistration;
 
-const Description = styled(`div`)({
-  paddingTop: `1rem`,
+const Description = styled('div')({
+  paddingTop: '1rem',
 
   '.subTitle': {
-    marginBottom: `1rem`,
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `0rem`,
-    width: `100%`,
+    marginTop: '0rem',
+    width: '100%',
   },
 });
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `80px`,
-      height: `80px`,
-      borderRadius: `50%`,
+      width: '80px',
+      height: '80px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
     '.uploadBtn': {
-      padding: `1rem 2rem`,
+      padding: '1rem 2rem',
       background: theme.palette.primary.main,
       color: theme.palette.secondary.main,
-      border: `none`,
-      outline: `none`,
-      cursor: `pointer`,
-      marginTop: `0.5rem`,
-      whiteSpace: `noWrap`,
+      border: 'none',
+      outline: 'none',
+      cursor: 'pointer',
+      marginTop: '0.5rem',
+      whiteSpace: 'noWrap',
     },
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `80px`,
-        height: `80px`,
-        marginTop: `1rem`,
+        width: '80px',
+        height: '80px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));

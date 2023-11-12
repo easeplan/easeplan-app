@@ -78,35 +78,35 @@ const MobileSidenav = ({ data }: any) => {
   );
 };
 
-const MobileStyle = styled(`nav`)(({ theme }) => ({
+const MobileStyle = styled('nav')(({ theme }) => ({
   background: theme.palette.primary.main,
-  position: `fixed`,
-  bottom: `0`,
-  width: `100%`,
+  position: 'fixed',
+  bottom: '0',
+  width: '100%',
   // height: `13vh`,
   // borderTopLeftRadius: `1.5rem`,
   // borderTopRightRadius: `1.5rem`,
-  display: `none`,
-  padding: `1rem 0`,
-  zIndex: `9`,
+  display: 'none',
+  padding: '1rem 0',
+  zIndex: '9',
 
   '@media (max-width: 900px)': {
-    display: `flex`,
-    alignItems: `center`,
-    justifyContent: `center`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
 
-const FlexContainer = styled(`nav`)(({ theme }) => ({
+const FlexContainer = styled('nav')(({ theme }) => ({
   color: theme.palette.common.white,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `space-between`,
-  textAlign: `center`,
-  width: `90%`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  textAlign: 'center',
+  width: '90%',
 
   '.Homeicon': {
-    fontSize: `2rem`,
+    fontSize: '2rem',
   },
 }));
 

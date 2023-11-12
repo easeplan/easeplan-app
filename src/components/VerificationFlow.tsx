@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 const VerifiactionFlow = ({ setIsVerified }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const type = `custom`;
+  const type = 'custom';
 
   const config = {
     debug: true,
@@ -32,17 +32,17 @@ const VerifiactionFlow = ({ setIsVerified }: any) => {
    * This is the data from doja
    */
   const response = (type: string, data: string) => {
-    if (type === `success`) {
+    if (type === 'success') {
       setIsVerified(true);
-    } else if (type === `error`) {
-    } else if (type === `close`) {
-    } else if (type === `begin`) {
-    } else if (type === `loading`) {
+    } else if (type === 'error') {
+    } else if (type === 'close') {
+    } else if (type === 'begin') {
+    } else if (type === 'loading') {
     }
   };
 
   return (
-    <Box sx={{ width: `40%`, margin: `0 auto` }}>
+    <Box sx={{ width: '40%', margin: '0 auto' }}>
       <Dojah
         response={response}
         appID={process.env.NEXT_PUBLIC_VERIFICATION_APPID}

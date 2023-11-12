@@ -8,13 +8,13 @@ interface Props {
 
 const useFetchMessages = (token: string) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: [`allConversations`],
+    queryKey: ['allConversations'],
     queryFn: async () => {
       const { data } = await customFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/conversations`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },

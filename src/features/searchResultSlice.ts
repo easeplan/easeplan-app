@@ -35,7 +35,7 @@ const initialState: modalState = {
 };
 
 export const searchResultSlice = createSlice({
-  name: `openSearchModal`,
+  name: 'openSearchModal',
   initialState,
   reducers: {
     setOpenSearchModal: (state, action) => {

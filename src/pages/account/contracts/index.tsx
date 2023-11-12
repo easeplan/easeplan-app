@@ -19,7 +19,7 @@ const EventPage = ({ token }: any) => {
         `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo?._id}`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -46,23 +46,23 @@ const EventPage = ({ token }: any) => {
       <>
         {contracts?.map((list: any) => (
           <Box key={list._id}>
-            {list.status === `Requested` ? (
+            {list.status === 'Requested' ? (
               <Box
                 key={list?._id}
                 sx={{
-                  display: `flex`,
-                  justifyContent: `space-between`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   flexDirection: {
-                    xs: `column`,
-                    sm: `column`,
-                    md: `row`,
-                    lg: `row`,
-                    xl: `row`,
+                    xs: 'column',
+                    sm: 'column',
+                    md: 'row',
+                    lg: 'row',
+                    xl: 'row',
                   },
                   p: 4,
                   mt: 4,
-                  border: ` solid 1px #ccc`,
+                  border: ' solid 1px #ccc',
                 }}
               >
                 <Box>
@@ -82,23 +82,23 @@ const EventPage = ({ token }: any) => {
                 </Box>
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    gap: `2rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '2rem',
                     mt: {
-                      xs: `2rem`,
-                      sm: `2rem`,
+                      xs: '2rem',
+                      sm: '2rem',
                     },
                   }}
                 >
                   <Box
                     sx={{
                       border: `solid 1px ${theme.palette.primary.main}`,
-                      color: `primary.main`,
+                      color: 'primary.main',
                       py: 1,
                       px: 4,
-                      fontWeight: `600`,
+                      fontWeight: '600',
                     }}
                   >
                     <Link href="/dashboard/support">
@@ -107,11 +107,11 @@ const EventPage = ({ token }: any) => {
                   </Box>
                   <Box
                     sx={{
-                      backgroundColor: `primary.main`,
-                      color: `secondary.main`,
+                      backgroundColor: 'primary.main',
+                      color: 'secondary.main',
                       py: 1,
                       px: 4,
-                      fontWeight: `600`,
+                      fontWeight: '600',
                     }}
                   >
                     <Link href={`/account/contracts/${list?._id}`}>

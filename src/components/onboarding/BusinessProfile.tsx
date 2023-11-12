@@ -30,27 +30,27 @@ import SelectState from '../common/SelectState';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
-  state: Yup.string().required(`State is required`),
-  firstname: Yup.string().required(`First Name is required`),
-  lastname: Yup.string().required(`Last Name is required`),
-  city: Yup.string().required(`City is required`),
+  state: Yup.string().required('State is required'),
+  firstname: Yup.string().required('First Name is required'),
+  lastname: Yup.string().required('Last Name is required'),
+  city: Yup.string().required('City is required'),
   picture: Yup.mixed()
-    .required(`Image is required`)
-    .test(`fileSize`, `The file should be less than 5mb`, (value: any) => {
+    .required('Image is required')
+    .test('fileSize', 'The file should be less than 5mb', (value: any) => {
       const maxFileSize = 5 * 1024 * 1024; // 5MB
       if (value && value.size < maxFileSize) {
         return value && value.size < maxFileSize;
       }
       return false;
     })
-    .test(`type`, `We only support jpeg`, function (value: any) {
+    .test('type', 'We only support jpeg', function (value: any) {
       return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
+        (value && value[0] && value[0].type === 'image/jpeg') ||
+        'image/png' ||
+        'image/jpg'
       );
     }),
-  gender: Yup.string().required(`Gender is required`),
+  gender: Yup.string().required('Gender is required'),
 });
 
 interface PropsTypes {
@@ -91,19 +91,19 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   };
 
   const services = [
-    `DJ`,
-    `Catering`,
-    `Photographer`,
-    `MC`,
-    `Make-up Artist`,
-    `Venue manager`,
-    `Event decorator`,
-    `Transportation coordinator`,
-    `Security personnel`,
-    `Videographer`,
-    `Print vendor`,
-    `Ushering`,
-    `Entertainer`,
+    'DJ',
+    'Catering',
+    'Photographer',
+    'MC',
+    'Make-up Artist',
+    'Venue manager',
+    'Event decorator',
+    'Transportation coordinator',
+    'Security personnel',
+    'Videographer',
+    'Print vendor',
+    'Ushering',
+    'Entertainer',
   ];
 
   const allCities = data.states.reduce((cities, state) => {
@@ -115,8 +115,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     try {
       setIsLoading(true);
       const formData = new FormData();
-      formData.append(`picture`, credentials.picture);
-      formData.append(`image`, credentials.image);
+      formData.append('picture', credentials.picture);
+      formData.append('image', credentials.image);
       const resData = {
         firstName: queryData?.provider?.profile?.firstName
           ? queryData?.provider?.profile?.firstName
@@ -144,19 +144,19 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         resData,
         {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data.status === `success`) {
+      if (data.status === 'success') {
         dispatch(setIntroOne(false));
         dispatch(setIntroThree(true));
         setIsLoading(false);
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
           localStorage.setItem(
-            `userName`,
-            credentials?.firstName ? credentials?.firstName : ``,
+            'userName',
+            credentials?.firstName ? credentials?.firstName : '',
           );
         }
       }
@@ -168,9 +168,9 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   return (
     <Box>
       {stepOne && (
-        <Box sx={{ display: `flex`, height: `100%` }}>
+        <Box sx={{ display: 'flex', height: '100%' }}>
           <Box
-            sx={{ width: `100%`, backgroundColor: `secondary.light` }}
+            sx={{ width: '100%', backgroundColor: 'secondary.light' }}
             px={3}
             pt={6}
             component={motion.section}
@@ -179,13 +179,13 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             <Box
               sx={{
                 width: {
-                  xs: `95%`,
-                  sm: `95%`,
-                  md: `80%`,
-                  lg: `80%`,
-                  xl: `80%`,
+                  xs: '95%',
+                  sm: '95%',
+                  md: '80%',
+                  lg: '80%',
+                  xl: '80%',
                 },
-                margin: `0 auto`,
+                margin: '0 auto',
               }}
             >
               {/* Form */}
@@ -193,7 +193,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 mb={10}
                 mt={5}
                 sx={{
-                  backgroundColor: `#fff`,
+                  backgroundColor: '#fff',
                   px: {
                     xs: 2,
                     sm: 2,
@@ -202,21 +202,21 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     xl: 8,
                   },
                   py: 4,
-                  borderRadius: `6px`,
-                  boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                  borderRadius: '6px',
+                  boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <Box
                   sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `space-between`,
-                    mb: `1rem`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: '1rem',
                   }}
                 >
                   <Box
                     color="primary.main"
-                    sx={{ fontSize: `1.5rem`, fontWeight: `bold` }}
+                    sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}
                   >
                     <HiArrowUturnLeft onClick={handleNextSlide} />
                   </Box>
@@ -234,11 +234,11 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   textAlign="center"
                   sx={{
                     fontSize: {
-                      xs: `1.2rem`,
-                      sm: `1.2rem`,
-                      md: `1.5rem`,
-                      lg: `1.5rem`,
-                      xl: `1.5rem`,
+                      xs: '1.2rem',
+                      sm: '1.2rem',
+                      md: '1.5rem',
+                      lg: '1.5rem',
+                      xl: '1.5rem',
                     },
                     mb: 4,
                   }}
@@ -249,22 +249,22 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                   initialValues={{
                     firstName: queryData?.provider?.profile?.firstName
                       ? queryData?.provider?.profile?.firstName
-                      : ``,
+                      : '',
                     lastName: queryData?.provider?.profile?.lastName
                       ? queryData?.provider?.profile?.lastName
-                      : ``,
+                      : '',
                     picture: queryData?.provider?.profile?.picture
                       ? queryData?.provider?.profile?.picture
-                      : ``,
-                    operationStates: ``,
-                    name: ``,
-                    state: ``,
-                    city: ``,
-                    operationCities: ``,
-                    gender: ``,
-                    image: ``,
-                    services: ``,
-                    description: ``,
+                      : '',
+                    operationStates: '',
+                    name: '',
+                    state: '',
+                    city: '',
+                    operationCities: '',
+                    gender: '',
+                    image: '',
+                    services: '',
+                    description: '',
                   }}
                   onSubmit={(values) => handleFormSubmit(values)}
                   // validationSchema={FormSchema}
@@ -273,9 +273,9 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                     <Form>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `center`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           mb: 4,
                         }}
                       >
@@ -284,20 +284,20 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           <Box>
                             <Box
                               sx={{
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                position: `relative`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative',
                               }}
                             >
                               <AddButton htmlFor="picture">
                                 <CameraAltIcon
                                   className="icon"
                                   sx={{
-                                    color: `primary.main`,
-                                    backgroundColor: `secondary.main`,
-                                    p: `0.2rem`,
-                                    borderRaduis: `10px`,
+                                    color: 'primary.main',
+                                    backgroundColor: 'secondary.main',
+                                    p: '0.2rem',
+                                    borderRaduis: '10px',
                                   }}
                                 />
                                 <Input
@@ -315,7 +315,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                     alt="profileImg"
                                     height={80}
                                     width={80}
-                                    style={{ borderRadius: `50%` }}
+                                    style={{ borderRadius: '50%' }}
                                   />
                                 </div>
                               ) : (
@@ -325,12 +325,12 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                     alt="profileImg"
                                     height={80}
                                     width={80}
-                                    style={{ borderRadius: `50%` }}
+                                    style={{ borderRadius: '50%' }}
                                   />
                                 </Box>
                               )}
                             </Box>
-                            <small>{`{ jpg, png, jpeg } | max 1mb`}</small>
+                            <small>{'{ jpg, png, jpeg } | max 1mb'}</small>
                           </Box>
                         )}
                       </Box>
@@ -338,15 +338,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       {!queryData?.provider?.profile?.firstName && (
                         <Box
                           sx={{
-                            display: `grid`,
+                            display: 'grid',
                             gridTemplateColumns: {
-                              xs: `1fr`,
-                              sm: `1fr`,
-                              md: `1fr 1fr`,
-                              lg: `1fr 1fr`,
-                              xl: `1fr 1fr`,
+                              xs: '1fr',
+                              sm: '1fr',
+                              md: '1fr 1fr',
+                              lg: '1fr 1fr',
+                              xl: '1fr 1fr',
                             },
-                            gap: `1rem`,
+                            gap: '1rem',
                             mb: 2,
                           }}
                         >
@@ -371,15 +371,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr 1fr`,
-                            lg: `1fr 1fr 1fr`,
-                            xl: `1fr 1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr 1fr',
+                            lg: '1fr 1fr 1fr',
+                            xl: '1fr 1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -405,8 +405,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                 (state) => state.name === e.target.value,
                               );
                               setSelectedState(selectedState);
-                              setFieldValue(`state`, e.target.value);
-                              setFieldValue(`city`, ``);
+                              setFieldValue('state', e.target.value);
+                              setFieldValue('city', '');
                             }}
                           >
                             {data?.states?.map((state: any) => {
@@ -439,43 +439,44 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                       <Box mb={3}>
                         <Box
                           sx={{
-                            display: `flex`,
-                            alignItems: `center`,
-                            justifyContent: `center`,
-                            position: `relative`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
                           }}
                         >
                           {coverPreviewImg === null ? (
                             <Box
                               sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                border: `solid 1px #ccc`,
-                                borderRadius: `10px`,
-                                backgroundColor: `primary.main`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                textAlign: `center`,
+                                width: '100%',
+                                height: '100px',
+                                border: 'solid 1px #ccc',
+                                borderRadius: '10px',
+                                backgroundColor: 'primary.main',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                textAlign: 'center',
                               }}
                             >
                               <AddCoverButton htmlFor="image">
                                 <Box
                                   sx={{
-                                    width: `3rem`,
-                                    height: `3rem`,
-                                    borderRadius: `50%`,
-                                    backgroundColor: `#fff`,
-                                    display: `flex`,
-                                    alignItems: `center`,
-                                    justifyContent: `center`,
-                                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                    width: '3rem',
+                                    height: '3rem',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#fff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow:
+                                      '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                                   }}
                                 >
                                   <CameraAltIcon
                                     sx={{
-                                      fontSize: `2rem`,
-                                      color: `primary.main`,
+                                      fontSize: '2rem',
+                                      color: 'primary.main',
                                     }}
                                   />
                                 </Box>
@@ -491,12 +492,12 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                           ) : (
                             <Box
                               sx={{
-                                width: `100%`,
-                                height: `100px`,
-                                display: `flex`,
-                                alignItems: `center`,
-                                justifyContent: `center`,
-                                position: `relative`,
+                                width: '100%',
+                                height: '100px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative',
                               }}
                             >
                               <Image
@@ -506,28 +507,29 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                                 quality={100}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 style={{
-                                  height: `100%`,
-                                  borderRadius: `10px`,
-                                  objectFit: `cover`,
+                                  height: '100%',
+                                  borderRadius: '10px',
+                                  objectFit: 'cover',
                                 }}
                               />
                               <Box sx={{ zIndex: 9 }}>
                                 <AddCoverButton htmlFor="image">
                                   <Box
                                     sx={{
-                                      borderRadius: `30px`,
-                                      backgroundColor: `#fff`,
-                                      display: `flex`,
-                                      alignItems: `center`,
-                                      padding: `10px`,
-                                      justifyContent: `center`,
-                                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                                      borderRadius: '30px',
+                                      backgroundColor: '#fff',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      padding: '10px',
+                                      justifyContent: 'center',
+                                      boxShadow:
+                                        '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                                     }}
                                   >
                                     <CameraAltIcon
                                       sx={{
-                                        fontSize: `2rem`,
-                                        color: `primary.main`,
+                                        fontSize: '2rem',
+                                        color: 'primary.main',
                                       }}
                                     />
                                   </Box>
@@ -543,20 +545,24 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             </Box>
                           )}
                         </Box>
-                        <small>{`{ jpg, png, jpeg } | The file should be less than 1mb`}</small>
+                        <small>
+                          {
+                            '{ jpg, png, jpeg } | The file should be less than 1mb'
+                          }
+                        </small>
                       </Box>
 
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -578,15 +584,15 @@ const ProfileSettings = ({ token }: PropsTypes) => {
 
                       <Box
                         sx={{
-                          display: `grid`,
+                          display: 'grid',
                           gridTemplateColumns: {
-                            xs: `1fr`,
-                            sm: `1fr`,
-                            md: `1fr 1fr`,
-                            lg: `1fr 1fr`,
-                            xl: `1fr 1fr`,
+                            xs: '1fr',
+                            sm: '1fr',
+                            md: '1fr 1fr',
+                            lg: '1fr 1fr',
+                            xl: '1fr 1fr',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                           mb: 2,
                         }}
                       >
@@ -640,58 +646,58 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   );
 };
 
-const AddButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  width: `50%`,
-  borderRadius: `10px`,
-  position: `absolute`,
-  bottom: `0`,
-  right: `0`,
+const AddButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  width: '50%',
+  borderRadius: '10px',
+  position: 'absolute',
+  bottom: '0',
+  right: '0',
 
   '.icon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    borderRadius: `8px`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    borderRadius: '8px',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 
-const AddCoverButton = styled(`label`)(({}) => ({
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  color: `#333`,
-  borderRadius: `50%`,
-  display: `flex`,
-  alignItems: `center`,
-  justifyContent: `center`,
+const AddCoverButton = styled('label')(({}) => ({
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  color: '#333',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 
   '.fileIcon': {
-    fontSize: `2rem`,
-    marginRight: `1rem`,
-    color: `primary.main`,
+    fontSize: '2rem',
+    marginRight: '1rem',
+    color: 'primary.main',
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {
-    padding: `0.5rem 1rem`,
-    width: `60%`,
+    padding: '0.5rem 1rem',
+    width: '60%',
   },
 }));
 

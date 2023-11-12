@@ -44,7 +44,7 @@ const ViewEvent = ({ id, data, token }: any) => {
   const [eventData, setEventData] = useState(data);
 
   const [userEmail] = useState(
-    typeof window !== `undefined` && localStorage.getItem(`userEmail`),
+    typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
@@ -55,7 +55,7 @@ const ViewEvent = ({ id, data, token }: any) => {
 
   // State to manage the opening and closing of the modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [offerAmount, setOfferAmount] = useState(``);
+  const [offerAmount, setOfferAmount] = useState('');
 
   // Function to open the modal
   const handleOpenModal = () => {
@@ -71,7 +71,7 @@ const ViewEvent = ({ id, data, token }: any) => {
   // This should be implemented based on your application logic
   const handleSubmitNewOffer = () => {
     // Placeholder for submitting the new offer logic
-    console.log(`Submitting new offer...`);
+    console.log('Submitting new offer...');
     // Close the modal after submitting the offer
     handleCloseModal();
   };
@@ -82,8 +82,8 @@ const ViewEvent = ({ id, data, token }: any) => {
   //   console.log(id);
 
   useEffect(() => {
-    localStorage.setItem(`eventID`, `${id}`);
-    localStorage.setItem(`contract`, `${data}`);
+    localStorage.setItem('eventID', `${id}`);
+    localStorage.setItem('contract', `${data}`);
   }, []);
 
   // const userServiceObj =
@@ -102,7 +102,7 @@ const ViewEvent = ({ id, data, token }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -124,12 +124,12 @@ const ViewEvent = ({ id, data, token }: any) => {
         {},
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data?.status === `success`) {
+      if (data?.status === 'success') {
         setEventData(data?.data);
         setIsLoadingData(false);
         setConfirmCancel(false);
@@ -139,8 +139,8 @@ const ViewEvent = ({ id, data, token }: any) => {
     }
   };
 
-  const [disputeValue, setDisputeValue] = useState(``);
-  const [disputeTypeValue, setDisputeTypeValue] = useState(``);
+  const [disputeValue, setDisputeValue] = useState('');
+  const [disputeTypeValue, setDisputeTypeValue] = useState('');
 
   const handleDisputeChange = (event: any) => {
     setDisputeValue(event.target.value);
@@ -151,15 +151,15 @@ const ViewEvent = ({ id, data, token }: any) => {
   };
 
   const disputes = [
-    `Service not provided`,
-    `Service not as described`,
-    `Overcharging`,
-    `Late service delivery`,
-    `Cancellation without notice`,
-    `Property damage`,
-    `No show`,
-    `Unprofessional behavior`,
-    `Other`,
+    'Service not provided',
+    'Service not as described',
+    'Overcharging',
+    'Late service delivery',
+    'Cancellation without notice',
+    'Property damage',
+    'No show',
+    'Unprofessional behavior',
+    'Other',
   ];
   const disputeEvent = async () => {
     try {
@@ -174,12 +174,12 @@ const ViewEvent = ({ id, data, token }: any) => {
         },
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data?.status === `success`) {
+      if (data?.status === 'success') {
         setEventData(data?.data);
         setIsLoadingData(false);
         setConfirmCancel(false);
@@ -198,12 +198,12 @@ const ViewEvent = ({ id, data, token }: any) => {
         credentials,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data?.status === `success`) {
+      if (data?.status === 'success') {
         setEventData(data?.data);
         setIsLoadingData(false);
         setConfirmCancel(false);
@@ -222,12 +222,12 @@ const ViewEvent = ({ id, data, token }: any) => {
         {},
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (data?.status === `success`) {
+      if (data?.status === 'success') {
         setEventData(data?.data);
         setIsLoadingData(false);
         setConfirmCancel(false);
@@ -255,24 +255,24 @@ const ViewEvent = ({ id, data, token }: any) => {
       <Container maxWidth="lg">
         <Box
           sx={{
-            display: `grid`,
+            display: 'grid',
             gridTemplateColumns: {
-              xs: `1fr`,
-              sm: `1fr`,
-              md: `1fr 1fr`,
-              lg: `1fr 1fr`,
-              xl: `1fr 1fr`,
+              xs: '1fr',
+              sm: '1fr',
+              md: '1fr 1fr',
+              lg: '1fr 1fr',
+              xl: '1fr 1fr',
             },
-            gap: `2rem`,
+            gap: '2rem',
           }}
         >
           <Box>
             <Box
               key={eventData?._id}
               sx={{
-                display: `flex`,
-                justifyContent: `space-between`,
-                alignItems: `center`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 p: 4,
                 mt: {
                   xs: 10,
@@ -281,7 +281,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                   lg: 14,
                   xl: 14,
                 },
-                backgroundColor: `secondary.light`,
+                backgroundColor: 'secondary.light',
               }}
             >
               <Typography
@@ -289,28 +289,28 @@ const ViewEvent = ({ id, data, token }: any) => {
                 fontSize="1rem"
                 color="primary.main"
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    lx: '1rem',
                   },
                   mt: {
-                    sm: `1rem`,
+                    sm: '1rem',
                   },
                 }}
               >
                 <LocationOnIcon
                   sx={{
                     fontSize: {
-                      xs: `0.9rem`,
-                      sm: `0.9rem`,
-                      md: `1rem`,
-                      lg: `1rem`,
-                      lx: `1rem`,
+                      xs: '0.9rem',
+                      sm: '0.9rem',
+                      md: '1rem',
+                      lg: '1rem',
+                      lx: '1rem',
                     },
                   }}
                 />
@@ -328,14 +328,14 @@ const ViewEvent = ({ id, data, token }: any) => {
                 fontSize="1rem"
                 color="primary.main"
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: {
-                    xs: `0.8rem`,
-                    sm: `0.8rem`,
-                    md: `1rem`,
-                    lg: `1rem`,
-                    lx: `1rem`,
+                    xs: '0.8rem',
+                    sm: '0.8rem',
+                    md: '1rem',
+                    lg: '1rem',
+                    lx: '1rem',
                   },
                 }}
               >
@@ -345,11 +345,11 @@ const ViewEvent = ({ id, data, token }: any) => {
                 fontWeight="600"
                 sx={{
                   fontSize: {
-                    xs: `1rem`,
-                    sm: `1rem`,
-                    md: `1.3rem`,
-                    lg: `1.5rem`,
-                    lx: `1.5rem`,
+                    xs: '1rem',
+                    sm: '1rem',
+                    md: '1.3rem',
+                    lg: '1.5rem',
+                    lx: '1.5rem',
                   },
                 }}
                 color="primary.main"
@@ -357,68 +357,68 @@ const ViewEvent = ({ id, data, token }: any) => {
                 ₦ {eventData.budget && formatCurrency(eventData?.budget)}
               </Typography>
             </Box>
-            {eventData.status === `Requested` && (
+            {eventData.status === 'Requested' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `secondary.light`,
-                  textAlign: `center`,
+                  backgroundColor: 'secondary.light',
+                  textAlign: 'center',
                 }}
               >
-                <Typography sx={{ fontWeight: `700`, color: `primary.main` }}>
+                <Typography sx={{ fontWeight: '700', color: 'primary.main' }}>
                   We&apos;ve contacted the vendor, they will respond shortly.
                 </Typography>
               </Box>
             )}
 
-            {eventData.status === `Accepted` && (
+            {eventData.status === 'Accepted' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `secondary.light`,
-                  textAlign: `center`,
+                  backgroundColor: 'secondary.light',
+                  textAlign: 'center',
                 }}
               >
                 <CustomButton
                   onClick={handlePayment}
                   bgPrimary
-                  disabled={eventData.status.toLowerCase() === `paid`}
+                  disabled={eventData.status.toLowerCase() === 'paid'}
                   lgWidth="100%"
                   loading={isSuccess}
                 >
-                  {eventData.status.toLowerCase() === `paid`
-                    ? `PAID`
-                    : `Make Payment`}
+                  {eventData.status.toLowerCase() === 'paid'
+                    ? 'PAID'
+                    : 'Make Payment'}
                 </CustomButton>
               </Box>
             )}
-            {eventData.status === `paid` && (
+            {eventData.status === 'paid' && (
               <Box>
                 <section>
                   <Box
                     sx={{
-                      display: `grid`,
-                      gridTemplateColumns: `1fr`,
-                      gap: `2rem`,
+                      display: 'grid',
+                      gridTemplateColumns: '1fr',
+                      gap: '2rem',
                     }}
                   >
-                    <Box sx={{ width: `100%`, margin: `0 auto` }}>
+                    <Box sx={{ width: '100%', margin: '0 auto' }}>
                       <Box
                         sx={{
                           p: 4,
                           mt: 4,
                           border: `solid 1px ${theme.palette.secondary.main}`,
-                          textAlign: `center`,
-                          color: `secondary.main`,
+                          textAlign: 'center',
+                          color: 'secondary.main',
                         }}
                       >
                         <DoneAllIcon
                           sx={{
-                            width: `50px`,
-                            height: `50px`,
-                            margin: `0 auto`,
+                            width: '50px',
+                            height: '50px',
+                            margin: '0 auto',
                           }}
                         />
                         <Typography
@@ -437,7 +437,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                           display="flex"
                           justifyContent="center"
                         >
-                          We`ve sent a receipt to{` `}
+                          We`ve sent a receipt to{' '}
                           <Typography ml={1} color="secondary.main">
                             {userEmail}
                           </Typography>
@@ -445,9 +445,9 @@ const ViewEvent = ({ id, data, token }: any) => {
                         <Divider />
                         <Box
                           sx={{
-                            width: `100%`,
-                            height: `100px`,
-                            position: `relative`,
+                            width: '100%',
+                            height: '100px',
+                            position: 'relative',
                           }}
                         >
                           <Image
@@ -469,37 +469,37 @@ const ViewEvent = ({ id, data, token }: any) => {
               </Box>
             )}
 
-            {eventData.status === `Disputed` && (
+            {eventData.status === 'Disputed' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `#fff8e1`,
-                  textAlign: `center`,
+                  backgroundColor: '#fff8e1',
+                  textAlign: 'center',
                 }}
               >
-                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                <Typography sx={{ fontWeight: '500', color: 'primary.main' }}>
                   A ticket has been created for your dispute. Please follow up
-                  on the resolution{` `}
+                  on the resolution{' '}
                   <Link href="/user/dispute" style={{ fontWeight: 700 }}>
-                    {` `}
+                    {' '}
                     [Dispute Center].
                   </Link>
                 </Typography>
               </Box>
             )}
-            {eventData.status === `Resolved` && (
+            {eventData.status === 'Resolved' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `secondary.light`,
-                  textAlign: `center`,
+                  backgroundColor: 'secondary.light',
+                  textAlign: 'center',
                 }}
               >
-                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                <Typography sx={{ fontWeight: '500', color: 'primary.main' }}>
                   The dispute has been resolved. Thank you for your patience.
-                  Please check the resolution details{` `}
+                  Please check the resolution details{' '}
                   <Link
                     href="/user/dispute-resolution"
                     style={{ fontWeight: 700 }}
@@ -518,18 +518,18 @@ const ViewEvent = ({ id, data, token }: any) => {
                 </Typography>
               </Box>
             )}
-            {eventData.status === `Completed` && (
+            {eventData.status === 'Completed' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `#fff3e0`,
+                  backgroundColor: '#fff3e0',
                 }}
               >
                 <Typography fontWeight="600" fontSize="1.2rem" color="#d32f2f">
                   Urgent: Confirm Payment Approval
                 </Typography>
-                <Typography sx={{ color: `#555` }} mt={1}>
+                <Typography sx={{ color: '#555' }} mt={1}>
                   The service for your event has been marked as complete. Please
                   proceed to approve the payment or issue a dispute if you
                   encountered any problems with the service. You have 24 hours
@@ -540,32 +540,32 @@ const ViewEvent = ({ id, data, token }: any) => {
               </Box>
             )}
 
-            {(eventData.status === `Approved` ||
-              eventData.status === `Rated`) && (
+            {(eventData.status === 'Approved' ||
+              eventData.status === 'Rated') && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `secondary.light`,
+                  backgroundColor: 'secondary.light',
                 }}
               >
-                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                <Typography sx={{ fontWeight: '500', color: 'primary.main' }}>
                   Your event has been successfully completed! We hope it was a
                   great experience. We would love to hear your feedback below
                   and don&apos;t forget to rate vendor.
                 </Typography>
               </Box>
             )}
-            {eventData.status === `Cancelled` && (
+            {eventData.status === 'Cancelled' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `#ffebee`,
-                  textAlign: `center`,
+                  backgroundColor: '#ffebee',
+                  textAlign: 'center',
                 }}
               >
-                <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
+                <Typography sx={{ fontWeight: '500', color: 'primary.main' }}>
                   Your event request has been successfully canceled. If you have
                   any concerns or need assistance, please contact us. We&apos;re
                   here to help!
@@ -573,17 +573,17 @@ const ViewEvent = ({ id, data, token }: any) => {
               </Box>
             )}
 
-            {eventData.status === `Declined` && (
+            {eventData.status === 'Declined' && (
               <Box
                 sx={{
                   p: 4,
                   mt: 4,
-                  backgroundColor: `#ffebee`,
-                  textAlign: `center`,
+                  backgroundColor: '#ffebee',
+                  textAlign: 'center',
                 }}
               >
                 <Typography
-                  sx={{ fontWeight: `500`, color: `primary.main`, mb: 2 }}
+                  sx={{ fontWeight: '500', color: 'primary.main', mb: 2 }}
                 >
                   Unfortunately, the vendor has declined your offer. You can
                   choose to make a new offer or browse other vendors.
@@ -605,8 +605,8 @@ const ViewEvent = ({ id, data, token }: any) => {
                   text="Make New Offer"
                 >
                   <Box
-                    sx={{ p: 4, textAlign: `center` }}
-                    style={{ minHeight: `100%` }}
+                    sx={{ p: 4, textAlign: 'center' }}
+                    style={{ minHeight: '100%' }}
                   >
                     <TextField
                       autoFocus
@@ -639,13 +639,13 @@ const ViewEvent = ({ id, data, token }: any) => {
               <Box>
                 <Box
                   sx={{
-                    width: `100%`,
+                    width: '100%',
                     height: {
-                      xs: `120px`,
-                      sm: `130px`,
-                      md: `130px`,
-                      lg: `150px`,
-                      xl: `150px`,
+                      xs: '120px',
+                      sm: '130px',
+                      md: '130px',
+                      lg: '150px',
+                      xl: '150px',
                     },
                     mt: {
                       xs: 10,
@@ -654,14 +654,14 @@ const ViewEvent = ({ id, data, token }: any) => {
                       lg: 14,
                       xl: 14,
                     },
-                    mb: `1rem`,
-                    borderRadius: `10px`,
-                    position: `relative`,
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
-                    boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                    backgroundColor: `primary.main`,
+                    mb: '1rem',
+                    borderRadius: '10px',
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: 'primary.main',
                   }}
                 >
                   <Box>
@@ -677,39 +677,39 @@ const ViewEvent = ({ id, data, token }: any) => {
                       quality={100}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       style={{
-                        height: `100%`,
-                        borderRadius: `10px`,
-                        objectFit: `cover`,
+                        height: '100%',
+                        borderRadius: '10px',
+                        objectFit: 'cover',
                       }}
                     />
                   </Box>
                   <Box
                     sx={{
                       width: {
-                        xs: `70px`,
-                        sm: `70px`,
-                        md: `100px`,
-                        lg: `120px`,
-                        xl: `120px`,
+                        xs: '70px',
+                        sm: '70px',
+                        md: '100px',
+                        lg: '120px',
+                        xl: '120px',
                       },
                       height: {
-                        xs: `70px`,
-                        sm: `70px`,
-                        md: `100px`,
-                        lg: `120px`,
-                        xl: `120px`,
+                        xs: '70px',
+                        sm: '70px',
+                        md: '100px',
+                        lg: '120px',
+                        xl: '120px',
                       },
-                      position: `absolute`,
-                      borderRadius: `50%`,
+                      position: 'absolute',
+                      borderRadius: '50%',
                       bottom: {
-                        xs: `-2rem`,
-                        sm: `-2rem`,
-                        md: `-4rem`,
-                        lg: `-4rem`,
+                        xs: '-2rem',
+                        sm: '-2rem',
+                        md: '-4rem',
+                        lg: '-4rem',
                       },
-                      boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
-                      backgroundColor: `#fff`,
-                      border: `solid 4px #fff`,
+                      boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+                      backgroundColor: '#fff',
+                      border: 'solid 4px #fff',
                     }}
                   >
                     <Box>
@@ -718,9 +718,9 @@ const ViewEvent = ({ id, data, token }: any) => {
                         alt="bannerImage"
                         fill
                         style={{
-                          width: `100%`,
-                          borderRadius: `50%`,
-                          objectFit: `cover`,
+                          width: '100%',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
                         }}
                       />
                     </Box>
@@ -729,66 +729,66 @@ const ViewEvent = ({ id, data, token }: any) => {
                 <Box
                   sx={{
                     mt: {
-                      xs: `3rem`,
-                      sm: `3rem`,
-                      md: `5rem`,
-                      lg: `5rem`,
+                      xs: '3rem',
+                      sm: '3rem',
+                      md: '5rem',
+                      lg: '5rem',
                     },
                   }}
                 >
                   <Box
                     sx={{
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `center`,
-                      position: `relative`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
                     }}
                   ></Box>
                   <Box
                     sx={{
-                      display: `flex`,
-                      justifyContent: `center`,
-                      flexWrap: `wrap`,
-                      textAlign: `center`,
-                      margin: `0 auto`,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexWrap: 'wrap',
+                      textAlign: 'center',
+                      margin: '0 auto',
 
                       '.btn': {
-                        border: `none`,
-                        cursor: `pointer`,
-                        borderRadius: `8px`,
-                        boxShadow: `0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)`,
-                        margin: `1rem`,
-                        padding: `1rem 1.5rem`,
+                        border: 'none',
+                        cursor: 'pointer',
+                        borderRadius: '8px',
+                        boxShadow: '0px 4.82797px 6.0699px rgba(0, 0, 0, 0.1)',
+                        margin: '1rem',
+                        padding: '1rem 1.5rem',
                       },
                       '.preview-btn': {
-                        color: `secondary.main`,
-                        fontWeight: `bold`,
-                        backgroundColor: `primary.main`,
-                        border: `solid 1px #1111`,
+                        color: 'secondary.main',
+                        fontWeight: 'bold',
+                        backgroundColor: 'primary.main',
+                        border: 'solid 1px #1111',
                       },
                     }}
                   >
-                    {eventData.status === `Completed` && (
+                    {eventData.status === 'Completed' && (
                       <CustomButton
                         loading={isLoadingData}
                         onClick={handleApprovePayment}
-                        sx={{ mr: `1rem` }}
+                        sx={{ mr: '1rem' }}
                         variant="outlined"
-                        style={{ color: `#174E64` }}
+                        style={{ color: '#174E64' }}
                       >
                         Approve Payment
                       </CustomButton>
                     )}
-                    {(eventData.status === `Requested` ||
-                      eventData.status === `Accepted`) && (
+                    {(eventData.status === 'Requested' ||
+                      eventData.status === 'Accepted') && (
                       <>
                         <Button
                           variant="outlined"
                           sx={{
-                            textTransform: `capitalize`,
+                            textTransform: 'capitalize',
                             mr: 2,
-                            border: `1px solid red`,
-                            color: `red`,
+                            border: '1px solid red',
+                            color: 'red',
                           }}
                           onClick={() => setConfirmCancel(true)}
                         >
@@ -800,8 +800,8 @@ const ViewEvent = ({ id, data, token }: any) => {
                           text="Confirm Request Cancellation"
                         >
                           <Box
-                            sx={{ p: 4, textAlign: `center` }}
-                            style={{ minHeight: `100%` }}
+                            sx={{ p: 4, textAlign: 'center' }}
+                            style={{ minHeight: '100%' }}
                           >
                             <Typography mb={4} variant="h5">
                               Are you sure you want to cancel request, Vendor
@@ -809,8 +809,8 @@ const ViewEvent = ({ id, data, token }: any) => {
                             </Typography>
                             <Box
                               sx={{
-                                display: `flex`,
-                                justifyContent: `space-between`,
+                                display: 'flex',
+                                justifyContent: 'space-between',
                               }}
                             >
                               <CustomButton
@@ -832,15 +832,15 @@ const ViewEvent = ({ id, data, token }: any) => {
                         </AcceptOfferConfirmModal>
                       </>
                     )}
-                    {(eventData.status === `paid` ||
-                      eventData.status === `Completed`) && (
+                    {(eventData.status === 'paid' ||
+                      eventData.status === 'Completed') && (
                       <>
                         <Button
                           sx={{
-                            textTransform: `capitalize`,
-                            border: `solid 1px orange`,
-                            color: `orange`,
-                            backgroundColor: `white`,
+                            textTransform: 'capitalize',
+                            border: 'solid 1px orange',
+                            color: 'orange',
+                            backgroundColor: 'white',
                           }}
                           onClick={() => setConfirmDispute(true)}
                         >
@@ -852,8 +852,8 @@ const ViewEvent = ({ id, data, token }: any) => {
                           text="Dispute Resolution Form"
                         >
                           <Box
-                            sx={{ p: 4, textAlign: `center` }}
-                            style={{ minHeight: `100%` }}
+                            sx={{ p: 4, textAlign: 'center' }}
+                            style={{ minHeight: '100%' }}
                           >
                             <FormControl fullWidth>
                               <InputLabel id="dispute-select-label">
@@ -880,9 +880,9 @@ const ViewEvent = ({ id, data, token }: any) => {
                               multiline
                               minRows={10}
                               sx={{
-                                width: `100%`,
-                                mb: `2rem`,
-                                mt: `1rem`,
+                                width: '100%',
+                                mb: '2rem',
+                                mt: '1rem',
                               }}
                               value={disputeValue}
                               onChange={handleDisputeChange}
@@ -936,8 +936,8 @@ const ViewEvent = ({ id, data, token }: any) => {
                   rating={queryData?.rating}
                   profileId={queryData?.userId}
                 /> */}
-                {(eventData.status === `Approved` ||
-                  eventData.status === `Resolved`) && (
+                {(eventData.status === 'Approved' ||
+                  eventData.status === 'Resolved') && (
                   <ReviewFormFull
                     isLoadingData={isLoadingData}
                     submitReview={submitReview}
@@ -967,7 +967,7 @@ export async function getServerSideProps(
   if (!token) {
     return {
       redirect: {
-        destination: `/user/findvendors`,
+        destination: '/user/findvendors',
         permanent: false,
       },
     };
@@ -978,7 +978,7 @@ export async function getServerSideProps(
     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
     {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     },
@@ -995,22 +995,22 @@ export async function getServerSideProps(
   };
 }
 const style = {
-  position: `absolute` as const,
-  top: `50%`,
-  left: `50%`,
-  transform: `translate(-50%, -50%)`,
+  position: 'absolute' as const,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: {
-    xs: `85%`,
-    sm: `45%`,
-    md: `40%`,
-    lg: `30%`,
-    xl: `30%`,
+    xs: '85%',
+    sm: '45%',
+    md: '40%',
+    lg: '30%',
+    xl: '30%',
   },
-  height: `auto`,
-  bgcolor: `#fff`,
-  border: `none`,
+  height: 'auto',
+  bgcolor: '#fff',
+  border: 'none',
   boxShadow: 24,
-  borderRadius: `1rem`,
+  borderRadius: '1rem',
 };
 
 export default ViewEvent;

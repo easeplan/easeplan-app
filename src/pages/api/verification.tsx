@@ -6,7 +6,7 @@ export default async (req: any, res: any) => {
   const { token } = parseCookies(req);
 
   if (!token) {
-    res.status(401).json({ error: `Unauthorized` });
+    res.status(401).json({ error: 'Unauthorized' });
     return;
   }
 
@@ -15,7 +15,7 @@ export default async (req: any, res: any) => {
     res.body,
     {
       headers: {
-        'Content-Type': `multipart/form-data`,
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     },

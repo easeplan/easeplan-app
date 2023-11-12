@@ -21,7 +21,7 @@ const ErrorPage = ({ token }: Props) => {
   const [eventID, setEventID] = useState<any>();
 
   useEffect(() => {
-    setEventID(localStorage.getItem(`eventID`));
+    setEventID(localStorage.getItem('eventID'));
   }, []);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
@@ -42,26 +42,26 @@ const ErrorPage = ({ token }: Props) => {
       <section>
         <Box
           sx={{
-            display: `grid`,
-            gridTemplateColumns: `1fr`,
-            gap: `2rem`,
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '2rem',
           }}
         >
-          <Box sx={{ width: { xs: `100%` }, margin: `0 auto` }}>
+          <Box sx={{ width: { xs: '100%' }, margin: '0 auto' }}>
             <Box
               sx={{
                 p: 4,
                 mt: 4,
                 //border: `solid 1px ${theme.palette.secondary.main}`,
-                textAlign: `center`,
-                color: `error.main`,
+                textAlign: 'center',
+                color: 'error.main',
               }}
             >
               <ErrorIcon
                 sx={{
-                  width: `50px`,
-                  height: `50px`,
-                  margin: `0 auto`,
+                  width: '50px',
+                  height: '50px',
+                  margin: '0 auto',
                 }}
               />
               <Typography

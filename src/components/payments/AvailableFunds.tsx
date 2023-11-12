@@ -28,9 +28,9 @@ import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
 
 const PaymentSchema = Yup.object().shape({
-  accountName: Yup.string().required(`Amount is required`),
-  accountNumber: Yup.string().required(`Amount is required`),
-  bank: Yup.string().required(`Amount is required`),
+  accountName: Yup.string().required('Amount is required'),
+  accountNumber: Yup.string().required('Amount is required'),
+  bank: Yup.string().required('Amount is required'),
 });
 
 const banks = [
@@ -59,9 +59,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Access Bank`,
-    slug: `access-bank`,
-    code: `044`,
+    name: 'Access Bank',
+    slug: 'access-bank',
+    code: '044',
     active: true,
   },
   // {
@@ -221,9 +221,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Ecobank Nigeria`,
-    slug: `ecobank-nigeria`,
-    code: `050`,
+    name: 'Ecobank Nigeria',
+    slug: 'ecobank-nigeria',
+    code: '050',
     active: true,
   },
   // {
@@ -245,9 +245,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Fidelity Bank`,
-    slug: `fidelity-bank`,
-    code: `070`,
+    name: 'Fidelity Bank',
+    slug: 'fidelity-bank',
+    code: '070',
     active: true,
   },
   // {
@@ -293,9 +293,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `GoMoney`,
-    slug: `gomoney`,
-    code: `100022`,
+    name: 'GoMoney',
+    slug: 'gomoney',
+    code: '100022',
     active: true,
   },
   // {
@@ -311,9 +311,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Guaranty Trust Bank`,
-    slug: `guaranty-trust-bank`,
-    code: `058`,
+    name: 'Guaranty Trust Bank',
+    slug: 'guaranty-trust-bank',
+    code: '058',
     active: true,
   },
   // {
@@ -329,9 +329,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Heritage Bank`,
-    slug: `heritage-bank`,
-    code: `030`,
+    name: 'Heritage Bank',
+    slug: 'heritage-bank',
+    code: '030',
     active: true,
   },
   // {
@@ -497,9 +497,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Polaris Bank`,
-    slug: `polaris-bank`,
-    code: `076`,
+    name: 'Polaris Bank',
+    slug: 'polaris-bank',
+    code: '076',
     active: true,
   },
   // {
@@ -599,9 +599,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Stanbic IBTC Bank`,
-    slug: `stanbic-ibtc-bank`,
-    code: `221`,
+    name: 'Stanbic IBTC Bank',
+    slug: 'stanbic-ibtc-bank',
+    code: '221',
     active: true,
   },
   // {
@@ -617,9 +617,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Sterling Bank`,
-    slug: `sterling-bank`,
-    code: `232`,
+    name: 'Sterling Bank',
+    slug: 'sterling-bank',
+    code: '232',
     active: true,
   },
   // {
@@ -671,9 +671,9 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `U&C Microfinance Bank Ltd (U AND C MFB)`,
-    slug: `uc-microfinance-bank-ltd-u-and-c-mfb-ng`,
-    code: `50840`,
+    name: 'U&C Microfinance Bank Ltd (U AND C MFB)',
+    slug: 'uc-microfinance-bank-ltd-u-and-c-mfb-ng',
+    code: '50840',
     active: true,
   },
   // {
@@ -701,21 +701,21 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Union Bank of Nigeria`,
-    slug: `union-bank-of-nigeria`,
-    code: `032`,
+    name: 'Union Bank of Nigeria',
+    slug: 'union-bank-of-nigeria',
+    code: '032',
     active: true,
   },
   {
-    name: `United Bank For Africa`,
-    slug: `united-bank-for-africa`,
-    code: `033`,
+    name: 'United Bank For Africa',
+    slug: 'united-bank-for-africa',
+    code: '033',
     active: true,
   },
   {
-    name: `Unity Bank`,
-    slug: `unity-bank`,
-    code: `215`,
+    name: 'Unity Bank',
+    slug: 'unity-bank',
+    code: '215',
     active: true,
   },
   // {
@@ -731,15 +731,15 @@ const banks = [
   //   active: true,
   // },
   {
-    name: `Wema Bank`,
-    slug: `wema-bank`,
-    code: `035`,
+    name: 'Wema Bank',
+    slug: 'wema-bank',
+    code: '035',
     active: true,
   },
   {
-    name: `Zenith Bank`,
-    slug: `zenith-bank`,
-    code: `057`,
+    name: 'Zenith Bank',
+    slug: 'zenith-bank',
+    code: '057',
     active: true,
   },
 ];
@@ -753,11 +753,11 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   const [showUpdate, setShowUpdate] = useState<boolean>(true);
   const [isFetchBank, setIsFetchBank] = useState<boolean>(false);
   const [isPaymentOtp, setIsPaymentOtp] = useState<boolean>(false);
-  const [amount, setAmount] = useState<string>(``);
-  const [accountName, setAccountName] = useState<string>(``);
-  const [accountNumber, setAccountNumber] = useState<any>(``);
+  const [amount, setAmount] = useState<string>('');
+  const [accountName, setAccountName] = useState<string>('');
+  const [accountNumber, setAccountNumber] = useState<any>('');
   const [success, setSuccess] = useState<boolean>(false);
-  const [errMsg, setErrMsg] = useState<any>(``);
+  const [errMsg, setErrMsg] = useState<any>('');
   const [editBank, setEditBank] = useState<boolean>(false);
   const [localQueryData, setLocalQueryData] = useState(queryData);
 
@@ -808,15 +808,15 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
 
   const { mutate: handleUpdate, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.post(`/account-details`, credentials, {
+      customFetch.post('/account-details', credentials, {
         headers: {
-          'Content-Type': `application/json`,
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Event Datails Added`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Event Datails Added');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -844,7 +844,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   function truncateString(str: string, num: any) {
     const newStr = str?.toString();
     if (newStr?.length > num) {
-      return newStr?.slice(0, num) + `****`;
+      return newStr?.slice(0, num) + '****';
     } else {
       return newStr;
     }
@@ -876,13 +876,13 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
     <Box
       sx={{
         width: {
-          xs: `100%`,
-          sm: `100%`,
-          md: `100%`,
-          lg: `100%`,
-          xl: `100%`,
+          xs: '100%',
+          sm: '100%',
+          md: '100%',
+          lg: '100%',
+          xl: '100%',
         },
-        margin: `0rem auto`,
+        margin: '0rem auto',
       }}
     >
       <PaymentModal
@@ -905,43 +905,43 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
         <Box sx={{}}>
           <Box
             sx={{
-              display: `grid`,
+              display: 'grid',
               gridTemplateColumns: {
-                xs: `1fr`,
-                sm: `1fr`,
-                md: `1fr 1fr`,
-                lg: `1fr 1fr`,
-                xl: `1fr 1fr`,
+                xs: '1fr',
+                sm: '1fr',
+                md: '1fr 1fr',
+                lg: '1fr 1fr',
+                xl: '1fr 1fr',
               },
               gap: {
-                xs: `1rem`,
-                sm: `1rem`,
-                md: `1rem`,
-                lg: `6rem`,
-                xl: `6rem`,
+                xs: '1rem',
+                sm: '1rem',
+                md: '1rem',
+                lg: '6rem',
+                xl: '6rem',
               },
             }}
           >
             <Box
               className="linearGradient"
               sx={{
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 px: 6,
                 pb: 2,
                 pt: 2,
-                borderRadius: `2rem`,
-                position: `relative`,
+                borderRadius: '2rem',
+                position: 'relative',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
 
                   '.walletIcon': {
-                    fontSize: `2rem`,
-                    color: `white`,
+                    fontSize: '2rem',
+                    color: 'white',
                   },
                 }}
               >
@@ -961,33 +961,33 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 color="white"
                 sx={{
                   fontSize: {
-                    xs: `1.5rem`,
-                    sm: `1.5rem`,
-                    md: `1.5rem`,
-                    lg: `2rem`,
-                    xl: `2rem`,
+                    xs: '1.5rem',
+                    sm: '1.5rem',
+                    md: '1.5rem',
+                    lg: '2rem',
+                    xl: '2rem',
                   },
                 }}
               >
                 <small>₦</small>
                 {queryData?.provider.providerProfile?.balance === 0
-                  ? `00.00`
+                  ? '00.00'
                   : formatCurrency(
                       queryData?.provider.providerProfile?.balance &&
                         queryData?.provider.providerProfile?.balance,
                     )}
               </Typography>
-              <Box sx={{ textAlign: `right` }}>
+              <Box sx={{ textAlign: 'right' }}>
                 <Button
                   onClick={() => setPaymentModal(true)}
                   sx={{
-                    color: `primary.main`,
-                    textTransform: `capitalize`,
-                    backgroundColor: `white`,
+                    color: 'primary.main',
+                    textTransform: 'capitalize',
+                    backgroundColor: 'white',
                     ':hover': {
-                      backgroundColor: `#fafafa`,
+                      backgroundColor: '#fafafa',
                     },
-                    borderRadius: `30px`,
+                    borderRadius: '30px',
                     px: 4,
                   }}
                   variant="contained"
@@ -999,23 +999,23 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
             <Box
               className="linearGradient"
               sx={{
-                boxShadow: `0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)`,
+                boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
                 px: 6,
                 pb: 2,
                 pt: 2,
-                borderRadius: `2rem`,
-                position: `relative`,
+                borderRadius: '2rem',
+                position: 'relative',
               }}
             >
               <Box
                 sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
 
                   '.walletIcon': {
-                    fontSize: `2rem`,
-                    color: `white`,
+                    fontSize: '2rem',
+                    color: 'white',
                   },
                 }}
               >
@@ -1035,17 +1035,17 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 color="white"
                 sx={{
                   fontSize: {
-                    xs: `1.5rem`,
-                    sm: `1.5rem`,
-                    md: `1.5rem`,
-                    lg: `2rem`,
-                    xl: `2rem`,
+                    xs: '1.5rem',
+                    sm: '1.5rem',
+                    md: '1.5rem',
+                    lg: '2rem',
+                    xl: '2rem',
                   },
                 }}
               >
                 <small>₦</small>
                 {queryData?.totalBalance === 0
-                  ? `00.00`
+                  ? '00.00'
                   : formatCurrency(
                       queryData?.totalBalance && queryData?.totalBalance,
                     )}
@@ -1053,13 +1053,13 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
               <Typography
                 sx={{
                   md: 1,
-                  color: `white`,
+                  color: 'white',
                   fontSize: {
-                    xs: `0.5rem`,
-                    sm: `0.5rem`,
-                    md: `0.5rem`,
-                    lg: `0.8rem`,
-                    xl: `0.8rem`,
+                    xs: '0.5rem',
+                    sm: '0.5rem',
+                    md: '0.5rem',
+                    lg: '0.8rem',
+                    xl: '0.8rem',
                   },
                 }}
               >
@@ -1083,7 +1083,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
               Add Bank Details
             </Typography>
             {/* ADD BANK FORM */}
-            <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+            <Box sx={{ border: 'solid 1px #ccc', p: 4 }}>
               <Typography mb={3}>
                 Add bank details to recieve payment
               </Typography>
@@ -1091,7 +1091,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 <form onSubmit={submitCredentials}>
                   <Box>
                     <Label text="Select Bank" />
-                    <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                    <FormControl fullWidth size="small" sx={{ mb: '1rem' }}>
                       <InputLabel id="demo-simple-select-label">
                         Select Bank
                       </InputLabel>
@@ -1100,9 +1100,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                         id="demo-simple-select"
                         name="bank"
                         onChange={handleSelect}
-                        sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                        sx={{ py: '0.3rem', borderRadius: '10px' }}
                         // displayEmpty
-                        inputProps={{ 'aria-label': `Without label` }}
+                        inputProps={{ 'aria-label': 'Without label' }}
                         MenuProps={MenuProps}
                       >
                         {banks?.map((bank: any) => {
@@ -1131,21 +1131,21 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     <Box
                       sx={{
                         mb: 2,
-                        backgroundColor: `secondary.light`,
+                        backgroundColor: 'secondary.light',
                         p: 2,
-                        borderRadius: `6px`,
+                        borderRadius: '6px',
                       }}
                     >
                       {isFetchBank ? (
                         <Box
                           sx={{
-                            display: `flex`,
-                            justifyContent: `center`,
-                            alignItems: `center`,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                           }}
                         >
                           <CircularProgress
-                            sx={{ color: `primary.main` }}
+                            sx={{ color: 'primary.main' }}
                             size="1rem"
                           />
                         </Box>
@@ -1161,10 +1161,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     <Box
                       sx={{
                         mb: 2,
-                        border: `1px solid red`,
+                        border: '1px solid red',
                         px: 2,
                         py: 1,
-                        borderRadius: `6px`,
+                        borderRadius: '6px',
                       }}
                     >
                       <Typography color="error.main" fontSize="0.9rem">
@@ -1174,15 +1174,15 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                   )}
                   <Box
                     sx={{
-                      display: `flex`,
-                      justifyContent: `space-between`,
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       flexDirection: {
-                        xs: `column`,
-                        sm: `column`,
-                        md: `column`,
-                        lg: `row`,
+                        xs: 'column',
+                        sm: 'column',
+                        md: 'column',
+                        lg: 'row',
                       },
-                      gap: `1rem`,
+                      gap: '1rem',
                     }}
                   >
                     <CustomButton
@@ -1191,7 +1191,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                       loadingText="Add..."
                       type="submit"
                     >
-                      {isSuccess ? `Added` : `Add Bank`}
+                      {isSuccess ? 'Added' : 'Add Bank'}
                     </CustomButton>
                     <Button onClick={toggleUpdateState} variant="outlined">
                       Cancel
@@ -1207,15 +1207,15 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
               <Box mt={10}>
                 <Box
                   sx={{
-                    display: `grid`,
+                    display: 'grid',
                     gridTemplateColumns: {
-                      xs: `1fr`,
-                      sm: `1fr`,
-                      md: `1fr`,
-                      lg: `2fr 1fr`,
-                      xl: `2fr 1fr`,
+                      xs: '1fr',
+                      sm: '1fr',
+                      md: '1fr',
+                      lg: '2fr 1fr',
+                      xl: '2fr 1fr',
                     },
-                    gap: `6rem`,
+                    gap: '6rem',
                   }}
                 >
                   <Box>
@@ -1234,10 +1234,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                       sx={{
                         py: 3,
                         px: 6,
-                        color: `#fff`,
+                        color: '#fff',
                         mb: 2,
-                        borderRadius: `2rem`,
-                        border: `solid 1px #3333`,
+                        borderRadius: '2rem',
+                        border: 'solid 1px #3333',
                       }}
                     >
                       <Typography color="primary.main">
@@ -1257,7 +1257,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     <Button
                       onClick={toggleUpdateState}
                       variant="outlined"
-                      sx={{ textTransform: `capitalize`, borderRadius: `30px` }}
+                      sx={{ textTransform: 'capitalize', borderRadius: '30px' }}
                     >
                       Change
                     </Button>
@@ -1275,7 +1275,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                 >
                   Add Bank Details
                 </Typography>
-                <Box sx={{ border: `solid 1px #ccc`, p: 4 }}>
+                <Box sx={{ border: 'solid 1px #ccc', p: 4 }}>
                   <Typography mb={3}>
                     Add bank details to recieve payment
                   </Typography>
@@ -1283,7 +1283,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                     <form onSubmit={submitCredentials}>
                       <Box>
                         <Label text="Select Bank" />
-                        <FormControl fullWidth size="small" sx={{ mb: `1rem` }}>
+                        <FormControl fullWidth size="small" sx={{ mb: '1rem' }}>
                           <InputLabel id="demo-simple-select-label">
                             Select Bank
                           </InputLabel>
@@ -1292,9 +1292,9 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                             id="demo-simple-select"
                             name="bank"
                             onChange={handleSelect}
-                            sx={{ py: `0.3rem`, borderRadius: `10px` }}
+                            sx={{ py: '0.3rem', borderRadius: '10px' }}
                             // displayEmpty
-                            inputProps={{ 'aria-label': `Without label` }}
+                            inputProps={{ 'aria-label': 'Without label' }}
                             MenuProps={MenuProps}
                           >
                             {banks?.map((bank: any) => {
@@ -1323,21 +1323,21 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                         <Box
                           sx={{
                             mb: 2,
-                            backgroundColor: `secondary.light`,
+                            backgroundColor: 'secondary.light',
                             p: 2,
-                            borderRadius: `6px`,
+                            borderRadius: '6px',
                           }}
                         >
                           {isFetchBank ? (
                             <Box
                               sx={{
-                                display: `flex`,
-                                justifyContent: `center`,
-                                alignItems: `center`,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                               }}
                             >
                               <CircularProgress
-                                sx={{ color: `primary.main` }}
+                                sx={{ color: 'primary.main' }}
                                 size="1rem"
                               />
                             </Box>
@@ -1353,10 +1353,10 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                         <Box
                           sx={{
                             mb: 2,
-                            border: `1px solid red`,
+                            border: '1px solid red',
                             px: 2,
                             py: 1,
-                            borderRadius: `6px`,
+                            borderRadius: '6px',
                           }}
                         >
                           <Typography color="error.main" fontSize="0.9rem">
@@ -1366,15 +1366,15 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                       )}
                       <Box
                         sx={{
-                          display: `flex`,
-                          justifyContent: `space-between`,
+                          display: 'flex',
+                          justifyContent: 'space-between',
                           flexDirection: {
-                            xs: `column`,
-                            sm: `column`,
-                            md: `column`,
-                            lg: `row`,
+                            xs: 'column',
+                            sm: 'column',
+                            md: 'column',
+                            lg: 'row',
                           },
-                          gap: `1rem`,
+                          gap: '1rem',
                         }}
                       >
                         <CustomButton
@@ -1383,7 +1383,7 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
                           loadingText="Add..."
                           type="submit"
                         >
-                          {isSuccess ? `Added` : `Add Bank`}
+                          {isSuccess ? 'Added' : 'Add Bank'}
                         </CustomButton>
                         <Button onClick={toggleUpdateState} variant="outlined">
                           Cancel
@@ -1401,23 +1401,23 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
   );
 };
 
-const Input = styled(`input`)({
-  padding: `1rem 1rem`,
-  outline: `none`,
-  width: `100%`,
-  borderRadius: `10px`,
-  fontSize: `1rem`,
-  border: `solid 1px #ccc;`,
-  marginTop: `0.5rem`,
-  background: `transparent`,
+const Input = styled('input')({
+  padding: '1rem 1rem',
+  outline: 'none',
+  width: '100%',
+  borderRadius: '10px',
+  fontSize: '1rem',
+  border: 'solid 1px #ccc;',
+  marginTop: '0.5rem',
+  background: 'transparent',
 
   '@media (max-width: 1020px)': {
-    fontSize: `1rem`,
-    padding: `1rem 1rem`,
+    fontSize: '1rem',
+    padding: '1rem 1rem',
   },
 
   '&:-webkit-autofill': {
-    BackgroundColor: `transparent`,
+    BackgroundColor: 'transparent',
   },
 });
 

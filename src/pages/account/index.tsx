@@ -36,7 +36,7 @@ const HomePage = ({ token }: Props) => {
         `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
         {
           headers: {
-            'Content-Type': `application/json`,
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
@@ -89,18 +89,18 @@ const HomePage = ({ token }: Props) => {
               >
                 <Box
                   sx={{
-                    display: `flex`,
+                    display: 'flex',
                     flexDirection: {
-                      xs: `column`,
-                      sm: `row`,
-                      md: `row`,
+                      xs: 'column',
+                      sm: 'row',
+                      md: 'row',
                     },
-                    alignItems: `start`,
+                    alignItems: 'start',
                   }}
                 >
                   <Typography fontWeight={300}>
-                    You have a pending verification{` `}
-                    <Link href="/account/onboard" style={{ fontWeight: `600` }}>
+                    You have a pending verification{' '}
+                    <Link href="/account/onboard" style={{ fontWeight: '600' }}>
                       [Continue]
                     </Link>
                   </Typography>
@@ -122,37 +122,37 @@ const HomePage = ({ token }: Props) => {
           </Typography>
           <Divider />
           {contracts?.length < 1 ? (
-            <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
+            <Box sx={{ textAlign: 'center', mt: 10, color: 'grey.500' }}>
               <Typography>Your ongoing events will show here</Typography>
             </Box>
           ) : (
             <>
               {contracts
                 ?.filter(
-                  (list: { status: string }) => list.status === `Requested`,
+                  (list: { status: string }) => list.status === 'Requested',
                 )
                 .map((list: any) => (
                   <Box key={list?._id}>
                     <Box
                       sx={{
-                        display: `flex`,
-                        justifyContent: `space-between`,
-                        alignItems: `center`,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                         flexDirection: {
-                          xs: `column`,
-                          sm: `column`,
-                          md: `row`,
-                          lg: `row`,
-                          xl: `row`,
+                          xs: 'column',
+                          sm: 'column',
+                          md: 'row',
+                          lg: 'row',
+                          xl: 'row',
                         },
                         px: 4,
                         py: 2,
                         mt: 4,
-                        border: ` solid 1px #ccc`,
+                        border: ' solid 1px #ccc',
                       }}
                     >
                       <Box>
-                        {list.status === `Accepted` && (
+                        {list.status === 'Accepted' && (
                           <>
                             <Typography
                               fontWeight="600"
@@ -167,7 +167,7 @@ const HomePage = ({ token }: Props) => {
                           </>
                         )}
 
-                        {list.status === `Requested` && (
+                        {list.status === 'Requested' && (
                           <Box>
                             <Typography
                               fontWeight="600"
@@ -185,13 +185,13 @@ const HomePage = ({ token }: Props) => {
                       </Box>
                       <Box
                         sx={{
-                          display: `flex`,
-                          alignItems: `center`,
-                          justifyContent: `space-between`,
-                          gap: `2rem`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '2rem',
                           mt: {
-                            xs: `2rem`,
-                            sm: `2rem`,
+                            xs: '2rem',
+                            sm: '2rem',
                           },
                         }}
                       >

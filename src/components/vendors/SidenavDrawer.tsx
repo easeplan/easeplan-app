@@ -21,9 +21,9 @@ export default function SidenavDrawer({ data }: any) {
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === `keydown` &&
-        ((event as React.KeyboardEvent).key === `Tab` ||
-          (event as React.KeyboardEvent).key === `Shift`)
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
       ) {
         return;
       }
@@ -35,11 +35,11 @@ export default function SidenavDrawer({ data }: any) {
     <Box
       sx={{
         width: {
-          xs: anchor === `right` || anchor === `bottom` ? `60vw` : `auto`,
-          sm: anchor === `right` || anchor === `bottom` ? `45vw` : `auto`,
-          md: anchor === `right` || anchor === `bottom` ? `20vw` : `auto`,
-          lg: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
-          xl: anchor === `right` || anchor === `bottom` ? `15vw` : `auto`,
+          xs: anchor === 'right' || anchor === 'bottom' ? '60vw' : 'auto',
+          sm: anchor === 'right' || anchor === 'bottom' ? '45vw' : 'auto',
+          md: anchor === 'right' || anchor === 'bottom' ? '20vw' : 'auto',
+          lg: anchor === 'right' || anchor === 'bottom' ? '15vw' : 'auto',
+          xl: anchor === 'right' || anchor === 'bottom' ? '15vw' : 'auto',
         },
       }}
       role="presentation"
@@ -50,7 +50,7 @@ export default function SidenavDrawer({ data }: any) {
 
   return (
     <div>
-      {([`right`] as const).map((anchor) => (
+      {(['right'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Tooltip title="Open settings">
             <IconButton onClick={toggleDrawer(anchor, true)}>
@@ -58,13 +58,13 @@ export default function SidenavDrawer({ data }: any) {
                 <Avatar
                   alt={data?.profile?.firstName}
                   src={data?.profile?.picture}
-                  sx={{ backgroundColor: `secondary.main` }}
+                  sx={{ backgroundColor: 'secondary.main' }}
                 />
               ) : (
                 <Avatar
                   alt=""
                   src="/"
-                  sx={{ backgroundColor: `secondary.main` }}
+                  sx={{ backgroundColor: 'secondary.main' }}
                 />
               )}
             </IconButton>
@@ -76,7 +76,7 @@ export default function SidenavDrawer({ data }: any) {
           >
             <Box pt={2} pl={2}>
               <Button variant="outlined" onClick={toggleDrawer(anchor, false)}>
-                <CloseIcon sx={{ color: `grey` }} />
+                <CloseIcon sx={{ color: 'grey' }} />
               </Button>
             </Box>
             <Box p={1}>{NavItem(anchor)}</Box>

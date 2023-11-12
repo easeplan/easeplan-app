@@ -19,25 +19,26 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Divider from '../common/Divider';
 import SelectState from '../common/SelectState';
 import data from '@/lib/states.json';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const ProfileSchema = Yup.object().shape({
-  firstName: Yup.string().required(`First Name is required`),
-  lastName: Yup.string().required(`Last Name is required`),
-  city: Yup.string().required(`City is required`),
-  state: Yup.string().required(`State is required`),
-  phoneNumber: Yup.string().required(`Phone number is required`),
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  city: Yup.string().required('City is required'),
+  state: Yup.string().required('State is required'),
+  phoneNumber: Yup.string().required('Phone number is required'),
   picture: Yup.mixed()
-    .required(`Image is required`)
-    .test(`type`, `We only support jpeg`, function (value: any) {
+    .required('Image is required')
+    .test('type', 'We only support jpeg', function (value: any) {
       return (
-        (value && value[0] && value[0].type === `image/jpeg`) ||
-        `image/png` ||
-        `image/jpg`
+        (value && value[0] && value[0].type === 'image/jpeg') ||
+        'image/png' ||
+        'image/jpg'
       );
     }),
   password: Yup.string(),
   confirmPassword: Yup.string(),
-  gender: Yup.string().required(`Gender is required`),
+  gender: Yup.string().required('Gender is required'),
 });
 
 interface Props {
@@ -66,13 +67,13 @@ const SettingsForm = ({ token, queryData }: Props) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': `multipart/form-data`,
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`userAuthData`] });
-      toast.success(`Profile updated`);
+      queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      toast.success('Profile updated');
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -80,8 +81,9 @@ const SettingsForm = ({ token, queryData }: Props) => {
   });
 
   const submitCredentials = async (credentials: any) => {
+    const { Location } = await uploadFileToS3('images', credentials.image);
     const formData = new FormData();
-    formData.append(`picture`, credentials.picture);
+    formData.append('picture', credentials.picture);
     const resData = {
       firstName: queryData?.provider?.profile?.firstName
         ? queryData?.provider?.profile?.firstName
@@ -91,7 +93,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
         : credentials.lastName,
       picture: queryData?.provider?.profile?.picture
         ? queryData?.provider?.profile?.picture
-        : credentials.picture,
+        : Location,
       state: queryData?.provider?.providerProfile?.state
         ? queryData?.provider?.providerProfile?.state
         : credentials.state,
@@ -100,8 +102,8 @@ const SettingsForm = ({ token, queryData }: Props) => {
         : credentials.city,
       gender: credentials.gender,
       phoneNumber: credentials.phoneNumber,
-      password: ``,
-      confirmPassword: ``,
+      password: '',
+      confirmPassword: '',
     };
 
     updateProfile(resData);
@@ -111,8 +113,8 @@ const SettingsForm = ({ token, queryData }: Props) => {
     <Box
       sx={{
         p: 4,
-        borderRadius: `10px`,
-        boxShadow: `0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)`,
+        borderRadius: '10px',
+        boxShadow: '0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)',
         my: 4,
       }}
     >
@@ -120,23 +122,23 @@ const SettingsForm = ({ token, queryData }: Props) => {
         initialValues={{
           firstName: queryData?.provider?.profile?.firstName
             ? queryData?.provider?.profile?.firstName
-            : ``,
+            : '',
           lastName: queryData?.provider?.profile?.lastName
             ? queryData?.provider?.profile?.lastName
-            : ``,
+            : '',
           picture: queryData?.provider?.profile?.picture
             ? queryData?.provider?.profile?.picture
-            : ``,
-          gender: ``,
+            : '',
+          gender: '',
           city: queryData?.provider?.providerProfile?.city
             ? queryData?.provider?.providerProfile?.city
-            : ``,
+            : '',
           state: queryData?.provider?.providerProfile?.state
             ? queryData?.provider?.providerProfile?.state
-            : ``,
-          phoneNumber: ``,
-          password: ``,
-          confirmPassword: ``,
+            : '',
+          phoneNumber: '',
+          password: '',
+          confirmPassword: '',
         }}
         onSubmit={(values) => submitCredentials(values)}
         validationSchema={ProfileSchema}
@@ -146,8 +148,8 @@ const SettingsForm = ({ token, queryData }: Props) => {
             <Box mb={4}>
               <Box
                 sx={{
-                  width: `100%`,
-                  textAlign: `center`,
+                  width: '100%',
+                  textAlign: 'center',
                 }}
               >
                 <div>
@@ -158,7 +160,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
                         alt="profileImg"
                         height={100}
                         width={100}
-                        style={{ borderRadius: `50%` }}
+                        style={{ borderRadius: '50%' }}
                       />
                     </div>
                   ) : (
@@ -168,7 +170,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
                         alt="profileImg"
                         height={60}
                         width={60}
-                        style={{ borderRadius: `50%` }}
+                        style={{ borderRadius: '50%' }}
                       />
                     </Box>
                   )}
@@ -176,8 +178,8 @@ const SettingsForm = ({ token, queryData }: Props) => {
                 <div>
                   <AddButton htmlFor="picture">
                     {queryData?.provider?.profile?.picture
-                      ? `Change Photo`
-                      : `Add Photo`}
+                      ? 'Change Photo'
+                      : 'Add Photo'}
                     <Input
                       type="file"
                       setPreviewImg={setPreviewImg}
@@ -215,15 +217,15 @@ const SettingsForm = ({ token, queryData }: Props) => {
 
                 <Box
                   sx={{
-                    display: `grid`,
+                    display: 'grid',
                     gridTemplateColumns: {
-                      xs: `1fr`,
-                      sm: `1fr`,
-                      md: `1fr 1fr`,
-                      lg: `1fr 1fr`,
-                      xl: `1fr 1fr`,
+                      xs: '1fr',
+                      sm: '1fr',
+                      md: '1fr 1fr',
+                      lg: '1fr 1fr',
+                      xl: '1fr 1fr',
                     },
-                    gap: `1rem`,
+                    gap: '1rem',
                     mb: 2,
                   }}
                 >
@@ -253,8 +255,8 @@ const SettingsForm = ({ token, queryData }: Props) => {
                           (state) => state.name === e.target.value,
                         );
                         setSelectedState(selectedState);
-                        setFieldValue(`state`, e.target.value);
-                        setFieldValue(`city`, ``);
+                        setFieldValue('state', e.target.value);
+                        setFieldValue('city', '');
                       }}
                     >
                       {data?.states?.map((state: any) => {
@@ -308,7 +310,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
                           <FormInput
                             ariaLabel="Password"
                             name="password"
-                            type={showPassword ? `text` : `password`}
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
                           />
                           <div
@@ -327,7 +329,7 @@ const SettingsForm = ({ token, queryData }: Props) => {
                           <FormInput
                             ariaLabel="confirm password"
                             name="confirmpassword"
-                            type={showConfirmPassword ? `text` : `password`}
+                            type={showConfirmPassword ? 'text' : 'password'}
                             placeholder="Confirm Password"
                           />
                           <div
@@ -344,16 +346,16 @@ const SettingsForm = ({ token, queryData }: Props) => {
                   ) : null}
                   <Button
                     variant="outlined"
-                    sx={{ textTransform: `capitalize`, mt: 4 }}
+                    sx={{ textTransform: 'capitalize', mt: 4 }}
                     onClick={() => setChangePassword(!changePassword)}
                   >
-                    {changePassword ? `Hide Password` : `Change Password`}
+                    {changePassword ? 'Hide Password' : 'Change Password'}
                   </Button>
                 </div>
               </InputController>
             </Box>
             <Divider />
-            <Box sx={{ textAlign: `right`, marginTop: `1rem` }}>
+            <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
               <CustomButton
                 bgPrimary
                 lgWidth="20%"
@@ -373,15 +375,15 @@ const SettingsForm = ({ token, queryData }: Props) => {
   );
 };
 
-const AddButton = styled(`label`)(({ theme }) => ({
-  display: `inline-block`,
-  padding: `0.5rem 2rem`,
-  cursor: `pointer`,
-  fontSize: `14px`,
-  textAlign: `center`,
-  verticalAlign: `middle`,
-  borderRadius: `8px`,
-  backgroundColor: `transparent`,
+const AddButton = styled('label')(({ theme }) => ({
+  display: 'inline-block',
+  padding: '0.5rem 2rem',
+  cursor: 'pointer',
+  fontSize: '14px',
+  textAlign: 'center',
+  verticalAlign: 'middle',
+  borderRadius: '8px',
+  backgroundColor: 'transparent',
   color: theme.palette.primary.main,
   border: `solid 1px ${theme.palette.primary.main}`,
 
@@ -391,92 +393,92 @@ const AddButton = styled(`label`)(({ theme }) => ({
   },
 
   'input[type="file"]': {
-    display: `none`,
+    display: 'none',
   },
 
   '@media (max-width: 900px)': {},
 }));
 
-const InputController = styled(`div`)(({ theme }) => ({
-  width: `100%`,
-  marginTop: `2rem`,
+const InputController = styled('div')(({ theme }) => ({
+  width: '100%',
+  marginTop: '2rem',
 
   '.changeBtn': {
-    padding: `1rem`,
+    padding: '1rem',
     background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    border: `none`,
-    outline: `none`,
-    cursor: `pointer`,
+    border: 'none',
+    outline: 'none',
+    cursor: 'pointer',
   },
 
   '.img-flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    justifyContent: `space-between`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    justifyContent: 'space-between',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '.previewAvatar': {
-      width: `70px`,
-      height: `70px`,
-      borderRadius: `50%`,
+      width: '70px',
+      height: '70px',
+      borderRadius: '50%',
       background: theme.palette.primary.main,
     },
   },
 
   '.flex': {
-    display: `grid`,
-    alignItems: `center`,
-    gridTemplateColumns: `1fr 1fr`,
-    justifyContent: `space-between`,
-    gap: `2rem`,
-    marginBottom: `2rem`,
+    display: 'grid',
+    alignItems: 'center',
+    gridTemplateColumns: '1fr 1fr',
+    justifyContent: 'space-between',
+    gap: '2rem',
+    marginBottom: '2rem',
 
     '@media (max-width: 900px)': {
-      flexDirection: `column`,
-      gridTemplateColumns: `1fr`,
-      gap: `0rem`,
-      marginBottom: `1rem`,
+      flexDirection: 'column',
+      gridTemplateColumns: '1fr',
+      gap: '0rem',
+      marginBottom: '1rem',
 
       '.previewAvatar': {
-        width: `70px`,
-        height: `70px`,
-        marginTop: `1rem`,
+        width: '70px',
+        height: '70px',
+        marginTop: '1rem',
       },
 
       '.uploadBtn': {
-        padding: `0.8rem 2rem`,
-        fontSize: `0.8rem`,
+        padding: '0.8rem 2rem',
+        fontSize: '0.8rem',
       },
     },
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
+    marginTop: '1rem',
     '.changeBtn': {
-      padding: `0.7rem 1.5rem`,
-      border: `none`,
+      padding: '0.7rem 1.5rem',
+      border: 'none',
     },
   },
 }));
 
-const PasswordControl = styled(`div`)(({ theme }) => ({
-  position: `relative`,
+const PasswordControl = styled('div')(({ theme }) => ({
+  position: 'relative',
   '.password': {
-    position: `absolute`,
-    top: `1.2rem`,
-    right: `1rem`,
-    fontSize: `1.3rem`,
+    position: 'absolute',
+    top: '1.2rem',
+    right: '1rem',
+    fontSize: '1.3rem',
     color: theme.palette.grey[500],
   },
   '@media (max-width: 1020px)': {
     '.password': {
-      position: `absolute`,
-      top: `1.3rem`,
-      right: `1rem`,
-      fontSize: `1rem`,
+      position: 'absolute',
+      top: '1.3rem',
+      right: '1rem',
+      fontSize: '1rem',
     },
   },
 }));

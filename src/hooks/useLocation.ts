@@ -27,7 +27,7 @@ function useLocation() {
         } catch (error) {
           setLocation((prev: any) => ({
             ...prev,
-            error: `Unable to fetch location details`,
+            error: 'Unable to fetch location details',
           }));
         }
       },

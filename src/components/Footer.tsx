@@ -100,14 +100,14 @@ const Footer = () => {
   );
 };
 
-const FooterSection = styled(`section`)(({ theme }) => ({
+const FooterSection = styled('section')(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  padding: `3rem 0 1rem 0`,
+  padding: '3rem 0 1rem 0',
 }));
 
-const BottomFooter = styled(`section`)(({ theme }) => ({
-  padding: `3rem 0 1rem 0`,
-  textAlign: `center`,
+const BottomFooter = styled('section')(({ theme }) => ({
+  padding: '3rem 0 1rem 0',
+  textAlign: 'center',
   color: theme.palette.common.white,
 }));
 
@@ -124,88 +124,88 @@ const BottomFooter = styled(`section`)(({ theme }) => ({
 //   },
 // }));
 
-const FooterContent = styled(`div`)(({}) => ({
-  padding: `2rem 0`,
-  marginTop: `3rem`,
+const FooterContent = styled('div')(({}) => ({
+  padding: '2rem 0',
+  marginTop: '3rem',
 
   '@media (max-width: 1020px)': {
-    padding: `2rem`,
+    padding: '2rem',
   },
 
   '@media (max-width: 900px)': {
-    padding: `1rem`,
+    padding: '1rem',
   },
 }));
 
-const Grid = styled(`div`)(({}) => ({
-  display: `grid`,
-  gridTemplateColumns: `repeat(4, 1fr)`,
-  alignItems: `start`,
-  gap: `2rem`,
+const Grid = styled('div')(({}) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
+  alignItems: 'start',
+  gap: '2rem',
 
   '@media (max-width: 1020px)': {
-    gridTemplateColumns: `repeat(2, 1fr)`,
-    gap: `2rem`,
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: '2rem',
   },
 
   '@media (max-width: 900px)': {
-    gridTemplateColumns: `repeat(1, 1fr)`,
-    gap: `2rem`,
+    gridTemplateColumns: 'repeat(1, 1fr)',
+    gap: '2rem',
 
     '.logoContainer': {
-      textAlign: `center`,
+      textAlign: 'center',
     },
     '.logoWrapper': {
-      width: `100px`,
-      display: `none`,
+      width: '100px',
+      display: 'none',
     },
   },
 }));
 
-const List = styled(`div`)(({ theme }) => ({
-  color: `#fff`,
-  display: `flex`,
-  alignItems: `end`,
-  justifyContent: `end`,
+const List = styled('div')(({ theme }) => ({
+  color: '#fff',
+  display: 'flex',
+  alignItems: 'end',
+  justifyContent: 'end',
 
   '.list': {
-    display: `flex`,
-    flexDirection: `column`,
+    display: 'flex',
+    flexDirection: 'column',
 
     a: {
-      lineHeight: `2.5`,
-      color: `#fff`,
+      lineHeight: '2.5',
+      color: '#fff',
     },
   },
 
   '.iconFlex': {
-    display: `flex`,
+    display: 'flex',
 
     '.icon': {
-      fontSize: `1.7rem`,
+      fontSize: '1.7rem',
       color: theme.palette.secondary.main,
-      marginRight: `1.5rem`,
-      marginBottom: `1rem`,
+      marginRight: '1.5rem',
+      marginBottom: '1rem',
     },
   },
 
   '.title': {
     color: theme.palette.secondary.main,
-    fontWeight: `700`,
-    fontSize: `1rem`,
-    marginBottom: `1rem`,
+    fontWeight: '700',
+    fontSize: '1rem',
+    marginBottom: '1rem',
   },
 
   '@media (max-width: 1020px)': {
-    padding: `2rem`,
+    padding: '2rem',
   },
 
   '@media (max-width: 900px)': {
-    padding: `1rem`,
-    display: `flex`,
-    alignItems: `center`,
-    justifyContent: `center`,
-    textAlign: `center`,
+    padding: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
   },
 }));
 
@@ -246,33 +246,33 @@ const List = styled(`div`)(({ theme }) => ({
 //   },
 // }));
 
-const Input = styled(`input`)(({ theme }) => ({
-  padding: `1rem`,
-  width: `100%`,
-  marginRight: `1rem`,
+const Input = styled('input')(({ theme }) => ({
+  padding: '1rem',
+  width: '100%',
+  marginRight: '1rem',
 
   '&::placeholder': {
     color: theme.palette.primary.main,
   },
 
   '@media (max-width: 1020px)': {
-    marginBottom: `1rem`,
-    marginRight: `0`,
+    marginBottom: '1rem',
+    marginRight: '0',
   },
 
   '@media (max-width: 900px)': {
-    marginTop: `1rem`,
-    marginRight: `0`,
+    marginTop: '1rem',
+    marginRight: '0',
   },
 }));
 
-const Button = styled(`button`)(({ theme }) => ({
-  padding: `1rem 3rem`,
-  textTransform: `uppercase`,
-  fontWeight: `600`,
+const Button = styled('button')(({ theme }) => ({
+  padding: '1rem 3rem',
+  textTransform: 'uppercase',
+  fontWeight: '600',
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.secondary.main,
-  border: `transparent`,
+  border: 'transparent',
 }));
 
 export default Footer;

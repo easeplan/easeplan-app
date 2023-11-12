@@ -17,7 +17,7 @@ import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
+const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 
 //  Create a client
 const queryClient = new QueryClient();
@@ -27,31 +27,31 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     posthog.init(`${process.env.NEXT_PUBLIC_POSTHOG_INIT}`, {
-      api_host: `https://app.posthog.com`,
+      api_host: 'https://app.posthog.com',
       session_recording: {
         inlineStylesheet: false,
       },
     });
-    posthog.capture(`my event`, { property: `value` });
+    posthog.capture('my event', { property: 'value' });
 
     const urlParams = new URLSearchParams(window.location.search);
-    const referedBy = urlParams.get(`referedBy`);
+    const referedBy = urlParams.get('referedBy');
     if (referedBy) {
       // If there`s a referral parameter, capture that event
-      posthog.capture(`referral-landing`, {
+      posthog.capture('referral-landing', {
         distinct_id: posthog.get_distinct_id(),
         referedBy: referedBy,
       });
-      localStorage.setItem(`referedBy`, referedBy);
+      localStorage.setItem('referedBy', referedBy);
     }
 
     const handleRouteChange = (url: URL) => {
       /* invoke analytics function only for production */
       if (isProduction) gtag.pageview(url);
     };
-    router.events.on(`routeChangeComplete`, handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
-      router.events.off(`routeChangeComplete`, handleRouteChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
 
@@ -70,7 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <GoogleOAuthProvider clientId="314971178164-o0q5ossjll2eo1tdthtlhncrv53o6ust.apps.googleusercontent.com">
         <Provider store={store}>
-          <AnimatePresence mode={`wait`}>
+          <AnimatePresence mode={'wait'}>
             <AuthProvider queryData={pageProps.queryData}>
               <QueryClientProvider client={queryClient}>
                 <ToastContainer position="top-center" />

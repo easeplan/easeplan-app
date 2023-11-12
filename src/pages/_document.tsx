@@ -11,7 +11,7 @@ import { ServerStyleSheet } from 'styled-components';
 import Script from 'next/script';
 import { GA_MEASUREMENT_ID } from '@/lib/gtag';
 
-const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === `production`;
+const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {

@@ -18,15 +18,16 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
-// import IdentityVerificationModal from './UserProfile';
+import IdentityVerificationModal from './UserProfile';
 
 type Props = {
   queryData: QueryData;
   token?: string;
   searchResult?: boolean;
+  data: any;
 };
 
-const Hero = ({ queryData, token, searchResult }: any) => {
+const Hero = ({ queryData, token, searchResult, data }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [openModal, setOpenModal] = useState(false);
@@ -36,6 +37,18 @@ const Hero = ({ queryData, token, searchResult }: any) => {
       ? JSON.parse(localStorage.getItem('findVendorData')!)
       : null,
   );
+
+  const [localQueryData, setLocalQueryData] = useState(queryData);
+
+  const [open, setModal] = useState(false);
+
+  const handleModal = () => {
+    setModal(true);
+  };
+
+  const handleClose = () => {
+    setModal(false);
+  };
 
   const queryClient = useQueryClient();
 
@@ -91,16 +104,6 @@ const Hero = ({ queryData, token, searchResult }: any) => {
 
   const loggedUserId = userInfo;
 
-  // const [open, setModal] = useState(true);
-
-  // const handleModal = () => {
-  //   setOpenModal(true);
-  // };
-
-  // const handleClose = () => {
-  //   setModal(false);
-  // };
-
   return (
     <Box>
       <CreateContractModal
@@ -108,6 +111,9 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         isClose={() => setOpenModal(false)}
         token={token}
         queryData={queryData}
+        userData={data}
+        handleModal={handleModal}
+        setLocalQueryData={setLocalQueryData}
       />
 
       <Box
@@ -132,12 +138,17 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         }}
       >
         <Box>
-          {/* <IdentityVerificationModal open={open} handleClose={handleClose} />
-          <Button onClick={handleModal}>Open Modal</Button> */}
+          <IdentityVerificationModal
+            open={open}
+            handleClose={handleClose}
+            queryData={data}
+            token={token}
+            setModal={setModal}
+          />
           <Image
             src={
-              queryData?.providerProfile?.company?.image
-                ? queryData?.providerProfile?.company?.image
+              localQueryData?.providerProfile?.company?.image
+                ? localQueryData?.providerProfile?.company?.image
                 : BannerImg
             }
             alt="bannerImage"
@@ -182,7 +193,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
         >
           <Box>
             <Image
-              src={queryData?.profile?.picture}
+              src={localQueryData?.profile?.picture}
               alt="bannerImage"
               fill
               style={{
@@ -224,7 +235,8 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
             textTransform="capitalize"
           >
-            {queryData?.profile?.firstName} {queryData?.profile?.lastName}
+            {localQueryData?.profile?.firstName}{' '}
+            {localQueryData?.profile?.lastName}
           </Typography>
         </Box>
         {userInfo && userInfo.role === 'user' ? (
@@ -237,10 +249,10 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
           >
             <UserRating
-              rate={queryData?.providerProfile.rating}
+              rate={localQueryData?.providerProfile.rating}
               token={token}
-              role={queryData?.role}
-              profileId={queryData?.userId}
+              role={localQueryData?.role}
+              profileId={localQueryData?.userId}
               size="medium"
             />
             {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
@@ -256,10 +268,10 @@ const Hero = ({ queryData, token, searchResult }: any) => {
             }}
           >
             <RatingStar
-              rate={queryData?.providerProfile.rating}
+              rate={localQueryData?.providerProfile.rating}
               token={token}
-              role={queryData?.role}
-              profileId={queryData?.userId}
+              role={localQueryData?.role}
+              profileId={localQueryData?.userId}
               size="medium"
             />
             {/* <Typography ml={1} fontSize="0.9rem">{`(0 Events)`}</Typography> */}
@@ -287,11 +299,11 @@ const Hero = ({ queryData, token, searchResult }: any) => {
           }}
         >
           {/*
-            TODO: Add a condition that toggles to Chat based on queryData;
+            TODO: Add a condition that toggles to Chat based on localQueryData;
             the chat links to the chat section
             [*] DONE
           */}
-          {queryData.providerProfile?.currentlyHiredBy?.includes(
+          {localQueryData.providerProfile?.currentlyHiredBy?.includes(
             loggedUserId,
           ) ? (
             <Link href="/user/chat">
@@ -303,7 +315,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                 Chat
               </Button>
             </Link>
-          ) : queryData.providerProfile?.currentlyRequestedBy?.includes(
+          ) : localQueryData.providerProfile?.currentlyRequestedBy?.includes(
               loggedUserId,
             ) ? (
             <Button variant="contained" sx={{ color: 'secondary.main', px: 6 }}>
@@ -385,12 +397,12 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                     mb: '1rem',
                   }}
                 >
-                  {queryData?.providerProfile?.company?.name}
+                  {localQueryData?.providerProfile?.company?.name}
                 </Typography>
               </Box>
               <Box>
                 <Typography>
-                  {queryData?.providerProfile?.company?.description}
+                  {localQueryData?.providerProfile?.company?.description}
                 </Typography>
               </Box>
             </Box>
@@ -422,8 +434,8 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                     Location:
                   </Typography>
                   <Typography fontWeight={500} color="primary.main">
-                    {queryData?.providerProfile?.state}{' '}
-                    {queryData?.providerProfile?.city}
+                    {localQueryData?.providerProfile?.state}{' '}
+                    {localQueryData?.providerProfile?.city}
                   </Typography>
                 </Box>
                 <Box mt={4}>
@@ -432,7 +444,7 @@ const Hero = ({ queryData, token, searchResult }: any) => {
                     Since:
                   </Typography>
                   <Typography fontWeight={500} color="primary.main">
-                    {dateFormater(queryData?.createdAt)}
+                    {dateFormater(localQueryData?.createdAt)}
                   </Typography>
                 </Box>
               </Box>

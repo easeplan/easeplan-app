@@ -49,34 +49,58 @@ const FormSchema = Yup.object().shape({
   service: Yup.string().required('Service is missing'),
 });
 
-const CreateContractModal = ({ isOpen, isClose, token, queryData }: any) => {
+const CreateContractModal = ({
+  isOpen,
+  isClose,
+  token,
+  queryData,
+  handleModal,
+  userData,
+  setLocalQueryData,
+}: any) => {
   const router = useRouter();
   const { errorMsg } = useSelector((state: RootState) => state.searchModal);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
   const handleSubmit = async (credentials: any) => {
-    setIsLoading(true);
     try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
-        {
-          budget: credentials.budget,
-          dateTime: credentials.dateTime,
-          profileId: queryData?._id,
-          city: queryData?.providerProfile?.city,
-          state: queryData.providerProfile?.state,
-          service: credentials.service,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+      setIsLoading(true);
+      const offer = {
+        budget: credentials.budget,
+        dateTime: credentials.dateTime,
+        profileId: queryData?._id,
+        city: queryData?.providerProfile?.city,
+        state: queryData.providerProfile?.state,
+        service: credentials.service,
+      };
+
+      if (
+        userData.provider?.profile?.firstName &&
+        userData.provider?.profile?.lastName &&
+        userData.provider?.phoneNumber
+      ) {
+        const { data } = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
+          offer,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
           },
-        },
-      );
-      router.push(`/user/events/${data?.data?._id}`);
-      toast.success('Successfully');
+        );
+        router.push(`/user/events/${data?.data?._id}`);
+        toast.success('Offer sent to vendor');
+      } else {
+        // Convert the 'offer' object to a JSON string
+        const offerJson = JSON.stringify(offer);
+
+        // Save the JSON string to local storage
+        localStorage.setItem('offer', offerJson);
+        isClose();
+        handleModal(true);
+      }
     } catch (error: any) {
       toast.success(error?.response?.data?.message);
       setIsLoading(false);

@@ -23,7 +23,6 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
       localStorage.removeItem('lastVisitedURL');
     }
   }, []);
-
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,
@@ -33,7 +32,7 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
       <Layout data={queryData?.provider}>
         <Box>
           {userInfo ? (
-            <AuthHero queryData={data} token={token} />
+            <AuthHero queryData={data} token={token} data={queryData} />
           ) : (
             <Hero queryData={data} publicId={publicId} />
           )}

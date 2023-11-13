@@ -20,6 +20,8 @@ import Divider from '../common/Divider';
 import SelectState from '../common/SelectState';
 import data from '@/lib/states.json';
 import { uploadFileToS3 } from '@/utils/uploadFile';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -41,12 +43,24 @@ const ProfileSchema = Yup.object().shape({
   gender: Yup.string().required('Gender is required'),
 });
 
+const OTPSchema = Yup.object().shape({
+  otp: Yup.number().required('OTP required'),
+});
 interface Props {
   token: string;
   queryData: any;
+  fromProfile: boolean;
+  handleClose: any;
+  setModal: any;
 }
 
-const SettingsForm = ({ token, queryData }: Props) => {
+const SettingsForm = ({
+  token,
+  queryData,
+  fromProfile = false,
+  handleClose,
+  setModal,
+}: Props) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
@@ -58,30 +72,31 @@ const SettingsForm = ({ token, queryData }: Props) => {
       ? queryData?.provider?.profile?.picture
       : null,
   );
+  const [isLoadingOTP, setIsLoadingOTP] = useState(false);
+  const router = useRouter();
 
-  // console.log(queryData);
-
+  const [hasPhoneNumber, setHasPhoneNumber] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put(`profiles/${userInfo}`, credentials, {
+      customFetch.put('users/update', credentials, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
-      toast.success('Profile updated');
+      toast.success('An OTP has been sent to verify your number');
+      setHasPhoneNumber(true);
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
     },
   });
-
   const submitCredentials = async (credentials: any) => {
-    const { Location } = await uploadFileToS3('images', credentials.image);
+    const { Location } = await uploadFileToS3('images', credentials.picture);
     const formData = new FormData();
     formData.append('picture', credentials.picture);
     const resData = {
@@ -109,268 +124,385 @@ const SettingsForm = ({ token, queryData }: Props) => {
     updateProfile(resData);
   };
 
+  const verifyNumber = async (credentials: any) => {
+    try {
+      // Verify OTP with the server
+      setIsLoadingOTP(true);
+      const { data: otpVerificationResult } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_otp`,
+        credentials,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (otpVerificationResult.status === 'success') {
+        // Retrieve the 'offer' object from local storage
+        const offerJson = localStorage.getItem('offer');
+
+        // Parse the JSON string to get the 'offer' object
+        const offer = JSON.parse(offerJson as unknown as string);
+
+        // Send the 'offer' object to the server to create an offer
+        const { data: offerCreationResult } = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
+          offer,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (offerCreationResult.status === 'success') {
+          toast.success('Offer sent to vendor');
+          router.push(`/user/events/${offerCreationResult?.data?._id}`);
+          handleClose(false);
+        } else {
+          // Handle an unsuccessful offer creation here
+          toast.error('Failed to create an offer.');
+        }
+      } else {
+        // Handle an unsuccessful OTP verification here
+        toast.error('OTP verification failed.');
+      }
+    } catch (error: any) {
+      setIsLoadingOTP(false);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <Box
       sx={{
-        p: 4,
-        borderRadius: '10px',
-        boxShadow: '0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)',
+        borderRadius: fromProfile ? '0' : '10px',
+        boxShadow: fromProfile
+          ? 'none'
+          : '0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)',
         my: 4,
       }}
     >
-      <Formik
-        initialValues={{
-          firstName: queryData?.provider?.profile?.firstName
-            ? queryData?.provider?.profile?.firstName
-            : '',
-          lastName: queryData?.provider?.profile?.lastName
-            ? queryData?.provider?.profile?.lastName
-            : '',
-          picture: queryData?.provider?.profile?.picture
-            ? queryData?.provider?.profile?.picture
-            : '',
-          gender: '',
-          city: queryData?.provider?.providerProfile?.city
-            ? queryData?.provider?.providerProfile?.city
-            : '',
-          state: queryData?.provider?.providerProfile?.state
-            ? queryData?.provider?.providerProfile?.state
-            : '',
-          phoneNumber: '',
-          password: '',
-          confirmPassword: '',
-        }}
-        onSubmit={(values) => submitCredentials(values)}
-        validationSchema={ProfileSchema}
-      >
-        {({ setFieldValue }) => (
-          <Form>
-            <Box mb={4}>
-              <Box
-                sx={{
-                  width: '100%',
-                  textAlign: 'center',
-                }}
-              >
-                <div>
-                  {previewImg === null ? (
-                    <div>
-                      <Image
-                        src={AvatarImg}
-                        alt="profileImg"
-                        height={100}
-                        width={100}
-                        style={{ borderRadius: '50%' }}
-                      />
-                    </div>
-                  ) : (
-                    <Box>
-                      <Image
-                        src={previewImg}
-                        alt="profileImg"
-                        height={60}
-                        width={60}
-                        style={{ borderRadius: '50%' }}
-                      />
-                    </Box>
-                  )}
-                </div>
-                <div>
-                  <AddButton htmlFor="picture">
-                    {queryData?.provider?.profile?.picture
-                      ? 'Change Photo'
-                      : 'Add Photo'}
-                    <Input
-                      type="file"
-                      setPreviewImg={setPreviewImg}
-                      setFileName={setFileName}
-                      name="picture"
-                    />
-                  </AddButton>
-                </div>
-              </Box>
-              <InputController>
-                <div className="flex">
-                  <div>
-                    <div>
-                      <Label text="First Name" />
-                    </div>
-                    <FormInput
-                      ariaLabel="FirstName"
-                      name="firstName"
-                      type="text"
-                      placeholder="e.g John"
-                    />
-                  </div>
-                  <div>
-                    <div>
-                      <Label text="Last Name" />
-                    </div>
-                    <FormInput
-                      ariaLabel="Last Name"
-                      name="lastName"
-                      type="text"
-                      placeholder="e.g mark"
-                    />
-                  </div>
-                </div>
-
+      {!hasPhoneNumber ? (
+        <Formik
+          initialValues={{
+            firstName: queryData?.provider?.profile?.firstName
+              ? queryData?.provider?.profile?.firstName
+              : '',
+            lastName: queryData?.provider?.profile?.lastName
+              ? queryData?.provider?.profile?.lastName
+              : '',
+            picture: queryData?.provider?.profile?.picture
+              ? queryData?.provider?.profile?.picture
+              : '',
+            gender: '',
+            city: queryData?.provider?.providerProfile?.city
+              ? queryData?.provider?.providerProfile?.city
+              : '',
+            state: queryData?.provider?.providerProfile?.state
+              ? queryData?.provider?.providerProfile?.state
+              : '',
+            phoneNumber: queryData?.provider?.providerProfile?.phoneNumber
+              ? queryData?.provider?.providerProfile?.phoneNumber
+              : '',
+            password: '',
+            confirmPassword: '',
+          }}
+          onSubmit={(values) => submitCredentials(values)}
+          validationSchema={ProfileSchema}
+        >
+          {({ setFieldValue }) => (
+            <Form>
+              <Box>
                 <Box
                   sx={{
-                    display: 'grid',
-                    gridTemplateColumns: {
-                      xs: '1fr',
-                      sm: '1fr',
-                      md: '1fr 1fr',
-                      lg: '1fr 1fr',
-                      xl: '1fr 1fr',
-                    },
-                    gap: '1rem',
-                    mb: 2,
+                    width: '100%',
+                    textAlign: 'center',
                   }}
                 >
-                  <Box>
+                  <div>
+                    {previewImg === null ? (
+                      <div>
+                        <Image
+                          src={AvatarImg}
+                          alt="profileImg"
+                          height={100}
+                          width={100}
+                          style={{ borderRadius: '50%' }}
+                        />
+                      </div>
+                    ) : (
+                      <Box>
+                        <Image
+                          src={previewImg}
+                          alt="profileImg"
+                          height={60}
+                          width={60}
+                          style={{ borderRadius: '50%' }}
+                        />
+                      </Box>
+                    )}
+                  </div>
+                  <div>
+                    <AddButton htmlFor="picture">
+                      {queryData?.provider?.profile?.picture
+                        ? 'Change Photo'
+                        : 'Add Photo'}
+                      <Input
+                        type="file"
+                        setPreviewImg={setPreviewImg}
+                        setFileName={setFileName}
+                        name="picture"
+                      />
+                    </AddButton>
+                  </div>
+                </Box>
+                <InputController>
+                  <div className="flex">
                     <div>
-                      <Label text="Select Gender" />
+                      <div>
+                        <Label text="First Name" />
+                      </div>
+                      <FormInput
+                        ariaLabel="FirstName"
+                        name="firstName"
+                        type="text"
+                        placeholder="e.g John"
+                      />
+                    </div>
+                    <div>
+                      <div>
+                        <Label text="Last Name" />
+                      </div>
+                      <FormInput
+                        ariaLabel="Last Name"
+                        name="lastName"
+                        type="text"
+                        placeholder="e.g mark"
+                      />
+                    </div>
+                  </div>
+
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: {
+                        xs: '1fr',
+                        sm: '1fr',
+                        md: '1fr 1fr',
+                        lg: '1fr 1fr',
+                        xl: '1fr 1fr',
+                      },
+                      gap: '1rem',
+                      mb: 2,
+                    }}
+                  >
+                    <Box>
+                      <div>
+                        <Label text="Select Gender" />
+                      </div>
+                      <FormInput
+                        isSelect
+                        selectPlaceholder="Gender"
+                        name="gender"
+                      >
+                        <MenuItem value="Male">Male</MenuItem>
+                        <MenuItem value="female">Female</MenuItem>
+                        <MenuItem value="Prefer not say">
+                          Prefer not say
+                        </MenuItem>
+                      </FormInput>
+                    </Box>
+                    <Box>
+                      <div>
+                        <Label text="Select State" />
+                      </div>
+                      <SelectState
+                        selectPlaceholder="Select State"
+                        name="state"
+                        onChange={(e: { target: { value: string } }) => {
+                          const selectedState = data?.states.find(
+                            (state) => state.name === e.target.value,
+                          );
+                          setSelectedState(selectedState);
+                          setFieldValue('state', e.target.value);
+                          setFieldValue('city', '');
+                        }}
+                      >
+                        {data?.states?.map((state: any) => {
+                          return (
+                            <MenuItem key={state?.name} value={state.name}>
+                              {state?.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </SelectState>
+                    </Box>
+                    <Box>
+                      <div>
+                        <Label text="Select City" />
+                      </div>
+                      <FormInput
+                        isSelect
+                        selectPlaceholder="Select City"
+                        name="city"
+                      >
+                        {selectedState?.cities?.map((city: any) => {
+                          return (
+                            <MenuItem key={city} value={city}>
+                              {city}
+                            </MenuItem>
+                          );
+                        })}
+                      </FormInput>
+                    </Box>
+                    <Box>
+                      <div>
+                        <Label text="Phone number" />
+                      </div>
+                      <FormInput
+                        ariaLabel="phoneNumber"
+                        name="phoneNumber"
+                        type="text"
+                        placeholder="Phone number"
+                      />
+                    </Box>
+                  </Box>
+
+                  {!fromProfile && (
+                    <div>
+                      {changePassword ? (
+                        <>
+                          <div>
+                            <div>
+                              <Label text="Password" />
+                            </div>
+                            <PasswordControl>
+                              <FormInput
+                                ariaLabel="Password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Password"
+                              />
+                              <div
+                                className="password"
+                                onClick={() => setShowPassword(!showPassword)}
+                              >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                              </div>
+                            </PasswordControl>
+                          </div>
+                          <div>
+                            <div>
+                              <Label text="Confirm Password" />
+                            </div>
+                            <PasswordControl>
+                              <FormInput
+                                ariaLabel="confirm password"
+                                name="confirmpassword"
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                placeholder="Confirm Password"
+                              />
+                              <div
+                                className="password"
+                                onClick={() =>
+                                  setShowConfrimPassword(!showConfirmPassword)
+                                }
+                              >
+                                {showConfirmPassword ? (
+                                  <FaEyeSlash />
+                                ) : (
+                                  <FaEye />
+                                )}
+                              </div>
+                            </PasswordControl>
+                          </div>
+                        </>
+                      ) : null}
+                      <Button
+                        variant="outlined"
+                        sx={{ textTransform: 'capitalize', mt: 4 }}
+                        onClick={() => setChangePassword(!changePassword)}
+                      >
+                        {changePassword ? 'Hide Password' : 'Change Password'}
+                      </Button>
+                    </div>
+                  )}
+                </InputController>
+              </Box>
+
+              {!fromProfile && <Divider />}
+              <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
+                <CustomButton
+                  bgPrimary
+                  lgWidth="20%"
+                  smWidth="45%"
+                  mdWidth="20%"
+                  loading={isLoading}
+                  loadingText="Saving..."
+                  type="submit"
+                >
+                  {!fromProfile ? 'SAVE' : 'CONTINUE'}
+                </CustomButton>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <Box
+          sx={{
+            p: 4,
+            borderRadius: fromProfile ? '0' : '10px',
+            boxShadow: fromProfile
+              ? 'none'
+              : '0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)',
+            my: 4,
+            width: '100%',
+          }}
+        >
+          <Formik
+            initialValues={{
+              otp: '',
+            }}
+            onSubmit={(values) => verifyNumber(values)}
+            validationSchema={OTPSchema}
+          >
+            {({ setFieldValue }) => (
+              <Form>
+                <Box sx={{ width: '100%' }}>
+                  <div>
+                    <div>
+                      <Label text="Enter OTP" />
                     </div>
                     <FormInput
-                      isSelect
-                      selectPlaceholder="Gender"
-                      name="gender"
-                    >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="female">Female</MenuItem>
-                      <MenuItem value="Prefer not say">Prefer not say</MenuItem>
-                    </FormInput>
-                  </Box>
-                  <Box>
-                    <div>
-                      <Label text="Select State" />
-                    </div>
-                    <SelectState
-                      selectPlaceholder="Select State"
-                      name="state"
-                      onChange={(e: { target: { value: string } }) => {
-                        const selectedState = data?.states.find(
-                          (state) => state.name === e.target.value,
-                        );
-                        setSelectedState(selectedState);
-                        setFieldValue('state', e.target.value);
-                        setFieldValue('city', '');
-                      }}
-                    >
-                      {data?.states?.map((state: any) => {
-                        return (
-                          <MenuItem key={state?.name} value={state.name}>
-                            {state?.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </SelectState>
-                  </Box>
-                  <Box>
-                    <div>
-                      <Label text="Select City" />
-                    </div>
-                    <FormInput
-                      isSelect
-                      selectPlaceholder="Select City"
-                      name="city"
-                    >
-                      {selectedState?.cities?.map((city: any) => {
-                        return (
-                          <MenuItem key={city} value={city}>
-                            {city}
-                          </MenuItem>
-                        );
-                      })}
-                    </FormInput>
-                  </Box>
-                  <Box>
-                    <div>
-                      <Label text="Phone number" />
-                    </div>
-                    <FormInput
-                      ariaLabel="phoneNumber"
-                      name="phoneNumber"
-                      type="text"
-                      placeholder="Phone number"
+                      ariaLabel="Enter OTP"
+                      name="otp"
+                      type="number"
+                      placeholder=""
                     />
+                  </div>
+                  <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
+                    <CustomButton
+                      bgPrimary
+                      lgWidth="20%"
+                      smWidth="45%"
+                      mdWidth="20%"
+                      loading={isLoadingOTP}
+                      loadingText=""
+                      type="submit"
+                    >
+                      Verify
+                    </CustomButton>
                   </Box>
                 </Box>
-
-                <div>
-                  {changePassword ? (
-                    <>
-                      <div>
-                        <div>
-                          <Label text="Password" />
-                        </div>
-                        <PasswordControl>
-                          <FormInput
-                            ariaLabel="Password"
-                            name="password"
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
-                          />
-                          <div
-                            className="password"
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                          </div>
-                        </PasswordControl>
-                      </div>
-                      <div>
-                        <div>
-                          <Label text="Confirm Password" />
-                        </div>
-                        <PasswordControl>
-                          <FormInput
-                            ariaLabel="confirm password"
-                            name="confirmpassword"
-                            type={showConfirmPassword ? 'text' : 'password'}
-                            placeholder="Confirm Password"
-                          />
-                          <div
-                            className="password"
-                            onClick={() =>
-                              setShowConfrimPassword(!showConfirmPassword)
-                            }
-                          >
-                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                          </div>
-                        </PasswordControl>
-                      </div>
-                    </>
-                  ) : null}
-                  <Button
-                    variant="outlined"
-                    sx={{ textTransform: 'capitalize', mt: 4 }}
-                    onClick={() => setChangePassword(!changePassword)}
-                  >
-                    {changePassword ? 'Hide Password' : 'Change Password'}
-                  </Button>
-                </div>
-              </InputController>
-            </Box>
-            <Divider />
-            <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
-              <CustomButton
-                bgPrimary
-                lgWidth="20%"
-                smWidth="20%"
-                mdWidth="20%"
-                loading={isLoading}
-                loadingText="Saving..."
-                type="submit"
-              >
-                SAVE
-              </CustomButton>
-            </Box>
-          </Form>
-        )}
-      </Formik>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+      )}
     </Box>
   );
 };

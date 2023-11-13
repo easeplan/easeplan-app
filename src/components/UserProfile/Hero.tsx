@@ -18,7 +18,7 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
-import IdentityVerificationModal from './UserProfile';
+// import IdentityVerificationModal from './UserProfile';
 
 type Props = {
   queryData: QueryData;

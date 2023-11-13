@@ -10,12 +10,9 @@ import {
 } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import SwiperCore, { FreeMode, Mousewheel } from 'swiper';
-
-// Swiper modules initialization
-SwiperCore.use([FreeMode, Mousewheel]);
-
-const reviews = [];
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 const ReviewSlider = ({ queryData }: any) => {
   const theme = useTheme();
@@ -23,7 +20,7 @@ const ReviewSlider = ({ queryData }: any) => {
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
   const reviewCards = queryData?.providerProfile?.ratings.map(
-    (review, index) => (
+    (review: any, index: number) => (
       <Box
         key={index}
         sx={{
@@ -51,7 +48,7 @@ const ReviewSlider = ({ queryData }: any) => {
             precision={0.1}
             sx={{ fontSize: 20 }}
           />
-          <Typography>{review.date}</Typography>
+          <Typography>{review.createdAt}</Typography>
         </Box>
         <Typography>{review.review}</Typography>
         <Box sx={{ display: 'flex', mt: 2, alignItems: 'center' }}>
@@ -138,8 +135,9 @@ const ReviewSlider = ({ queryData }: any) => {
           pagination={{
             clickable: true,
           }}
+          scrollbar={{ draggable: true }}
         >
-          {reviewCards.map((card, index) => (
+          {reviewCards.map((card: any, index: number) => (
             <SwiperSlide key={index} style={{ width: 'auto', height: 'auto' }}>
               {card}
             </SwiperSlide>

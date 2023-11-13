@@ -1076,7 +1076,6 @@ const AvailableFunds = ({ token, bankDetails, queryData }: any) => {
               mb={2}
               mt={4}
               variant="h6"
-              ß
               fontWeight="bold"
               color="primary.main"
             >

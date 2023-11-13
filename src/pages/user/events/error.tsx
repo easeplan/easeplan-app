@@ -11,7 +11,7 @@ import useFetch from '@/hooks/useFetch';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ExternalError from '@/components/ErrorPage';
-import { RootState } from '@reduxjs/toolkit/dist/query/core/apiState';
+import { RootState } from '@/store/store';
 
 interface Props {
   token: string;

@@ -49,9 +49,9 @@ const OTPSchema = Yup.object().shape({
 interface Props {
   token: string;
   queryData: any;
-  fromProfile: boolean;
-  handleClose: any;
-  setModal: any;
+  fromProfile?: boolean;
+  handleClose?: any;
+  setModal?: any;
 }
 
 const SettingsForm = ({

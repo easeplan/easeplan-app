@@ -7,12 +7,14 @@ import { Box, Container } from '@mui/material';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
+import { useState } from 'react';
 
 interface ILayout {
   children: React.ReactElement | React.ReactNode;
   data?: any;
   token?: any;
   sx?: any;
+  inchat?: boolean;
 }
 
 const CustomContainer = ({ sx, children }: any) => {
@@ -23,7 +25,7 @@ const CustomContainer = ({ sx, children }: any) => {
   );
 };
 
-const DashboardLayout = ({ children, token, sx }: ILayout) => {
+const DashboardLayout = ({ children, token, sx, inchat }: ILayout) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
@@ -34,11 +36,11 @@ const DashboardLayout = ({ children, token, sx }: ILayout) => {
     <Layout>
       <Sidenav data={queryData?.provider} />
       <Main sx={sx}>
-        <NavHeader token={token} />
+        {!inchat && <NavHeader token={token} />}
         <CustomContainer fixed sx={sx}>
           {children}
         </CustomContainer>
-        <MobileSidenav data={queryData?.provider} />
+        {!inchat && <MobileSidenav data={queryData?.provider} />}
       </Main>
     </Layout>
   );

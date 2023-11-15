@@ -32,7 +32,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
 
   return (
     <Grid container spacing={2}>
-      {messages.map((message: any, index: any) => {
+      {messages?.map((message: any, index: any) => {
         const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
         return (
           <ListItem
@@ -80,7 +80,12 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                   {message.type === 'text' ? (
                     <span>{message.message}</span>
                   ) : (
-                    <img src={message.image} alt="Chat content" width={150} />
+                    <Image
+                      src={message.image}
+                      alt="Chat content"
+                      width={150}
+                      height={150}
+                    />
                   )}
                 </Box>
               }

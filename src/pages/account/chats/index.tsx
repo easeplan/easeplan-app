@@ -67,6 +67,7 @@ const InboxPage = ({ token }: any) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [openChat, setOpenChat] = useState(false);
+  const [inchat, setInchat] = useState(false);
 
   useEffect(() => {
     const socket = io('http://localhost:3007', {
@@ -202,7 +203,6 @@ const InboxPage = ({ token }: any) => {
   };
 
   const activeConversation = activeUser(activeUserData?.participants);
-  console.log(activeConversation);
   {
     /* Smooth Scroll to the last Message */
   }
@@ -225,11 +225,16 @@ const InboxPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
-  const headerHeight = '65px'; // Adjust as needed
-  const footerHeight = '65px'; // Adjust as needed
+  const headerHeight = '57px'; // Adjust as needed
+  const footerHeight = '57px'; // Adjust as needed
   const messagesHeight = `calc(100% - ${headerHeight} - ${footerHeight})`;
+
   return (
-    <DashboardLayout token={token} sx={{ height: '100%', overflow: 'hidden' }}>
+    <DashboardLayout
+      token={token}
+      sx={{ height: '100%', overflow: 'hidden' }}
+      inchat={inchat}
+    >
       <Box
         sx={{
           flexGrow: 1,
@@ -249,11 +254,11 @@ const InboxPage = ({ token }: any) => {
           },
           mt: { xs: 0, sm: 0, md: 2, lg: 2, xl: 2 },
           height: {
-            xl: '90%',
-            lg: '90%',
+            xl: '97%',
+            lg: '97%',
             md: '98%',
-            sm: '88%',
-            xs: '80%',
+            sm: inchat ? '100%' : '88',
+            xs: inchat ? '100%' : '80%',
           },
           [theme.breakpoints.down(375)]: { height: '82%' },
           width: '100%',
@@ -307,7 +312,7 @@ const InboxPage = ({ token }: any) => {
                   sx={{ borderBottom: 'solid 1px #cccc', m: 0, mt: 1, pb: 1 }}
                 >
                   <Grid item>
-                    <Box sx={{ p: '0.5rem' }}>
+                    <Box sx={{ p: '0.2rem' }}>
                       <Typography
                         fontWeight="bold"
                         fontSize="1rem"
@@ -353,6 +358,7 @@ const InboxPage = ({ token }: any) => {
                   conversationList={conversationList}
                   userInfo={userInfo}
                   setOpenChat={setOpenChat}
+                  setInchat={setInchat}
                 />
               </List>
             </Paper>
@@ -370,6 +376,7 @@ const InboxPage = ({ token }: any) => {
                 lg: 'block',
                 xl: 'block',
               },
+              width: '100%',
             }}
           >
             <Paper
@@ -378,6 +385,13 @@ const InboxPage = ({ token }: any) => {
               sx={{
                 position: 'absolute',
                 height: '100%',
+                width: {
+                  xs: '100%',
+                  sm: '100%',
+                  md: '66.8%',
+                  lg: '66.8%',
+                  xl: '66.8%',
+                },
               }}
             >
               {activeUserData ? (
@@ -415,15 +429,24 @@ const InboxPage = ({ token }: any) => {
                   <Box
                     p={1}
                     className="msg_head"
-                    sx={{ background: theme.palette.secondary.light, m: 0 }}
+                    sx={{
+                      background: theme.palette.secondary.light,
+                      m: 0,
+                      width: '100%',
+                    }}
                   >
                     {/* Chat header */}
                     <Grid container alignItems="center">
-                      {openChat && (
-                        <IconButton onClick={() => setOpenChat(false)}>
-                          <ArrowBackIosIcon />
-                        </IconButton>
-                      )}
+                      <IconButton
+                        onClick={() => {
+                          setInchat(false);
+                          setOpenChat(false);
+                        }}
+                        sx={{ display: { lg: 'none', xl: 'none' } }}
+                      >
+                        <ArrowBackIosIcon />
+                      </IconButton>
+
                       <Grid item sx={{ mr: 1 }}>
                         <Avatar
                           sx={{ width: '40px', height: '40px' }}
@@ -432,21 +455,24 @@ const InboxPage = ({ token }: any) => {
                         />
                       </Grid>
                       <Grid item xs sx={{ mr: '3' }}>
-                        <Typography variant="h6" sx={{ fontSize: '15px' }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ fontSize: '15px', m: 0 }}
+                        >
                           {activeConversation?.profile?.firstName +
                             ' ' +
                             activeConversation?.profile?.lastName}
                         </Typography>
-                        <Typography variant="caption">
+                        <Typography variant="caption" sx={{ m: 0, p: 0 }}>
                           {/* {activeUserHeader?.lastSeen} */}
                           active
                         </Typography>
                       </Grid>
-                      <Grid item>
+                      {/* <Grid item>
                         <IconButton>
                           <MoreVertIcon />
                         </IconButton>
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                   </Box>
                   <Box sx={{ height: messagesHeight, overflowY: 'scroll' }}>
@@ -454,19 +480,24 @@ const InboxPage = ({ token }: any) => {
                       <ChatComponent
                         userInfoId={queryData}
                         messages={messages}
+                        setInchat={setInchat}
+                        inchat={inchat}
                       />
                     </List>
                   </Box>
                   <Box
-                    p={2}
                     className="card-footer"
                     sx={{
                       position: 'absolute',
                       bottom: 0,
                       left: 0,
+                      ml: 2,
+                      mr: 2,
+                      mb: 1,
                       right: 0,
-                      background: theme.palette.secondary.light,
-                      borderTop: 'solid 1px #ccc',
+                      //background: theme.palette.secondary.light,
+                      border: 'solid 1px #ccc',
+                      borderRadius: '50px',
                     }}
                   >
                     <form onSubmit={handleSubmit}>

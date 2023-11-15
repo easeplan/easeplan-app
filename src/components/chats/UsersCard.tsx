@@ -59,6 +59,7 @@ const UsersCard = ({
   conversation,
   otherParticipant,
   setOpenChat,
+  setInchat,
 }: any) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -78,6 +79,7 @@ const UsersCard = ({
   const activeConversation = activeUser(data?.participants);
 
   const handleSelectChat = async () => {
+    setInchat(true);
     setOpenChat(true);
     dispatch(setMobileChatModal(true));
     const conversationID = data?._id;
@@ -145,13 +147,29 @@ const UsersCard = ({
     return sentence;
   }
 
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // You might want to add more complex logic here to handle different date formats
+    // This is a simple example where if the message was sent today, it will only show time
+    if (date.toDateString() === now.toDateString()) {
+      return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    } else {
+      return date.toLocaleDateString();
+    }
+  }
+
   return (
     <>
       <ListItem
         button
         key={conversation?._id}
         onClick={handleSelectChat}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: 'pointer', pd: 0, m: 0 }}
       >
         <ListItemAvatar>
           <StyledBadge
@@ -170,11 +188,21 @@ const UsersCard = ({
         </ListItemAvatar>
         <ListItemText
           sx={{
-            borderBottom: `1px solid ${theme.palette.secondary.main}`,
             p: 1,
           }}
           primary={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
-          secondary={truncateWords(conversation?.lastMessage?.message)}
+          secondary={
+            <>
+              {truncateWords(conversation?.lastMessage?.message)}
+              <Typography
+                component="span"
+                variant="body2"
+                color="text.secondary"
+              >
+                {formatDate(conversation?.lastMessage?.createdAt)}
+              </Typography>
+            </>
+          }
         />
       </ListItem>
     </>

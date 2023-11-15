@@ -40,8 +40,6 @@ import {
   Grid,
   Paper,
   List,
-  ListItem,
-  ListItemAvatar,
   Avatar,
   ListItemText,
   InputBase,
@@ -52,36 +50,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { styled } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: 'ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
-      content: '""',
-    },
-  },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
-      opacity: 1,
-    },
-    '100%': {
-      transform: 'scale(2.4)',
-      opacity: 0,
-    },
-  },
-}));
-// import './style.module.css'
+import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
+import { stringMap } from 'aws-sdk/clients/backup';
 
 const InboxPage = ({ token }: any) => {
   const theme = useTheme();
@@ -99,7 +69,7 @@ const InboxPage = ({ token }: any) => {
   const [openChat, setOpenChat] = useState(false);
 
   useEffect(() => {
-    const socket = io('https://easeplan.azurewebsites.net', {
+    const socket = io('http://localhost:3007', {
       auth: {
         userId: `${userInfo}`,
       },
@@ -190,14 +160,13 @@ const InboxPage = ({ token }: any) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const socket = io('https://easeplan.azurewebsites.net', {
+    const socket = io('http://localhost:3007', {
       auth: {
         userId: `${userInfo}`,
       },
     });
-
     socket.emit('message', {
-      sender: userInfo?._id,
+      sender: userInfo,
       conversationId: activeUserData?._id,
       message: chatMessage,
     });
@@ -206,7 +175,7 @@ const InboxPage = ({ token }: any) => {
   };
 
   useEffect(() => {
-    const socket = io('https://easeplan.azurewebsites.net', {
+    const socket = io('http://localhost:3007', {
       auth: {
         userId: `${userInfo}`,
       },
@@ -229,11 +198,11 @@ const InboxPage = ({ token }: any) => {
       ?.filter((user: any) => user?._id != userInfo)
       ?.map((user: any) => activeUsers.push(user));
 
-    return activeUsers;
+    return activeUsers[0];
   };
-  console.log(activeUserData);
 
   const activeConversation = activeUser(activeUserData?.participants);
+  console.log(activeConversation);
   {
     /* Smooth Scroll to the last Message */
   }
@@ -255,25 +224,9 @@ const InboxPage = ({ token }: any) => {
   if (error) {
     return <ErrorPage />;
   }
-  const messages1 = [
-    {
-      id: 1,
-      text: 'Hi, how are you samim?',
-      timestamp: '8:40 AM, Today',
-      avatar: '/path/to/avatar1.jpg',
-      sender: 'other',
-    },
-    {
-      id: 2,
-      text: 'Hi Khalid I am good tnx how about you?',
-      timestamp: '8:55 AM, Today',
-      avatar: '/path/to/avatar2.jpg',
-      sender: 'you',
-    },
-    // ... more messages
-  ];
-  const headerHeight = '64px'; // Adjust as needed
-  const footerHeight = '64px'; // Adjust as needed
+
+  const headerHeight = '65px'; // Adjust as needed
+  const footerHeight = '65px'; // Adjust as needed
   const messagesHeight = `calc(100% - ${headerHeight} - ${footerHeight})`;
   return (
     <DashboardLayout token={token} sx={{ height: '100%', overflow: 'hidden' }}>
@@ -298,7 +251,7 @@ const InboxPage = ({ token }: any) => {
           height: {
             xl: '90%',
             lg: '90%',
-            md: '97%',
+            md: '98%',
             sm: '88%',
             xs: '80%',
           },
@@ -310,7 +263,7 @@ const InboxPage = ({ token }: any) => {
         <Grid
           container
           className="justify-content-center"
-          sx={{ height: '100%' }}
+          sx={{ height: '100%', width: '100%' }}
         >
           <Grid
             item
@@ -327,14 +280,7 @@ const InboxPage = ({ token }: any) => {
                 xl: 'block',
               },
               flexDirection: 'column',
-              height: {
-                xl: '100%',
-                lg: '100%',
-                md: '97%',
-                sm: '88%',
-                xs: '80%',
-              },
-              overflowY: 'auto',
+              height: '100%',
             }}
           >
             <Paper
@@ -347,78 +293,67 @@ const InboxPage = ({ token }: any) => {
                 flexDirection: 'column',
               }}
             >
-              <Box p={2} className="search-box">
-                <InputBase
-                  fullWidth
-                  placeholder="Search..."
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <SearchIcon fontSize="small" sx={{ m: 2 }} />
-                    </InputAdornment>
-                  }
-                  sx={{
-                    borderRadius: '15px',
-                    background: theme.palette.secondary.light,
-                    border: '0 !important',
-                    p: 0.7,
-                    pl: 2,
-                  }}
-                />
+              <Box
+                p={2}
+                className="search-box"
+                sx={{
+                  m: 0,
+                  p: 0.5,
+                }}
+              >
+                <Grid
+                  container
+                  alignItems="center"
+                  sx={{ borderBottom: 'solid 1px #cccc', m: 0, mt: 1, pb: 1 }}
+                >
+                  <Grid item>
+                    <Box sx={{ p: '0.5rem' }}>
+                      <Typography
+                        fontWeight="bold"
+                        fontSize="1rem"
+                        color="primary.main"
+                      >
+                        Recent Messages
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  {/* <Grid item xs>
+                    <InputBase
+                      fullWidth
+                      placeholder="Search..."
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <SearchIcon fontSize="small" sx={{ m: 2 }} />
+                        </InputAdornment>
+                      }
+                      sx={{
+                        borderRadius: '15px',
+                        background: theme.palette.secondary.light,
+                        border: '0 !important',
+                        p: 0.2,
+                        pl: 2,
+                        fontSize: '15px',
+                        width: '100%',
+                      }}
+                    />
+                  </Grid> */}
+                </Grid>
               </Box>
               <List
                 className="contacts"
                 sx={{
                   overflowY: { sm: 'auto', xs: 'auto' },
-                  maxHeight: {
-                    sm: 'calc(100% - 48px)',
-                    xs: 'calc(100% - 48px)',
-                  },
+                  height: '100%',
+                  m: 0,
+                  p: 0,
                 }}
               >
-                {conversationList?.conversations?.length > 0 ? (
-                  conversationList.conversations.map((conversation: any) => {
-                    const otherParticipant = conversation.participants.find(
-                      (participant: any) => participant._id !== userInfo,
-                    );
-
-                    if (!otherParticipant || !otherParticipant.profile) {
-                      return null; // or some fallback UI
-                    }
-
-                    return (
-                      <ListItem
-                        button
-                        key={conversation?._id}
-                        onClick={() => setOpenChat(true)}
-                      >
-                        <ListItemAvatar>
-                          <StyledBadge
-                            overlap="circular"
-                            anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'right',
-                            }}
-                            variant="dot"
-                          >
-                            <Avatar
-                              alt={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
-                              src={otherParticipant?.profile?.picture}
-                            />
-                          </StyledBadge>
-                        </ListItemAvatar>
-                        <ListItemText
-                          sx={{ borderBottom: '0.1px solid #71F79F', p: 1 }}
-                          primary={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
-                          secondary={conversation?.lastMessage?.message}
-                        />
-                      </ListItem>
-                    );
-                  })
-                ) : (
-                  <p>No conversations to display.</p>
-                )}
-
-                {/* Repeat for other contacts */}
+                <RecentChats
+                  token={token}
+                  conversationList={conversationList}
+                  userInfo={userInfo}
+                  setOpenChat={setOpenChat}
+                />
               </List>
             </Paper>
           </Grid>
@@ -440,9 +375,12 @@ const InboxPage = ({ token }: any) => {
             <Paper
               elevation={3}
               className="chat_card"
-              sx={{ position: 'relative', height: '100%' }}
+              sx={{
+                position: 'absolute',
+                height: '100%',
+              }}
             >
-              {!activeUserData ? (
+              {activeUserData ? (
                 <>
                   <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
                     <DialogContent>
@@ -451,6 +389,8 @@ const InboxPage = ({ token }: any) => {
                           src={URL.createObjectURL(selectedImage)}
                           alt="Selected Preview"
                           style={{ width: '100%' }}
+                          width={300}
+                          height={300}
                         />
                       )}
                     </DialogContent>
@@ -479,19 +419,27 @@ const InboxPage = ({ token }: any) => {
                   >
                     {/* Chat header */}
                     <Grid container alignItems="center">
-                      <IconButton onClick={() => setOpenChat(false)}>
-                        <ArrowBackIosIcon />
-                      </IconButton>
+                      {openChat && (
+                        <IconButton onClick={() => setOpenChat(false)}>
+                          <ArrowBackIosIcon />
+                        </IconButton>
+                      )}
                       <Grid item sx={{ mr: 1 }}>
                         <Avatar
+                          sx={{ width: '40px', height: '40px' }}
                           alt="Contact Name"
-                          src="contact_image_url.jpg"
+                          src={activeConversation?.profile?.picture}
                         />
                       </Grid>
                       <Grid item xs sx={{ mr: '3' }}>
-                        <Typography variant="h6">Contact Name</Typography>
+                        <Typography variant="h6" sx={{ fontSize: '15px' }}>
+                          {activeConversation?.profile?.firstName +
+                            ' ' +
+                            activeConversation?.profile?.lastName}
+                        </Typography>
                         <Typography variant="caption">
-                          Last seen recently
+                          {/* {activeUserHeader?.lastSeen} */}
+                          active
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -507,66 +455,6 @@ const InboxPage = ({ token }: any) => {
                         userInfoId={queryData}
                         messages={messages}
                       />
-                      {/* {messages1.map((message) => (
-                        <ListItem
-                          key={message.id}
-                          alignItems="flex-start"
-                          style={{
-                            justifyContent:
-                              message.sender === 'you'
-                                ? 'flex-end'
-                                : 'flex-start',
-                          }}
-                        >
-                          <ListItemAvatar
-                            style={{
-                              display:
-                                message.sender === 'you'
-                                  ? 'none'
-                                  : 'inline-flex',
-                            }}
-                          >
-                            <Avatar alt="Remy Sharp" src={message.avatar} />
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={
-                              <Box
-                                sx={{
-                                  display: 'inline-block',
-                                  borderRadius: '20px',
-                                  bgcolor:
-                                    message.sender === 'you'
-                                      ? '#78e08f'
-                                      : '#82ccdd',
-                                  p: 1,
-                                  maxWidth: '75%',
-                                  textAlign: 'left',
-                                }}
-                              >
-                                {message.text}
-                              </Box>
-                            }
-                            secondary={
-                              <Typography
-                                component="span"
-                                variant="body2"
-                                style={{
-                                  display: 'block',
-                                  textAlign:
-                                    message.sender === 'you' ? 'right' : 'left',
-                                  color: 'gray',
-                                }}
-                              >
-                                {message.timestamp}
-                              </Typography>
-                            }
-                            style={{
-                              textAlign:
-                                message.sender === 'you' ? 'right' : 'left',
-                            }}
-                          />
-                        </ListItem>
-                      ))} */}
                     </List>
                   </Box>
                   <Box

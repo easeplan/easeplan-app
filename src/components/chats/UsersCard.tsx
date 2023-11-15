@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import {
+  Avatar,
+  Badge,
+  Box,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+  styled,
+} from '@mui/material';
 import Image from 'next/image';
 import cahtImg from '@/public/avatar.png';
 import theme from '@/styles/theme';
@@ -12,12 +21,44 @@ import {
 } from '@/features/chatsSlice';
 import io from 'socket.io-client';
 
+const StyledBadge = styled(Badge)(({ theme }: any) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
+
 const UsersCard = ({
   data,
   conversations,
   setAllMessages,
   token,
   index,
+  conversation,
+  otherParticipant,
+  setOpenChat,
 }: any) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -37,11 +78,12 @@ const UsersCard = ({
   const activeConversation = activeUser(data?.participants);
 
   const handleSelectChat = async () => {
+    setOpenChat(true);
     dispatch(setMobileChatModal(true));
     const conversationID = data?._id;
     dispatch(setActiveUserData(data));
 
-    const socket = io('https://apiv3.easeplan.io', {
+    const socket = io('https://easeplan.azurewebsites.net', {
       auth: {
         userId: `${userInfo?._id}`,
       },
@@ -74,24 +116,24 @@ const UsersCard = ({
     } catch (error) {}
   };
 
-  const fetchAllConversation = () => {
-    for (
-      let i = 0;
-      i < Math.min(conversations.length, activeConversation.length);
-      i++
-    ) {
-      const conversation = conversations[i];
-      const user = activeConversation[i];
+  // const fetchAllConversation = () => {
+  //   for (
+  //     let i = 0;
+  //     i < Math.min(conversations.length, activeConversation.length);
+  //     i++
+  //   ) {
+  //     const conversation = conversations[i];
+  //     const user = activeConversation[i];
 
-      setLocalConversation(conversation);
-      setLocalUser(user);
-      break; // exit loop after setting state
-    }
-  };
+  //     setLocalConversation(conversation);
+  //     setLocalUser(user);
+  //     break; // exit loop after setting state
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchAllConversation();
-  }, [messages]);
+  // useEffect(() => {
+  //   fetchAllConversation();
+  // }, [messages]);
 
   // console.log(conversations);
 
@@ -105,84 +147,36 @@ const UsersCard = ({
 
   return (
     <>
-      <Box
+      <ListItem
+        button
+        key={conversation?._id}
         onClick={handleSelectChat}
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          cursor: 'pointer',
-          transition: 'all 0.5s ease',
-          //boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
-          // mt: {
-          //   xs: 0,
-          //   md: 2,
-          //   lg: 4,
-          // },
-          borderRadius: '8px',
-          '&:hover': {
-            background: theme.palette.secondary.light,
-          },
-          '&::focus': {
-            background: theme.palette.primary.main,
-          },
-          p: '1rem',
-        }}
+        sx={{ cursor: 'pointer' }}
       >
-        <Box
-          sx={{
-            position: 'relative',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            backgroundColor: 'primary.main',
-            marginRight: '0.8rem',
-          }}
-        >
-          <Image
-            src={localUser?.profile?.picture || cahtImg}
-            alt="profileImg"
-            fill
-            style={{
-              borderRadius: '50%',
+        <ListItemAvatar>
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
             }}
-          />
-        </Box>
-        <Box sx={{ width: '82%', position: 'relative' }}>
-          {/* <Box
-            sx={{
-              width: `20px`,
-              height: `20px`,
-              borderRadius: `16px`,
-              position: `absolute`,
-              top: `0.8rem`,
-              right: `1rem`,
-              backgroundColor: `info.main`,
-              display: `flex`,
-              alignItems: `center`,
-              justifyContent: `center`,
-
-              '@media (max-width: 900px)': {
-                width: `18px`,
-                height: `18px`,
-                position: `absolute`,
-                top: `0.6rem`,
-                right: `0.5rem`,
-              },
-            }}
+            variant="dot"
           >
-            <Typography fontSize="0.8rem" color="#fff">
-              4
-            </Typography>
-            <Typography>{allUnreadConversationMessagesCount}</Typography>
-          </Box> */}
-          <Typography fontWeight="bold" fontSize="0.8rem" color="primary.main">
-            {localUser?.profile?.firstName} {localUser?.profile?.lastName}
-          </Typography>
-          <Typography fontSize="0.8rem">
-            {truncateWords(localConversation?.lastMessage?.message)}
-          </Typography>
-        </Box>
-      </Box>
+            <Avatar
+              alt={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
+              src={otherParticipant?.profile?.picture}
+            />
+          </StyledBadge>
+        </ListItemAvatar>
+        <ListItemText
+          sx={{
+            borderBottom: `1px solid ${theme.palette.secondary.main}`,
+            p: 1,
+          }}
+          primary={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
+          secondary={truncateWords(conversation?.lastMessage?.message)}
+        />
+      </ListItem>
     </>
   );
 };

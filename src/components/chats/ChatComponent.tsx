@@ -1,9 +1,18 @@
-import { Grid, Paper, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  Paper,
+  Typography,
+  ListItemText,
+} from '@mui/material';
 import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
+import theme from '@/styles/theme';
 
 const ChatComponent = ({ userInfoId, messages }: any) => {
-  console.log(messages);
   function formatTime(timestamp: any) {
     const date = new Date(timestamp);
     const options = { hour: '2-digit', minute: '2-digit', hour12: true };
@@ -24,53 +33,48 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
   return (
     <Grid container spacing={2}>
       {messages.map((message: any, index: any) => {
-        const isCurrentUser = message.sender?._id === userInfoId?.userId;
-
+        const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
         return (
-          <Grid
-            item
-            xs={12}
-            key={index}
+          <ListItem
+            key={message.id}
+            alignItems="flex-start"
             style={{
-              display: 'flex',
-              flexDirection: isCurrentUser ? 'row-reverse' : 'row',
-              alignItems: 'flex-end', // Align to the bottom of the chat box
+              justifyContent: !isCurrentUser ? 'flex-end' : 'flex-start',
             }}
           >
-            {/* <Image
-              src={
-                isCurrentUser
-                  ? userInfoId?.picture || chatImg
-                  : message.sender?.profile.picture || chatImg
-              }
-              alt="Profile"
-              width={40}
-              height={40}
+            <ListItemAvatar
               style={{
-                borderRadius: `50%`,
-                margin: `0 8px`,
-              }}
-            /> */}
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: isCurrentUser ? 'flex-end' : 'flex-start',
-                flex: 1,
+                display: !isCurrentUser ? 'none' : 'inline-flex',
               }}
             >
-              <>
-                <Paper
-                  id="message"
+              <Image
+                src={
+                  !isCurrentUser
+                    ? userInfoId?.picture || chatImg
+                    : message.sender?.profile.picture || chatImg
+                }
+                alt="Profile"
+                width={40}
+                height={40}
+                style={{
+                  borderRadius: '50%',
+                  margin: '0 8px',
+                }}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <Box
                   sx={{
-                    py: 1,
-                    pl: 2,
-                    pr: 2,
-                    maxWidth: '80%',
+                    display: 'inline-block',
                     borderRadius: '10px',
-                    backgroundColor: isCurrentUser ? '#fff' : 'primary.light',
-                    color: isCurrentUser ? 'primary.main' : '#fff',
+                    bgcolor: !isCurrentUser
+                      ? `${theme.palette.primary.light}`
+                      : `${theme.palette.primary.main}`,
+                    p: 1.2,
+                    maxWidth: '75%',
+                    textAlign: 'left',
+                    color: 'white',
                   }}
                 >
                   {message.type === 'text' ? (
@@ -78,13 +82,26 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                   ) : (
                     <img src={message.image} alt="Chat content" width={150} />
                   )}
-                </Paper>
-                <Typography fontSize="0.6rem" mt={0.5}>
+                </Box>
+              }
+              secondary={
+                <Typography
+                  component="span"
+                  variant="body2"
+                  style={{
+                    display: 'block',
+                    textAlign: !isCurrentUser ? 'right' : 'left',
+                    color: 'gray',
+                  }}
+                >
                   {formatTime(message?.createdAt)}
                 </Typography>
-              </>
-            </div>
-          </Grid>
+              }
+              style={{
+                textAlign: !isCurrentUser ? 'right' : 'left',
+              }}
+            />
+          </ListItem>
         );
       })}
     </Grid>

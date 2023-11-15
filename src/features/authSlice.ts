@@ -4,6 +4,7 @@ import type { RootState } from '../store/store';
 // Define a type for the slice state
 interface AuthState {
   userInfo: {
+    provider: any;
     role: string;
     hasVisited: boolean;
     onboardStage: number;

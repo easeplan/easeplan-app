@@ -101,6 +101,9 @@ const Navbar = styled('nav')({
   padding: '0.5rem  0',
   zIndex: '9',
   background: '#fff',
+  '@media (max-width: 600px)': {
+    position: 'fixed',
+  },
 });
 
 const Flex = styled('div')(({ theme }) => ({

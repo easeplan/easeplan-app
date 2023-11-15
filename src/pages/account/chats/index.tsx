@@ -237,6 +237,7 @@ const InboxPage = ({ token }: any) => {
     >
       <Box
         sx={{
+          overflowY: 'hidden',
           flexGrow: 1,
           position: {
             xs: 'fixed',

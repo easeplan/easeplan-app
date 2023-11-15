@@ -56,6 +56,9 @@ const Main = styled('main')(({}) => ({
   width: '100%',
   overflowY: 'auto',
   paddingBottom: '4rem',
+  '@media (max-width: 600px)': {
+    //marginTop: '4rem',
+  },
 }));
 
 export default DashboardLayout;

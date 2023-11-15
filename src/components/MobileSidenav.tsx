@@ -91,7 +91,7 @@ const MobileStyle = styled('nav')(({ theme }) => ({
   zIndex: '9',
 
   '@media (max-width: 900px)': {
-    display: 'sticky',
+    display: 'fixed',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -192,16 +192,17 @@ const UsersCard = ({
           }}
           primary={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
           secondary={
-            <>
-              {truncateWords(conversation?.lastMessage?.message)}
-              <Typography
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Box component="span" sx={{ mb: 0.5 }}>
+                {truncateWords(conversation?.lastMessage?.message)}
+              </Box>
+              <Box
                 component="span"
-                variant="body2"
-                color="text.secondary"
+                sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
               >
                 {formatDate(conversation?.lastMessage?.createdAt)}
-              </Typography>
-            </>
+              </Box>
+            </Box>
           }
         />
       </ListItem>

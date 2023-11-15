@@ -317,6 +317,7 @@ const InboxPage = ({ token }: any) => {
                         fontWeight="bold"
                         fontSize="1rem"
                         color="primary.main"
+                        position="sticky"
                       >
                         Recent Messages
                       </Typography>

@@ -87,7 +87,7 @@ const MobileStyle = styled('nav')(({ theme }) => ({
   // borderTopLeftRadius: `1.5rem`,
   // borderTopRightRadius: `1.5rem`,
   display: 'none',
-  padding: '1rem 0',
+  padding: '0.5rem 0',
   zIndex: '9',
 
   '@media (max-width: 900px)': {

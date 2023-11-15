@@ -29,6 +29,7 @@ const RecentChats = ({
             width: '100%',
             pb: '3.5rem',
             px: '1rem',
+            mb: '10rem',
           }}
         >
           {conversationList?.conversations?.length > 0 ? (

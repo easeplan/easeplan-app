@@ -3,6 +3,7 @@ import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
 
 const ChatComponent = ({ userInfoId, messages }: any) => {
+  console.log(messages);
   function formatTime(timestamp: any) {
     const date = new Date(timestamp);
     const options = { hour: '2-digit', minute: '2-digit', hour12: true };

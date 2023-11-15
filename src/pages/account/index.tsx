@@ -55,8 +55,6 @@ const HomePage = ({ token }: Props) => {
     fetchContracts();
   }, []);
 
-  console.log(contracts);
-
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

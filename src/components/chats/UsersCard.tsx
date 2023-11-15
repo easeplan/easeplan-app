@@ -12,7 +12,13 @@ import {
 } from '@/features/chatsSlice';
 import io from 'socket.io-client';
 
-const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
+const UsersCard = ({
+  data,
+  conversations,
+  setAllMessages,
+  token,
+  index,
+}: any) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { messages } = useSelector((state: RootState) => state.chatsData);
@@ -106,12 +112,12 @@ const UsersCard = ({ data, conversations, setAllMessages, token }: any) => {
           justifyContent: 'space-between',
           cursor: 'pointer',
           transition: 'all 0.5s ease',
-          boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
-          mt: {
-            xs: 0,
-            md: 2,
-            lg: 4,
-          },
+          //boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+          // mt: {
+          //   xs: 0,
+          //   md: 2,
+          //   lg: 4,
+          // },
           borderRadius: '8px',
           '&:hover': {
             background: theme.palette.secondary.light,

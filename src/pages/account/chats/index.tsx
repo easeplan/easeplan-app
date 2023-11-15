@@ -300,7 +300,7 @@ const InboxPage = ({ token }: any) => {
             lg: '90%',
             md: '97%',
             sm: '88%',
-            xs: '85%',
+            xs: '80%',
           },
           [theme.breakpoints.down(375)]: { height: '82%' },
           width: '100%',
@@ -327,7 +327,13 @@ const InboxPage = ({ token }: any) => {
                 xl: 'block',
               },
               flexDirection: 'column',
-              height: '100%',
+              height: {
+                xl: '100%',
+                lg: '100%',
+                md: '97%',
+                sm: '88%',
+                xs: '80%',
+              },
               overflowY: 'auto',
             }}
           >

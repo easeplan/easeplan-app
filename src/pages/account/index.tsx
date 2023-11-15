@@ -70,7 +70,7 @@ const HomePage = ({ token }: Props) => {
 
   return (
     <>
-      <DashboardLayout token={token} sx={{mt:'2.5rem'}}>
+      <DashboardLayout token={token} sx={{ mt: '2.5rem' }}>
         {queryData?.provider?.providerProfile ? (
           <>
             {!queryData?.provider?.providerProfile?.verified && (

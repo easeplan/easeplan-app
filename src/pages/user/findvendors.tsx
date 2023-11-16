@@ -290,7 +290,7 @@ const VendorPage = ({ token }: Props) => {
                 }}
               >
                 <Pagination
-                  count={2}
+                  count={3}
                   color="primary"
                   page={page}
                   onChange={handleChange}

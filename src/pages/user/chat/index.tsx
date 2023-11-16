@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import ChatLayout from '@/components/chats/ChatLayout';
 import RecentChats from '@/components/chats/RecentChats';
 import ChatComponent from '@/components/chats/ChatComponent';
-import { Box, Typography, Button, Container } from '@mui/material';
+import { Box, Typography, Button, Container, useTheme } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
@@ -32,7 +32,36 @@ import axios from 'axios';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Layout from '@/components/vendors/Layout';
 
+import useFetchMessages from '@/hooks/useFetchMessages';
+import ChatIcon from '@mui/icons-material/Chat';
+
+// import theme from '@/styles/theme';
+import user from '@/pages/api/user';
+
+import DialogTitle from '@mui/material/DialogTitle';
+
+import React from 'react';
+import {
+  Grid,
+  Paper,
+  List,
+  Avatar,
+  ListItemText,
+  InputBase,
+  Badge,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styled } from '@mui/material/styles';
+import InputAdornment from '@mui/material/InputAdornment';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
+import { stringMap } from 'aws-sdk/clients/backup';
+import { useSocket } from '@/hooks/useSocketContext';
+import { useActivityTracker } from '@/utils/InteractionTracker';
+
 const InboxPage = ({ token }: any) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const divRef = useRef<HTMLDivElement>(null);
   const { messages, activeUserData, mobileChatModal } = useSelector(
@@ -44,28 +73,52 @@ const InboxPage = ({ token }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
+  const [openChat, setOpenChat] = useState(false);
+  const [inchat, setInchat] = useState(false);
+  const socket = useSocket();
+  useActivityTracker(userInfo as string);
+  const getLastSeen = (lastActive: Date) => {
+    const lastActiveDate = new Date(lastActive) as any;
+    const now = new Date() as any;
 
-  // console.log(userInfo);
+    const diffInSeconds = Math.floor((now - lastActiveDate) / 1000);
 
+    if (diffInSeconds < 60) {
+      return 'Active now';
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    } else {
+      return lastActiveDate.toLocaleDateString();
+    }
+  };
   useEffect(() => {
-    const socket = io('https://apiv3.easeplan.io', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
+    if (socket) {
+      socket.on('unreadConversationMessagesCount', (count) =>
+        dispatch(setUnreadConversationMessagesCount(count)),
+      );
 
-    socket.on('unreadConversationMessagesCount', (count) =>
-      dispatch(setUnreadConversationMessagesCount(count)),
-    );
+      socket.on('allUnreadConversationMessagesCount', (count) =>
+        dispatch(setAllUnreadConversationMessagesCount(count)),
+      );
 
-    socket.on('allUnreadConversationMessagesCount', (count) =>
-      dispatch(setAllUnreadConversationMessagesCount(count)),
-    );
+      socket.on(`conversation-${activeUserData?._id}`, (data) => {
+        dispatch(setMessages([...messages, data]));
+        dispatch(setCurrentMessage(data));
+      });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      socket.on('activeState', (data) => {
+        setConversationList({ conversations: data });
+      });
+
+      return () => {
+        socket.off('unreadConversationMessagesCount');
+        socket.off('allUnreadConversationMessagesCount');
+        socket.off(`conversation-${activeUserData?._id}`);
+      };
+    }
+  }, [socket, activeUserData?._id, dispatch, messages, userInfo]);
 
   const fetchConversations = async () => {
     try {
@@ -138,14 +191,7 @@ const InboxPage = ({ token }: any) => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    const socket = io('https://apiv3.easeplan.io', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
-
-    socket.emit('message', {
+    socket?.emit('message', {
       sender: userInfo,
       conversationId: activeUserData?._id,
       message: chatMessage,
@@ -154,35 +200,16 @@ const InboxPage = ({ token }: any) => {
     setChatMessage('');
   };
 
-  useEffect(() => {
-    const socket = io('https://apiv3.easeplan.io', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
-
-    socket.on(`conversation-${activeUserData?._id}`, (data: any) => {
-      // Update the Redux state with the new message
-      dispatch(setMessages([...messages, data]));
-      dispatch(setCurrentMessage(data));
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [dispatch, messages, userInfo, activeUserData?._id]);
-
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
     arr
       ?.filter((user: any) => user?._id != userInfo)
       ?.map((user: any) => activeUsers.push(user));
 
-    return activeUsers;
+    return activeUsers[0];
   };
 
   const activeConversation = activeUser(activeUserData?.participants);
-
   {
     /* Smooth Scroll to the last Message */
   }
@@ -205,238 +232,345 @@ const InboxPage = ({ token }: any) => {
     return <ErrorPage />;
   }
 
+  const headerHeight = '57px'; // Adjust as needed
+  const footerHeight = '57px'; // Adjust as needed
+  const messagesHeight = `calc(100% - ${headerHeight} - ${footerHeight})`;
+
   return (
     <Layout data={queryData?.provider}>
-      <Container
+      <Box
         sx={{
-          // background: `red`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'end',
+          overflowY: 'hidden',
+          flexGrow: 1,
+          position: {
+            xs: 'fixed',
+            sm: 'fixed',
+            md: 'relative',
+            lg: 'relative',
+            xl: 'relative',
+          },
+          left: { xs: 0, sm: 0, md: 0 },
+          border: {
+            xl: '0.1px solid #71F79F',
+            lg: '0.1px solid #71F79F',
+            md: '0.1px solid #71F79F',
+            xs: 'none',
+          },
+          mt: { xs: 0, sm: 0, md: 2, lg: 2, xl: 2 },
+          height: {
+            xl: '97%',
+            lg: '97%',
+            md: '98%',
+            sm: inchat ? '100%' : '88',
+            xs: inchat ? '100%' : '80%',
+          },
+          [theme.breakpoints.down(375)]: { height: '82%' },
+          width: '100%',
         }}
-        maxWidth="lg"
+        className="container-fluid h-100"
       >
-        <ChatLayout>
-          <RecentChats token={token} conversationList={conversationList} />
-          {activeUserData ? (
-            <Box
-              className={`${
-                mobileChatModal ? 'mobileOpenSlider' : 'mobileCloseSlider'
-              }`}
+        <Grid
+          container
+          className="justify-content-center"
+          sx={{ height: '100%', width: '100%' }}
+        >
+          <Grid
+            item
+            xs={12}
+            md={4}
+            xl={3}
+            sx={{
+              borderRight: '0.1px solid #71F79F',
+              display: {
+                xs: `${openChat ? 'none' : 'flex'}`,
+                sm: `${openChat ? 'none' : 'flex'}`,
+                md: 'block',
+                lg: 'block',
+                xl: 'block',
+              },
+              flexDirection: 'column',
+              height: '100%',
+            }}
+          >
+            <Paper
+              elevation={3}
+              className="contacts_card"
+              sx={{
+                borderRight: '0.1px solid #71F79F',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
             >
-              {/* The Image Preview Modal */}
-              <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
-                <DialogContent>
-                  {selectedImage && (
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Selected Preview"
-                      style={{ width: '100%' }}
+              <Box
+                p={2}
+                className="search-box"
+                sx={{
+                  m: 0,
+                  p: 0.5,
+                }}
+              >
+                <Grid
+                  container
+                  alignItems="center"
+                  sx={{ borderBottom: 'solid 1px #cccc', m: 0, mt: 1, pb: 1 }}
+                >
+                  <Grid item>
+                    <Box sx={{ p: '0.2rem' }}>
+                      <Typography
+                        fontWeight="bold"
+                        fontSize="1rem"
+                        color="primary.main"
+                        position="sticky"
+                      >
+                        Recent Messages
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  {/* <Grid item xs>
+                    <InputBase
+                      fullWidth
+                      placeholder="Search..."
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <SearchIcon fontSize="small" sx={{ m: 2 }} />
+                        </InputAdornment>
+                      }
+                      sx={{
+                        borderRadius: '15px',
+                        background: theme.palette.secondary.light,
+                        border: '0 !important',
+                        p: 0.2,
+                        pl: 2,
+                        fontSize: '15px',
+                        width: '100%',
+                      }}
                     />
-                  )}
-                </DialogContent>
-                <DialogActions>
+                  </Grid> */}
+                </Grid>
+              </Box>
+              <List
+                className="contacts"
+                sx={{
+                  overflowY: { sm: 'auto', xs: 'auto' },
+                  height: '100%',
+                  m: 0,
+                  p: 0,
+                }}
+              >
+                <RecentChats
+                  token={token}
+                  conversationList={conversationList}
+                  userInfo={userInfo}
+                  setOpenChat={setOpenChat}
+                  setInchat={setInchat}
+                />
+              </List>
+            </Paper>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={8}
+            xl={6}
+            sx={{
+              display: {
+                xs: `${!openChat ? 'none' : 'block'}`,
+                sm: `${!openChat ? 'none' : 'block'}`,
+                md: 'block',
+                lg: 'block',
+                xl: 'block',
+              },
+              width: '100%',
+            }}
+          >
+            <Paper
+              elevation={3}
+              className="chat_card"
+              sx={{
+                position: 'absolute',
+                height: '100%',
+                width: {
+                  xs: '100%',
+                  sm: '100%',
+                  md: '66.8%',
+                  lg: '66.8%',
+                  xl: '66.8%',
+                },
+              }}
+            >
+              {activeUserData ? (
+                <>
+                  <Dialog open={isPreviewOpen} onClose={handleClosePreview}>
+                    <DialogContent>
+                      {selectedImage && (
+                        <Image
+                          src={URL.createObjectURL(selectedImage)}
+                          alt="Selected Preview"
+                          style={{ width: '100%' }}
+                          width={300}
+                          height={300}
+                        />
+                      )}
+                    </DialogContent>
+                    <DialogActions>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          // alignItems: `center`,
+                          justifyContent: 'space-between',
+                          width: '100%',
+                        }}
+                      >
+                        <Button onClick={handleClosePreview} color="primary">
+                          Close
+                        </Button>
+                        <Button onClick={handleUploadImage} variant="contained">
+                          Upload
+                        </Button>
+                      </Box>
+                    </DialogActions>
+                  </Dialog>
                   <Box
+                    p={1}
+                    className="msg_head"
                     sx={{
-                      display: 'flex',
-                      // alignItems: `center`,
-                      justifyContent: 'space-between',
+                      background: theme.palette.secondary.light,
+                      m: 0,
                       width: '100%',
                     }}
                   >
-                    <Button onClick={handleClosePreview} color="primary">
-                      Close
-                    </Button>
-                    <Button onClick={handleUploadImage} variant="contained">
-                      Upload
-                    </Button>
+                    {/* Chat header */}
+                    <Grid container alignItems="center">
+                      <IconButton
+                        onClick={() => {
+                          setInchat(false);
+                          setOpenChat(false);
+                        }}
+                        sx={{ display: { lg: 'none', xl: 'none' } }}
+                      >
+                        <ArrowBackIosIcon />
+                      </IconButton>
+
+                      <Grid item sx={{ mr: 1 }}>
+                        <Avatar
+                          sx={{ width: '40px', height: '40px' }}
+                          alt="Contact Name"
+                          src={activeConversation?.profile?.picture}
+                        />
+                      </Grid>
+                      <Grid item xs sx={{ mr: '3' }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ fontSize: '15px', m: 0 }}
+                        >
+                          {activeConversation?.profile?.firstName +
+                            ' ' +
+                            activeConversation?.profile?.lastName}
+                        </Typography>
+                        <Typography variant="caption" sx={{ m: 0, p: 0 }}>
+                          {activeConversation?.lastActive
+                            ? getLastSeen(activeConversation?.lastActive)
+                            : 'Offline '}
+                        </Typography>
+                      </Grid>
+                      {/* <Grid item>
+                        <IconButton>
+                          <MoreVertIcon />
+                        </IconButton>
+                      </Grid> */}
+                    </Grid>
                   </Box>
-                </DialogActions>
-              </Dialog>
-              <Box sx={{ background: '#fff' }}>
-                {/* Active User at Header */}
-                {activeConversation?.map((user: any) => (
+                  <Box sx={{ height: messagesHeight, overflowY: 'scroll' }}>
+                    <List className="msg_card_body">
+                      <ChatComponent
+                        userInfoId={queryData}
+                        messages={messages}
+                        setInchat={setInchat}
+                        inchat={inchat}
+                      />
+                    </List>
+                  </Box>
                   <Box
-                    key={user?._id}
+                    className="card-footer"
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      pt: 6,
-                      pb: 2,
-                      px: 2,
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      ml: 2,
+                      mr: 2,
+                      mb: 1,
+                      right: 0,
+                      //background: theme.palette.secondary.light,
+                      border: 'solid 1px #ccc',
+                      borderRadius: '50px',
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          position: 'relative',
-                          width: '30px',
-                          height: '30px',
-                          borderRadius: '50%',
-                          background: theme.palette.primary.main,
-                        }}
-                      >
-                        <Image
-                          src={user?.profile?.picture || cahtImg}
-                          alt="profileImg"
-                          fill
-                          style={{
-                            borderRadius: '50%',
-                          }}
-                        />
-                      </Box>
-                      <Box>
-                        <Typography
-                          fontWeight="bold"
-                          fontSize="0.8rem"
-                          color="primary.main"
-                          sx={{ marginLeft: '1rem' }}
-                        >
-                          {user?.profile?.firstName} {user?.profile?.lastName}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <ArrowForwardIosIcon
-                      onClick={() => dispatch(setMobileChatModal(false))}
-                      className="mobileCloseIcon"
-                    />
+                    <form onSubmit={handleSubmit}>
+                      <Grid container alignItems="center">
+                        <Grid item>
+                          <IconButton
+                            aria-label="upload-image"
+                            size="medium"
+                            onClick={handleUploadButtonClick}
+                          >
+                            <input
+                              type="file"
+                              accept="image/*"
+                              style={{ display: 'none' }}
+                              ref={fileInputRef}
+                              onChange={handleFileInputChange}
+                            />
+                            <AttachFileIcon />
+                          </IconButton>
+                        </Grid>
+                        <Grid item xs>
+                          <InputBase
+                            fullWidth
+                            placeholder="Type your message..."
+                            value={chatMessage}
+                            onChange={(e) => setChatMessage(e.target.value)}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <IconButton color="primary" type="submit">
+                            <SendIcon />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </form>
                   </Box>
-                ))}
-              </Box>
-              {/*  Chats */}
-              <Box
-                ref={divRef}
-                sx={{
-                  overflowY: 'auto',
-                  height: '100%',
-                  scrollBehavior: 'smooth',
-                }}
-              >
+                </>
+              ) : (
                 <Box
                   sx={{
-                    px: '1rem',
-                    pt: '2rem',
-                    pb: {
-                      xs: '13rem',
-                      sm: '13rem',
-                      md: '13rem',
-                      lg: '13rem',
-                      xl: '13rem',
-                    },
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'secondary.light',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 >
-                  <ChatComponent userInfoId={queryData} messages={messages} />
-                </Box>
-              </Box>
-              {/* Form for sending message */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  bottom: '0',
-                  width: '100%',
-                  p: '1rem',
-                  background: theme.palette.secondary.light,
-                  borderTop: 'solid 1px #ccc',
-                }}
-              >
-                <form onSubmit={handleSubmit}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <IconButton
-                      aria-label="upload-image"
-                      size="medium"
-                      onClick={handleUploadButtonClick}
-                    >
-                      <input
-                        type="file"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        ref={fileInputRef}
-                        onChange={handleFileInputChange}
-                      />
-                      <AttachFileIcon />
-                    </IconButton>
-                    <textarea
-                      id="txtid"
-                      name="txtname"
-                      value={chatMessage}
-                      onChange={(e) => setChatMessage(e.target.value)}
-                      rows={1}
-                      cols={50}
-                      required
-                      placeholder="Type here"
-                      style={{
-                        width: '100%',
-                        padding: '1rem',
-                        overflowY: 'scroll',
-                        resize: 'none',
-                        border: 'none',
-                        outline: 'none',
-                      }}
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Image
+                      src={chatPreviewImg}
+                      alt="previewChatScreen"
+                      width={300}
+                      height={300}
                     />
-                    <IconButton
-                      type="submit"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        backgroundColor: 'primary.main',
-                        ml: 2,
-                      }}
-                    >
-                      <SendIcon sx={{ mx: 1, color: 'secondary.main' }} />
-                    </IconButton>
+                    <Typography fontSize="1.2rem" color="primary.main">
+                      Start Chatting
+                    </Typography>
                   </Box>
-                </form>
-              </Box>
-            </Box>
-          ) : (
-            <Box
-              className={`${
-                mobileChatModal ? 'mobileOpenSlider' : 'mobileCloseSlider'
-              }`}
-              sx={{
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'secondary.light',
-                borderRadius: '8px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Box sx={{ textAlign: 'center' }}>
-                <Image
-                  src={chatPreviewImg}
-                  alt="previewChatScreen"
-                  width={300}
-                  height={300}
-                />
-                <Typography fontSize="1.2rem" color="primary.main">
-                  Start Chatting
-                </Typography>
-              </Box>
-            </Box>
-          )}
-        </ChatLayout>
-      </Container>
+                </Box>
+              )}
+            </Paper>
+          </Grid>
+        </Grid>
+      </Box>
     </Layout>
   );
 };

@@ -35,10 +35,10 @@ const SuccessPage = ({ token }: Props) => {
   const handleAcceptOffer = async () => {
     const res = await fetch(
       `/${
-        userInfo?.role === 'provider'
-          ? `provider-profiles/${userInfo?._id}/accept-offer`
-          : userInfo?.role === 'planner'
-          ? `planner-profiles/${userInfo?._id}/accept-offer`
+        userInfo === 'provider'
+          ? `provider-profiles/${userInfo}/accept-offer`
+          : userInfo === 'planner'
+          ? `planner-profiles/${userInfo}/accept-offer`
           : null
       }/`,
       {

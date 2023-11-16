@@ -48,7 +48,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials) =>
-      customFetch.put(`profiles/${userInfo?._id}`, credentials, {
+      customFetch.put(`profiles/${userInfo}`, credentials, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

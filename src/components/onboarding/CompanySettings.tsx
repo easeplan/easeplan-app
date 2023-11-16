@@ -82,7 +82,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
           serviceType: credentials?.serviceType,
           image: credentials?.image,
           description: credentials?.description,
-          role: userInfo?.role,
+          role: userInfo,
         },
         {
           headers: {
@@ -242,7 +242,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
                           placeholder="Company Name"
                         />
                       </Box>
-                      {userInfo?.role === 'provider' && (
+                      {userInfo === 'provider' && (
                         <Box>
                           <FormInput
                             isSelect

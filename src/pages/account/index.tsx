@@ -18,6 +18,8 @@ import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Divider from '@/components/common/Divider';
+import { useActivityTracker } from '@/utils/InteractionTracker';
+import { useSocket } from '@/hooks/useSocketContext';
 
 interface Props {
   token: string;
@@ -25,11 +27,10 @@ interface Props {
 
 const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
-  const { notifyData } = useSelector((state: RootState) => state.notifications);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
-
+  useActivityTracker(userInfo as string);
   const fetchContracts = async () => {
     try {
       const res = await fetch(

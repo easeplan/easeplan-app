@@ -48,10 +48,10 @@ const AddPricingModal = ({ isOpen, isClose, token, queryData }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(
         `/${
-          userInfo?.role === 'provider'
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === 'planner'
-            ? `planner-profiles/${userInfo?._id}`
+          userInfo === 'provider'
+            ? `provider-profiles/${userInfo}`
+            : userInfo === 'planner'
+            ? `planner-profiles/${userInfo}`
             : null
         }/`,
         credentials,

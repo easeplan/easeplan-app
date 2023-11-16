@@ -50,7 +50,7 @@ const EditStandardModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { mutate: updateStandard, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.put(
-        `/planner-profiles/${userInfo?._id}/set-pricing`,
+        `/planner-profiles/${userInfo}/set-pricing`,
         credentials,
         {
           headers: {

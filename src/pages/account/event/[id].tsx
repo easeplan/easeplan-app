@@ -50,7 +50,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
       email: userEmail,
       amount: data?.budget,
       contractId: id,
-      role: userInfo?.role,
+      role: userInfo,
     };
     try {
       const { data } = await axios.post(

@@ -52,6 +52,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import { stringMap } from 'aws-sdk/clients/backup';
+import { useSocket } from '@/hooks/useSocketContext';
+import { useActivityTracker } from '@/utils/InteractionTracker';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const InboxPage = ({ token }: any) => {
   const theme = useTheme();
@@ -68,26 +71,52 @@ const InboxPage = ({ token }: any) => {
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [openChat, setOpenChat] = useState(false);
   const [inchat, setInchat] = useState(false);
+  const socket = useSocket();
+  const [isUploading, setIsUploading] = useState(false);
 
+  useActivityTracker(userInfo as string);
+  const getLastSeen = (lastActive: Date) => {
+    const lastActiveDate = new Date(lastActive) as any;
+    const now = new Date() as any;
+
+    const diffInSeconds = Math.floor((now - lastActiveDate) / 1000);
+
+    if (diffInSeconds < 60) {
+      return 'Active now';
+    } else if (diffInSeconds < 3600) {
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    } else {
+      return lastActiveDate.toLocaleDateString();
+    }
+  };
   useEffect(() => {
-    const socket = io('http://localhost:3007', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
+    if (socket) {
+      socket.on('unreadConversationMessagesCount', (count) =>
+        dispatch(setUnreadConversationMessagesCount(count)),
+      );
 
-    socket.on('unreadConversationMessagesCount', (count) =>
-      dispatch(setUnreadConversationMessagesCount(count)),
-    );
+      socket.on('allUnreadConversationMessagesCount', (count) =>
+        dispatch(setAllUnreadConversationMessagesCount(count)),
+      );
 
-    socket.on('allUnreadConversationMessagesCount', (count) =>
-      dispatch(setAllUnreadConversationMessagesCount(count)),
-    );
+      socket.on(`conversation-${activeUserData?._id}`, (data) => {
+        dispatch(setMessages([...messages, data]));
+        dispatch(setCurrentMessage(data));
+      });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      socket.on('activeState', (data) => {
+        setConversationList({ conversations: data });
+      });
+
+      return () => {
+        socket.off('unreadConversationMessagesCount');
+        socket.off('allUnreadConversationMessagesCount');
+        socket.off(`conversation-${activeUserData?._id}`);
+      };
+    }
+  }, [socket, activeUserData?._id, dispatch, messages, userInfo]);
 
   const fetchConversations = async () => {
     try {
@@ -131,27 +160,16 @@ const InboxPage = ({ token }: any) => {
 
   const handleUploadImage = async () => {
     if (!selectedImage) return;
-
+    setIsUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('image', selectedImage);
-      formData.append('conversationId', activeUserData?._id);
+      const { Location } = await uploadFileToS3('chats', selectedImage);
+      socket?.emit('image-message', {
+        sender: userInfo,
+        conversationId: activeUserData?._id,
+        image: Location,
+      });
 
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/conversations/image`,
-        {
-          image: selectedImage || '',
-          conversationId: activeUserData?._id || '',
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      // Update the Redux state with the new message
-      dispatch(setMessages([...messages, data?.message]));
+      setIsUploading(false);
       setPreviewOpen(false);
     } catch (error) {
       console.error('Error occurred during image upload:', error);
@@ -160,13 +178,7 @@ const InboxPage = ({ token }: any) => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    const socket = io('http://localhost:3007', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
-    socket.emit('message', {
+    socket?.emit('message', {
       sender: userInfo,
       conversationId: activeUserData?._id,
       message: chatMessage,
@@ -174,24 +186,6 @@ const InboxPage = ({ token }: any) => {
 
     setChatMessage('');
   };
-
-  useEffect(() => {
-    const socket = io('http://localhost:3007', {
-      auth: {
-        userId: `${userInfo}`,
-      },
-    });
-
-    socket.on(`conversation-${activeUserData?._id}`, (data: any) => {
-      // Update the Redux state with the new message
-      dispatch(setMessages([...messages, data]));
-      dispatch(setCurrentMessage(data));
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [dispatch, messages, userInfo, activeUserData?._id]);
 
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
@@ -423,7 +417,7 @@ const InboxPage = ({ token }: any) => {
                           Close
                         </Button>
                         <Button onClick={handleUploadImage} variant="contained">
-                          Upload
+                          {!isUploading ? 'Send' : 'Uploading...'}
                         </Button>
                       </Box>
                     </DialogActions>
@@ -466,8 +460,9 @@ const InboxPage = ({ token }: any) => {
                             activeConversation?.profile?.lastName}
                         </Typography>
                         <Typography variant="caption" sx={{ m: 0, p: 0 }}>
-                          {/* {activeUserHeader?.lastSeen} */}
-                          active
+                          {activeConversation?.lastActive
+                            ? getLastSeen(activeConversation?.lastActive)
+                            : 'Offline '}
                         </Typography>
                       </Grid>
                       {/* <Grid item>
@@ -506,7 +501,7 @@ const InboxPage = ({ token }: any) => {
                       <Grid container alignItems="center">
                         <Grid item>
                           <IconButton
-                            aria-label="upload-image"
+                            aria-label={!isUploading ? 'Send' : 'Uploading...'}
                             size="medium"
                             onClick={handleUploadButtonClick}
                           >

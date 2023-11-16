@@ -239,7 +239,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
             {localQueryData?.profile?.lastName}
           </Typography>
         </Box>
-        {userInfo && userInfo.role === 'user' ? (
+        {userInfo && userInfo === 'user' ? (
           <Box
             sx={{
               display: 'flex',

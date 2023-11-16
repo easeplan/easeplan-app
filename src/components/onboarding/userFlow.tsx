@@ -102,7 +102,7 @@ const UserFlow = ({ token }: PropsTypes) => {
           city: credentials.city,
           picture: credentials.picture,
           gender: credentials?.gender,
-          role: userInfo?.role,
+          role: userInfo,
         },
         {
           headers: {
@@ -113,7 +113,7 @@ const UserFlow = ({ token }: PropsTypes) => {
       );
 
       if (data.status === 'success') {
-        if (userInfo?.role === 'user') {
+        if (userInfo === 'user') {
           dispatch(setUserIntro(false));
           router.push('/account');
         }

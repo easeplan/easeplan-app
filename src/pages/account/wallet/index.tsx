@@ -18,7 +18,7 @@ const PaymentPage = ({ token }: any) => {
   const fetchBankDetails = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/account-details/${userInfo?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/account-details/${userInfo}`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -45,11 +45,11 @@ const VerifyAccountForm = ({ token }: any) => {
     mutationFn: (credentials) =>
       customFetch.put(
         `/${
-          userInfo?.role === 'provider'
-            ? `provider-profiles/${userInfo?._id}`
-            : userInfo?.role === 'planner'
-            ? `planner-profiles/${userInfo?._id}`
-            : `user-profiles/${userInfo?._id}`
+          userInfo === 'provider'
+            ? `provider-profiles/${userInfo}`
+            : userInfo === 'planner'
+            ? `planner-profiles/${userInfo}`
+            : `user-profiles/${userInfo}`
         }/`,
         credentials,
         {

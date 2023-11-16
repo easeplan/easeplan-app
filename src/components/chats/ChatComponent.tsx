@@ -11,6 +11,7 @@ import {
 import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
 import theme from '@/styles/theme';
+import { useEffect, useRef } from 'react';
 
 const ChatComponent = ({ userInfoId, messages }: any) => {
   function formatTime(timestamp: any) {
@@ -29,14 +30,25 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
 
     return formattedTime; // fallback
   }
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container sx={{ pr: 4, pl: 4 }}>
       {messages?.map((message: any, index: any) => {
         const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
+
         return (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           <ListItem
-            key={message.id}
+            key={message._id}
+            //ref={index === messages.length - 1 ? lastMessageRef : null}
             alignItems="flex-start"
             style={{
               justifyContent: !isCurrentUser ? 'flex-end' : 'flex-start',

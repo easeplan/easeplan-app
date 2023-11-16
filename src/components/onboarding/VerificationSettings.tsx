@@ -54,7 +54,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleNextSlide = () => {
-    if (userInfo?.role === 'user') {
+    if (userInfo === 'user') {
       dispatch(setUserIntro(true));
       dispatch(setIntroOne(false));
     } else {
@@ -74,7 +74,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
           },
           phoneNumber: credentials?.phoneNumber,
           gender: credentials?.gender,
-          role: userInfo?.role,
+          role: userInfo,
         },
         {
           headers: {
@@ -84,7 +84,7 @@ const VerificationSettings = ({ token }: PropsTypes) => {
         },
       );
       if (data.status === 'success') {
-        if (userInfo?.role === 'user') {
+        if (userInfo === 'user') {
           router.push('/account');
         } else {
           dispatch(setIntroOne(false));

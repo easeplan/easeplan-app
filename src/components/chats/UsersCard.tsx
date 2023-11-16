@@ -70,7 +70,7 @@ const UsersCard = ({
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
     arr
-      .filter((user: any) => user._id != userInfo?._id)
+      .filter((user: any) => user._id != userInfo)
       .map((user: any) => activeUsers.push(user));
 
     return activeUsers;
@@ -87,7 +87,7 @@ const UsersCard = ({
 
     const socket = io('https://easeplan.azurewebsites.net', {
       auth: {
-        userId: `${userInfo?._id}`,
+        userId: `${userInfo}`,
       },
     });
 
@@ -171,21 +171,24 @@ const UsersCard = ({
         onClick={handleSelectChat}
         sx={{ cursor: 'pointer', pd: 0, m: 0 }}
       >
-        <ListItemAvatar>
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            variant="dot"
-          >
-            <Avatar
-              alt={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
-              src={otherParticipant?.profile?.picture}
-            />
-          </StyledBadge>
-        </ListItemAvatar>
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          variant="dot"
+          // sx={{
+          //   '& .MuiBadge-dot': {
+          //     backgroundColor: !otherParticipant.lastActive && 'grey', // or your default color
+          //   },
+          // }}
+        >
+          <Avatar
+            alt={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}
+            src={otherParticipant?.profile?.picture}
+          />
+        </StyledBadge>
         <ListItemText
           sx={{
             p: 1,

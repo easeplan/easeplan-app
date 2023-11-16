@@ -153,7 +153,7 @@ const Hero = ({ queryData, token, publicId }: any) => {
             {queryData?.profile?.firstName} {queryData?.profile?.lastName}
           </Typography>
         </Box>
-        {userInfo && userInfo.role === 'user' ? (
+        {userInfo && userInfo === 'user' ? (
           <Box
             sx={{
               display: 'flex',

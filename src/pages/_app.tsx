@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,10 +12,11 @@ import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from '@/context/contextStore';
 import 'react-toastify/dist/ReactToastify.css';
-import { store } from '../store/store';
-import { Provider } from 'react-redux';
+import { RootState, store } from '../store/store';
+import { Provider, useSelector } from 'react-redux';
 import Head from 'next/head';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { SocketProvider } from '@/hooks/useSocketContext';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 
@@ -23,6 +24,15 @@ const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [userId, setUserId] = useState<string | null>(null);
+  useEffect(() => {
+    // Check if window is defined (i.e., if we're in the browser)
+    if (typeof window !== 'undefined') {
+      // Now we're safe to use localStorage
+      const storedUserId = localStorage.getItem('userInfo');
+      setUserId(storedUserId);
+    }
+  }, []);
   const router = useRouter();
 
   useEffect(() => {
@@ -75,10 +85,11 @@ export default function App({ Component, pageProps }: AppProps) {
               <QueryClientProvider client={queryClient}>
                 <ToastContainer position="top-center" />
                 <ThemeProvider theme={theme}>
-                  <CssBaseline />
-                  <Component key={router.pathname} {...pageProps} />
+                  <SocketProvider userId={userId as string}>
+                    <CssBaseline />
+                    <Component key={router.pathname} {...pageProps} />
+                  </SocketProvider>
                 </ThemeProvider>
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
               </QueryClientProvider>
             </AuthProvider>
           </AnimatePresence>

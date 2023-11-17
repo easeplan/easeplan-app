@@ -54,9 +54,12 @@ export default function BasicAccordion({ header, content }: BAccordProps) {
           </Box>
         </AccordionSummary>
         <AccordionDetails>
-          <Box>
+          <Box sx={{ pl: '2rem' }}>
             {content.map((data, idx) => (
-              <Typography sx={{ mb: 2 }} key={idx}>
+              <Typography
+                sx={{ mb: 2, fontWeight: '600', cursor: 'pointer' }}
+                key={idx}
+              >
                 {data}
               </Typography>
             ))}

@@ -6,6 +6,7 @@ import {
   Button,
   Tab,
   Tabs,
+  TextareaAutosize,
   Typography,
   createSvgIcon,
   styled,
@@ -64,7 +65,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{}}>{children}</Box>}
     </div>
   );
 }
@@ -125,7 +126,7 @@ const SupportPage = ({ token }: PropsTypes) => {
           paddingTop: 8,
         }}
       >
-        <h1 className="ea-heading-1">Rate event Planner</h1>
+        <h1 className="ea-heading-1">Resolution center</h1>
         <Typography sx={{ mb: 5 }}>
           Welcome! Here you can work things out and resolves issues regarding
           your events
@@ -150,17 +151,17 @@ const SupportPage = ({ token }: PropsTypes) => {
               width: {
                 xs: '100%',
                 sm: '100%',
-                md: '43%',
-                lg: '43%',
-                xl: '43%',
+                md: '30%',
+                lg: '30%',
+                xl: '30%',
               },
             }}
           >
-            <h3 className="ea-heading-2">Search for a question</h3>
-            <Typography sx={{ mb: 5 }}>Type your question or search</Typography>
+            {/* <h3 className="ea-heading-2">Search for a question</h3>
+            <Typography sx={{ mb: 5 }}>Type your question or search</Typography> */}
 
             <Box>
-              <Box
+              {/* <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -189,16 +190,12 @@ const SupportPage = ({ token }: PropsTypes) => {
                 >
                   SEARCH
                 </Button>
-              </Box>
+              </Box> */}
 
               <Box sx={{ mt: 2 }}>
                 <BasicAccordion
                   header="Payment"
                   content={['Request Refund', 'Cancel Event']}
-                />
-                <BasicAccordion
-                  header="Inquiry"
-                  content={['About us', 'Services']}
                 />
               </Box>
             </Box>
@@ -208,9 +205,9 @@ const SupportPage = ({ token }: PropsTypes) => {
               width: {
                 xs: '100%',
                 sm: '100%',
-                md: '57%',
-                lg: '57%',
-                xl: '57%',
+                md: '70%',
+                lg: '70%',
+                xl: '70%',
               },
             }}
           >
@@ -231,9 +228,10 @@ const SupportPage = ({ token }: PropsTypes) => {
                   style: { display: 'none' },
                 }}
               >
-                <StyledTab label="All Ticket" {...a11yProps(0)} />
-                <StyledTab label="Active" {...a11yProps(1)} />
-                <StyledTab label="Closed" {...a11yProps(2)} />
+                <StyledTab label="Messages" {...a11yProps(0)} />
+                <StyledTab label="All Ticket" {...a11yProps(1)} />
+                <StyledTab label="Active" {...a11yProps(2)} />
+                <StyledTab label="Closed" {...a11yProps(3)} />
               </Tabs>
               <Button
                 color="primary"
@@ -246,23 +244,50 @@ const SupportPage = ({ token }: PropsTypes) => {
               </Button>
             </Box>
             <TabPanel value={value} index={0}>
-              <TicketList type={TicketType.ALL} />
+              <Box sx={{ p: 3 }}>
+                <Typography>Tell us more about this issue</Typography>
+              </Box>
+              <div className="ea-line" />
+              <Box></Box>
+              <Box>
+                <form>
+                  <TextareaAutosize
+                    style={{
+                      width: '100%',
+                      height: '16rem',
+                      border: 'none',
+                      padding: '1rem',
+                    }}
+                  />
+                  <Box sx={{ p: 2, textAlign: 'right' }}>
+                    <Button
+                      variant="contained"
+                      sx={{ px: 10, py: 1, color: 'secondary.main' }}
+                    >
+                      Send
+                    </Button>
+                  </Box>
+                </form>
+              </Box>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <TicketList type={TicketType.ACTIVE} />
+              <TicketList type={TicketType.ALL} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <TicketList type={TicketType.CLOSED} />
+              <TicketList type={TicketType.ACTIVE} />
             </TabPanel>
             <TabPanel value={value} index={3}>
-              <SendMessage userId="lol" token={token} />
+              <TicketList type={TicketType.CLOSED} />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+              <h1>Hello World</h1>
             </TabPanel>
           </Box>
         </Box>
       </Box>
-      <Box>
+      {/* <Box>
         <SendMessage userId="lol" token={token} />
-      </Box>
+      </Box> */}
     </DashboardLayout>
   );
 };

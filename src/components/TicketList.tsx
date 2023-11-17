@@ -107,6 +107,7 @@ function Ticket({ title, ticketNo, message, createdAt, status }: TicketProps) {
   );
 }
 export enum TicketType {
+  MESSAGES = 'messages',
   ALL = 'all',
   CLOSED = 'closed',
   ACTIVE = 'active',

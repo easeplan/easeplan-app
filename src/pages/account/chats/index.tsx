@@ -318,26 +318,6 @@ const InboxPage = ({ token }: any) => {
                       </Typography>
                     </Box>
                   </Grid>
-                  {/* <Grid item xs>
-                    <InputBase
-                      fullWidth
-                      placeholder="Search..."
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <SearchIcon fontSize="small" sx={{ m: 2 }} />
-                        </InputAdornment>
-                      }
-                      sx={{
-                        borderRadius: '15px',
-                        background: theme.palette.secondary.light,
-                        border: '0 !important',
-                        p: 0.2,
-                        pl: 2,
-                        fontSize: '15px',
-                        width: '100%',
-                      }}
-                    />
-                  </Grid> */}
                 </Grid>
               </Box>
               <List

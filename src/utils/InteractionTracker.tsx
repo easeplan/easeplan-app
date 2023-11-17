@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useSocket } from '@/hooks/useSocketContext';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 
 export const useActivityTracker = (userId: string) => {
   const socket = useSocket();
@@ -11,7 +9,7 @@ export const useActivityTracker = (userId: string) => {
 
     const updateUserStatus = (userId: string) => {
       socket?.emit('changeActive', { userId: userId });
-      console.log('sent socket', userId);
+      // console.log('sent socket', userId);
     };
 
     const resetTimer = () => {

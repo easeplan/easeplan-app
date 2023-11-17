@@ -40,7 +40,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
 
   return (
     <Grid container sx={{ pr: 4, pl: 4 }}>
-      {messages?.map((message: any, index: any) => {
+      {messages?.map((message: any) => {
         const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
 
         return (

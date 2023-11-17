@@ -7,10 +7,8 @@ import theme from '@/styles/theme';
 import AcceptOfferConfirmModal from '@/components/AcceptOfferConfirmModal';
 import CustomButton from '@/components/common/CustomButton';
 import Image from 'next/image';
-import UserRating from '@/components/common/UserRating';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import {
@@ -33,8 +31,6 @@ import Layout from '@/components/vendors/Layout';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
-import CloseIcon from '@mui/icons-material/Close';
-import ReviewForm from '@/components/ReviewForm';
 import ReviewFormFull from '@/components/ReviewFormFull';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
@@ -79,11 +75,10 @@ const ViewEvent = ({ id, data, token }: any) => {
   const handleOfferAmountChange = (event: any) => {
     setOfferAmount(event.target.value);
   };
-  //   console.log(id);
 
   useEffect(() => {
     localStorage.setItem('eventID', `${id}`);
-    localStorage.setItem('contract', `${data}`);
+    localStorage.setItem('contract', JSON.stringify(data));
   }, []);
 
   // const userServiceObj =
@@ -460,12 +455,6 @@ const ViewEvent = ({ id, data, token }: any) => {
                     </Box>
                   </Box>
                 </section>
-                {/* <Typography sx={{ fontWeight: `500`, color: `primary.main` }}>
-                  Payment was successful. Proceed to chat with vendor{` `}
-                  <Link href="/user/chat" style={{ fontWeight: 700 }}>
-                    [Chat]
-                  </Link>
-                </Typography> */}
               </Box>
             )}
 
@@ -899,43 +888,7 @@ const ViewEvent = ({ id, data, token }: any) => {
                       </>
                     )}
                   </Box>
-
-                  {/* <Box
-                    sx={{
-                      mt: `2rem`,
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                      }}
-                    >
-                      <Box>
-                        <Typography fontWeight={600}>Location:</Typography>
-                        <Typography>
-                          {queryData?.state} {queryData?.city}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Typography fontWeight={600}>Member Since:</Typography>
-                      <Typography>
-                        {dateFormater(queryData?.createdAt)}
-                      </Typography>
-                    </Box>
-                  </Box> */}
                 </Box>
-                {/* Review Form */}
-                {/* <ReviewForm
-                  token={token}
-                  role={queryData?.role}
-                  rating={queryData?.rating}
-                  profileId={queryData?.userId}
-                /> */}
                 {(eventData.status === 'Approved' ||
                   eventData.status === 'Resolved') && (
                   <ReviewFormFull

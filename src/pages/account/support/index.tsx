@@ -235,7 +235,7 @@ const SupportPage = ({ token }: PropsTypes) => {
               </Tabs>
               <Button
                 color="primary"
-                style={{ color: theme.palette.secondary.main }}
+                sx={{ color: 'secondary.main', px: 6 }}
                 variant="contained"
                 onClick={() => setValue(3)}
                 type="submit"

@@ -102,10 +102,6 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
           }}
         >
           <Box>
-            {/* {queryData?.events[id as string] &&
-              queryData?.events[id as string].status !== `Accepted` && (
-                <EventAlert event={queryData?.events[id as string]} />
-              )} */}
             <Box
               key={data?._id}
               sx={{
@@ -147,45 +143,6 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 {data?.state}, {data?.city}
               </Typography>
             </Box>
-            {/* <Box
-              sx={{
-                p: 4,
-                mt: 4,
-                backgroundColor: `secondary.light`,
-              }}
-            >
-              <Box
-                sx={{
-                  display: `flex`,
-                  alignItems: `center`,
-                  justifyContent: `space-between`,
-                }}
-              >
-                <Typography
-                  fontWeight="600"
-                  fontSize="1.3rem"
-                  mb={4}
-                  color="primary.main"
-                  textTransform="capitalize"
-                >
-                  {userServiceObj?.type}
-                </Typography>
-              </Box>
-              {userServiceObj?.service?.map((list: any) => (
-                <Typography
-                  key={list}
-                  sx={{
-                    display: `flex`,
-                    alignItems: `center`,
-                    color: `primary.main`,
-                    mt: 1,
-                  }}
-                >
-                  <CheckIcon sx={{ color: `secondary.main`, mr: 1 }} />
-                  {list}
-                </Typography>
-              ))}
-            </Box> */}
             {queryData && (
               <Box>
                 <Box
@@ -318,9 +275,6 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                       profileId={queryData?.userId}
                       size="small"
                     />
-                    {/* <Typography ml={1} fontSize="0.9rem">
-                      {queryData?.events.length} Events
-                    </Typography> */}
                   </Box>
                   <Box
                     sx={{
@@ -356,42 +310,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                       Cancel
                     </Button>
                   </Box>
-                  {/* <Box
-                    sx={{
-                      mt: `2rem`,
-                      display: `flex`,
-                      alignItems: `center`,
-                      justifyContent: `space-between`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: `flex`,
-                        alignItems: `center`,
-                      }}
-                    >
-                      <Box>
-                        <Typography fontWeight={600}>Location:</Typography>
-                        <Typography>
-                          {queryData?.state} {queryData?.city}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Typography fontWeight={600}>Member Since:</Typography>
-                      <Typography>
-                        {dateFormater(queryData?.createdAt)}
-                      </Typography>
-                    </Box>
-                  </Box> */}
                 </Box>
-                {/* Review Form */}
-                {/* <ReviewForm
-                  token={token}
-                  role={queryData?.role}
-                  rating={queryData?.rating}
-                  profileId={queryData?.userId}
-                /> */}
               </Box>
             )}
           </Box>
@@ -513,13 +432,6 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
             <Link href="/dashboard/support">Resolution center</Link>
           </Box>
         </Box>
-
-        {/* <ReviewFormFull
-          rating={queryData?.rating}
-          token={token}
-          profileId={queryData?.userId}
-          role={queryData?.role}
-        /> */}
       </section>
     </DashboardLayout>
   );

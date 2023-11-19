@@ -13,6 +13,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useAuth } from '@/hooks/authContext';
 
 type Props = {
   queryData: QueryData;
@@ -22,7 +23,9 @@ type Props = {
 
 const Hero = ({ queryData, token, publicId }: any) => {
   const router = useRouter();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
 
   const handledHireMe = () => {
     if (userInfo) {

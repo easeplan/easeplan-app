@@ -57,6 +57,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -72,6 +73,7 @@ const PaymentOptModal = ({ isOpen, token, isClose, amount }: any) => {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           },
         );
       }

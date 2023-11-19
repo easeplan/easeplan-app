@@ -59,7 +59,7 @@ const UsersCard = ({
   conversation,
   otherParticipant,
   setOpenChat,
-  setInchat,
+  handleInChat,
 }: any) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -79,7 +79,7 @@ const UsersCard = ({
   const activeConversation = activeUser(data?.participants);
 
   const handleSelectChat = async () => {
-    setInchat(true);
+    handleInChat();
     setOpenChat(true);
     dispatch(setMobileChatModal(true));
     const conversationID = data?._id;
@@ -110,6 +110,7 @@ const UsersCard = ({
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const messagesHistory = await res.json();

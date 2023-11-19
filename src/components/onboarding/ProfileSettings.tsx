@@ -27,6 +27,7 @@ import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
 import { toast } from 'react-toastify';
 import { uploadFileToS3 } from '@/utils/uploadFile';
+import { useAuth } from '@/hooks/authContext';
 
 const currentDate = new Date();
 const eighteenYearsAgo = new Date(
@@ -47,7 +48,9 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const { stepThree } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { user } = useAuth();
+
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
   const handleFormSubmit = async (credentials: any) => {
     try {
@@ -64,7 +67,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         );
         pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
       } else {
-        pictureUrl = queryData?.provider.profile?.picture; // Use the existing URL
+        pictureUrl = user?.provider.profile?.picture; // Use the existing URL
       }
       const resData = {
         firstName: credentials.firstName.trim(),
@@ -82,6 +85,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -197,14 +201,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 </Typography>
                 <Formik
                   initialValues={{
-                    firstName: queryData?.provider.profile?.firstName
-                      ? queryData?.provider.profile?.firstName
+                    firstName: user?.provider.profile?.firstName
+                      ? user?.provider.profile?.firstName
                       : '',
-                    lastName: queryData?.provider.profile?.lastName
-                      ? queryData?.provider.profile?.lastName
+                    lastName: user?.provider.profile?.lastName
+                      ? user?.provider.profile?.lastName
                       : '',
-                    picture: queryData?.provider.profile?.picture
-                      ? queryData?.provider.profile?.picture
+                    picture: user?.provider.profile?.picture
+                      ? user?.provider.profile?.picture
                       : '',
                     state: '',
                     city: '',

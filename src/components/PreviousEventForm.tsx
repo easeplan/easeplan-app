@@ -56,6 +56,7 @@ const PreviousEventForm = ({ token }: EventProps) => {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

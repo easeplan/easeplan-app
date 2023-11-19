@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, MenuItem } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Button, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Form, Formik } from 'formik';
@@ -22,6 +22,9 @@ import data from '@/lib/states.json';
 import { uploadFileToS3 } from '@/utils/uploadFile';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import theme from '@/styles/theme';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -77,18 +80,30 @@ const SettingsForm = ({
 
   const [hasPhoneNumber, setHasPhoneNumber] = useState(false);
   const queryClient = useQueryClient();
+  const [resendCountDown, setResendCountDown] = useState<any>();
+  const [countDown, setCountDown] = useState<any>();
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isResend, setIsResend] = useState<boolean>(false);
+  const [isResendLoading, setIsResendLoading] = useState<boolean>(false);
+  const [isTokenSent, setIsTokenSent] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [userCredentials, setCredentials] = useState<object>({});
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
-      customFetch.put('users/update', credentials, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      customFetch.post(
+        'onboarding/company/phone_verify_request',
+        { phone_number: credentials.phoneNumber },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         },
-      }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
-      toast.success('An OTP has been sent to verify your number');
+      toast.success('OTP sent to your number!');
       setHasPhoneNumber(true);
     },
     onError: (error: any) => {
@@ -97,82 +112,130 @@ const SettingsForm = ({
   });
   const submitCredentials = async (credentials: any) => {
     const { Location } = await uploadFileToS3('images', credentials.picture);
-    const formData = new FormData();
-    formData.append('picture', credentials.picture);
+    setPhoneNumber(credentials.phoneNumber);
     const resData = {
-      firstName: queryData?.provider?.profile?.firstName
-        ? queryData?.provider?.profile?.firstName
-        : credentials.firstName,
-      lastName: queryData?.provider?.profile?.lastName
-        ? queryData?.provider?.profile?.lastName
-        : credentials.lastName,
-      picture: queryData?.provider?.profile?.picture
-        ? queryData?.provider?.profile?.picture
-        : Location,
-      state: queryData?.provider?.providerProfile?.state
-        ? queryData?.provider?.providerProfile?.state
-        : credentials.state,
-      city: queryData?.provider?.providerProfile?.city
-        ? queryData?.provider?.providerProfile?.city
-        : credentials.city,
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
+      picture: Location,
+      state: credentials.state,
+      city: credentials.city,
       gender: credentials.gender,
       phoneNumber: credentials.phoneNumber,
-      password: '',
       confirmPassword: '',
     };
-
+    setCredentials(resData);
     updateProfile(resData);
+  };
+
+  const apiClient = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const sendRequest = async (
+    url: string,
+    data: any,
+    token: string,
+    method: 'get' | 'post' | 'put' | 'delete' | 'patch' = 'post',
+  ) => {
+    return apiClient[method](url, data, {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    });
   };
 
   const verifyNumber = async (credentials: any) => {
     try {
-      // Verify OTP with the server
       setIsLoadingOTP(true);
-      const { data: otpVerificationResult } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/verify_otp`,
+
+      const otpVerificationResult = await sendRequest(
+        '/onboarding/company/verify_otp',
         credentials,
+        token,
+      );
+      if (otpVerificationResult.data.status !== 'success') {
+        toast.error('OTP verification failed.');
+        return;
+      }
+
+      const userUpdateResult = await sendRequest(
+        '/users/update',
+        userCredentials,
+        token,
+        'put',
+      );
+      if (userUpdateResult.data.status !== 'success') {
+        toast.error(
+          fromProfile
+            ? 'Failed to send offer!'
+            : 'Failed to update user records.',
+        );
+        return;
+      }
+
+      if (fromProfile) {
+        const offer = JSON.parse(localStorage.getItem('offer') || '{}');
+        const offerCreationResult = await sendRequest(
+          '/profiles/create-offer',
+          offer,
+          token,
+        );
+
+        if (offerCreationResult.data.status === 'success') {
+          toast.success('Offer sent to vendor');
+          router.push(`/user/events/${offerCreationResult.data.data._id}`);
+          handleClose(false);
+        } else {
+          toast.error('Failed to create an offer.');
+        }
+      } else {
+        toast.success('Profile Updated!');
+        setHasPhoneNumber(false);
+      }
+    } catch (error: any) {
+      setIsLoadingOTP(false);
+      toast.error(error.response?.data?.message || 'An error occurred');
+    }
+  };
+
+  useEffect(() => {
+    let count = 60;
+    const interval = setInterval(function () {
+      const minutes = Math.floor(count / 60);
+      const seconds = count % 60;
+      const timer = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+      count--;
+      setResendCountDown(timer);
+      setCountDown(seconds);
+      if (count === 0) {
+        clearInterval(interval);
+        setIsTokenSent(true);
+      }
+    }, 1000);
+  }, [isResend]);
+
+  const resendHandler = async () => {
+    try {
+      setIsResendLoading(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/onboarding/company/phone_verify_request`,
+        { phone_number: phoneNumber },
         {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
-
-      if (otpVerificationResult.status === 'success') {
-        // Retrieve the 'offer' object from local storage
-        const offerJson = localStorage.getItem('offer');
-
-        // Parse the JSON string to get the 'offer' object
-        const offer = JSON.parse(offerJson as unknown as string);
-
-        // Send the 'offer' object to the server to create an offer
-        const { data: offerCreationResult } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
-          offer,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (offerCreationResult.status === 'success') {
-          toast.success('Offer sent to vendor');
-          router.push(`/user/events/${offerCreationResult?.data?._id}`);
-          handleClose(false);
-        } else {
-          // Handle an unsuccessful offer creation here
-          toast.error('Failed to create an offer.');
-        }
-      } else {
-        // Handle an unsuccessful OTP verification here
-        toast.error('OTP verification failed.');
+      if (data.status === 'success') {
+        setIsResendLoading(false);
+        toast.success('An OTP has been sent to verify your number');
       }
+      setIsTokenSent(true);
     } catch (error: any) {
-      setIsLoadingOTP(false);
-      toast.error(error.response.data.message);
+      setIsResendLoading(false);
+      const { data } = error.response;
     }
   };
 
@@ -184,6 +247,7 @@ const SettingsForm = ({
           ? 'none'
           : '0px 1.82797px 12.0699px rgba(0, 0, 0, 0.2)',
         my: 4,
+        p: fromProfile ? '0' : 4,
       }}
     >
       {!hasPhoneNumber ? (
@@ -198,21 +262,18 @@ const SettingsForm = ({
             picture: queryData?.provider?.profile?.picture
               ? queryData?.provider?.profile?.picture
               : '',
-            gender: '',
-            city: queryData?.provider?.providerProfile?.city
-              ? queryData?.provider?.providerProfile?.city
+            gender: queryData?.provider?.gender
+              ? queryData?.provider?.gender
               : '',
-            state: queryData?.provider?.providerProfile?.state
-              ? queryData?.provider?.providerProfile?.state
+            city: queryData?.provider?.city ? queryData?.provider?.city : '',
+            state: queryData?.provider?.state ? queryData?.provider?.state : '',
+            phoneNumber: queryData?.provider?.phoneNumber
+              ? queryData?.provider?.phoneNumber
               : '',
-            phoneNumber: queryData?.provider?.providerProfile?.phoneNumber
-              ? queryData?.provider?.providerProfile?.phoneNumber
-              : '',
-            password: '',
             confirmPassword: '',
           }}
           onSubmit={(values) => submitCredentials(values)}
-          validationSchema={ProfileSchema}
+          validationSchema={fromProfile && ProfileSchema}
         >
           {({ setFieldValue }) => (
             <Form>
@@ -366,14 +427,14 @@ const SettingsForm = ({
                       <FormInput
                         ariaLabel="phoneNumber"
                         name="phoneNumber"
-                        type="text"
+                        type="number"
                         placeholder="Phone number"
                       />
                     </Box>
                   </Box>
 
                   {!fromProfile && (
-                    <div>
+                    <div style={{ marginBottom: '10px' }}>
                       {changePassword ? (
                         <>
                           <div>
@@ -438,9 +499,9 @@ const SettingsForm = ({
               <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
                 <CustomButton
                   bgPrimary
-                  lgWidth="20%"
-                  smWidth="45%"
-                  mdWidth="20%"
+                  lgWidth="40%"
+                  smWidth="40%"
+                  mdWidth="40%"
                   loading={isLoading}
                   loadingText="Saving..."
                   type="submit"
@@ -484,6 +545,61 @@ const SettingsForm = ({
                       placeholder=""
                     />
                   </div>
+                  {hasPhoneNumber && (
+                    <Typography my={1} color="primary.main" align="center">
+                      {resendCountDown}
+                    </Typography>
+                  )}
+
+                  <Box display="flex" justifyContent="space-between">
+                    {hasPhoneNumber && isTokenSent && (
+                      <button
+                        onClick={resendHandler}
+                        className="resendBtn"
+                        type="button"
+                        style={{
+                          fontWeight: '800',
+                          border: 'none',
+                          background: 'none',
+                          outline: 'none',
+                          marginBottom: '1rem',
+                          cursor: 'pointer',
+                          color: theme.palette.secondary.main,
+                          fontSize: '13px',
+                        }}
+                      >
+                        {isResendLoading ? (
+                          <span className="flex items-center">
+                            <FontAwesomeIcon icon={faCircleNotch} spin />
+                            <span style={{ marginLeft: '0.5rem' }}>
+                              RESENDING...
+                            </span>
+                          </span>
+                        ) : (
+                          <>RESEND CODE</>
+                        )}
+                      </button>
+                    )}
+                    {hasPhoneNumber && isTokenSent && (
+                      <button
+                        type="button"
+                        style={{
+                          fontSize: '13px',
+                          fontWeight: '800',
+                          border: 'none',
+                          background: 'none',
+                          outline: 'none',
+                          marginBottom: '1rem',
+                          cursor: 'pointer',
+                          color: theme.palette.secondary.main,
+                        }}
+                        onClick={() => setHasPhoneNumber(false)}
+                        className="resendBtn"
+                      >
+                        CHANGE NUMBER
+                      </button>
+                    )}
+                  </Box>
                   <Box sx={{ textAlign: 'right', marginTop: '1rem' }}>
                     <CustomButton
                       bgPrimary

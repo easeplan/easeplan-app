@@ -18,6 +18,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
 

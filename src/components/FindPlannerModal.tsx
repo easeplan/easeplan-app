@@ -81,6 +81,7 @@ const FindPlannerModal = ({ isOpen, isClose, token, queryData }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const data = await res.json();

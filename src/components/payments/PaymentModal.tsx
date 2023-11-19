@@ -96,6 +96,7 @@ const PaymentModal = ({
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           },
         );
         if (data.status === 'success') {

@@ -45,6 +45,7 @@ const VendorPricingForm = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

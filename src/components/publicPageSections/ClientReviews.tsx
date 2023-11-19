@@ -29,17 +29,16 @@ const ReviewSlider = ({ queryData }: any) => {
           justifyContent: 'space-between',
           alignItems: 'start',
           p: 3,
-          mb: { xs: 4, md: 0 }, // Margin bottom only on xs screens
+          mb: { xs: 4, md: 0 },
           border: { xs: 'solid 1px #ccc', md: 'none' }, // Borders only on xs screens
           borderRadius: '10px',
           maxWidth: { xs: '100%', md: 500 }, // Full width on xs screens, max width on larger screens
           boxShadow: { sm: 'none', md: 3 }, // Shadow on md screens and larger
           // Other styles here...
           height: '100%',
+          mr: { lg: 3, xl: 3 },
         }}
       >
-        {' '}
-        {/* Review card content */}
         <Box sx={{ display: 'flex', mb: 3, alignItems: 'center' }}>
           <Rating
             name="read-only"
@@ -70,9 +69,13 @@ const ReviewSlider = ({ queryData }: any) => {
           />
           <Box>
             <Typography>
-              {review?.ratedBy?.profile?.firstName + 'John'}
+              {review?.ratedBy?.profile?.firstName +
+                ' ' +
+                review?.ratedBy?.profile?.firstName}
             </Typography>
-            <Typography>{review?.ratedBy?.profile?.state + 'Delta'}</Typography>
+            <Typography>
+              {review?.ratedBy?.state + ' ' + review?.ratedBy?.city}
+            </Typography>
           </Box>
         </Box>
       </Box>
@@ -85,7 +88,7 @@ const ReviewSlider = ({ queryData }: any) => {
   if (isLgUp) {
     // Grid layout for lg and xl screens
     return (
-      <Box sx={{ mb: 10 }}>
+      <Box sx={{ pb: 5 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
           {reviewsNumb}
         </Typography>
@@ -94,7 +97,7 @@ const ReviewSlider = ({ queryData }: any) => {
           sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1 vcdfrem',
+            gap: '1rem',
           }}
         >
           {reviewCards}
@@ -123,7 +126,7 @@ const ReviewSlider = ({ queryData }: any) => {
   } else {
     // Swiper for xs and sm screens
     return (
-      <Box sx={{ mb: 10 }}>
+      <Box sx={{ pb: 5 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
           {reviewsNumb}
         </Typography>
@@ -140,7 +143,10 @@ const ReviewSlider = ({ queryData }: any) => {
           scrollbar={{ draggable: true }}
         >
           {reviewCards.map((card: any, index: number) => (
-            <SwiperSlide key={index} style={{ width: 'auto', height: 'auto' }}>
+            <SwiperSlide
+              key={index}
+              style={{ padding: '0 8px', boxSizing: 'border-box' }}
+            >
               {card}
             </SwiperSlide>
           ))}

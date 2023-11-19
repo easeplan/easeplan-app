@@ -19,14 +19,21 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import { useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import GroupIcon from '@mui/icons-material/Group';
+import { useAuth } from '@/hooks/authContext';
 
 const Sidenav = ({ data }: any) => {
   const dispatch = useDispatch();
+  const { setUser } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
+      setUser(null);
       router.push('/user/findvendors');
       dispatch(clearCredentials());
     } catch (error: any) {}

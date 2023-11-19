@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { setCloseModal } from '@/features/onboardingSlice';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { useAuth } from '@/hooks/authContext';
 
 const links = [
   // {
@@ -71,15 +72,20 @@ const NavItems = ({ data }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
-  const isProvider = localStorage.getItem('isProvider');
+  const { user, setUser, setIsLoggedIn } = useAuth();
 
   const handleLogout = async () => {
     try {
-      const data = await axios.post('/api/logout');
-
-      if (data?.data?.message === 'Success') {
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
+      if (data?.data?.status === 'success') {
         setLoginModal(false);
+        setIsLoggedIn(false);
         dispatch(clearCredentials());
+        setUser(null);
         router.push('/user/findvendors');
       }
     } catch (error: any) {}
@@ -115,7 +121,7 @@ const NavItems = ({ data }: any) => {
           >
             <Tooltip title="Open settings">
               <IconButton>
-                {userInfo ? (
+                {user ? (
                   <Avatar
                     alt={data?.profile?.firstName}
                     src={data?.profile?.picture}
@@ -147,7 +153,7 @@ const NavItems = ({ data }: any) => {
               px: 4,
             }}
           >
-            {userInfo && isProvider && (
+            {user && user?.provider?.providerProfile && (
               <Stack
                 direction="row"
                 sx={{
@@ -186,7 +192,7 @@ const NavItems = ({ data }: any) => {
 
               <NavLink text="Find Vendors" href="/findvendors" />
             </Stack>
-            {!isProvider &&
+            {!user?.provider?.providerProfile &&
               links?.map((link) => (
                 <Stack
                   key={link.id}
@@ -203,14 +209,14 @@ const NavItems = ({ data }: any) => {
                   }}
                 >
                   {link.icon}
-                  {userInfo ? (
+                  {user ? (
                     <NavLink text={link.text} href={link.href} />
                   ) : (
                     <NavLink text={link.text} onClick={handleLoginModal} />
                   )}
                 </Stack>
               ))}
-            {userInfo && !isProvider && (
+            {user && !user?.provider?.providerProfile && (
               <Stack
                 direction="row"
                 sx={{
@@ -233,7 +239,7 @@ const NavItems = ({ data }: any) => {
                 />
               </Stack>
             )}
-            {!userInfo ? (
+            {!user ? (
               <Stack
                 direction="row"
                 sx={{

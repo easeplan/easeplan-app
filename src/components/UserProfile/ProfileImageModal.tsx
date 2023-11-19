@@ -15,6 +15,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const style = {
   position: 'absolute' as const,
@@ -93,7 +94,9 @@ export default function UpdateProfileModal({
   queryData,
 }: any) {
   const [previewProfileImg, setPreviewProfileImg] = useState();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({

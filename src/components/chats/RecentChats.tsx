@@ -19,7 +19,7 @@ const RecentChats = ({
   token,
   userInfo,
   setOpenChat,
-  setInchat,
+  handleInChat,
 }: any) => {
   return (
     <>
@@ -44,7 +44,7 @@ const RecentChats = ({
               conversation={conversation}
               otherParticipant={otherParticipant}
               setOpenChat={setOpenChat}
-              setInchat={setInchat}
+              handleInChat={handleInChat}
             />
           );
         })

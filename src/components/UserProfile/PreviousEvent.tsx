@@ -13,9 +13,12 @@ import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const PreviousEvent = ({ queryData, token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [openModal, setOpenModal] = useState(false);
   const [openEditEventModal, setOpenEditEventModal] = useState(false);
   const [sampleId, setSampleId] = useState('');
@@ -42,6 +45,7 @@ const PreviousEvent = ({ queryData, token }: any) => {
 
   const handleEventDelete = async (id: any) => {
     setSampleId(id);
+    console.log(id);
     handleDelete(id);
   };
 

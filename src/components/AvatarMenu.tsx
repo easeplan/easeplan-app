@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { Divider } from '@mui/material';
+import { useAuth } from '@/hooks/authContext';
 
 interface AvatarMenuProps {
   imgSrc: any;
@@ -36,6 +37,7 @@ export default function AvatarMenu({
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { setUser } = useAuth();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -45,8 +47,13 @@ export default function AvatarMenu({
   // Logout function
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
       dispatch(clearCredentials());
+      setUser(null);
       router.push('/user/findvendors');
       setOpen(false);
     } catch (error: any) {}

@@ -161,6 +161,7 @@ export async function getServerSideProps({ req, params }: any) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
     },
   );
 

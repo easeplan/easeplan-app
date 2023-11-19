@@ -20,6 +20,7 @@ import theme from '@/styles/theme';
 import TicketList, { TicketType } from '@/components/TicketList';
 import SendMessage from '@/components/SendMessage';
 import BasicAccordion from '@/components/BasicAccordian';
+import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
@@ -100,7 +101,9 @@ const StyledTab = styled((props: StyledTabProps) => (
 }));
 
 const SupportPage = ({ token }: PropsTypes) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [value, setValue] = useState(0);
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,

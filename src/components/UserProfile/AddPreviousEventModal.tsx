@@ -16,6 +16,8 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
 import { styled } from '@mui/material/styles';
+import { useAuth } from '@/hooks/authContext';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const style = {
   position: 'absolute' as const,
@@ -45,14 +47,16 @@ interface updateTypes {
 }
 
 const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.put(`profiles/${userInfo}/add-sample`, credentials, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
@@ -68,9 +72,13 @@ const AddPreviousEventModal = ({ isOpen, isClose, token, queryData }: any) => {
 
   const handleEventSubmit = async (credentials: any) => {
     const formData = new FormData();
-    formData.append('sampleImage', credentials.preEventImage);
+    const { Location } = await uploadFileToS3(
+      'samples',
+      credentials.preEventImage,
+    );
+    // formData.append('sampleImage', credentials.preEventImage);
     const data = {
-      sampleImage: credentials.preEventImage,
+      sampleImage: Location,
     };
     handleUpdate(data);
   };

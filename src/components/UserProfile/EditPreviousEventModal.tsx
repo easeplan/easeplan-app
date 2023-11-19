@@ -17,6 +17,7 @@ import TextArea from '../common/TextArea';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
+import { useAuth } from '@/hooks/authContext';
 
 const style = {
   position: 'absolute' as const,
@@ -48,7 +49,9 @@ const EditPreviousEventModal = ({
   queryData,
   eventId,
 }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({

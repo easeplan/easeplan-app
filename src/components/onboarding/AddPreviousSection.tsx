@@ -15,6 +15,7 @@ import AddPreviousEventModal from './AddPreviousEventModal';
 import { useState } from 'react';
 import useFetch from '@/hooks/useFetch';
 import PreviousJobs from './PreviousJobs';
+import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
@@ -26,7 +27,8 @@ const AddPreviousSection = ({ token }: PropsTypes) => {
   const { stepFive } = useSelector((state: RootState) => state.onboarding);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { user } = useAuth();
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
   return (
     <>
@@ -71,7 +73,7 @@ const AddPreviousSection = ({ token }: PropsTypes) => {
                 isClose={() => setIsOpen(false)}
               />
               <Box sx={{ mt: 8 }}>
-                <PreviousJobs queryData={queryData} token={token} />
+                <PreviousJobs queryData={user} token={token} />
               </Box>
             </Box>
           </Box>

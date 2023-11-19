@@ -79,6 +79,7 @@ const FindVendorModal = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const data = await res.json();

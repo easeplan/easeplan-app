@@ -25,6 +25,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from '../GoogleButton';
 import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 import posthog from 'posthog-js';
+import { useAuth } from '@/hooks/authContext';
 
 const strengthLables = ['weak', 'medium', 'strong'];
 
@@ -45,6 +46,7 @@ const SignupForm = ({ modal }: any) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isCheckedMsg, setIsCheckedMsg] = useState('');
   const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
+  const { setIsLoggedIn } = useAuth();
 
   const setReferedBy = () => {
     const referedBy = localStorage.getItem('referedBy');
@@ -101,37 +103,52 @@ const SignupForm = ({ modal }: any) => {
 
   const submitCredentials = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const credentials = { email: email, password: password };
-    if (!email) {
-      setEmailErr('email is required');
-    } else if (!password) {
-      setPassErr('password is required');
-    } else if (!isChecked) {
-      setIsCheckedMsg('Terms and Condition is required');
-    } else {
-      setIsCheckedMsg('');
-      setPassErr('');
-      setEmailErr('');
-      try {
-        setIsLoading(true);
-        // const res = await signup(credentials).unwrap();
-        const res = await axios.post('/api/signup', credentials);
-        toast.success(res?.data?.message);
+
+    // Input Validation
+    if (!email || !password || !isChecked) {
+      if (!email) setEmailErr('Email is required');
+      if (!password) setPassErr('Password is required');
+      if (!isChecked) setIsCheckedMsg('Terms and Condition is required');
+      return; // Early return to avoid further execution
+    }
+
+    // Password Strength Validation
+    // const strength = getPasswordStrength(password);
+    // if (strength !== 'strong') {
+    //   // Assuming 'Strong' is one of the labels for acceptable strength
+    //   setPassErr('Password does not meet the required criteria');
+    //   return;
+    // }
+
+    setEmailErr('');
+    setPassErr('');
+    setIsCheckedMsg('');
+
+    try {
+      setIsLoading(true);
+
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`;
+      const res = await axios.post(
+        apiUrl,
+        { email, password },
+        { withCredentials: true },
+      );
+
+      toast.success(res?.data?.message);
+
+      if (typeof window !== 'undefined') {
         localStorage.setItem('authUser', res?.data?.user?._id);
-        // dispatch(setCredentials(res?.data?.user?._id));
-        setReferedBy();
-        // Saving user email, to send along with the verification token
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('userEmail', `${email}`);
-        }
-        setVerificationModal(true);
-      } catch (error: any) {
-        toast.error(error.response?.data?.message);
-        setIsLoading(false);
-        setErrorMsg(error.data?.error);
-      } finally {
-        setIsLoading(false);
+        localStorage.setItem('userEmail', email);
       }
+      setIsLoggedIn(true);
+      setReferedBy();
+      setVerificationModal(true);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'An error occurred';
+      toast.error(errorMessage);
+      setErrorMsg(error?.response?.data?.error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -143,17 +160,21 @@ const SignupForm = ({ modal }: any) => {
   const responseGoogle = async (response: any) => {
     try {
       if (response.access_token) {
-        const result = await fetch('/api/google-auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const result = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: response.access_token }),
+            credentials: 'include',
           },
-          body: JSON.stringify({ token: response.access_token }),
-        });
+        );
 
         const data = await result.json();
-        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
         dispatch(setCredentials(data?.user?._id));
+        setIsLoggedIn(true);
         if (data.success === true) {
           dispatch(setCloseModal(false));
           router.push('/user/findvendors');

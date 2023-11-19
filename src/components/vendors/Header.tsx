@@ -9,11 +9,14 @@ import SearchInput from './SearchInput';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import SidenavDrawer from './SidenavDrawer';
+import { useAuth } from '@/hooks/authContext';
 
 const Header = ({ handleSearchChange, data, isSearch }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

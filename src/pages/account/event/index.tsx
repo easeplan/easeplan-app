@@ -7,10 +7,13 @@ import { setNotifyData } from '@/features/notificationsSlice';
 import { Box, Typography, Divider } from '@mui/material';
 import Link from 'next/link';
 import theme from '@/styles/theme';
+import { useAuth } from '@/hooks/authContext';
 
 const EventPage = ({ token }: any) => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [contracts, setContracts] = useState<any>();
 
   const fetchContracts = async () => {
@@ -22,10 +25,12 @@ const EventPage = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
 
       const json = await res.json();
+      console.log(json);
       setContracts(json?.data);
       dispatch(setNotifyData(json?.data));
     } catch (err) {

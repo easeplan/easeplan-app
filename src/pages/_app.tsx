@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,6 +17,10 @@ import { Provider, useSelector } from 'react-redux';
 import Head from 'next/head';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SocketProvider } from '@/hooks/useSocketContext';
+import axios from 'axios';
+import { IUser } from 'types/interfaces/IUser';
+import { AuthContext, ReturnProps } from '@/hooks/authContext';
+import { setCredentials, clearCredentials } from '@/features/authSlice';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 
@@ -24,16 +28,26 @@ const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [userId, setUserId] = useState<string | null>(null);
-  useEffect(() => {
-    // Check if window is defined (i.e., if we're in the browser)
-    if (typeof window !== 'undefined') {
-      // Now we're safe to use localStorage
-      const storedUserId = localStorage.getItem('userInfo');
-      setUserId(storedUserId);
-    }
-  }, []);
+  const [user, setUser] = useState<ReturnProps | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const router = useRouter();
+
+  useEffect(() => {
+    // Check if user is logged in
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setCredentials(response.data.data._id);
+        setUser(response.data.data);
+      })
+      .catch(() => {
+        clearCredentials();
+        setUser(null);
+      });
+  }, [isLoggedIn]);
 
   useEffect(() => {
     posthog.init(`${process.env.NEXT_PUBLIC_POSTHOG_INIT}`, {
@@ -72,28 +86,28 @@ export default function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
       </Head>
 
-      <GoogleOAuthProvider clientId="314971178164-o0q5ossjll2eo1tdthtlhncrv53o6ust.apps.googleusercontent.com">
-        <Provider store={store}>
-          <AnimatePresence mode={'wait'}>
-            <AuthProvider queryData={pageProps.queryData}>
-              <QueryClientProvider client={queryClient}>
-                <ToastContainer position="top-center" />
-                <ThemeProvider theme={theme}>
-                  <SocketProvider userId={userId as string}>
-                    <CssBaseline />
-                    <Component key={router.pathname} {...pageProps} />
-                  </SocketProvider>
-                </ThemeProvider>
-              </QueryClientProvider>
-            </AuthProvider>
-          </AnimatePresence>
-        </Provider>
+      <GoogleOAuthProvider
+        clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT as string}
+      >
+        <AuthContext.Provider value={{ user, setUser, setIsLoggedIn }}>
+          <Provider store={store}>
+            <AnimatePresence mode={'wait'}>
+              <AuthProvider queryData={pageProps.queryData}>
+                <QueryClientProvider client={queryClient}>
+                  <ToastContainer position="top-center" />
+                  <ThemeProvider theme={theme}>
+                    <SocketProvider userId={user?.provider?._id as string}>
+                      <CssBaseline />
+                      <Component key={router.pathname} {...pageProps} />
+                    </SocketProvider>
+                  </ThemeProvider>
+                </QueryClientProvider>
+              </AuthProvider>
+            </AnimatePresence>
+          </Provider>
+        </AuthContext.Provider>
       </GoogleOAuthProvider>
     </>
   );

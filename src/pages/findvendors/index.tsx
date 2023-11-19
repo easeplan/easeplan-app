@@ -23,7 +23,7 @@ import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
-export { getServerSideProps } from '@/hooks/useFetchToken';
+// export { getServerSideProps } from '@/hooks/useFetchToken';
 import cateringIcon from '@/public/event-icons/catering.png';
 import cakeIcon from '@/public/event-icons/cake.png';
 import decorationIcon from '@/public/event-icons/decoration.png';
@@ -38,6 +38,7 @@ import entertainerIcon from '@/public/event-icons/dancer.png';
 import hairStylistIcon from '@/public/event-icons/hair-dye.png';
 import makeUpIcon from '@/public/event-icons/make-up.png';
 import liveBandicon from '@/public/event-icons/live-music.png';
+import { useAuth } from '@/hooks/authContext';
 
 const services = [
   {
@@ -161,8 +162,8 @@ const VendorPage = ({ token }: Props) => {
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
-
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { user } = useAuth();
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
   const dataObj = data as any;
   return (
@@ -193,7 +194,7 @@ const VendorPage = ({ token }: Props) => {
       <Layout
         isSearch
         handleSearchChange={handleSearchChange}
-        data={queryData?.provider}
+        data={user?.provider}
       >
         <Box
           sx={{

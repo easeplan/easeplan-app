@@ -16,9 +16,12 @@ import Box from '@mui/material/Box';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Typography } from '@mui/material';
+import { useAuth } from '@/hooks/authContext';
 
 const VerifyPage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

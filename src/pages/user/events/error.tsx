@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ExternalError from '@/components/ErrorPage';
 import { RootState } from '@/store/store';
+import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
@@ -24,8 +25,10 @@ const ErrorPage = ({ token }: Props) => {
   useEffect(() => {
     setEventID(localStorage.getItem('eventID'));
   }, []);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
 
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

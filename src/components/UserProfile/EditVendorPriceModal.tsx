@@ -15,6 +15,7 @@ import CustomButton from '../common/CustomButton';
 import Label from '../common/Label';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const style = {
   position: 'absolute' as const,
@@ -41,7 +42,9 @@ const VendorSchema = Yup.object().shape({
 });
 
 const EditVendorPriceModal = ({ isOpen, isClose, token, queryData }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({

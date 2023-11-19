@@ -12,9 +12,12 @@ import ErrorPage from '@/components/ErrorPage';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useAuth } from '@/hooks/authContext';
 
 const SettingsPage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

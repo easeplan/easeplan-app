@@ -17,6 +17,7 @@ import CustomButton from '@/components/common/CustomButton';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
 import Image from 'next/image';
+import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
@@ -24,7 +25,9 @@ interface Props {
 
 const SuccessPage = ({ token }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const [userEmail] = useState(
@@ -47,6 +50,7 @@ const SuccessPage = ({ token }: Props) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
       },
     );
     const data = await res.json();

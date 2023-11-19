@@ -18,6 +18,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import MultipleSelectCity from '../onboarding/MultipleSelectCity';
 import MultipleSelectState from '../onboarding/MultipleSelectState';
+import { useAuth } from '@/hooks/authContext';
 
 const style = {
   position: 'absolute' as const,
@@ -44,7 +45,9 @@ const ProfileSchema = Yup.object().shape({
 });
 
 const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [selectedState, setSelectedState] = useState<any>();
   const [selectedCities, setSelectedCities] = useState<any>();
   const queryClient = useQueryClient();

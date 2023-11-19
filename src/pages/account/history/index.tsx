@@ -9,12 +9,16 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import ErrorPage from '@/components/ErrorPage';
 import BasicTable from '@/components/Table';
+import { useAuth } from '@/hooks/authContext';
 
 const HistoryPage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [contracts, setContracts] = useState<any>();
+  console.log(userInfo);
 
   const fetchContracts = async () => {
     setIsLoading(true);
@@ -26,6 +30,7 @@ const HistoryPage = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       if (res.status === 200) {

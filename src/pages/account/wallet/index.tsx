@@ -10,9 +10,12 @@ import { RootState } from '@/store/store';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ErrorPage from '@/components/ErrorPage';
+import { useAuth } from '@/hooks/authContext';
 
 const PaymentPage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [bankDetails, setBankDetails] = useState();
 
   const fetchBankDetails = async () => {
@@ -24,6 +27,7 @@ const PaymentPage = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
 

@@ -58,6 +58,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -106,6 +107,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -152,6 +154,7 @@ const PlannerCard = ({ basic, standard, premium, token, data }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

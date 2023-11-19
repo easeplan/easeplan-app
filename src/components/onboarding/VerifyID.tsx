@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import Dojah from 'react-dojah';
 import { useRouter } from 'next/router';
 import OTPRequestCooldown from './OTPRequest';
+import { useAuth } from '@/hooks/authContext';
 
 const currentDate = new Date();
 const eighteenYearsAgo = new Date(
@@ -38,7 +39,9 @@ const ProfileSettings = ({ token }: PropsTypes) => {
   const { stepThree, stepSix } = useSelector(
     (state: RootState) => state.onboarding,
   );
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [sentID, setSentID] = useState(false);
   const [reference_id, setReferenceId] = useState('');
   const [showDojah, setShowDojah] = useState(false);
@@ -59,6 +62,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -93,6 +97,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

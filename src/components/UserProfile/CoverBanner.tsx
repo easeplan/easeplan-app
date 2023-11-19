@@ -15,13 +15,17 @@ import ProfilePhoto from './ProfilePhoto';
 import BannerImg from '@/public/banner.png';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const CoverImageSchema = Yup.object().shape({
   image: Yup.string(),
 });
 
 const CoverBanner = ({ queryData, token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [previewBannerImg, setPreviewBannerImg] = useState();
   const [fileName, setFileName] = useState();
 
@@ -31,7 +35,7 @@ const CoverBanner = ({ queryData, token }: any) => {
     mutationFn: (credentials: any) =>
       customFetch.put(`/profiles/${userInfo}`, credentials, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }),
@@ -45,8 +49,10 @@ const CoverBanner = ({ queryData, token }: any) => {
   });
 
   const updateCoverBanner = async (credentials: any) => {
-    const formData = new FormData();
-    formData.append('image', credentials.image);
+    const { Location } = await uploadFileToS3('cover', credentials.image);
+    credentials.image = Location;
+    console.log(credentials.image);
+
     updateBannerImg(credentials);
   };
 

@@ -2,7 +2,14 @@ import { useEffect, useState, useRef } from 'react';
 import ChatLayout from '@/components/chats/ChatLayout';
 import RecentChats from '@/components/chats/RecentChats';
 import ChatComponent from '@/components/chats/ChatComponent';
-import { Box, Typography, Button, Container, useTheme } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  useTheme,
+  Theme,
+} from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
@@ -59,6 +66,9 @@ import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import { stringMap } from 'aws-sdk/clients/backup';
 import { useSocket } from '@/hooks/useSocketContext';
 import { useActivityTracker } from '@/utils/InteractionTracker';
+import { uploadFileToS3 } from '@/utils/uploadFile';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useAuth } from '@/hooks/authContext';
 
 const InboxPage = ({ token }: any) => {
   const theme = useTheme();
@@ -68,7 +78,9 @@ const InboxPage = ({ token }: any) => {
     (state: RootState) => state.chatsData,
   );
   const [conversationList, setConversationList] = useState<any>();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [chatMessage, setChatMessage] = useState<any>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -76,6 +88,34 @@ const InboxPage = ({ token }: any) => {
   const [openChat, setOpenChat] = useState(false);
   const [inchat, setInchat] = useState(false);
   const socket = useSocket();
+  const [isUploading, setIsUploading] = useState(false);
+
+  const matchesXS = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('xs'),
+  );
+  const matchesSM = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm'),
+  );
+
+  const matchesMD = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md'),
+  );
+
+  useEffect(() => {
+    if (matchesXS || matchesSM || matchesMD) {
+      setInchat(true);
+    } else {
+      setInchat(false); // You might want to reset the state in other cases
+    }
+  }, [matchesXS, matchesSM, matchesMD]);
+
+  const handleInChat = () => {
+    // Check if the screen is either xs or sm
+    if (matchesXS || matchesSM || matchesMD) {
+      setInchat(!inchat);
+    }
+  };
+
   useActivityTracker(userInfo as string);
   const getLastSeen = (lastActive: Date) => {
     const lastActiveDate = new Date(lastActive) as any;
@@ -129,6 +169,7 @@ const InboxPage = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const conversationData = await res.json();
@@ -162,27 +203,16 @@ const InboxPage = ({ token }: any) => {
 
   const handleUploadImage = async () => {
     if (!selectedImage) return;
-
+    setIsUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('image', selectedImage);
-      formData.append('conversationId', activeUserData?._id);
+      const { Location } = await uploadFileToS3('chats', selectedImage);
+      socket?.emit('image-message', {
+        sender: userInfo,
+        conversationId: activeUserData?._id,
+        image: Location,
+      });
 
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/conversations/image`,
-        {
-          image: selectedImage || '',
-          conversationId: activeUserData?._id || '',
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      // Update the Redux state with the new message
-      dispatch(setMessages([...messages, data?.message]));
+      setIsUploading(false);
       setPreviewOpen(false);
     } catch (error) {
       console.error('Error occurred during image upload:', error);
@@ -237,33 +267,35 @@ const InboxPage = ({ token }: any) => {
   const messagesHeight = `calc(100% - ${headerHeight} - ${footerHeight})`;
 
   return (
-    <Layout data={queryData?.provider}>
+    <Layout data={queryData?.provider} inchat={inchat}>
       <Box
         sx={{
-          overflowY: 'hidden',
+          overflow: 'hidden',
           flexGrow: 1,
           position: {
             xs: 'fixed',
             sm: 'fixed',
-            md: 'relative',
-            lg: 'relative',
-            xl: 'relative',
+            md: 'fixed',
+            lg: 'fixed',
+            xl: 'fixed',
           },
-          left: { xs: 0, sm: 0, md: 0 },
+          right: { xs: 0, sm: 0, md: 100, lg: 100 },
           border: {
             xl: '0.1px solid #71F79F',
             lg: '0.1px solid #71F79F',
             md: '0.1px solid #71F79F',
             xs: 'none',
           },
-          mt: { xs: 0, sm: 0, md: 2, lg: 2, xl: 2 },
+          mt: { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
           height: {
-            xl: '97%',
-            lg: '97%',
-            md: '98%',
-            sm: inchat ? '100%' : '88',
-            xs: inchat ? '100%' : '80%',
+            xl: '85%',
+            lg: '85%',
+            //md: '90%',
+            sm: inchat ? '100%' : '80',
+            xs: inchat ? '100%' : '92%',
           },
+          maxWidth: { xl: '85%', lg: '85%', md: '85%' },
+          margin: 'auto',
           [theme.breakpoints.down(375)]: { height: '82%' },
           width: '100%',
         }}
@@ -289,7 +321,6 @@ const InboxPage = ({ token }: any) => {
                 xl: 'block',
               },
               flexDirection: 'column',
-              height: '100%',
             }}
           >
             <Paper
@@ -363,7 +394,7 @@ const InboxPage = ({ token }: any) => {
                   conversationList={conversationList}
                   userInfo={userInfo}
                   setOpenChat={setOpenChat}
-                  setInchat={setInchat}
+                  handleInChat={handleInChat}
                 />
               </List>
             </Paper>
@@ -426,7 +457,7 @@ const InboxPage = ({ token }: any) => {
                           Close
                         </Button>
                         <Button onClick={handleUploadImage} variant="contained">
-                          Upload
+                          {!isUploading ? 'Send' : 'Uploading...'}
                         </Button>
                       </Box>
                     </DialogActions>
@@ -444,10 +475,10 @@ const InboxPage = ({ token }: any) => {
                     <Grid container alignItems="center">
                       <IconButton
                         onClick={() => {
-                          setInchat(false);
+                          handleInChat();
                           setOpenChat(false);
                         }}
-                        sx={{ display: { lg: 'none', xl: 'none' } }}
+                        sx={{ display: { lg: 'none', xl: 'none', md: 'none' } }}
                       >
                         <ArrowBackIosIcon />
                       </IconButton>
@@ -486,7 +517,7 @@ const InboxPage = ({ token }: any) => {
                       <ChatComponent
                         userInfoId={queryData}
                         messages={messages}
-                        setInchat={setInchat}
+                        handleInChat={handleInChat}
                         inchat={inchat}
                       />
                     </List>
@@ -510,7 +541,7 @@ const InboxPage = ({ token }: any) => {
                       <Grid container alignItems="center">
                         <Grid item>
                           <IconButton
-                            aria-label="upload-image"
+                            aria-label={!isUploading ? 'Send' : 'Uploading...'}
                             size="medium"
                             onClick={handleUploadButtonClick}
                           >

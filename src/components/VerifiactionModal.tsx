@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { setCloseModal } from '@/features/onboardingSlice';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/features/authSlice';
+import { useAuth } from '@/hooks/authContext';
 
 const OtpSchema = Yup.object().shape({
   token: Yup.string()
@@ -46,6 +47,7 @@ const VerifiactionModal = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isResend, setIsResend] = useState<boolean>(false);
   const [isResendLoading, setIsResendLoading] = useState<boolean>(false);
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -68,17 +70,20 @@ const VerifiactionModal = ({
 
   const submitOtp = async (otp: any) => {
     const token = otp.token;
+
     try {
       setIsLoading(true);
       const { data } = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`,
         { email: userEmail, token },
+        { withCredentials: true },
       );
       if (data.status === 'success') {
         setLoginSuccess(data.message);
         toast.success('Email verified successfully');
-        const userId = localStorage.getItem('authUser');
-        dispatch(setCredentials(userId));
+        console.log(data);
+        dispatch(setCredentials(data.data._id));
+        setIsLoggedIn(true);
         router.push('/user/findvendors');
         setIsLoading(false);
         setLoginError('');

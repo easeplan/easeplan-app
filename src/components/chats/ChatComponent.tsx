@@ -7,11 +7,12 @@ import {
   Paper,
   Typography,
   ListItemText,
+  ListItemProps,
 } from '@mui/material';
 import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
 import theme from '@/styles/theme';
-import { useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 const ChatComponent = ({ userInfoId, messages }: any) => {
   function formatTime(timestamp: any) {
@@ -30,7 +31,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
 
     return formattedTime; // fallback
   }
-  const lastMessageRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if (lastMessageRef.current) {
@@ -39,54 +40,55 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
   }, [messages]);
 
   return (
-    <Grid container sx={{ pr: 4, pl: 4 }}>
+    <Grid container sx={{ pr: 2, pl: { xl: 1, lg: 1, md: 1, sm: 0, xs: 0 } }}>
       {messages?.map((message: any, index: any) => {
         const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
 
         return (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
+
           <ListItem
             key={message._id}
-            //ref={index === messages.length - 1 ? lastMessageRef : null}
+            ref={index === messages.length - 1 ? lastMessageRef : null}
             alignItems="flex-start"
             style={{
-              justifyContent: !isCurrentUser ? 'flex-end' : 'flex-start',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: isCurrentUser ? 'flex-end' : 'flex-start',
             }}
           >
-            <ListItemAvatar
-              style={{
-                display: !isCurrentUser ? 'none' : 'inline-flex',
-              }}
-            >
-              <Image
-                src={
-                  !isCurrentUser
-                    ? userInfoId?.picture || chatImg
-                    : message.sender?.profile.picture || chatImg
-                }
-                alt="Profile"
-                width={40}
-                height={40}
-                style={{
-                  borderRadius: '50%',
-                  margin: '0 8px',
-                }}
-              />
-            </ListItemAvatar>
+            {!isCurrentUser && (
+              <ListItemAvatar>
+                <Image
+                  src={userInfoId?.picture || chatImg}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  style={{
+                    borderRadius: '50%',
+                    marginRight: '8px',
+                  }}
+                />
+              </ListItemAvatar>
+            )}
             <ListItemText
               primary={
                 <Box
                   sx={{
                     display: 'inline-block',
                     borderRadius: '10px',
-                    bgcolor: !isCurrentUser
-                      ? `${theme.palette.primary.light}`
-                      : `${theme.palette.primary.main}`,
+                    backgroundColor:
+                      message.type === 'text'
+                        ? isCurrentUser
+                          ? theme.palette.primary.main
+                          : theme.palette.primary.light
+                        : theme.palette.primary.light,
                     p: 1.2,
                     maxWidth: '75%',
                     textAlign: 'left',
                     color: 'white',
+                    marginBottom: '0',
                   }}
                 >
                   {message.type === 'text' ? (
@@ -95,8 +97,16 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                     <Image
                       src={message.image}
                       alt="Chat content"
-                      width={150}
-                      height={150}
+                      style={{
+                        border: `3px solid ${
+                          isCurrentUser
+                            ? theme.palette.primary.main
+                            : theme.palette.primary.light
+                        }`,
+                        borderRadius: '10px',
+                      }}
+                      width="150"
+                      height="150"
                     />
                   )}
                 </Box>
@@ -107,17 +117,32 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                   variant="body2"
                   style={{
                     display: 'block',
-                    textAlign: !isCurrentUser ? 'right' : 'left',
+                    textAlign: isCurrentUser ? 'right' : 'left',
                     color: 'gray',
+                    marginBottom: '4px', // reduce this value as needed
                   }}
                 >
                   {formatTime(message?.createdAt)}
                 </Typography>
               }
               style={{
-                textAlign: !isCurrentUser ? 'right' : 'left',
+                textAlign: isCurrentUser ? 'right' : 'left',
               }}
             />
+            {isCurrentUser && (
+              <ListItemAvatar>
+                <Image
+                  src={message.sender?.profile.picture || chatImg}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  style={{
+                    borderRadius: '50%',
+                    marginLeft: '8px', // Add a margin to the left if it's the current user
+                  }}
+                />
+              </ListItemAvatar>
+            )}
           </ListItem>
         );
       })}

@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import axios from 'axios';
+import { useAuth } from '@/hooks/authContext';
 
 type MobileNavProp = {
   show: boolean;
@@ -24,6 +25,7 @@ const MobileNav = ({
   publicId,
   handleClick,
 }: MobileNavProp) => {
+  const { setUser } = useAuth();
   const router = useRouter();
   const dispatch = useDispatch();
   const handledLogin = () => {
@@ -35,8 +37,13 @@ const MobileNav = ({
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
       dispatch(clearCredentials());
+      setUser(null);
       router.push('/user/findvendors');
     } catch (error: any) {}
   };

@@ -50,7 +50,7 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
     (state: RootState) => state.onboarding,
   );
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const queryClient = useQueryClient();
 
   const { mutate: verifyCompany, isLoading } = useMutation({

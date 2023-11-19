@@ -47,7 +47,6 @@ export default function SidenavDrawer({ data }: any) {
       <NavItems data={data} />
     </Box>
   );
-
   return (
     <div>
       {(['right'] as const).map((anchor) => (

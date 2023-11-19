@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import axios from 'axios';
 import theme from '@/styles/theme';
+import { useAuth } from '@/hooks/authContext';
 
 type MobileNavProp = {
   show: boolean;
@@ -22,11 +23,17 @@ type MobileNavProp = {
 const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { setUser } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
       dispatch(clearCredentials());
+      setUser(null);
       router.push('/user/findvendors');
     } catch (error: any) {}
   };

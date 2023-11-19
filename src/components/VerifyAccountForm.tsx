@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const ProfileSchema = Yup.object().shape({
   homeAddress: Yup.string().required('Missing field'),

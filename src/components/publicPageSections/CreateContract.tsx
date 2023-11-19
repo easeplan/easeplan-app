@@ -74,7 +74,6 @@ const CreateContractModal = ({
         state: queryData.providerProfile?.state,
         service: credentials.service,
       };
-
       if (
         userData.provider?.profile?.firstName &&
         userData.provider?.profile?.lastName &&
@@ -88,6 +87,7 @@ const CreateContractModal = ({
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           },
         );
         router.push(`/user/events/${data?.data?._id}`);
@@ -186,7 +186,7 @@ const CreateContractModal = ({
                             <FormInput
                               ariaLabel="budget"
                               name="budget"
-                              type="text"
+                              type="number"
                               placeholder="NGN 54,000"
                             />
                           </Box>

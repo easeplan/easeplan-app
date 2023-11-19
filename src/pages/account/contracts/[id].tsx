@@ -21,6 +21,7 @@ import EventIcon from '@mui/icons-material/Event';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { GetServerSidePropsContext, NextApiRequest } from 'next';
 
 /* TODO:
  *
@@ -29,6 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
  * Declined == Declined (make red)
  * Disputed == Disputed (Red)
  */
+
 interface Props {
   token: string;
   data: any;
@@ -49,7 +51,7 @@ const ContractsPage = ({ token, data }: Props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
   const [declined, setDecliend] = useState(false);
   const [eventData, setEventData] = useState(data);
@@ -67,6 +69,7 @@ const ContractsPage = ({ token, data }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const resData = await res.json();
@@ -94,6 +97,7 @@ const ContractsPage = ({ token, data }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const resData = await res.json();
@@ -117,6 +121,7 @@ const ContractsPage = ({ token, data }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const resData = await res.json();
@@ -817,38 +822,101 @@ const ContractsPage = ({ token, data }: Props) => {
   );
 };
 
-export async function getServerSideProps({ req, params }: any) {
-  const { id } = params;
-  const { token } = parseCookies(req);
+// export async function getServerSideProps({ req, params }: any) {
+//   const { id } = params;
+//   const { token } = parseCookies(req);
 
-  if (!token) {
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   // Fetch eventData based on the dynamicParam
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+//     {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token}`,
+//       },
+//       credentials: 'include',
+//     },
+//   );
+
+//   const data = await res.json();
+
+//   return {
+//     props: {
+//       token: token,
+//       data: data?.data,
+//     },
+//   };
+// }
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext & { req: NextApiRequest },
+) {
+  const {
+    req,
+    query: { id },
+  } = context;
+
+  // Convert headers to a compatible format
+  const headers: Record<string, string> = {};
+
+  Object.entries(req.headers).forEach(([key, value]) => {
+    if (value) {
+      headers[key] = Array.isArray(value) ? value.join('; ') : value;
+    }
+  });
+
+  // Add 'Content-Type' header
+  headers['Content-Type'] = 'application/json';
+
+  try {
+    const profileResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (profileResp.status === 401) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+
+    const dataResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (!dataResp.ok) {
+      // Handle error
+      return { props: { error: 'Failed to load data' } };
+    }
+
+    const data = await dataResp.json();
     return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
+      props: {
+        id,
+        data: data?.data,
       },
     };
+  } catch (error) {
+    // Handle fetch errors
+    return { props: { error: 'An error occurred while fetching data' } };
   }
-
-  // Fetch eventData based on the dynamicParam
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  const data = await res.json();
-
-  return {
-    props: {
-      token: token,
-      data: data?.data,
-    },
-  };
 }
 
 export default ContractsPage;

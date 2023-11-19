@@ -20,13 +20,14 @@ import GoogleButton from './GoogleButton';
 import { useGoogleLogin } from '@react-oauth/google';
 import { isLogin, setCloseModal } from '@/features/onboardingSlice';
 import VerifiactionModal from './VerifiactionModal';
+import { useAuth } from '@/hooks/authContext';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required('Email is required'),
   password: Yup.string().required('Password is required'),
 });
 
-const LoginForm = ({ modal }: any) => {
+const LoginForm = ({ modal, fromLoginPage = false }: any) => {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +37,7 @@ const LoginForm = ({ modal }: any) => {
   const [previewModal, setPreviewModal] = useState<boolean>();
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
+  const { setIsLoggedIn } = useAuth();
 
   const [userName] = useState<any>(
     typeof window !== 'undefined' ? localStorage.getItem('userName') : '',
@@ -46,56 +48,86 @@ const LoginForm = ({ modal }: any) => {
     setShowPassword(!showPassword);
   };
 
-  const submitCredentials = async (credentials: any) => {
+  interface Credentials {
+    email: string;
+    password: string;
+  }
+
+  const submitCredentials = async (credentials: Credentials) => {
     try {
       setIsLoading(true);
       const data = await login(credentials).unwrap();
       const id = data?.user?._id;
       dispatch(setCredentials(id));
 
-      // Redirect to the last visited URL or a default route
-      if (lastVisitedURL) {
-        router.push(lastVisitedURL);
-      } else {
-        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
-        dispatch(setCloseModal(false));
-        router.push('/user/findvendors'); // Redirect to the home page if no lastVisitedURL is available
-      }
       if (typeof window !== 'undefined') {
-        localStorage.setItem('userEmail', `${credentials.email}`);
+        localStorage.setItem('userEmail', credentials.email);
+      }
+
+      setIsLoggedIn(true);
+      dispatch(setCloseModal(false));
+
+      if (fromLoginPage) {
+        if (lastVisitedURL) {
+          router.push(lastVisitedURL);
+        } else {
+          router.push('/user/findvendors');
+        }
       }
     } catch (error: any) {
+      console.log(error);
       setIsLoading(false);
-      setErrorMsg(error.data?.error);
-      if (error.data?.error === 'Verify your email to login') {
-        setVerificationModal(true);
+      if (error?.data?.message) {
+        setErrorMsg(error.data.message);
+        if (error.data.message === 'Verify your email to login') {
+          setVerificationModal(true);
+        }
+      } else {
+        setErrorMsg(error.data.error);
       }
     }
   };
 
   // GOOGLE Auth Login
-  const responseGoogle = async (response: any) => {
-    try {
-      if (response.access_token) {
-        const result = await fetch('/api/google-auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: response.access_token }),
-        });
+  interface GoogleResponse {
+    access_token: string;
+  }
 
-        const data = await result.json();
-        localStorage.setItem('isProvider', `${!!data.user?.providerProfile}`);
+  const responseGoogle = async (response: GoogleResponse) => {
+    try {
+      if (!response.access_token) {
+        console.log('Access token not found in Google response');
+        return;
+      }
+
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`;
+      const result = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: response.access_token }),
+        credentials: 'include',
+      });
+
+      if (!result.ok) {
+        // Handle HTTP error responses
+        console.log('Error response from server:', result.status);
+        return;
+      }
+
+      const data = await result.json();
+      if (data.success) {
         dispatch(setCredentials(data?.user?._id));
-        if (data.success === true) {
-          router.push('/user/findvendors');
-          dispatch(isLogin(false));
-          dispatch(setCloseModal(false));
-        }
+        setIsLoggedIn(true);
+        // Uncomment if you need redirection
+        fromLoginPage && router.push('/user/findvendors');
+        dispatch(isLogin(false));
+        dispatch(setCloseModal(false));
+      } else {
+        // Handle unsuccessful data response
+        console.log('Unsuccessful response data:', data);
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error in responseGoogle:', error);
     }
   };
 
@@ -330,3 +362,44 @@ const Footer = styled('p')(({ theme }: any) => ({
 }));
 
 export default LoginForm;
+
+// pages/_app.js
+// import { useState, useEffect, createContext, useContext } from 'react';
+// import axios from 'axios';
+
+// export const AuthContext = createContext();
+
+// function MyApp({ Component, pageProps }) {
+//   const [user, setUser] = useState(null);
+
+//   useEffect(() => {
+//     // Check if user is logged in
+//     axios.get('http://localhost:3001/profile', { withCredentials: true })
+//       .then(response => setUser(response.data.profile))
+//       .catch(() => setUser(null));
+//   }, []);
+
+//   return (
+//     <AuthContext.Provider value={{ user, setUser }}>
+//       <Component {...pageProps} />
+//     </AuthContext.Provider>
+//   );
+// }
+
+// export default MyApp;
+
+// // pages/index.js
+// import { useContext } from 'react';
+// import { AuthContext } from './_app';
+
+// function Home() {
+//   const { user } = useContext(AuthContext);
+
+//   if (!user) {
+//     return <p>Please log in.</p>;
+//   }
+
+//   return <div>Welcome, {user.username}</div>;
+// }
+
+// export default Home;

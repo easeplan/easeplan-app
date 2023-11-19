@@ -34,6 +34,7 @@ import {
   setIntroTwo,
 } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
+import { useAuth } from '@/hooks/authContext';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -81,8 +82,9 @@ const UserFlow = ({ token }: PropsTypes) => {
   const [selectedState, setSelectedState] = useState<any>();
   const dispatch = useDispatch();
   const { userIntro } = useSelector((state: RootState) => state.onboarding);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const handleNextSlide = () => {
     dispatch(setUserIntro(false));
     dispatch(setIntro(true));
@@ -109,6 +111,7 @@ const UserFlow = ({ token }: PropsTypes) => {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
 

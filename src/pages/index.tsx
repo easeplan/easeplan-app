@@ -3,11 +3,13 @@ import LoadingScreen from '@/components/common/LoadingScreen';
 import { RootState } from '@/store/store';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const HomePage = () => {
   const router = useRouter();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   useEffect(() => {
     if (userInfo) {
       router.push('/user/findvendors');

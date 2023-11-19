@@ -19,6 +19,8 @@ import ReviewFormFull from '@/components/ReviewFormFull';
 import { dateFormater } from '@/utils';
 import { Data, QueryData } from '@/lib/types';
 import EventAlert from '@/components/EventAlert';
+import { GetServerSidePropsContext, NextApiRequest } from 'next';
+import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
@@ -31,7 +33,9 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
   const [userEmail] = useState(
     typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [confirm, setConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
@@ -61,6 +65,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
 
@@ -433,7 +438,7 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
                 }}
                 color="primary.main"
               >
-                ₦ {data.budget && formatCurrency(data?.budget)}
+                ₦ {data?.budget && formatCurrency(data?.budget)}
               </Typography>
             </Box>
             <Box
@@ -525,55 +530,118 @@ const EventDetailsPage = ({ token, data, queryData }: any) => {
   );
 };
 
-export async function getServerSideProps({ req, params }: any) {
-  const { id } = params;
-  const { token } = parseCookies(req);
+// export async function getServerSideProps({ req, params }: any) {
+//   const { id } = params;
+//   const { token } = parseCookies(req);
 
-  if (!token) {
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   // Fetch data based on the dynamicParam
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+//     {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token}`,
+//       },
+//       credentials: 'include',
+//     },
+//   );
+
+//   const data = await res.json();
+
+//   // const resData = await fetch(
+//   //   `${process.env.NEXT_PUBLIC_API_URL}/${
+//   //     data?.data?.role && data?.data?.role === `planner`
+//   //       ? `planner-profiles`
+//   //       : `provider-profiles`
+//   //   }/${data?.data?.parties.receiverId}`,
+//   //   {
+//   //     headers: {
+//   //       'Content-Type': `application/json`,
+//   //       Authorization: `Bearer ${token}`,
+//   //     },
+//   //   },
+//   // );
+
+//   // const plannerData = await resData.json();
+
+//   return {
+//     props: {
+//       token: token,
+//       data: data?.data,
+//       // queryData: plannerData?.data || null,
+//     },
+//   };
+// }
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext & { req: NextApiRequest },
+) {
+  const {
+    req,
+    query: { id },
+  } = context;
+
+  // Convert headers to a compatible format
+  const headers: Record<string, string> = {};
+
+  Object.entries(req.headers).forEach(([key, value]) => {
+    if (value) {
+      headers[key] = Array.isArray(value) ? value.join('; ') : value;
+    }
+  });
+
+  // Add 'Content-Type' header
+  headers['Content-Type'] = 'application/json';
+
+  try {
+    const profileResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (profileResp.status === 401) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+
+    const dataResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (!dataResp.ok) {
+      // Handle error
+      return { props: { error: 'Failed to load data' } };
+    }
+
+    const data = await dataResp.json();
     return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
+      props: {
+        id,
+        data: data?.data,
       },
     };
+  } catch (error) {
+    // Handle fetch errors
+    return { props: { error: 'An error occurred while fetching data' } };
   }
-
-  // Fetch data based on the dynamicParam
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  const data = await res.json();
-
-  // const resData = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_URL}/${
-  //     data?.data?.role && data?.data?.role === `planner`
-  //       ? `planner-profiles`
-  //       : `provider-profiles`
-  //   }/${data?.data?.parties.receiverId}`,
-  //   {
-  //     headers: {
-  //       'Content-Type': `application/json`,
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   },
-  // );
-
-  // const plannerData = await resData.json();
-
-  return {
-    props: {
-      token: token,
-      data: data?.data,
-      // queryData: plannerData?.data || null,
-    },
-  };
 }
 
 export default EventDetailsPage;

@@ -3,7 +3,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import ChatLayout from '@/components/chats/ChatLayout';
 import RecentChats from '@/components/chats/RecentChats';
 import ChatComponent from '@/components/chats/ChatComponent';
-import { Box, Typography, Button, useTheme } from '@mui/material';
+import { Box, Typography, Button, useTheme, Theme } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
@@ -55,6 +55,8 @@ import { stringMap } from 'aws-sdk/clients/backup';
 import { useSocket } from '@/hooks/useSocketContext';
 import { useActivityTracker } from '@/utils/InteractionTracker';
 import { uploadFileToS3 } from '@/utils/uploadFile';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useAuth } from '@/hooks/authContext';
 
 const InboxPage = ({ token }: any) => {
   const theme = useTheme();
@@ -73,8 +75,34 @@ const InboxPage = ({ token }: any) => {
   const [inchat, setInchat] = useState(false);
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
+  const { user } = useAuth();
 
-  useActivityTracker(userInfo as string);
+  const matchesXS = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('xs'),
+  );
+  const matchesSM = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm'),
+  );
+  const matchesMD = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md'),
+  );
+
+  // useEffect(() => {
+  //   if (matchesXS || matchesSM || matchesMD) {
+  //     setInchat(true);
+  //   } else {
+  //     setInchat(false); // You might want to reset the state in other cases
+  //   }
+  // }, [matchesXS, matchesSM, matchesMD]);
+
+  const handleInChat = () => {
+    // Check if the screen is either xs or sm
+    if (matchesXS || matchesSM || matchesMD) {
+      setInchat(!inchat);
+    }
+  };
+
+  // useActivityTracker(user?.provider._id as string);
   const getLastSeen = (lastActive: Date) => {
     const lastActiveDate = new Date(lastActive) as any;
     const now = new Date() as any;
@@ -106,9 +134,9 @@ const InboxPage = ({ token }: any) => {
         dispatch(setCurrentMessage(data));
       });
 
-      socket.on('activeState', (data) => {
-        setConversationList({ conversations: data });
-      });
+      // socket.on('activeState', (data) => {
+      //   setConversationList({ conversations: data });
+      // });
 
       return () => {
         socket.off('unreadConversationMessagesCount');
@@ -116,7 +144,7 @@ const InboxPage = ({ token }: any) => {
         socket.off(`conversation-${activeUserData?._id}`);
       };
     }
-  }, [socket, activeUserData?._id, dispatch, messages, userInfo]);
+  }, [socket, activeUserData?._id, dispatch, messages, user?.provider?._id]);
 
   const fetchConversations = async () => {
     try {
@@ -127,6 +155,7 @@ const InboxPage = ({ token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
       const conversationData = await res.json();
@@ -164,7 +193,7 @@ const InboxPage = ({ token }: any) => {
     try {
       const { Location } = await uploadFileToS3('chats', selectedImage);
       socket?.emit('image-message', {
-        sender: userInfo,
+        sender: user?.provider?._id,
         conversationId: activeUserData?._id,
         image: Location,
       });
@@ -179,7 +208,7 @@ const InboxPage = ({ token }: any) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     socket?.emit('message', {
-      sender: userInfo,
+      sender: user?.provider?._id,
       conversationId: activeUserData?._id,
       message: chatMessage,
     });
@@ -190,7 +219,7 @@ const InboxPage = ({ token }: any) => {
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
     arr
-      ?.filter((user: any) => user?._id != userInfo)
+      ?.filter((user: any) => user?._id != user?.provider?._id)
       ?.map((user: any) => activeUsers.push(user));
 
     return activeUsers[0];
@@ -207,7 +236,7 @@ const InboxPage = ({ token }: any) => {
   }, [messages]);
 
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/profiles/${user?.provider._id}`,
     token,
   );
 
@@ -231,7 +260,7 @@ const InboxPage = ({ token }: any) => {
     >
       <Box
         sx={{
-          overflowY: 'hidden',
+          overflow: 'hidden',
           flexGrow: 1,
           position: {
             xs: 'fixed',
@@ -249,11 +278,11 @@ const InboxPage = ({ token }: any) => {
           },
           mt: { xs: 0, sm: 0, md: 2, lg: 2, xl: 2 },
           height: {
-            xl: '97%',
-            lg: '97%',
+            xl: '90%',
+            lg: '90%',
             md: '98%',
             sm: inchat ? '100%' : '88',
-            xs: inchat ? '100%' : '80%',
+            xs: inchat ? '100%' : '88%',
           },
           [theme.breakpoints.down(375)]: { height: '82%' },
           width: '100%',
@@ -263,7 +292,17 @@ const InboxPage = ({ token }: any) => {
         <Grid
           container
           className="justify-content-center"
-          sx={{ height: '100%', width: '100%' }}
+          sx={{
+            height: {
+              md: '81.5%',
+              xl: '81.5%',
+              lg: '81.5%',
+              xs: '100%',
+              sm: '100%',
+            },
+            width: { md: '79%', lg: '79%', xl: '79%', xs: '100%', sm: '100%' },
+            position: { md: 'fixed', lg: 'fixed', xl: 'fixed' },
+          }}
         >
           <Grid
             item
@@ -352,9 +391,9 @@ const InboxPage = ({ token }: any) => {
                 <RecentChats
                   token={token}
                   conversationList={conversationList}
-                  userInfo={userInfo}
+                  userInfo={user?.provider._id}
                   setOpenChat={setOpenChat}
-                  setInchat={setInchat}
+                  handleInChat={handleInChat}
                 />
               </List>
             </Paper>
@@ -435,10 +474,10 @@ const InboxPage = ({ token }: any) => {
                     <Grid container alignItems="center">
                       <IconButton
                         onClick={() => {
-                          setInchat(false);
+                          handleInChat();
                           setOpenChat(false);
                         }}
-                        sx={{ display: { lg: 'none', xl: 'none' } }}
+                        sx={{ display: { lg: 'none', xl: 'none', md: 'none' } }}
                       >
                         <ArrowBackIosIcon />
                       </IconButton>
@@ -477,7 +516,7 @@ const InboxPage = ({ token }: any) => {
                       <ChatComponent
                         userInfoId={queryData}
                         messages={messages}
-                        setInchat={setInchat}
+                        handleInChat={handleInChat}
                         inchat={inchat}
                       />
                     </List>

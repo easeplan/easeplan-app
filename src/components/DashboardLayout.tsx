@@ -8,6 +8,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import { useState } from 'react';
+import { useAuth } from '@/hooks/authContext';
 
 interface ILayout {
   children: React.ReactElement | React.ReactNode;
@@ -26,7 +27,9 @@ const CustomContainer = ({ sx, children }: any) => {
 };
 
 const DashboardLayout = ({ children, token, sx, inchat }: ILayout) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

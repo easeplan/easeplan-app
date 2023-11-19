@@ -3,8 +3,10 @@ import Dojah from 'react-dojah';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
+import { useAuth } from '@/hooks/authContext';
 
 const VerifiactionFlow = ({ setIsVerified }: any) => {
+  const { user } = useAuth();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const type = 'custom';
@@ -20,7 +22,7 @@ const VerifiactionFlow = ({ setIsVerified }: any) => {
    *  You can pass any values within the object
    */
   const metadata = {
-    user_id: userInfo,
+    user_id: user?.provider?._id,
   };
 
   /**

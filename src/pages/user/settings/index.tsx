@@ -9,14 +9,17 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@/components/common/Divider';
 import SettingsForm from '@/components/vendors/SettingsForm';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/authContext';
 
 const SettingPage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, isLoading } = useFetch(`/profiles/${userInfo}`, token);
 
   return (
     <Layout data={queryData?.provider}>
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container sx={{ py: 4 }} maxWidth="md">
         <Stack
           direction="row"
           sx={{
@@ -28,6 +31,7 @@ const SettingPage = ({ token }: any) => {
               lg: 4,
               xl: 4,
             },
+            mt: 0,
           }}
         >
           <SettingsIcon

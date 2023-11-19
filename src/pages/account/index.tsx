@@ -20,6 +20,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Divider from '@/components/common/Divider';
 import { useActivityTracker } from '@/utils/InteractionTracker';
 import { useSocket } from '@/hooks/useSocketContext';
+import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
@@ -27,10 +28,12 @@ interface Props {
 
 const HomePage = ({ token }: Props) => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
-  useActivityTracker(userInfo as string);
+  // useActivityTracker(userInfo as string);
   const fetchContracts = async () => {
     try {
       const res = await fetch(
@@ -40,6 +43,7 @@ const HomePage = ({ token }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         },
       );
 
@@ -71,7 +75,7 @@ const HomePage = ({ token }: Props) => {
 
   return (
     <>
-      <DashboardLayout token={token} sx={{ mt: '2.5rem' }}>
+      <DashboardLayout token={token}>
         {queryData?.provider?.providerProfile ? (
           <>
             {!queryData?.provider?.providerProfile?.verified && (

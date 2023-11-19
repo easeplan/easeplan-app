@@ -23,7 +23,7 @@ import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
-export { getServerSideProps } from '@/hooks/useFetchToken';
+// export { getServerSideProps } from '@/hooks/useFetchToken';
 import cateringIcon from '@/public/event-icons/catering.png';
 import cakeIcon from '@/public/event-icons/cake.png';
 import decorationIcon from '@/public/event-icons/decoration.png';
@@ -38,6 +38,7 @@ import entertainerIcon from '@/public/event-icons/dancer.png';
 import hairStylistIcon from '@/public/event-icons/hair-dye.png';
 import makeUpIcon from '@/public/event-icons/make-up.png';
 import liveBandicon from '@/public/event-icons/live-music.png';
+import { useAuth } from '@/hooks/authContext';
 
 const services = [
   {
@@ -142,7 +143,9 @@ interface Props {
 }
 
 const VendorPage = ({ token }: Props) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [page, setPage] = useState(1);
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
@@ -192,7 +195,7 @@ const VendorPage = ({ token }: Props) => {
       <Layout
         isSearch
         handleSearchChange={handleSearchChange}
-        data={queryData?.provider}
+        data={user?.provider}
       >
         <Box
           sx={{
@@ -200,8 +203,8 @@ const VendorPage = ({ token }: Props) => {
               xs: 0,
               sm: 0,
               md: 0,
-              lg: 10,
-              xl: 10,
+              lg: 0.1,
+              xl: 0.1,
             },
             px: {
               xs: 4,
@@ -212,13 +215,8 @@ const VendorPage = ({ token }: Props) => {
             },
           }}
         >
-          <Box
-            sx={{
-              mt: 2,
-              mb: 10,
-            }}
-          >
-            <Box my={4}>
+          <Box>
+            <Box my={4} sx={{}}>
               <Swiper
                 slidesPerView={3}
                 spaceBetween={30}

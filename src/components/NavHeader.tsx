@@ -8,15 +8,17 @@ import useFetch from '@/hooks/useFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import NotificationDropdown from './NotificationDropdown';
+import { useAuth } from '@/hooks/authContext';
 
 const NavHeader = ({ token }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
   // const {
   //   allUnreadConversationMessagesCount,
   //   unreadConversationMessagesCount,
   // } = useSelector((state: RootState) => state.chatsData);
   const { notifyData } = useSelector((state: RootState) => state.notifications);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
 
   return (
     <Navbar>
@@ -38,7 +40,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            🥰 Nice to have you here {queryData?.provider?.profile?.firstName}
+            🥰 Nice to have you here {user?.provider?.profile?.firstName}
           </Typography>
           <Box
             sx={{
@@ -60,7 +62,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            {queryData?.provider?.providerProfile ? null : (
+            {user?.provider?.providerProfile ? null : (
               <Link href="/account/onboard">
                 <Button
                   variant="outlined"
@@ -78,10 +80,10 @@ const NavHeader = ({ token }: any) => {
             <NotificationDropdown
               token={token}
               notificationData={notifyData}
-              queryData={queryData}
+              user={user}
             />
             <AvatarMenu
-              imgSrc={queryData?.provider?.profile?.picture}
+              imgSrc={user?.provider?.profile?.picture}
               alt="userImage"
               height={100}
               width={100}

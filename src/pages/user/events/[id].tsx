@@ -38,6 +38,7 @@ import ReviewForm from '@/components/ReviewForm';
 import ReviewFormFull from '@/components/ReviewFormFull';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
+import { useAuth } from '@/hooks/authContext';
 
 const ViewEvent = ({ id, data, token }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -51,6 +52,7 @@ const ViewEvent = ({ id, data, token }: any) => {
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [confirmDispute, setConfirmDispute] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const { user } = useAuth();
   const router = useRouter();
 
   // State to manage the opening and closing of the modal
@@ -105,6 +107,7 @@ const ViewEvent = ({ id, data, token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
 
@@ -127,6 +130,7 @@ const ViewEvent = ({ id, data, token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data?.status === 'success') {
@@ -149,7 +153,6 @@ const ViewEvent = ({ id, data, token }: any) => {
   const handleDisputeTypeChange = (event: any) => {
     setDisputeTypeValue(event.target.value);
   };
-
   const disputes = [
     'Service not provided',
     'Service not as described',
@@ -177,6 +180,7 @@ const ViewEvent = ({ id, data, token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data?.status === 'success') {
@@ -201,6 +205,7 @@ const ViewEvent = ({ id, data, token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data?.status === 'success') {
@@ -225,6 +230,7 @@ const ViewEvent = ({ id, data, token }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data?.status === 'success') {
@@ -238,7 +244,7 @@ const ViewEvent = ({ id, data, token }: any) => {
   };
 
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/profiles/${user?.provider._id}`,
     token,
   );
 
@@ -264,9 +270,20 @@ const ViewEvent = ({ id, data, token }: any) => {
               xl: '1fr 1fr',
             },
             gap: '2rem',
+            pb: 5,
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              mt: {
+                xs: 4,
+                sm: 4,
+                md: 4,
+                lg: 4,
+                xl: 5,
+              },
+            }}
+          >
             <Box
               key={eventData?._id}
               sx={{
@@ -274,13 +291,6 @@ const ViewEvent = ({ id, data, token }: any) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 p: 4,
-                mt: {
-                  xs: 10,
-                  sm: 4,
-                  md: 4,
-                  lg: 14,
-                  xl: 14,
-                },
                 backgroundColor: 'secondary.light',
               }}
             >
@@ -648,11 +658,11 @@ const ViewEvent = ({ id, data, token }: any) => {
                       xl: '150px',
                     },
                     mt: {
-                      xs: 10,
+                      xs: 4,
                       sm: 4,
                       md: 4,
-                      lg: 14,
-                      xl: 14,
+                      lg: 4,
+                      xl: 5,
                     },
                     mb: '1rem',
                     borderRadius: '10px',
@@ -955,6 +965,41 @@ const ViewEvent = ({ id, data, token }: any) => {
   );
 };
 
+// export async function getServerSideProps(context: { req: { headers: any } }) {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
+//     headers: context.req.headers, // Forward the headers
+//   });
+
+//   if (res.status === 401) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   // Fetch data based on the dynamicParam
+//   const resp = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+//     {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token}`,
+//       },
+//     },
+//   );
+
+//   const data = await resp.json();
+
+//   return {
+//     props: {
+//       id,
+//       data: data?.data,
+//       token,
+//     },
+//   };
+// }
 export async function getServerSideProps(
   context: GetServerSidePropsContext & { req: NextApiRequest },
 ) {
@@ -962,38 +1007,61 @@ export async function getServerSideProps(
     req,
     query: { id },
   } = context;
-  const { token } = parseCookies(req);
 
-  if (!token) {
+  // Convert headers to a compatible format
+  const headers: Record<string, string> = {};
+
+  Object.entries(req.headers).forEach(([key, value]) => {
+    if (value) {
+      headers[key] = Array.isArray(value) ? value.join('; ') : value;
+    }
+  });
+
+  // Add 'Content-Type' header
+  headers['Content-Type'] = 'application/json';
+
+  try {
+    const profileResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (profileResp.status === 401) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+
+    const dataResp = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
+      {
+        headers: headers,
+      },
+    );
+
+    if (!dataResp.ok) {
+      // Handle error
+      return { props: { error: 'Failed to load data' } };
+    }
+
+    const data = await dataResp.json();
     return {
-      redirect: {
-        destination: '/user/findvendors',
-        permanent: false,
+      props: {
+        id,
+        data: data?.data,
       },
     };
+  } catch (error) {
+    // Handle fetch errors
+    return { props: { error: 'An error occurred while fetching data' } };
   }
-
-  // Fetch data based on the dynamicParam
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  const data = await res.json();
-
-  return {
-    props: {
-      id,
-      data: data?.data,
-      token,
-    },
-  };
 }
+
 const style = {
   position: 'absolute' as const,
   top: '50%',

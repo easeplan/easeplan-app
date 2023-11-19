@@ -7,9 +7,12 @@ export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import ErrorPage from '@/components/ErrorPage';
+import { useAuth } from '@/hooks/authContext';
 
 const ProfilePage = ({ token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

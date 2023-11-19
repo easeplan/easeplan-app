@@ -38,6 +38,7 @@ import {
 } from './AlphabeticalLists';
 import { useState, useEffect } from 'react';
 import useFetch from '@/hooks/useFetch';
+import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
@@ -47,7 +48,9 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   const { intro } = useSelector((state: RootState) => state.onboarding);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const { queryData, isLoading, error } = useFetch(
     `/profiles/${userInfo}`,
     token,

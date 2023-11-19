@@ -19,6 +19,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { toast } from 'react-toastify';
 import { uploadFileToS3 } from '@/utils/uploadFile';
 import NigeriaStatesAndCities from './NigerianStatesAndCities';
+import { useAuth } from '@/hooks/authContext';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -63,8 +64,9 @@ const BusinessSettings = ({ token }: PropsTypes) => {
   const { stepFour, stepThree } = useSelector(
     (state: RootState) => state.onboarding,
   );
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const services = [
     'DJ',
     'Catering',
@@ -107,6 +109,7 @@ const BusinessSettings = ({ token }: PropsTypes) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

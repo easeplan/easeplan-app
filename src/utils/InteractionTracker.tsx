@@ -11,12 +11,12 @@ export const useActivityTracker = (userId: string) => {
 
     const updateUserStatus = (userId: string) => {
       socket?.emit('changeActive', { userId: userId });
-      console.log('sent socket', userId);
     };
 
     const resetTimer = () => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => updateUserStatus(userId as string), 2000); //60000
+      timeout = setTimeout(() => updateUserStatus(userId as string), 150000);
+      console.log('went');
     };
 
     window.addEventListener('mousemove', resetTimer);

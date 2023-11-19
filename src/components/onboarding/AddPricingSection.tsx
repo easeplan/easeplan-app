@@ -23,6 +23,7 @@ import Label from '../common/Label';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
@@ -37,9 +38,11 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { stepFour } = useSelector((state: RootState) => state.onboarding);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [isOpen, setIsOpen] = useState(false);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
@@ -138,11 +141,11 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                 <Box sx={{ borderTop: 'solid 1px #ccc' }}>
                   <Formik
                     initialValues={{
-                      minimum: queryData?.budget?.minimum
-                        ? queryData?.budget?.minimum
+                      minimum: user?.provider.providerProfile.budget?.minimum
+                        ? user?.provider.providerProfile.budget?.minimum
                         : '',
-                      maximum: queryData?.budget?.maximum
-                        ? queryData?.budget?.maximum
+                      maximum: user?.provider.providerProfile.budget?.maximum
+                        ? user?.provider.providerProfile.budget?.maximum
                         : '',
                     }}
                     validationSchema={VendorSchema}

@@ -17,6 +17,7 @@ export default async (req: any, res: any) => {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     },
   );
 

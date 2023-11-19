@@ -13,10 +13,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearCredentials } from '@/features/authSlice';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { useAuth } from '@/hooks/authContext';
 
 const Header = ({ publicId }: any) => {
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { setUser } = useAuth();
   const [toggleMenu, setToggleMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -26,8 +28,13 @@ const Header = ({ publicId }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
       dispatch(clearCredentials());
+      setUser(null);
       router.push('/user/findvendors');
     } catch (error: any) {}
   };

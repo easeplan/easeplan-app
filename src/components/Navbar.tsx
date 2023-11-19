@@ -8,9 +8,11 @@ import MobileNav from './MobileNav';
 import Link from 'next/link';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomButton from './common/CustomButton';
+import { useAuth } from '@/hooks/authContext';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const { user } = useAuth();
 
   const handleClick = () => {
     setToggleMenu(!toggleMenu);
@@ -27,13 +29,19 @@ const Navbar = () => {
               href="https://app.easeplan.io/findvendors"
               text="Find Vendors"
             />
-            <NavItem href="/signup" text="Become a vendor" />
-            <NavItem href="https://app.easeplan.io/login" text="Login" />
-            <Link href="https://app.easeplan.io/signup">
-              <CustomButton p="0 3rem" bgSecondary>
-                Sign up
-              </CustomButton>
-            </Link>
+            {user?.provider.providerProfile && (
+              <NavItem href="/signup" text="Become a vendor" />
+            )}
+            {user && (
+              <>
+                <NavItem href="https://app.easeplan.io/login" text="Login" />
+                <Link href="https://app.easeplan.io/signup">
+                  <CustomButton p="0 3rem" bgSecondary>
+                    Sign up
+                  </CustomButton>
+                </Link>
+              </>
+            )}
           </NavItemWrapper>
           <MenuIcon className="menuIcon" onClick={handleClick} />
         </Flex>

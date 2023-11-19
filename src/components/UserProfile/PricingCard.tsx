@@ -10,9 +10,12 @@ import EditStandardModal from './EditPlannerForm/EditStandardModal.tsx';
 import EditBasicModal from './EditPlannerForm/EditBasicModal.tsx';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/authContext';
 
 const PricingCard = ({ queryData, token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [openModal, setOpenModal] = useState(false);
   const [openBasicModal, setOpenBasicModal] = useState(false);
   const [openStandardModal, setOpenStandardModal] = useState(false);

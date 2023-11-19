@@ -35,7 +35,7 @@ const LoginPage = () => {
           </ImgBanner>
         </ImageSection>
         <FormSection>
-          <LoginForm />
+          <LoginForm fromLoginPage={true} />
         </FormSection>
         <Image
           src={LoginBg}

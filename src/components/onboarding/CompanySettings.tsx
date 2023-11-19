@@ -22,6 +22,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIntroThree, setIntroTwo } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
+import { useAuth } from '@/hooks/authContext';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -63,8 +64,9 @@ const CompanySettings = ({ token }: PropsTypes) => {
   const [isLoading, setIsLoading] = useState<any>(false);
   const dispatch = useDispatch();
   const { stepThree } = useSelector((state: RootState) => state.onboarding);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const handleNextSlide = () => {
     dispatch(setIntroTwo(true));
     dispatch(setIntroThree(false));
@@ -89,6 +91,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {

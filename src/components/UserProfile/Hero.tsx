@@ -19,6 +19,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
 import IdentityVerificationModal from './UserProfile';
+import { useAuth } from '@/hooks/authContext';
 
 type Props = {
   queryData: QueryData;
@@ -29,7 +30,9 @@ type Props = {
 
 const Hero = ({ queryData, token, searchResult, data }: any) => {
   const router = useRouter();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [openModal, setOpenModal] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [vendorData, setVendorData] = useState(
@@ -94,6 +97,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       router.push(`/user/events/${data?.data?._id}`);

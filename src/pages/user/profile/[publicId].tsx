@@ -15,9 +15,12 @@ import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import { parseCookies } from '@/lib/parseCookies';
 import AuthHero from '@/components/UserProfile/Hero';
+import { useAuth } from '@/hooks/authContext';
 
 const PublicProfilePage = ({ data, publicId, token }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('lastVisitedURL');

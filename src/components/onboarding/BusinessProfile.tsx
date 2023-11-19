@@ -27,6 +27,7 @@ import MultipleSelectCity from './MultipleSelectCity';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useFetch from '@/hooks/useFetch';
 import SelectState from '../common/SelectState';
+import { useAuth } from '@/hooks/authContext';
 
 // Form Input Schema
 const ProfileSchema = Yup.object().shape({
@@ -72,7 +73,8 @@ interface FormTypes {
 
 const ProfileSettings = ({ token }: PropsTypes) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { user } = useAuth();
+  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const [previewImg, setPreviewImg] = useState<any>(null);
   const [coverPreviewImg, setCoverPreviewImg] = useState<any>(null);
   const [fileName, setFileName] = useState<any>(null);
@@ -118,14 +120,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       formData.append('picture', credentials.picture);
       formData.append('image', credentials.image);
       const resData = {
-        firstName: queryData?.provider?.profile?.firstName
-          ? queryData?.provider?.profile?.firstName
+        firstName: user?.provider?.profile?.firstName
+          ? user?.provider?.profile?.firstName
           : credentials.firstName,
-        lastName: queryData?.provider?.profile?.lastName
-          ? queryData?.provider?.profile?.lastName
+        lastName: user?.provider?.profile?.lastName
+          ? user?.provider?.profile?.lastName
           : credentials.lastName,
-        picture: queryData?.provider?.profile?.picture
-          ? queryData?.provider?.profile?.picture
+        picture: user?.provider?.profile?.picture
+          ? user?.provider?.profile?.picture
           : credentials.picture,
         gender: credentials.gender,
         image: credentials.image,
@@ -147,6 +149,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         },
       );
       if (data.status === 'success') {
@@ -247,14 +250,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 </Typography>
                 <Formik
                   initialValues={{
-                    firstName: queryData?.provider?.profile?.firstName
-                      ? queryData?.provider?.profile?.firstName
+                    firstName: user?.provider?.profile?.firstName
+                      ? user?.provider?.profile?.firstName
                       : '',
-                    lastName: queryData?.provider?.profile?.lastName
-                      ? queryData?.provider?.profile?.lastName
+                    lastName: user?.provider?.profile?.lastName
+                      ? user?.provider?.profile?.lastName
                       : '',
-                    picture: queryData?.provider?.profile?.picture
-                      ? queryData?.provider?.profile?.picture
+                    picture: user?.provider?.profile?.picture
+                      ? user?.provider?.profile?.picture
                       : '',
                     operationStates: '',
                     name: '',
@@ -280,7 +283,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         }}
                       >
                         {/* Profile Image Input */}
-                        {!queryData?.provider?.profile?.picture && (
+                        {!user?.provider?.profile?.picture && (
                           <Box>
                             <Box
                               sx={{
@@ -335,7 +338,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         )}
                       </Box>
 
-                      {!queryData?.provider?.profile?.firstName && (
+                      {!user?.provider?.profile?.firstName && (
                         <Box
                           sx={{
                             display: 'grid',

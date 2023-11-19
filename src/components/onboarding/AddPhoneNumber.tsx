@@ -22,6 +22,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
 import OTPRequestCooldown from './OTPRequest';
+import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
@@ -38,7 +39,9 @@ const CodeSchema = Yup.object().shape({
 const AddPricingSection = ({ token }: PropsTypes) => {
   const dispatch = useDispatch();
   const { stepTwo } = useSelector((state: RootState) => state.onboarding);
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = user?.provider?._id;
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
   const [reference_id, setReference_id] = useState('');
   const [verificationToken, setVerificationToken] = useState('');

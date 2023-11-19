@@ -9,11 +9,10 @@ export const SocketProvider: React.FC<{
   children: React.ReactNode;
   userId: string;
 }> = ({ children, userId }) => {
-  console.log(userId);
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3007', {
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL_SOCKET}`, {
       auth: { userId },
     });
 

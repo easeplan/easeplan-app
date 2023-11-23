@@ -5,6 +5,7 @@ import NavItems from './NavItems';
 import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { parseCookies } from '@/lib/parseCookies';
 
 type Anchor = 'right';
 

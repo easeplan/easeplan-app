@@ -37,11 +37,7 @@ const MobileNav = ({
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await axios.post('/api/logout', {}, { withCredentials: true });
       dispatch(clearCredentials());
       setUser(null);
       router.push('/user/findvendors');

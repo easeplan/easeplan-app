@@ -41,7 +41,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   const { stepTwo } = useSelector((state: RootState) => state.onboarding);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
   const [reference_id, setReference_id] = useState('');
   const [verificationToken, setVerificationToken] = useState('');

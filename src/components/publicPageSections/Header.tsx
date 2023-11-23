@@ -15,10 +15,9 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useAuth } from '@/hooks/authContext';
 
-const Header = ({ publicId }: any) => {
+const Header = ({ publicId, userData }: any) => {
   const router = useRouter();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { setUser } = useAuth();
+  const { setUser, user } = useAuth();
   const [toggleMenu, setToggleMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -28,11 +27,7 @@ const Header = ({ publicId }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await axios.post('/api/logout', {}, { withCredentials: true });
       dispatch(clearCredentials());
       setUser(null);
       router.push('/user/findvendors');
@@ -51,13 +46,13 @@ const Header = ({ publicId }: any) => {
       <MobileNav
         show={toggleMenu}
         handleClick={handleClick}
-        userInfo={userInfo}
+        userInfo={userData?.provider?._id}
         publicId={publicId}
       />
       <Container maxWidth="xl">
         <Flex>
           <Logo />
-          {!userInfo ? (
+          {!user ? (
             <NavItemWrapper>
               <Link href="/signup">
                 <CustomButton p="0 3rem" bgSecondary>
@@ -79,7 +74,7 @@ const Header = ({ publicId }: any) => {
         <MobileNav
           show={toggleMenu}
           handleClick={handleClick}
-          userInfo={userInfo}
+          userInfo={userData?.provider?._id}
         />
       </Container>
     </NavWrapper>

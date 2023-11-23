@@ -45,9 +45,6 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
         const isCurrentUser = message.sender?._id === userInfoId?.provider?._id;
 
         return (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-
           <ListItem
             key={message._id}
             ref={index === messages.length - 1 ? lastMessageRef : null}
@@ -61,7 +58,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
             {!isCurrentUser && (
               <ListItemAvatar>
                 <Image
-                  src={userInfoId?.picture || chatImg}
+                  src={message?.sender?.profile?.picture || chatImg}
                   alt="Profile"
                   width={40}
                   height={40}
@@ -132,7 +129,7 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
             {isCurrentUser && (
               <ListItemAvatar>
                 <Image
-                  src={message.sender?.profile.picture || chatImg}
+                  src={userInfoId?.provider?.profile?.picture || chatImg}
                   alt="Profile"
                   width={40}
                   height={40}

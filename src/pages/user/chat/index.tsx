@@ -70,7 +70,8 @@ import { uploadFileToS3 } from '@/utils/uploadFile';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useAuth } from '@/hooks/authContext';
 
-const InboxPage = ({ token }: any) => {
+const InboxPage = ({ token, userData }: any) => {
+  const { setUser } = useAuth();
   const theme = useTheme();
   const dispatch = useDispatch();
   const divRef = useRef<HTMLDivElement>(null);
@@ -78,9 +79,8 @@ const InboxPage = ({ token }: any) => {
     (state: RootState) => state.chatsData,
   );
   const [conversationList, setConversationList] = useState<any>();
-  const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = userData.provider?._id;
   const [chatMessage, setChatMessage] = useState<any>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -89,6 +89,12 @@ const InboxPage = ({ token }: any) => {
   const [inchat, setInchat] = useState(false);
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const matchesXS = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('xs'),
@@ -101,13 +107,13 @@ const InboxPage = ({ token }: any) => {
     theme.breakpoints.down('md'),
   );
 
-  useEffect(() => {
-    if (matchesXS || matchesSM || matchesMD) {
-      setInchat(true);
-    } else {
-      setInchat(false); // You might want to reset the state in other cases
-    }
-  }, [matchesXS, matchesSM, matchesMD]);
+  // useEffect(() => {
+  //   if (matchesXS || matchesSM || matchesMD) {
+  //     setInchat(true);
+  //   } else {
+  //     setInchat(false); // You might want to reset the state in other cases
+  //   }
+  // }, [matchesXS, matchesSM, matchesMD]);
 
   const handleInChat = () => {
     // Check if the screen is either xs or sm
@@ -249,25 +255,25 @@ const InboxPage = ({ token }: any) => {
     }
   }, [messages]);
 
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
-    token,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/profiles/${userInfo}`,
+  //   token,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <ErrorPage />;
-  }
+  // if (error) {
+  //   return <ErrorPage />;
+  // }
 
   const headerHeight = '57px'; // Adjust as needed
   const footerHeight = '57px'; // Adjust as needed
   const messagesHeight = `calc(100% - ${headerHeight} - ${footerHeight})`;
 
   return (
-    <Layout data={queryData?.provider} inchat={inchat}>
+    <Layout data={userData?.provider} inchat={inchat}>
       <Box
         sx={{
           overflow: 'hidden',
@@ -515,7 +521,7 @@ const InboxPage = ({ token }: any) => {
                   <Box sx={{ height: messagesHeight, overflowY: 'scroll' }}>
                     <List className="msg_card_body">
                       <ChatComponent
-                        userInfoId={queryData}
+                        userInfoId={userData}
                         messages={messages}
                         handleInChat={handleInChat}
                         inchat={inchat}

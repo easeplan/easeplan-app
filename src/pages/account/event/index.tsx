@@ -9,12 +9,19 @@ import Link from 'next/link';
 import theme from '@/styles/theme';
 import { useAuth } from '@/hooks/authContext';
 
-const EventPage = ({ token }: any) => {
+const EventPage = ({ token, userData }: any) => {
   const dispatch = useDispatch();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = userData?.provider?._id;
   const [contracts, setContracts] = useState<any>();
+
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const fetchContracts = async () => {
     try {
@@ -30,7 +37,6 @@ const EventPage = ({ token }: any) => {
       );
 
       const json = await res.json();
-      console.log(json);
       setContracts(json?.data);
       dispatch(setNotifyData(json?.data));
     } catch (err) {

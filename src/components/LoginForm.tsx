@@ -37,7 +37,7 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
   const [previewModal, setPreviewModal] = useState<boolean>();
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
-  const { setIsLoggedIn } = useAuth();
+  const { setUser } = useAuth();
 
   const [userName] = useState<any>(
     typeof window !== 'undefined' ? localStorage.getItem('userName') : '',
@@ -52,20 +52,12 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
     email: string;
     password: string;
   }
-
   const submitCredentials = async (credentials: Credentials) => {
     try {
       setIsLoading(true);
       const data = await login(credentials).unwrap();
-      const id = data?.user?._id;
-      dispatch(setCredentials(id));
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('userEmail', credentials.email);
-      }
-
-      setIsLoggedIn(true);
       dispatch(setCloseModal(false));
+      setUser(data.user);
 
       if (fromLoginPage) {
         if (lastVisitedURL) {
@@ -75,7 +67,6 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
         }
       }
     } catch (error: any) {
-      console.log(error);
       setIsLoading(false);
       if (error?.data?.message) {
         setErrorMsg(error.data.message);
@@ -95,12 +86,13 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
 
   const responseGoogle = async (response: GoogleResponse) => {
     try {
+      setIsLoading(true);
       if (!response.access_token) {
         console.log('Access token not found in Google response');
         return;
       }
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`;
+      const apiUrl = '/api/google-auth';
       const result = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -116,8 +108,7 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
 
       const data = await result.json();
       if (data.success) {
-        dispatch(setCredentials(data?.user?._id));
-        setIsLoggedIn(true);
+        setUser(data.user);
         // Uncomment if you need redirection
         fromLoginPage && router.push('/user/findvendors');
         dispatch(isLogin(false));
@@ -196,7 +187,7 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <GoogleButton
                 onClick={handleGoogleLogin}
-                text="Log in with Google"
+                text={isLoading ? 'Please wait ...' : 'Log in with Google'}
               />
               <Box
                 sx={{
@@ -362,44 +353,3 @@ const Footer = styled('p')(({ theme }: any) => ({
 }));
 
 export default LoginForm;
-
-// pages/_app.js
-// import { useState, useEffect, createContext, useContext } from 'react';
-// import axios from 'axios';
-
-// export const AuthContext = createContext();
-
-// function MyApp({ Component, pageProps }) {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     // Check if user is logged in
-//     axios.get('http://localhost:3001/profile', { withCredentials: true })
-//       .then(response => setUser(response.data.profile))
-//       .catch(() => setUser(null));
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider value={{ user, setUser }}>
-//       <Component {...pageProps} />
-//     </AuthContext.Provider>
-//   );
-// }
-
-// export default MyApp;
-
-// // pages/index.js
-// import { useContext } from 'react';
-// import { AuthContext } from './_app';
-
-// function Home() {
-//   const { user } = useContext(AuthContext);
-
-//   if (!user) {
-//     return <p>Please log in.</p>;
-//   }
-
-//   return <div>Welcome, {user.username}</div>;
-// }
-
-// export default Home;

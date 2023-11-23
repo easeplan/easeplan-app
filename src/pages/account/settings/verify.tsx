@@ -21,7 +21,7 @@ import { useAuth } from '@/hooks/authContext';
 const VerifyPage = ({ token }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

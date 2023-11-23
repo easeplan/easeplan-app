@@ -9,7 +9,7 @@ const HomePage = () => {
   const router = useRouter();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   useEffect(() => {
     if (userInfo) {
       router.push('/user/findvendors');

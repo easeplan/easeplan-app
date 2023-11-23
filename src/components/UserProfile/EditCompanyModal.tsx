@@ -43,7 +43,7 @@ const CompanyProfileSchema = Yup.object().shape({
 const EditCompanyModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({

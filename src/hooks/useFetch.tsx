@@ -57,6 +57,7 @@ const useFetch = (url: string, token: string) => {
           {
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
             withCredentials: true,
           },

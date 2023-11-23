@@ -120,14 +120,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       formData.append('picture', credentials.picture);
       formData.append('image', credentials.image);
       const resData = {
-        firstName: user?.provider?.profile?.firstName
-          ? user?.provider?.profile?.firstName
+        firstName: user?.profile?.firstName
+          ? user?.profile?.firstName
           : credentials.firstName,
-        lastName: user?.provider?.profile?.lastName
-          ? user?.provider?.profile?.lastName
+        lastName: user?.profile?.lastName
+          ? user?.profile?.lastName
           : credentials.lastName,
-        picture: user?.provider?.profile?.picture
-          ? user?.provider?.profile?.picture
+        picture: user?.profile?.picture
+          ? user?.profile?.picture
           : credentials.picture,
         gender: credentials.gender,
         image: credentials.image,
@@ -250,14 +250,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 </Typography>
                 <Formik
                   initialValues={{
-                    firstName: user?.provider?.profile?.firstName
-                      ? user?.provider?.profile?.firstName
+                    firstName: user?.profile?.firstName
+                      ? user?.profile?.firstName
                       : '',
-                    lastName: user?.provider?.profile?.lastName
-                      ? user?.provider?.profile?.lastName
+                    lastName: user?.profile?.lastName
+                      ? user?.profile?.lastName
                       : '',
-                    picture: user?.provider?.profile?.picture
-                      ? user?.provider?.profile?.picture
+                    picture: user?.profile?.picture
+                      ? user?.profile?.picture
                       : '',
                     operationStates: '',
                     name: '',
@@ -283,7 +283,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         }}
                       >
                         {/* Profile Image Input */}
-                        {!user?.provider?.profile?.picture && (
+                        {!user?.profile?.picture && (
                           <Box>
                             <Box
                               sx={{
@@ -338,7 +338,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                         )}
                       </Box>
 
-                      {!user?.provider?.profile?.firstName && (
+                      {!user?.profile?.firstName && (
                         <Box
                           sx={{
                             display: 'grid',

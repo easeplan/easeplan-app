@@ -66,7 +66,7 @@ const CompanySettings = ({ token }: PropsTypes) => {
   const { stepThree } = useSelector((state: RootState) => state.onboarding);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const handleNextSlide = () => {
     dispatch(setIntroTwo(true));
     dispatch(setIntroThree(false));

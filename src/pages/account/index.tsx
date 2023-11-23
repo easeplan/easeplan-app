@@ -2,38 +2,37 @@
 import { useEffect, useState } from 'react';
 import Dashboard from '@/components/Dashboard';
 import DashboardLayout from '@/components/DashboardLayout';
-import FinderSection from '@/components/FinderSection';
 import { Box, Button, Typography, Alert } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ErrorPage from '@/components/ErrorPage';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import bannerImg from '@/public/banner.png';
-import Image from 'next/image';
 import Link from 'next/link';
-import theme from '@/styles/theme';
 import { setNotifyData } from '@/features/notificationsSlice';
 import { useDispatch } from 'react-redux';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Divider from '@/components/common/Divider';
-import { useActivityTracker } from '@/utils/InteractionTracker';
-import { useSocket } from '@/hooks/useSocketContext';
 import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
+  userData: any;
 }
 
-const HomePage = ({ token }: Props) => {
+const HomePage = ({ token, userData }: Props) => {
   const dispatch = useDispatch();
-  const { user } = useAuth();
+  const { setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = userData?.provider?._id;
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
   // useActivityTracker(userInfo as string);
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
+
   const fetchContracts = async () => {
     try {
       const res = await fetch(

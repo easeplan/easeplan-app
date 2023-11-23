@@ -42,8 +42,8 @@ const Layout = ({
         sx={{
           height: '89vh',
           mt: {
-            xs: inchat ? 0 : 7,
-            sm: inchat ? 0 : 7,
+            xs: inchat ? 0 : 0,
+            sm: inchat ? 0 : 0,
             md: 8,
             lg: 10,
             xl: 10,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { styled } from '@mui/material/styles';
 import ProfileForm from '@/components/ProfileForm';
@@ -14,12 +14,19 @@ import Button from '@mui/material/Button';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useAuth } from '@/hooks/authContext';
 
-const SettingsPage = ({ token }: any) => {
-  const { user } = useAuth();
+const SettingsPage = ({ token, userData }: any) => {
+  const { user, setUser } = useAuth();
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
+
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
+    `/profiles/${userData?.provider._id}`,
     token,
   );
 

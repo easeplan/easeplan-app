@@ -8,13 +8,23 @@ import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
+import { parseCookies } from '@/lib/parseCookies';
+import { useAuth } from '@/hooks/authContext';
 
-const PublicProfilePage = ({ data, publicId }: any) => {
+const PublicProfilePage = ({ data, publicId, userData }: any) => {
+  const { setUser } = useAuth();
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('lastVisitedURL');
     }
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   return (
     <>
@@ -60,7 +70,7 @@ const PublicProfilePage = ({ data, publicId }: any) => {
           content={data?.providerProfile?.company?.image}
         ></meta>
       </Head>
-      <Layout publicId={publicId}>
+      <Layout publicId={publicId} userData={userData}>
         <Box>
           <Hero queryData={data} publicId={publicId} />
           <Box
@@ -72,6 +82,7 @@ const PublicProfilePage = ({ data, publicId }: any) => {
                 md: '80%',
                 lg: '80%',
               },
+              mb: 5,
             }}
           >
             <Divider sx={{ mt: 6 }} />
@@ -94,16 +105,25 @@ export async function getServerSideProps(
   } = context;
   // const { publicId } = context.query;
   // Fetch data based on the dynamicParam
+  const { token } = parseCookies(req);
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/profiles/profile/${publicId}`,
   );
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await res.json();
+  const userData = await resp.json();
 
   return {
     props: {
       data: data?.data || null,
       publicId: publicId,
+      userData: userData.data,
     },
   };
 }

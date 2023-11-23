@@ -1,48 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/DashboardLayout';
 import { Typography, Button, Box, Divider } from '@mui/material';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import Layout from '@/components/vendors/Layout';
 import Link from 'next/link';
-import theme from '@/styles/theme';
 import ErrorIcon from '@mui/icons-material/Error';
-import useFetch from '@/hooks/useFetch';
-import { useSelector } from 'react-redux';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import ExternalError from '@/components/ErrorPage';
-import { RootState } from '@/store/store';
-import { useAuth } from '@/hooks/authContext';
 
 interface Props {
   token: string;
+  userData: any;
 }
 
-const ErrorPage = ({ token }: Props) => {
-  const router = useRouter();
+const ErrorPage = ({ userData }: Props) => {
   const [eventID, setEventID] = useState<any>();
 
   useEffect(() => {
     setEventID(localStorage.getItem('eventID'));
   }, []);
 
-  const { user } = useAuth();
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
-    token,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <ExternalError />;
-  }
   return (
-    <Layout data={queryData?.provider}>
+    <Layout data={userData?.provider}>
       <section>
         <Box
           sx={{

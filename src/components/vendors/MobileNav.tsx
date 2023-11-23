@@ -27,11 +27,7 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await axios.post('/api/logout', {}, { withCredentials: true });
       dispatch(clearCredentials());
       setUser(null);
       router.push('/user/findvendors');
@@ -62,8 +58,6 @@ const MobileNav = ({ show, userInfo, data, handleClick }: MobileNavProp) => {
       localStorage.setItem('lastVisitedURL', '/findVendors');
     }
   };
-
-  console.log(data?.providerProfile);
 
   return (
     <MobileWrapper

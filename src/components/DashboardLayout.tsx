@@ -29,7 +29,7 @@ const CustomContainer = ({ sx, children }: any) => {
 const DashboardLayout = ({ children, token, sx, inchat }: ILayout) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

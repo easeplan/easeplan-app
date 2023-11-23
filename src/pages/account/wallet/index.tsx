@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/authContext';
 const PaymentPage = ({ token }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [bankDetails, setBankDetails] = useState();
 
   const fetchBankDetails = async () => {

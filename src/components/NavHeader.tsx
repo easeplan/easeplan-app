@@ -40,7 +40,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            🥰 Nice to have you here {user?.provider?.profile?.firstName}
+            🥰 Nice to have you here {user?.profile?.firstName}
           </Typography>
           <Box
             sx={{
@@ -62,7 +62,7 @@ const NavHeader = ({ token }: any) => {
               },
             }}
           >
-            {user?.provider?.providerProfile ? null : (
+            {user?.providerProfile ? null : (
               <Link href="/account/onboard">
                 <Button
                   variant="outlined"
@@ -83,7 +83,7 @@ const NavHeader = ({ token }: any) => {
               user={user}
             />
             <AvatarMenu
-              imgSrc={user?.provider?.profile?.picture}
+              imgSrc={user?.profile?.picture}
               alt="userImage"
               height={100}
               width={100}

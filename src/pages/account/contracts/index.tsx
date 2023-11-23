@@ -7,11 +7,20 @@ import { setNotifyData } from '@/features/notificationsSlice';
 import { Box, Typography, Divider } from '@mui/material';
 import Link from 'next/link';
 import theme from '@/styles/theme';
+import { useAuth } from '@/hooks/authContext';
 
-const EventPage = ({ token }: any) => {
+const EventPage = ({ token, userData }: any) => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = userData?.provider._id;
   const [contracts, setContracts] = useState<any>();
+  const { setUser } = useAuth();
+
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const fetchContracts = async () => {
     try {

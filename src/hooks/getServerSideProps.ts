@@ -1,36 +1,11 @@
-// import { parseCookies } from '@/lib/parseCookies';
+import { parseCookies } from '@/lib/parseCookies';
 
-import { GetServerSideProps } from 'next';
-
-// export async function getServerSideProps({ req }: any) {
-//   const { token } = parseCookies(req);
-
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/user/findvendors',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: {
-//       token: token,
-//     },
-//   };
-// }
-
-export async function getServerSideProps(context: { req: { headers: any } }) {
+export async function getServerSideProps(context: { req: any }) {
+  const { req } = context;
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
-      {
-        headers: context.req.headers, // Forward the headers
-      },
-    );
+    const { token } = parseCookies(req);
 
-    if (res.status === 401) {
+    if (!token) {
       return {
         redirect: {
           destination: '/login',
@@ -38,8 +13,32 @@ export async function getServerSideProps(context: { req: { headers: any } }) {
         },
       };
     }
-    return { props: {} };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (res.status === 401) {
+      // Token is invalid or expired
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+
+    // Handle other status codes as needed
+
+    const data = await res.json(); // Assuming the API returns user data
+    return { props: { userData: data.data, token } };
   } catch (error) {
+    console.error('Error in getServerSideProps:', error);
     return {
       redirect: {
         destination: '/login',

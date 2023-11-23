@@ -32,7 +32,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
   const router = useRouter();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [openModal, setOpenModal] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [vendorData, setVendorData] = useState(

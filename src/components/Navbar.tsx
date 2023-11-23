@@ -29,7 +29,7 @@ const Navbar = () => {
               href="https://app.easeplan.io/findvendors"
               text="Find Vendors"
             />
-            {user?.provider.providerProfile && (
+            {user?.providerProfile && (
               <NavItem href="/signup" text="Become a vendor" />
             )}
             {user && (

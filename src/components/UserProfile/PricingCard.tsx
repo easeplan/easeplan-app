@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/authContext';
 const PricingCard = ({ queryData, token }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [openModal, setOpenModal] = useState(false);
   const [openBasicModal, setOpenBasicModal] = useState(false);
   const [openStandardModal, setOpenStandardModal] = useState(false);

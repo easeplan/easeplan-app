@@ -25,34 +25,45 @@ const CoverImageSchema = Yup.object().shape({
 const CoverBanner = ({ queryData, token }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [previewBannerImg, setPreviewBannerImg] = useState();
   const [fileName, setFileName] = useState();
 
   const queryClient = useQueryClient();
 
+  interface Credentials {
+    image: string;
+  }
+
   const { mutate: updateBannerImg, isLoading } = useMutation({
-    mutationFn: (credentials: any) =>
-      customFetch.put(`/profiles/${userInfo}`, credentials, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    mutationFn: async (credentials: Credentials) => {
+      try {
+        const { Location } = await uploadFileToS3('cover', credentials.image);
+        credentials.image = Location;
+
+        return customFetch.put(`/profiles/${userInfo}`, credentials, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        // Handle or throw the error appropriately
+        console.error('Error in updateBannerImg mutation:', error);
+        throw error; // Re-throwing the error to be caught in `onError`
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
       toast.success('Saved');
     },
     onError: (error: any) => {
-      toast.error(error.response.data.message);
+      // Assuming error.response.data.message is the correct path for the error message
+      toast.error(error.response?.data?.message || 'An error occurred');
     },
   });
 
   const updateCoverBanner = async (credentials: any) => {
-    const { Location } = await uploadFileToS3('cover', credentials.image);
-    credentials.image = Location;
-    console.log(credentials.image);
-
     updateBannerImg(credentials);
   };
 
@@ -74,6 +85,7 @@ const CoverBanner = ({ queryData, token }: any) => {
         alignItems: 'center',
         justifyContent: 'center',
         boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
+        mt: { xs: 10 },
       }}
     >
       <Formik
@@ -129,6 +141,7 @@ const CoverBanner = ({ queryData, token }: any) => {
                 />
               )}
               {previewBannerImg && (
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 <SaveButton type="submit">
                   {isLoading ? (
                     <FontAwesomeIcon icon={faCircleNotch} spin />

@@ -8,11 +8,19 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import ErrorPage from '@/components/ErrorPage';
 import { useAuth } from '@/hooks/authContext';
+import { useEffect } from 'react';
 
-const ProfilePage = ({ token }: any) => {
-  const { user } = useAuth();
+const ProfilePage = ({ token, userData }: any) => {
+  const { setUser, user } = useAuth();
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
+
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = userData?.provider._id;
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,

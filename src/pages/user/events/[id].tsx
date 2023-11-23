@@ -40,10 +40,10 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
 import { useAuth } from '@/hooks/authContext';
 
-const ViewEvent = ({ id, data, token }: any) => {
+const ViewEvent = ({ id, data, token, userData }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [eventData, setEventData] = useState(data);
-
+  console.log(userData);
   const [userEmail] = useState(
     typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
@@ -52,7 +52,7 @@ const ViewEvent = ({ id, data, token }: any) => {
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [confirmDispute, setConfirmDispute] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(false);
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const router = useRouter();
 
   // State to manage the opening and closing of the modal
@@ -81,7 +81,13 @@ const ViewEvent = ({ id, data, token }: any) => {
   const handleOfferAmountChange = (event: any) => {
     setOfferAmount(event.target.value);
   };
-  //   console.log(id);
+
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   useEffect(() => {
     localStorage.setItem('eventID', `${id}`);
@@ -243,21 +249,8 @@ const ViewEvent = ({ id, data, token }: any) => {
     }
   };
 
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${user?.provider._id}`,
-    token,
-  );
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
-  if (error) {
-    return <ErrorPage />;
-  }
-
   return (
-    <Layout data={queryData?.provider}>
+    <Layout data={userData}>
       <Container maxWidth="lg">
         <Box
           sx={{
@@ -645,7 +638,7 @@ const ViewEvent = ({ id, data, token }: any) => {
           </Box>
 
           <Box>
-            {queryData && (
+            {userData && (
               <Box>
                 <Box
                   sx={{
@@ -965,41 +958,6 @@ const ViewEvent = ({ id, data, token }: any) => {
   );
 };
 
-// export async function getServerSideProps(context: { req: { headers: any } }) {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
-//     headers: context.req.headers, // Forward the headers
-//   });
-
-//   if (res.status === 401) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   // Fetch data based on the dynamicParam
-//   const resp = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
-//     {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${token}`,
-//       },
-//     },
-//   );
-
-//   const data = await resp.json();
-
-//   return {
-//     props: {
-//       id,
-//       data: data?.data,
-//       token,
-//     },
-//   };
-// }
 export async function getServerSideProps(
   context: GetServerSidePropsContext & { req: NextApiRequest },
 ) {
@@ -1010,6 +968,7 @@ export async function getServerSideProps(
 
   // Convert headers to a compatible format
   const headers: Record<string, string> = {};
+  const { token } = parseCookies(req);
 
   Object.entries(req.headers).forEach(([key, value]) => {
     if (value) {
@@ -1019,6 +978,7 @@ export async function getServerSideProps(
 
   // Add 'Content-Type' header
   headers['Content-Type'] = 'application/json';
+  headers['Authorization'] = `Bearer ${token}`;
 
   try {
     const profileResp = await fetch(
@@ -1048,12 +1008,14 @@ export async function getServerSideProps(
       // Handle error
       return { props: { error: 'Failed to load data' } };
     }
-
+    const profileData = await profileResp.json();
     const data = await dataResp.json();
     return {
       props: {
         id,
         data: data?.data,
+        token,
+        userData: profileData?.data,
       },
     };
   } catch (error) {

@@ -81,7 +81,6 @@ const VerifiactionModal = ({
       if (data.status === 'success') {
         setLoginSuccess(data.message);
         toast.success('Email verified successfully');
-        console.log(data);
         dispatch(setCredentials(data.data._id));
         setIsLoggedIn(true);
         router.push('/user/findvendors');

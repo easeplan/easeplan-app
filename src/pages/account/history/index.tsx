@@ -11,20 +11,26 @@ import ErrorPage from '@/components/ErrorPage';
 import BasicTable from '@/components/Table';
 import { useAuth } from '@/hooks/authContext';
 
-const HistoryPage = ({ token }: any) => {
-  const { user } = useAuth();
+const HistoryPage = ({ token, userData }: any) => {
+  const { user, setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [contracts, setContracts] = useState<any>();
-  console.log(userInfo);
+
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const fetchContracts = async () => {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userInfo}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userData?.provider?._id}`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
+import { useAuth } from '@/hooks/authContext';
 
 /* TODO:
  *
@@ -34,6 +35,7 @@ import { GetServerSidePropsContext, NextApiRequest } from 'next';
 interface Props {
   token: string;
   data: any;
+  userData: any;
 }
 
 enum EventStatus {
@@ -47,7 +49,7 @@ enum EventStatus {
   PAID = 'Paid',
 }
 
-const ContractsPage = ({ token, data }: Props) => {
+const ContractsPage = ({ token, data, userData }: Props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -55,6 +57,14 @@ const ContractsPage = ({ token, data }: Props) => {
   const [confirm, setConfirm] = useState(false);
   const [declined, setDecliend] = useState(false);
   const [eventData, setEventData] = useState(data);
+  const { setUser } = useAuth();
+
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const handleAcceptOffer = async () => {
     try {
@@ -822,41 +832,6 @@ const ContractsPage = ({ token, data }: Props) => {
   );
 };
 
-// export async function getServerSideProps({ req, params }: any) {
-//   const { id } = params;
-//   const { token } = parseCookies(req);
-
-//   if (!token) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   // Fetch eventData based on the dynamicParam
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/contracts/${id}/contract`,
-//     {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${token}`,
-//       },
-//       credentials: 'include',
-//     },
-//   );
-
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       token: token,
-//       data: data?.data,
-//     },
-//   };
-// }
-
 export async function getServerSideProps(
   context: GetServerSidePropsContext & { req: NextApiRequest },
 ) {
@@ -867,6 +842,7 @@ export async function getServerSideProps(
 
   // Convert headers to a compatible format
   const headers: Record<string, string> = {};
+  const { token } = parseCookies(req);
 
   Object.entries(req.headers).forEach(([key, value]) => {
     if (value) {
@@ -876,6 +852,7 @@ export async function getServerSideProps(
 
   // Add 'Content-Type' header
   headers['Content-Type'] = 'application/json';
+  headers['Authorization'] = `Bearer ${token}`;
 
   try {
     const profileResp = await fetch(
@@ -905,12 +882,14 @@ export async function getServerSideProps(
       // Handle error
       return { props: { error: 'Failed to load data' } };
     }
-
+    const profileData = await profileResp.json();
     const data = await dataResp.json();
     return {
       props: {
         id,
         data: data?.data,
+        token,
+        userData: profileData?.data,
       },
     };
   } catch (error) {

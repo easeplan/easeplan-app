@@ -16,6 +16,7 @@ import { Container } from '@mui/system';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useAuth } from '@/hooks/authContext';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const style = {
   position: 'absolute' as const,
@@ -96,17 +97,33 @@ export default function UpdateProfileModal({
   const [previewProfileImg, setPreviewProfileImg] = useState();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const queryClient = useQueryClient();
 
+  interface Credentials {
+    picture: string;
+  }
+
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`/profiles/${userInfo}`, credentials, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    mutationFn: async (credentials: Credentials) => {
+      try {
+        const { Location } = await uploadFileToS3(
+          'profile',
+          credentials.picture,
+        );
+        credentials.picture = Location;
+
+        return customFetch.put(`/profiles/${userInfo}`, credentials, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error in updateBannerImg mutation:', error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
       toast.success('Profile updated');

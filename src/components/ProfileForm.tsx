@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import customFetch from '@/utils/customFetch';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -35,7 +36,6 @@ interface Props {
 }
 
 const ProfileForm = ({ token, queryData }: Props) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
   const [changePassword, setChangePassword] = useState<boolean>(false);
@@ -47,13 +47,26 @@ const ProfileForm = ({ token, queryData }: Props) => {
   const queryClient = useQueryClient();
 
   const { mutate: updateProfile, isLoading } = useMutation({
-    mutationFn: (credentials) =>
-      customFetch.put(`profiles/${userInfo}`, credentials, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    mutationFn: async (credentials: any) => {
+      try {
+        const { Location } = await uploadFileToS3(
+          'profile',
+          credentials.picture,
+        );
+        credentials.picture = Location;
+
+        return customFetch.put(`/profiles/${queryData._id}`, credentials, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        // Handle or throw the error appropriately
+        console.error('Error in updateBannerImg mutation:', error);
+        throw error; // Re-throwing the error to be caught in `onError`
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
       toast.success('Profile updated');
@@ -64,8 +77,6 @@ const ProfileForm = ({ token, queryData }: Props) => {
   });
 
   const submitCredentials = async (credentials: any) => {
-    const formData = new FormData();
-    formData.append('picture', credentials.picture);
     updateProfile(credentials);
   };
 
@@ -274,7 +285,7 @@ const ProfileForm = ({ token, queryData }: Props) => {
               <CustomButton
                 bgPrimary
                 lgWidth="20%"
-                smWidth="20%"
+                smWidth="50%"
                 mdWidth="20%"
                 loading={isLoading}
                 loadingText="Saving..."

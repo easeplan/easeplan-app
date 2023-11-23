@@ -28,7 +28,7 @@ const ReviewSlider = ({ queryData }: any) => {
           flexDirection: 'column',
           justifyContent: 'space-between',
           alignItems: 'start',
-          p: 3,
+          p: 1,
           mb: { xs: 4, md: 0 },
           border: { xs: 'solid 1px #ccc', md: 'none' }, // Borders only on xs screens
           borderRadius: '10px',

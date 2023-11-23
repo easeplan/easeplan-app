@@ -1,67 +1,44 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
-import '@/styles/globals.css';
-import { AnimatePresence } from 'framer-motion';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import posthog from 'posthog-js';
-import * as gtag from '@/lib/gtag';
-import theme from '@/styles/theme';
+import axios from 'axios';
+
+import { AnimatePresence } from 'framer-motion';
 import { ToastContainer } from 'react-toastify';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from '@/context/contextStore';
-import 'react-toastify/dist/ReactToastify.css';
-import { RootState, store } from '../store/store';
-import { Provider, useSelector } from 'react-redux';
-import Head from 'next/head';
+import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { SocketProvider } from '@/hooks/useSocketContext';
-import axios from 'axios';
-import { IUser } from 'types/interfaces/IUser';
-import { AuthContext, ReturnProps } from '@/hooks/authContext';
+import * as gtag from '@/lib/gtag';
+
+import '@/styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import theme from '@/styles/theme';
+import { RootState, store } from '../store/store';
+import { AuthProvider, useAuth } from '@/hooks/authContext';
 import { setCredentials, clearCredentials } from '@/features/authSlice';
+import { SocketProvider } from '@/hooks/useSocketContext';
+import Head from 'next/head';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
-
-//  Create a client
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState<ReturnProps | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const router = useRouter();
 
+  // Posthog and Route Change Effect
   useEffect(() => {
-    // Check if user is logged in
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setCredentials(response.data.data._id);
-        setUser(response.data.data);
-      })
-      .catch(() => {
-        clearCredentials();
-        setUser(null);
-      });
-  }, [isLoggedIn]);
-
-  useEffect(() => {
+    // Posthog Initialization
     posthog.init(`${process.env.NEXT_PUBLIC_POSTHOG_INIT}`, {
       api_host: 'https://app.posthog.com',
-      session_recording: {
-        inlineStylesheet: false,
-      },
+      session_recording: { inlineStylesheet: false },
     });
-    posthog.capture('my event', { property: 'value' });
 
+    // Event Capturing
     const urlParams = new URLSearchParams(window.location.search);
     const referedBy = urlParams.get('referedBy');
     if (referedBy) {
-      // If there`s a referral parameter, capture that event
       posthog.capture('referral-landing', {
         distinct_id: posthog.get_distinct_id(),
         referedBy: referedBy,
@@ -69,14 +46,12 @@ export default function App({ Component, pageProps }: AppProps) {
       localStorage.setItem('referedBy', referedBy);
     }
 
+    // Route Change Handling
     const handleRouteChange = (url: URL) => {
-      /* invoke analytics function only for production */
       if (isProduction) gtag.pageview(url);
     };
     router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
+    return () => router.events.off('routeChangeComplete', handleRouteChange);
   }, [router.events]);
 
   return (
@@ -87,27 +62,24 @@ export default function App({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
       </Head>
-
       <GoogleOAuthProvider
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT as string}
       >
-        <AuthContext.Provider value={{ user, setUser, setIsLoggedIn }}>
-          <Provider store={store}>
-            <AnimatePresence mode={'wait'}>
-              <AuthProvider queryData={pageProps.queryData}>
-                <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={theme}>
+              <AuthProvider>
+                <SocketProvider>
+                  <CssBaseline />
                   <ToastContainer position="top-center" />
-                  <ThemeProvider theme={theme}>
-                    <SocketProvider userId={user?.provider?._id as string}>
-                      <CssBaseline />
-                      <Component key={router.pathname} {...pageProps} />
-                    </SocketProvider>
-                  </ThemeProvider>
-                </QueryClientProvider>
+                  <AnimatePresence mode={'wait'}>
+                    <Component key={router.pathname} {...pageProps} />
+                  </AnimatePresence>
+                </SocketProvider>
               </AuthProvider>
-            </AnimatePresence>
-          </Provider>
-        </AuthContext.Provider>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </Provider>
       </GoogleOAuthProvider>
     </>
   );

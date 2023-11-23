@@ -18,7 +18,7 @@ const SuccessPage = ({ token }: Props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const { notifyData } = useSelector((state: RootState) => state.notifications);
   const [confirm, setConfirm] = useState(false);
   const [userEmail] = useState(

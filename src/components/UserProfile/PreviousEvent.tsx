@@ -18,7 +18,7 @@ import { useAuth } from '@/hooks/authContext';
 const PreviousEvent = ({ queryData, token }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [openModal, setOpenModal] = useState(false);
   const [openEditEventModal, setOpenEditEventModal] = useState(false);
   const [sampleId, setSampleId] = useState('');

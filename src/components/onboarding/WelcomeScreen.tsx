@@ -50,7 +50,7 @@ const WelcomeScreen = ({ token }: PropsTypes) => {
   const [expanded, setExpanded] = useState(false);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const { queryData, isLoading, error } = useFetch(
     `/profiles/${userInfo}`,
     token,

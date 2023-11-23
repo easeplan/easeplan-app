@@ -46,7 +46,7 @@ const SignupForm = ({ modal }: any) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isCheckedMsg, setIsCheckedMsg] = useState('');
   const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
-  const { setIsLoggedIn } = useAuth();
+  const { setUser } = useAuth();
 
   const setReferedBy = () => {
     const referedBy = localStorage.getItem('referedBy');
@@ -140,7 +140,7 @@ const SignupForm = ({ modal }: any) => {
         localStorage.setItem('authUser', res?.data?.user?._id);
         localStorage.setItem('userEmail', email);
       }
-      setIsLoggedIn(true);
+      setUser(res?.data?.user);
       setReferedBy();
       setVerificationModal(true);
     } catch (error: any) {
@@ -159,6 +159,7 @@ const SignupForm = ({ modal }: any) => {
   // GOOGLE Auth Login
   const responseGoogle = async (response: any) => {
     try {
+      setIsLoading(true);
       if (response.access_token) {
         const result = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`,
@@ -174,7 +175,7 @@ const SignupForm = ({ modal }: any) => {
 
         const data = await result.json();
         dispatch(setCredentials(data?.user?._id));
-        setIsLoggedIn(true);
+        setUser(data?.user);
         if (data.success === true) {
           dispatch(setCloseModal(false));
           router.push('/user/findvendors');
@@ -235,7 +236,7 @@ const SignupForm = ({ modal }: any) => {
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <GoogleButton
                   onClick={handleGoogleLogin}
-                  text="Sign up with Google"
+                  text={isLoading ? 'Please wait ...' : 'Sign up with Google'}
                 />
                 <Box
                   sx={{

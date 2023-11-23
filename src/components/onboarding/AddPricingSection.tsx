@@ -40,7 +40,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
   const { stepFour } = useSelector((state: RootState) => state.onboarding);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [isOpen, setIsOpen] = useState(false);
   // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const queryClient = useQueryClient();
@@ -141,11 +141,11 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                 <Box sx={{ borderTop: 'solid 1px #ccc' }}>
                   <Formik
                     initialValues={{
-                      minimum: user?.provider.providerProfile.budget?.minimum
-                        ? user?.provider.providerProfile.budget?.minimum
+                      minimum: user?.providerProfile.budget?.minimum
+                        ? user?.providerProfile.budget?.minimum
                         : '',
-                      maximum: user?.provider.providerProfile.budget?.maximum
-                        ? user?.provider.providerProfile.budget?.maximum
+                      maximum: user?.providerProfile.budget?.maximum
+                        ? user?.providerProfile.budget?.maximum
                         : '',
                     }}
                     validationSchema={VendorSchema}

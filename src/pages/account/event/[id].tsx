@@ -1,26 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import DashboardLayout from '@/components/DashboardLayout';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import { Typography, Box, Button } from '@mui/material';
-import { parseCookies } from '@/lib/parseCookies';
 import axios from 'axios';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CheckIcon from '@mui/icons-material/Check';
 import Link from 'next/link';
 import theme from '@/styles/theme';
 import AcceptOfferConfirmModal from '@/components/AcceptOfferConfirmModal';
 import CustomButton from '@/components/common/CustomButton';
 import Image from 'next/image';
 import UserRating from '@/components/common/UserRating';
-import ReviewFormFull from '@/components/ReviewFormFull';
-import { dateFormater } from '@/utils';
 import { Data, QueryData } from '@/lib/types';
-import EventAlert from '@/components/EventAlert';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { useAuth } from '@/hooks/authContext';
+import { parseCookies } from '@/lib/parseCookies';
 
 interface Props {
   token: string;
@@ -28,17 +22,23 @@ interface Props {
   queryData: QueryData;
 }
 
-const EventDetailsPage = ({ token, data, queryData }: any) => {
+const EventDetailsPage = ({ token, data, userData, queryData }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [userEmail] = useState(
     typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [confirm, setConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   useEffect(() => {
     localStorage.setItem('eventID', `${id}`);
@@ -592,6 +592,7 @@ export async function getServerSideProps(
 
   // Convert headers to a compatible format
   const headers: Record<string, string> = {};
+  const { token } = parseCookies(req);
 
   Object.entries(req.headers).forEach(([key, value]) => {
     if (value) {
@@ -601,6 +602,7 @@ export async function getServerSideProps(
 
   // Add 'Content-Type' header
   headers['Content-Type'] = 'application/json';
+  headers['Authorization'] = `Bearer ${token}`;
 
   try {
     const profileResp = await fetch(
@@ -630,12 +632,14 @@ export async function getServerSideProps(
       // Handle error
       return { props: { error: 'Failed to load data' } };
     }
-
+    const profileData = await profileResp.json();
     const data = await dataResp.json();
     return {
       props: {
         id,
         data: data?.data,
+        token,
+        userData: profileData?.data,
       },
     };
   } catch (error) {

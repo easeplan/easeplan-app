@@ -67,7 +67,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         );
         pictureUrl = uploadedPicture.Location; // Assuming uploadFileToS3 returns the S3 URL in the Location field
       } else {
-        pictureUrl = user?.provider.profile?.picture; // Use the existing URL
+        pictureUrl = user?.profile?.picture; // Use the existing URL
       }
       const resData = {
         firstName: credentials.firstName.trim(),
@@ -201,14 +201,14 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 </Typography>
                 <Formik
                   initialValues={{
-                    firstName: user?.provider.profile?.firstName
-                      ? user?.provider.profile?.firstName
+                    firstName: user?.profile?.firstName
+                      ? user?.profile?.firstName
                       : '',
-                    lastName: user?.provider.profile?.lastName
-                      ? user?.provider.profile?.lastName
+                    lastName: user?.profile?.lastName
+                      ? user?.profile?.lastName
                       : '',
-                    picture: user?.provider.profile?.picture
-                      ? user?.provider.profile?.picture
+                    picture: user?.profile?.picture
+                      ? user?.profile?.picture
                       : '',
                     state: '',
                     city: '',

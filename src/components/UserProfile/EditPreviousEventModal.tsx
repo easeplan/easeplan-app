@@ -51,7 +51,7 @@ const EditPreviousEventModal = ({
 }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({

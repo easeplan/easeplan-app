@@ -8,28 +8,30 @@ import ClientReviews from '@/components/publicPageSections/ClientReviews';
 // import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import type { NextApiRequest } from 'next';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import ErrorPage from '@/components/ErrorPage';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import useFetch from '@/hooks/useFetch';
 import { parseCookies } from '@/lib/parseCookies';
 import AuthHero from '@/components/UserProfile/Hero';
 import { useAuth } from '@/hooks/authContext';
 
 const PublicProfilePage = ({ data, publicId, token }: any) => {
-  const { user } = useAuth();
+  const { setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = data?._id;
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('lastVisitedURL');
     }
   }, []);
+
   const { queryData, error, isLoading } = useFetch(
     `/profiles/${userInfo}`,
     token,
   );
+  useEffect(() => {
+    if (queryData) {
+      setUser(queryData.provider);
+    }
+  }, [queryData, setUser]);
   return (
     <>
       <Layout data={queryData?.provider}>

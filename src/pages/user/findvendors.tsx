@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -39,6 +39,7 @@ import hairStylistIcon from '@/public/event-icons/hair-dye.png';
 import makeUpIcon from '@/public/event-icons/make-up.png';
 import liveBandicon from '@/public/event-icons/live-music.png';
 import { useAuth } from '@/hooks/authContext';
+import { parseCookies } from '@/lib/parseCookies';
 
 const services = [
   {
@@ -140,12 +141,13 @@ const services = [
 
 interface Props {
   token: string;
+  userData: any;
 }
 
-const VendorPage = ({ token }: Props) => {
+const VendorPage = () => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [page, setPage] = useState(1);
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
@@ -161,11 +163,11 @@ const VendorPage = ({ token }: Props) => {
     budget,
     service,
   );
+  const { setUser } = useAuth();
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
 
-  const { queryData } = useFetch(`/profiles/${userInfo}`, token); // const { isFetching, data: userData, error } = useGetCurrentUserQuery({ id });
   const dataObj = data as any;
   return (
     <>
@@ -192,11 +194,7 @@ const VendorPage = ({ token }: Props) => {
           content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
         />
       </Head>
-      <Layout
-        isSearch
-        handleSearchChange={handleSearchChange}
-        data={user?.provider}
-      >
+      <Layout isSearch handleSearchChange={handleSearchChange} data={user}>
         <Box
           sx={{
             pt: {
@@ -207,8 +205,8 @@ const VendorPage = ({ token }: Props) => {
               xl: 0.1,
             },
             px: {
-              xs: 4,
-              sm: 4,
+              xs: 2,
+              sm: 2,
               md: 4,
               lg: 10,
               xl: 10,

@@ -24,6 +24,7 @@ const ViewProfilePage = ({ data, token }: any) => {
         <meta name="theme-color" content="#134153" />
         <meta itemProp="name" content={data?.data?.company?.name} />
         <meta itemProp="image" content={data?.data?.company?.image} />
+        <meta name="description" content={data?.data?.company?.description} />
 
         {/*<!-- Facebook Meta Tags -->*/}
         <meta property="og:title" content={data?.data?.company?.name} />

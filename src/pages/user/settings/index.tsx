@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '@/components/vendors/Layout';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import { RootState } from '@/store/store';
@@ -11,10 +11,15 @@ import SettingsForm from '@/components/vendors/SettingsForm';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/authContext';
 
-const SettingPage = ({ token }: any) => {
-  const { user } = useAuth();
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+const SettingPage = ({ token, userData }: any) => {
+  console.log(userData);
+  const { setUser } = useAuth();
+  useEffect(() => {
+    if (userData) {
+      setUser(userData?.provider);
+    }
+  }, [userData, setUser, userData?.provider]);
+  const userInfo = userData.provider?._id;
   const { queryData, isLoading } = useFetch(`/profiles/${userInfo}`, token);
 
   return (

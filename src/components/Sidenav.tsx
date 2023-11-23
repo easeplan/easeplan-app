@@ -28,11 +28,7 @@ const Sidenav = ({ data }: any) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-        {},
-        { withCredentials: true },
-      );
+      await axios.post('/api/logout', {}, { withCredentials: true });
       setUser(null);
       router.push('/user/findvendors');
       dispatch(clearCredentials());

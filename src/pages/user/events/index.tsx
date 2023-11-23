@@ -21,18 +21,24 @@ import { dateFormater, formatCurrency } from '@/utils';
 import { Card, CardContent, Chip, Button } from '@mui/material';
 import { useAuth } from '@/hooks/authContext';
 
-const EventsPage = ({ token }: any) => {
+const EventsPage = ({ token, userData }: any) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const dispatch = useDispatch();
   const [contracts, setContracts] = useState<any>();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const fetchContracts = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${user?.provider._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/contracts/${userData?.provider?._id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -160,7 +166,7 @@ const EventsPage = ({ token }: any) => {
   };
 
   return (
-    <Layout data={user?.provider}>
+    <Layout data={user}>
       <Container sx={{ pt: 4 }} maxWidth="md">
         <Stack
           direction="row"

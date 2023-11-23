@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Logo from '../Logo';
 import { Box, Button, Container } from '@mui/material';
@@ -10,13 +10,14 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import SidenavDrawer from './SidenavDrawer';
 import { useAuth } from '@/hooks/authContext';
+import { parseCookies } from '@/lib/parseCookies';
 
 const Header = ({ handleSearchChange, data, isSearch }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?.provider?._id;
+  const userInfo = user?._id;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

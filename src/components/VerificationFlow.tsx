@@ -22,7 +22,7 @@ const VerifiactionFlow = ({ setIsVerified }: any) => {
    *  You can pass any values within the object
    */
   const metadata = {
-    user_id: user?.provider?._id,
+    user_id: user?._id,
   };
 
   /**

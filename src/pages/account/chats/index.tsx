@@ -58,7 +58,8 @@ import { uploadFileToS3 } from '@/utils/uploadFile';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useAuth } from '@/hooks/authContext';
 
-const InboxPage = ({ token }: any) => {
+const InboxPage = ({ token, userData }: any) => {
+  const { setUser } = useAuth();
   const theme = useTheme();
   const dispatch = useDispatch();
   const divRef = useRef<HTMLDivElement>(null);
@@ -66,7 +67,8 @@ const InboxPage = ({ token }: any) => {
     (state: RootState) => state.chatsData,
   );
   const [conversationList, setConversationList] = useState<any>();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  // const { userInfo } = useSelector((state: RootState) => state.auth);
+  const userInfo = userData.provider?._id;
   const [chatMessage, setChatMessage] = useState<any>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -75,7 +77,12 @@ const InboxPage = ({ token }: any) => {
   const [inchat, setInchat] = useState(false);
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
-  const { user } = useAuth();
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   const matchesXS = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('xs'),
@@ -83,6 +90,7 @@ const InboxPage = ({ token }: any) => {
   const matchesSM = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm'),
   );
+
   const matchesMD = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
@@ -102,7 +110,7 @@ const InboxPage = ({ token }: any) => {
     }
   };
 
-  // useActivityTracker(user?.provider._id as string);
+  useActivityTracker(userInfo as string);
   const getLastSeen = (lastActive: Date) => {
     const lastActiveDate = new Date(lastActive) as any;
     const now = new Date() as any;
@@ -134,9 +142,9 @@ const InboxPage = ({ token }: any) => {
         dispatch(setCurrentMessage(data));
       });
 
-      // socket.on('activeState', (data) => {
-      //   setConversationList({ conversations: data });
-      // });
+      socket.on('activeState', (data) => {
+        setConversationList({ conversations: data });
+      });
 
       return () => {
         socket.off('unreadConversationMessagesCount');
@@ -144,7 +152,7 @@ const InboxPage = ({ token }: any) => {
         socket.off(`conversation-${activeUserData?._id}`);
       };
     }
-  }, [socket, activeUserData?._id, dispatch, messages, user?.provider?._id]);
+  }, [socket, activeUserData?._id, dispatch, messages, userInfo]);
 
   const fetchConversations = async () => {
     try {
@@ -193,7 +201,7 @@ const InboxPage = ({ token }: any) => {
     try {
       const { Location } = await uploadFileToS3('chats', selectedImage);
       socket?.emit('image-message', {
-        sender: user?.provider?._id,
+        sender: userInfo,
         conversationId: activeUserData?._id,
         image: Location,
       });
@@ -208,7 +216,7 @@ const InboxPage = ({ token }: any) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     socket?.emit('message', {
-      sender: user?.provider?._id,
+      sender: userInfo,
       conversationId: activeUserData?._id,
       message: chatMessage,
     });
@@ -219,7 +227,7 @@ const InboxPage = ({ token }: any) => {
   const activeUser = (arr: any) => {
     const activeUsers: any = [];
     arr
-      ?.filter((user: any) => user?._id != user?.provider?._id)
+      ?.filter((user: any) => user?._id != userInfo)
       ?.map((user: any) => activeUsers.push(user));
 
     return activeUsers[0];
@@ -235,18 +243,18 @@ const InboxPage = ({ token }: any) => {
     }
   }, [messages]);
 
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${user?.provider._id}`,
-    token,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/profiles/${userInfo}`,
+  //   token,
+  // );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
-  if (error) {
-    return <ErrorPage />;
-  }
+  // if (error) {
+  //   return <ErrorPage />;
+  // }
 
   const headerHeight = '57px'; // Adjust as needed
   const footerHeight = '57px'; // Adjust as needed
@@ -391,7 +399,7 @@ const InboxPage = ({ token }: any) => {
                 <RecentChats
                   token={token}
                   conversationList={conversationList}
-                  userInfo={user?.provider._id}
+                  userInfo={userInfo}
                   setOpenChat={setOpenChat}
                   handleInChat={handleInChat}
                 />
@@ -514,7 +522,7 @@ const InboxPage = ({ token }: any) => {
                   <Box sx={{ height: messagesHeight, overflowY: 'scroll' }}>
                     <List className="msg_card_body">
                       <ChatComponent
-                        userInfoId={queryData}
+                        userInfoId={userData}
                         messages={messages}
                         handleInChat={handleInChat}
                         inchat={inchat}

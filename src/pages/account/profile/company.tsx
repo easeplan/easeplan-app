@@ -6,9 +6,19 @@ import PricingEventForm from '@/components/PricingEventForm';
 import OverviewForm from '@/components/OverviewForm';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
+import { useEffect } from 'react';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
+import { useAuth } from '@/hooks/authContext';
 
-const CompanyPage = ({ token }: any) => {
+const CompanyPage = ({ token, userData }: any) => {
+  const { setUser } = useAuth();
+  // When the component mounts, update the user data in the context
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
+
   return (
     <DashboardLayout token={token}>
       <Flex>

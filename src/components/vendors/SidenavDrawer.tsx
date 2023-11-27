@@ -6,11 +6,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { parseCookies } from '@/lib/parseCookies';
+import { useAuth } from '@/hooks/authContext';
 
 type Anchor = 'right';
 
 export default function SidenavDrawer({ data }: any) {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { user } = useAuth();
+  const userInfo = user?._id;
   const [state, setState] = React.useState({
     top: false,
     left: false,

@@ -4,7 +4,7 @@ import cookie from 'cookie';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const result = await fetch(
-      'http://localhost:3007/api/v2/auth/verify_google',
+      'https://easeplan-app-staging.vercel.app/api/v2/auth/verify_google',
       {
         method: 'POST',
         headers: {

@@ -127,7 +127,7 @@ const SignupForm = ({ modal }: any) => {
     try {
       setIsLoading(true);
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`;
+      const apiUrl = '/api/signup';
       const res = await axios.post(
         apiUrl,
         { email, password },
@@ -161,17 +161,14 @@ const SignupForm = ({ modal }: any) => {
     try {
       setIsLoading(true);
       if (response.access_token) {
-        const result = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token: response.access_token }),
-            credentials: 'include',
+        const result = await fetch('/api/google-auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify({ token: response.access_token }),
+          credentials: 'include',
+        });
 
         const data = await result.json();
         dispatch(setCredentials(data?.user?._id));

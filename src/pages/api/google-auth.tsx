@@ -4,7 +4,7 @@ import cookie from 'cookie';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const result = await fetch(
-      'https://easeplan-server.azurewebsites.net/api/v2/auth/verify_google',
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/verify_google`,
       {
         method: 'POST',
         headers: {

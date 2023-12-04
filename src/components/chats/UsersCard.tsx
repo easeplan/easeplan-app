@@ -85,7 +85,7 @@ const UsersCard = ({
     const conversationID = data?._id;
     dispatch(setActiveUserData(data));
 
-    const socket = io('https://easeplan.azurewebsites.net', {
+    const socket = io(`${process.env.NEXT_PUBLIC_API_URL_SOCKET}`, {
       auth: {
         userId: `${userInfo}`,
       },
@@ -179,11 +179,11 @@ const UsersCard = ({
             horizontal: 'right',
           }}
           variant="dot"
-          // sx={{
-          //   '& .MuiBadge-dot': {
-          //     backgroundColor: !otherParticipant.lastActive && 'grey', // or your default color
-          //   },
-          // }}
+          sx={{
+            '& .MuiBadge-dot': {
+              backgroundColor: !otherParticipant.lastActive ? 'grey' : '', // or your default color
+            },
+          }}
         >
           <Avatar
             alt={`${otherParticipant?.profile?.firstName} ${otherParticipant?.profile?.lastName}`}

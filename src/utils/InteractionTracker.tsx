@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useSocket } from '@/hooks/useSocketContext';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 
 export const useActivityTracker = (userId: string) => {
   const socket = useSocket();
@@ -15,8 +13,7 @@ export const useActivityTracker = (userId: string) => {
 
     const resetTimer = () => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => updateUserStatus(userId as string), 150000);
-      console.log('went');
+      timeout = setTimeout(() => updateUserStatus(userId as string), 10000);
     };
 
     window.addEventListener('mousemove', resetTimer);
@@ -31,5 +28,5 @@ export const useActivityTracker = (userId: string) => {
       window.removeEventListener('mousemove', resetTimer);
       window.removeEventListener('keypress', resetTimer);
     };
-  }, []);
+  }, [socket, userId]);
 };

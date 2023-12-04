@@ -20,6 +20,7 @@ import { AuthProvider, useAuth } from '@/hooks/authContext';
 import { setCredentials, clearCredentials } from '@/features/authSlice';
 import { SocketProvider } from '@/hooks/useSocketContext';
 import Head from 'next/head';
+import Modal from 'react-modal';
 
 const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
 const queryClient = new QueryClient();
@@ -27,6 +28,10 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
+  useEffect(() => {
+    // Set the app element to the root element with id '__next'
+    Modal.setAppElement('#__next');
+  }, []);
   // Posthog and Route Change Effect
   useEffect(() => {
     // Posthog Initialization

@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react';
 import Layout from '@/components/vendors/Layout';
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import useFetch from '@/hooks/useFetch';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@/components/common/Divider';
 import SettingsForm from '@/components/vendors/SettingsForm';
-import Link from 'next/link';
 import { useAuth } from '@/hooks/authContext';
 
 const SettingPage = ({ token, userData }: any) => {
-  console.log(userData);
   const { setUser } = useAuth();
   useEffect(() => {
     if (userData) {

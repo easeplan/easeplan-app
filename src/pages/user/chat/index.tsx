@@ -1,75 +1,55 @@
 import { useEffect, useState, useRef } from 'react';
-import ChatLayout from '@/components/chats/ChatLayout';
 import RecentChats from '@/components/chats/RecentChats';
 import ChatComponent from '@/components/chats/ChatComponent';
-import {
-  Box,
-  Typography,
-  Button,
-  Container,
-  useTheme,
-  Theme,
-} from '@mui/material';
-import useFetch from '@/hooks/useFetch';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import ErrorPage from '@/components/ErrorPage';
+import { Box, Typography, Button, useTheme, Theme } from '@mui/material';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import io from 'socket.io-client';
 import {
   setCurrentMessage,
   setMessages,
-  setMobileChatModal,
   setAllUnreadConversationMessagesCount,
   setUnreadConversationMessagesCount,
 } from '@/features/chatsSlice';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
-import cahtImg from '@/public/avatar.png';
 import chatPreviewImg from '@/public/chatImg.png';
 import Image from 'next/image';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import theme from '@/styles/theme';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import axios from 'axios';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Layout from '@/components/vendors/Layout';
 
-import useFetchMessages from '@/hooks/useFetchMessages';
-import ChatIcon from '@mui/icons-material/Chat';
-
-// import theme from '@/styles/theme';
-import user from '@/pages/api/user';
-
-import DialogTitle from '@mui/material/DialogTitle';
-
 import React from 'react';
-import {
-  Grid,
-  Paper,
-  List,
-  Avatar,
-  ListItemText,
-  InputBase,
-  Badge,
-} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { styled } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
+import { Grid, Paper, List, Avatar, InputBase } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
-import { stringMap } from 'aws-sdk/clients/backup';
 import { useSocket } from '@/hooks/useSocketContext';
 import { useActivityTracker } from '@/utils/InteractionTracker';
 import { uploadFileToS3 } from '@/utils/uploadFile';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useAuth } from '@/hooks/authContext';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
+const EmojiModal = ({ onClick }: any) => {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        bottom: 45,
+        left: 0,
+        ml: 2,
+        mr: 2,
+        mb: 1,
+        right: 0,
+      }}
+    >
+      {/* Emoji Picker */}
+      <EmojiPicker onEmojiClick={onClick} />
+    </Box>
+  );
+};
 const InboxPage = ({ token, userData }: any) => {
   const { setUser } = useAuth();
   const theme = useTheme();
@@ -89,6 +69,9 @@ const InboxPage = ({ token, userData }: any) => {
   const [inchat, setInchat] = useState(false);
   const socket = useSocket();
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('1f60a');
+  const [showIcon, setShowIcon] = useState(false);
+
   // When the component mounts, update the user data in the context
   useEffect(() => {
     if (userData) {
@@ -96,6 +79,14 @@ const InboxPage = ({ token, userData }: any) => {
     }
   }, [userData, setUser]);
 
+  function onClick(emojiData: EmojiClickData, event: MouseEvent) {
+    setChatMessage(
+      (inputValue: any) =>
+        inputValue + (emojiData.isCustom ? emojiData.unified : emojiData.emoji),
+    );
+    setSelectedEmoji(emojiData.unified);
+  }
+  const [showModal, setShowModal] = useState<boolean>(false);
   const matchesXS = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('xs'),
   );
@@ -155,6 +146,7 @@ const InboxPage = ({ token, userData }: any) => {
       });
 
       socket.on('activeState', (data) => {
+        console.log(data);
         setConversationList({ conversations: data });
       });
 
@@ -232,7 +224,7 @@ const InboxPage = ({ token, userData }: any) => {
       conversationId: activeUserData?._id,
       message: chatMessage,
     });
-
+    setShowModal(false);
     setChatMessage('');
   };
 
@@ -527,6 +519,9 @@ const InboxPage = ({ token, userData }: any) => {
                         inchat={inchat}
                       />
                     </List>
+
+                    {/* Emoji Modal */}
+                    {showModal && <EmojiModal onClick={onClick} />}
                   </Box>
                   <Box
                     className="card-footer"
@@ -558,16 +553,39 @@ const InboxPage = ({ token, userData }: any) => {
                               ref={fileInputRef}
                               onChange={handleFileInputChange}
                             />
+
                             <AttachFileIcon />
                           </IconButton>
                         </Grid>
+
                         <Grid item xs>
                           <InputBase
+                            onClick={() => setShowModal(false)}
+                            onBlur={() => setShowIcon(false)}
                             fullWidth
                             placeholder="Type your message..."
                             value={chatMessage}
                             onChange={(e) => setChatMessage(e.target.value)}
                           />
+                        </Grid>
+                        <Grid item>
+                          <button
+                            type="button"
+                            style={{
+                              fontSize: '25px',
+                              marginRight: '5px',
+                              background: 'none',
+                              border: 'none',
+                              display: showIcon ? 'none' : 'block',
+                            }}
+                            onClick={() => {
+                              setShowModal(true);
+                            }}
+                          >
+                            <span style={{ filter: 'grayscale(100%)' }}>
+                              😊
+                            </span>
+                          </button>
                         </Grid>
                         <Grid item>
                           <IconButton color="primary" type="submit">

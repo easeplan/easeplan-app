@@ -25,6 +25,7 @@ import { useRouter } from 'next/router';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import theme from '@/styles/theme';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ProfileSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -70,6 +71,8 @@ const SettingsForm = ({
   const [selectedState, setSelectedState] = useState<any>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [fileName, setFileName] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState(false);
+
   const [previewImg, setPreviewImg] = useState<any>(
     queryData?.provider?.profile?.picture
       ? queryData?.provider?.profile?.picture
@@ -110,23 +113,6 @@ const SettingsForm = ({
       toast.error(error.response.data.message);
     },
   });
-  const submitCredentials = async (credentials: any) => {
-    const { Location } = await uploadFileToS3('images', credentials.picture);
-    setPhoneNumber(credentials.phoneNumber);
-    const resData = {
-      firstName: credentials.firstName,
-      lastName: credentials.lastName,
-      picture: Location,
-      state: credentials.state,
-      city: credentials.city,
-      gender: credentials.gender,
-      phoneNumber: credentials.phoneNumber,
-      confirmPassword: '',
-    };
-    setCredentials(resData);
-    updateProfile(resData);
-  };
-
   const apiClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: { 'Content-Type': 'application/json' },
@@ -144,6 +130,68 @@ const SettingsForm = ({
     });
   };
 
+  const createOfferOrUpdateUser = async (userCredentials: any) => {
+    const userUpdateResult = await sendRequest(
+      '/users/update',
+      userCredentials,
+      token,
+      'put',
+    );
+    if (userUpdateResult.data.status !== 'success') {
+      toast.error(
+        fromProfile
+          ? 'Failed to send offer!'
+          : 'Failed to update user records.',
+      );
+      return;
+    }
+
+    if (fromProfile) {
+      const offer = JSON.parse(localStorage.getItem('offer') || '{}');
+      const offerCreationResult = await sendRequest(
+        '/profiles/create-offer',
+        offer,
+        token,
+      );
+
+      if (offerCreationResult.data.status === 'success') {
+        toast.success('Offer sent to vendor');
+        router.push(`/user/events/${offerCreationResult.data.data._id}`);
+        handleClose(false);
+      } else {
+        toast.error('Failed to create an offer.');
+      }
+    } else {
+      toast.success('Profile Updated!');
+      setHasPhoneNumber(false);
+    }
+  };
+  const submitCredentials = async (credentials: any) => {
+    let location;
+    if (credentials.picture) {
+      const { Location } = await uploadFileToS3('images', credentials.picture);
+      location = Location;
+    }
+
+    setPhoneNumber(credentials.phoneNumber);
+    const resData = {
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
+      picture: location || queryData?.provider?.profile?.picture,
+      state: credentials.state,
+      city: credentials.city,
+      gender: credentials.gender,
+      phoneNumber: credentials.phoneNumber || queryData?.provider?.phoneNumber,
+      confirmPassword: '',
+    };
+    setCredentials(resData);
+    if (!isEditing) {
+      createOfferOrUpdateUser(resData);
+    } else {
+      updateProfile(resData);
+    }
+  };
+
   const verifyNumber = async (credentials: any) => {
     try {
       setIsLoadingOTP(true);
@@ -158,40 +206,42 @@ const SettingsForm = ({
         return;
       }
 
-      const userUpdateResult = await sendRequest(
-        '/users/update',
-        userCredentials,
-        token,
-        'put',
-      );
-      if (userUpdateResult.data.status !== 'success') {
-        toast.error(
-          fromProfile
-            ? 'Failed to send offer!'
-            : 'Failed to update user records.',
-        );
-        return;
-      }
+      createOfferOrUpdateUser(userCredentials);
 
-      if (fromProfile) {
-        const offer = JSON.parse(localStorage.getItem('offer') || '{}');
-        const offerCreationResult = await sendRequest(
-          '/profiles/create-offer',
-          offer,
-          token,
-        );
+      // const userUpdateResult = await sendRequest(
+      //   '/users/update',
+      //   userCredentials,
+      //   token,
+      //   'put',
+      // );
+      // if (userUpdateResult.data.status !== 'success') {
+      //   toast.error(
+      //     fromProfile
+      //       ? 'Failed to send offer!'
+      //       : 'Failed to update user records.',
+      //   );
+      //   return;
+      // }
 
-        if (offerCreationResult.data.status === 'success') {
-          toast.success('Offer sent to vendor');
-          router.push(`/user/events/${offerCreationResult.data.data._id}`);
-          handleClose(false);
-        } else {
-          toast.error('Failed to create an offer.');
-        }
-      } else {
-        toast.success('Profile Updated!');
-        setHasPhoneNumber(false);
-      }
+      // if (fromProfile) {
+      //   const offer = JSON.parse(localStorage.getItem('offer') || '{}');
+      //   const offerCreationResult = await sendRequest(
+      //     '/profiles/create-offer',
+      //     offer,
+      //     token,
+      //   );
+
+      //   if (offerCreationResult.data.status === 'success') {
+      //     toast.success('Offer sent to vendor');
+      //     router.push(`/user/events/${offerCreationResult.data.data._id}`);
+      //     handleClose(false);
+      //   } else {
+      //     toast.error('Failed to create an offer.');
+      //   }
+      // } else {
+      //   toast.success('Profile Updated!');
+      //   setHasPhoneNumber(false);
+      // }
     } catch (error: any) {
       setIsLoadingOTP(false);
       toast.error(error.response?.data?.message || 'An error occurred');
@@ -209,10 +259,10 @@ const SettingsForm = ({
       setCountDown(seconds);
       if (count === 0) {
         clearInterval(interval);
-        setIsTokenSent(true);
+        // setIsTokenSent(true);
       }
     }, 1000);
-  }, [isResend]);
+  }, [isResend, isTokenSent]);
 
   const resendHandler = async () => {
     try {
@@ -250,7 +300,7 @@ const SettingsForm = ({
         p: fromProfile ? '0' : 4,
       }}
     >
-      {!hasPhoneNumber ? (
+      {!hasPhoneNumber && !showPassword ? (
         <Formik
           initialValues={{
             firstName: queryData?.provider?.profile?.firstName
@@ -259,9 +309,7 @@ const SettingsForm = ({
             lastName: queryData?.provider?.profile?.lastName
               ? queryData?.provider?.profile?.lastName
               : '',
-            picture: queryData?.provider?.profile?.picture
-              ? queryData?.provider?.profile?.picture
-              : '',
+            picture: '',
             gender: queryData?.provider?.gender
               ? queryData?.provider?.gender
               : '',
@@ -278,6 +326,7 @@ const SettingsForm = ({
           {({ setFieldValue }) => (
             <Form>
               <Box>
+                {/* Profile Picture */}
                 <Box
                   sx={{
                     width: '100%',
@@ -286,7 +335,17 @@ const SettingsForm = ({
                 >
                   <div>
                     {previewImg === null ? (
-                      <div>
+                      // Use existing profile picture if available
+                      queryData?.provider?.profile?.picture ? (
+                        <Image
+                          src={queryData.provider.profile.picture}
+                          alt="profileImg"
+                          height={100}
+                          width={100}
+                          style={{ borderRadius: '50%' }}
+                        />
+                      ) : (
+                        // Use default avatar if no existing picture
                         <Image
                           src={AvatarImg}
                           alt="profileImg"
@@ -294,8 +353,9 @@ const SettingsForm = ({
                           width={100}
                           style={{ borderRadius: '50%' }}
                         />
-                      </div>
+                      )
                     ) : (
+                      // Use previewImg if available
                       <Box>
                         <Image
                           src={previewImg}
@@ -321,6 +381,7 @@ const SettingsForm = ({
                     </AddButton>
                   </div>
                 </Box>
+
                 <InputController>
                   <div className="flex">
                     <div>
@@ -424,12 +485,27 @@ const SettingsForm = ({
                       <div>
                         <Label text="Phone number" />
                       </div>
-                      <FormInput
-                        ariaLabel="phoneNumber"
-                        name="phoneNumber"
-                        type="number"
-                        placeholder="Phone number"
-                      />
+                      <PasswordControl>
+                        <FormInput
+                          ariaLabel="phoneNumber"
+                          name="phoneNumber"
+                          type="tel"
+                          placeholder="Phone number"
+                          disabled={
+                            !isEditing &&
+                            queryData.provider.phoneNumber !== undefined
+                          }
+                        />
+                        <div
+                          className="password"
+                          onClick={() => setIsEditing(true)}
+                        >
+                          {!isEditing &&
+                            queryData.provider.phoneNumber !== undefined && (
+                              <EditIcon />
+                            )}
+                        </div>
+                      </PasswordControl>
                     </Box>
                   </Box>
 

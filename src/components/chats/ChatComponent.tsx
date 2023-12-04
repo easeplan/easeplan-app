@@ -12,9 +12,76 @@ import {
 import chatImg from '@/public/avatar.png';
 import Image from 'next/image';
 import theme from '@/styles/theme';
-import { forwardRef, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+import Modal from 'react-modal';
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    border: 'none',
+    background: 'none',
+    overflow: 'hidden',
+  },
+};
+const ImagePreviewModal = ({
+  isOpen,
+  onRequestClose,
+  imageUrl,
+  afterOpenModal,
+}: any) => {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Image Preview"
+      onAfterOpen={afterOpenModal}
+      style={customStyles}
+    >
+      <img
+        src={imageUrl}
+        alt="Chat content"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          cursor: 'pointer',
+        }}
+        width="100"
+        height="100"
+        onClick={onRequestClose}
+      />
+    </Modal>
+  );
+};
 
 const ChatComponent = ({ userInfoId, messages }: any) => {
+  const [isImagePreviewOpen, setImagePreviewOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setImagePreviewOpen(true);
+  };
+
+  const closeImagePreview = () => {
+    setImagePreviewOpen(false);
+    setSelectedImage('');
+  };
+  function afterOpenModal() {
+    return;
+  }
   function formatTime(timestamp: any) {
     const date = new Date(timestamp);
     const options = { hour: '2-digit', minute: '2-digit', hour12: true };
@@ -80,31 +147,42 @@ const ChatComponent = ({ userInfoId, messages }: any) => {
                         ? isCurrentUser
                           ? theme.palette.primary.main
                           : theme.palette.primary.light
-                        : theme.palette.primary.light,
+                        : 'none',
                     p: 1.2,
                     maxWidth: '75%',
                     textAlign: 'left',
                     color: 'white',
                     marginBottom: '0',
+                    overflow: 'hidden', // Add this line to hide overflow content
+                    wordWrap: 'break-word', // Add this line to break long words and prevent overflow
                   }}
                 >
                   {message.type === 'text' ? (
                     <span>{message.message}</span>
                   ) : (
-                    <Image
-                      src={message.image}
-                      alt="Chat content"
-                      style={{
-                        border: `3px solid ${
-                          isCurrentUser
-                            ? theme.palette.primary.main
-                            : theme.palette.primary.light
-                        }`,
-                        borderRadius: '10px',
-                      }}
-                      width="150"
-                      height="150"
-                    />
+                    <>
+                      <Image
+                        src={message.image}
+                        alt="Chat content"
+                        style={{
+                          border: `3px solid ${
+                            isCurrentUser
+                              ? theme.palette.primary.main
+                              : theme.palette.primary.light
+                          }`,
+                          borderRadius: '10px',
+                        }}
+                        width="150"
+                        height="150"
+                        onClick={() => handleImageClick(message.image)}
+                      />
+                      <ImagePreviewModal
+                        isOpen={isImagePreviewOpen}
+                        onRequestClose={closeImagePreview}
+                        imageUrl={selectedImage}
+                        afterOpenModal={afterOpenModal}
+                      />
+                    </>
                   )}
                 </Box>
               }

@@ -253,7 +253,6 @@ const NavItems = ({ data, userData }: any) => {
                   },
                 }}
               >
-                console.log
                 <LoginIcon
                   sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />

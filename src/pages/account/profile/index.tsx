@@ -1,11 +1,8 @@
 import DashboardLayout from '@/components/DashboardLayout';
-import { styled } from '@mui/material/styles';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import useFetch from '@/hooks/useFetch';
 import UserProfile from '@/components/UserProfile';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import ErrorPage from '@/components/ErrorPage';
 import { useAuth } from '@/hooks/authContext';
 import { useEffect } from 'react';

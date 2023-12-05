@@ -33,6 +33,7 @@ const customStyles = {
     border: 'none',
     background: 'none',
     overflow: 'hidden',
+    margin: '10px',
   },
 };
 const ImagePreviewModal = ({

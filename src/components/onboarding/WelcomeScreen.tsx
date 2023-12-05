@@ -42,19 +42,26 @@ import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
   token: string;
+  userData: any;
 }
-const WelcomeScreen = ({ token }: PropsTypes) => {
+const WelcomeScreen = ({ token, userData }: PropsTypes) => {
   const dispatch = useDispatch();
   const { intro } = useSelector((state: RootState) => state.onboarding);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
   const { queryData, isLoading, error } = useFetch(
     `/profiles/${userInfo}`,
     token,
   );
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData.provider);
+    }
+  }, [userData, setUser]);
 
   useEffect(() => {
     if (queryData && queryData.provider) {

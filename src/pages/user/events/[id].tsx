@@ -43,7 +43,6 @@ import { useAuth } from '@/hooks/authContext';
 const ViewEvent = ({ id, data, token, userData }: any) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [eventData, setEventData] = useState(data);
-  console.log(userData);
   const [userEmail] = useState(
     typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
@@ -200,7 +199,6 @@ const ViewEvent = ({ id, data, token, userData }: any) => {
   };
 
   const submitReview = async (credentials: any) => {
-    console.log(credentials);
     try {
       setIsLoadingData(true);
       const { data } = await axios.post(

@@ -11,8 +11,6 @@ import { Container } from '@mui/system';
 import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
 import DragAndDropInput from '../common/DragAndDropInput';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import { uploadFileToS3 } from '@/utils/uploadFile';
 import { useAuth } from '@/hooks/authContext';
 
@@ -39,7 +37,13 @@ const CompanyProfileSchema = Yup.object().shape({
   sampleImage: Yup.string().required('Image is missing'),
 });
 
-const AddPreviousEventModal = ({ isOpen, isClose, token }: any) => {
+const AddPreviousEventModal = ({
+  isOpen,
+  isClose,
+  token,
+  setImageCount,
+  imageCount,
+}: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
@@ -66,6 +70,7 @@ const AddPreviousEventModal = ({ isOpen, isClose, token }: any) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
+      setImageCount(imageCount + 1);
       toast.success('Event Datails Added');
       isClose(false);
     },

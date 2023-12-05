@@ -85,7 +85,7 @@ const CoverBanner = ({ queryData, token }: any) => {
         alignItems: 'center',
         justifyContent: 'center',
         boxShadow: '0px 4.82797px 12.0699px rgba(0, 0, 0, 0.1)',
-        mt: { xs: 10 },
+        mt: { xs: 1 },
       }}
     >
       <Formik

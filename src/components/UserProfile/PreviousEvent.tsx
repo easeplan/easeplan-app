@@ -45,7 +45,6 @@ const PreviousEvent = ({ queryData, token }: any) => {
 
   const handleEventDelete = async (id: any) => {
     setSampleId(id);
-    console.log(id);
     handleDelete(id);
   };
 

@@ -81,7 +81,6 @@ const ReviewSlider = ({ queryData }: any) => {
       </Box>
     ),
   );
-
   const reviewCount = queryData?.providerProfile?.ratings?.length || 0;
   const reviewsNumb = `${reviewCount} review${reviewCount === 1 ? '' : 's'}`;
   // Determine the layout based on the screen width
@@ -142,14 +141,14 @@ const ReviewSlider = ({ queryData }: any) => {
           }}
           scrollbar={{ draggable: true }}
         >
-          {reviewCards.map((card: any, index: number) => (
+          {/* {reviewCards.map((card: any, index: number) => (
             <SwiperSlide
               key={index}
               style={{ padding: '0 8px', boxSizing: 'border-box' }}
             >
               {card}
             </SwiperSlide>
-          ))}
+          ))} */}
         </Swiper>
       </Box>
     );

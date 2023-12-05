@@ -63,7 +63,7 @@ const OTPRequestCooldown = ({
         </div>
       ) : (
         <Button color="primary" onClick={handleRequestOTP}>
-          Didn&apost receive a code? request again
+          Did&apos;nt receive a code? request again
         </Button>
       )}
     </Typography>

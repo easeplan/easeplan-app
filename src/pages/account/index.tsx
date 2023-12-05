@@ -75,129 +75,137 @@ const HomePage = ({ token, userData }: Props) => {
   return (
     <>
       <DashboardLayout token={token}>
-        {queryData?.provider?.providerProfile ? (
-          <>
-            {!queryData?.provider?.providerProfile?.verified && (
-              <Alert
-                severity="error"
-                sx={{
-                  mt: {
-                    xs: 2,
-                    md: 3,
-                    lg: 3,
-                  },
-                  py: 1,
-                }}
-              >
-                <Box
+        <Box sx={{ mt: { xs: 10, sm: 0, lg: 0, md: 0 } }}>
+          {queryData?.provider?.providerProfile ? (
+            <>
+              {!queryData?.provider?.providerProfile?.verified && (
+                <Alert
+                  severity="error"
                   sx={{
-                    display: 'flex',
-                    flexDirection: {
-                      xs: 'column',
-                      sm: 'row',
-                      md: 'row',
+                    mt: {
+                      xs: 5,
+                      md: 3,
+                      lg: 3,
+                      sm: 2,
                     },
-                    alignItems: 'start',
+                    py: 1,
                   }}
                 >
-                  <Typography fontWeight={300}>
-                    You have a pending verification{' '}
-                    <Link href="/account/onboard" style={{ fontWeight: '600' }}>
-                      [Continue]
-                    </Link>
-                  </Typography>
-                </Box>
-              </Alert>
-            )}
-          </>
-        ) : null}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: {
+                        xs: 'column',
+                        sm: 'row',
+                        md: 'row',
+                      },
+                      alignItems: 'start',
+                    }}
+                  >
+                    <Typography fontWeight={300}>
+                      You have a pending verification{' '}
+                      <Link
+                        href="/account/onboard"
+                        style={{ fontWeight: '600' }}
+                      >
+                        [Continue]
+                      </Link>
+                    </Typography>
+                  </Box>
+                </Alert>
+              )}
+            </>
+          ) : null}
 
-        {queryData?.provider?.providerProfile && <Dashboard data={queryData} />}
-        <>
-          <Typography
-            mt={4}
-            fontSize="1.5rem"
-            color="primary.main"
-            fontWeight={700}
-          >
-            Recent Gigs
-          </Typography>
-          <Divider />
-          {contracts?.length < 1 ? (
-            <Box sx={{ textAlign: 'center', mt: 10, color: 'grey.500' }}>
-              <Typography>Your ongoing events will show here</Typography>
-            </Box>
-          ) : (
-            <>
-              {contracts
-                ?.filter(
-                  (list: { status: string }) => list.status === 'Requested',
-                )
-                .map((list: any) => (
-                  <Box key={list?._id}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        flexDirection: {
-                          xs: 'column',
-                          sm: 'column',
-                          md: 'row',
-                          lg: 'row',
-                          xl: 'row',
-                        },
-                        px: 4,
-                        py: 2,
-                        mt: 4,
-                        border: ' solid 1px #ccc',
-                      }}
-                    >
-                      <Box>
-                        {list.status === 'Accepted' && (
-                          <>
-                            <Typography
-                              fontWeight="600"
-                              fontSize="1.2rem"
-                              color="primary.main"
-                            >
-                              Awaiting Payment
-                            </Typography>
-                            <Typography color="grey.500" mt={1}>
-                              We&apos;ll inform you once customer makes payment
-                            </Typography>
-                          </>
-                        )}
-
-                        {list.status === 'Requested' && (
-                          <Box>
-                            <Typography
-                              fontWeight="600"
-                              fontSize="1.2rem"
-                              color="primary.main"
-                            >
-                              Are you available for this gig?
-                            </Typography>
-                            <Typography color="grey.500" mt={1}>
-                              If you are please accept the event or decline if
-                              you are not available
-                            </Typography>
-                          </Box>
-                        )}
-                      </Box>
+          {queryData?.provider?.providerProfile && (
+            <Dashboard data={queryData} />
+          )}
+          <>
+            <Typography
+              mt={4}
+              fontSize="1.5rem"
+              color="primary.main"
+              fontWeight={700}
+            >
+              Recent Gigs
+            </Typography>
+            <Divider />
+            {contracts?.length < 1 ? (
+              <Box sx={{ textAlign: 'center', mt: 10, color: 'grey.500' }}>
+                <Typography>Your ongoing events will show here</Typography>
+              </Box>
+            ) : (
+              <>
+                {contracts
+                  ?.filter(
+                    (list: { status: string }) => list.status === 'Requested',
+                  )
+                  .map((list: any) => (
+                    <Box key={list?._id}>
                       <Box
                         sx={{
                           display: 'flex',
-                          alignItems: 'center',
                           justifyContent: 'space-between',
-                          gap: '2rem',
-                          mt: {
-                            xs: '2rem',
-                            sm: '2rem',
+                          alignItems: 'center',
+                          flexDirection: {
+                            xs: 'column',
+                            sm: 'column',
+                            md: 'row',
+                            lg: 'row',
+                            xl: 'row',
                           },
+                          px: 4,
+                          py: 2,
+                          mt: 4,
+                          border: ' solid 1px #ccc',
                         }}
                       >
-                        {/* {list.status === `Accepted` ? null : (
+                        <Box>
+                          {list.status === 'Accepted' && (
+                            <>
+                              <Typography
+                                fontWeight="600"
+                                fontSize="1.2rem"
+                                color="primary.main"
+                              >
+                                Awaiting Payment
+                              </Typography>
+                              <Typography color="grey.500" mt={1}>
+                                We&apos;ll inform you once customer makes
+                                payment
+                              </Typography>
+                            </>
+                          )}
+
+                          {list.status === 'Requested' && (
+                            <Box>
+                              <Typography
+                                fontWeight="600"
+                                fontSize="1.2rem"
+                                color="primary.main"
+                              >
+                                Are you available for this gig?
+                              </Typography>
+                              <Typography color="grey.500" mt={1}>
+                                If you are please accept the event or decline if
+                                you are not available
+                              </Typography>
+                            </Box>
+                          )}
+                        </Box>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '2rem',
+                            mt: {
+                              xs: '2rem',
+                              sm: '2rem',
+                            },
+                          }}
+                        >
+                          {/* {list.status === `Accepted` ? null : (
                           <Box
                             sx={{
                               border: `solid 1px ${theme.palette.primary.main}`,
@@ -211,18 +219,18 @@ const HomePage = ({ token, userData }: Props) => {
                           </Box>
                         )} */}
 
-                        <Link href={`/account/contracts/${list?._id}`}>
-                          <Button variant="outlined">View Offer</Button>
-                        </Link>
+                          <Link href={`/account/contracts/${list?._id}`}>
+                            <Button variant="outlined">View Offer</Button>
+                          </Link>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                ))}
-            </>
-          )}
-        </>
+                  ))}
+              </>
+            )}
+          </>
 
-        {/* <>
+          {/* <>
           {contracts?.length < 1 ? (
             <Box sx={{ textAlign: `center`, mt: 10, color: `grey.500` }}>
               <Typography>Your ongoing events will show here</Typography>
@@ -321,6 +329,7 @@ const HomePage = ({ token, userData }: Props) => {
             </>
           )}
         </> */}
+        </Box>
       </DashboardLayout>
     </>
   );

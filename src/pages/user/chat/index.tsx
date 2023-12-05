@@ -146,7 +146,6 @@ const InboxPage = ({ token, userData }: any) => {
       });
 
       socket.on('activeState', (data) => {
-        console.log(data);
         setConversationList({ conversations: data });
       });
 

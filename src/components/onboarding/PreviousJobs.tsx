@@ -6,13 +6,14 @@ import { setIntroFive, setIntroSix } from '@/features/onboardingSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 const PreviousJobs = ({ queryData, token }: any) => {
+  const [imageCount, setImageCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
   const handleNextSlide = async () => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/${queryData.provider._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${queryData._id}`,
         { onboardStage: 5 },
         {
           headers: {
@@ -41,6 +42,8 @@ const PreviousJobs = ({ queryData, token }: any) => {
         token={token}
         isOpen={isOpen}
         isClose={() => setIsOpen(false)}
+        setImageCount={setImageCount}
+        imageCount={imageCount}
       />
       <Box mt={5} mb={20}>
         <Box
@@ -76,7 +79,8 @@ const PreviousJobs = ({ queryData, token }: any) => {
             </Typography>
           </div>
           <div>
-            {queryData?.provider?.providerProfile?.samples?.length >= 3 ? (
+            {imageCount >= 3 ||
+            queryData?.providerProfile?.samples.length >= 3 ? (
               <Button variant="contained" onClick={handleNextSlide}>
                 Procceed
               </Button>
@@ -106,9 +110,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
             sx={{
               borderRadius: '1px',
               height: `${
-                !queryData?.provider?.providerProfile?.samples?.length
-                  ? '250px'
-                  : '100%'
+                !queryData?.providerProfile?.samples?.length ? '250px' : '100%'
               }`,
               width: '100%',
               background: '#ccc',
@@ -121,7 +123,7 @@ const PreviousJobs = ({ queryData, token }: any) => {
               Add Photo
             </Button>
           </Box>
-          {queryData?.provider?.providerProfile?.samples?.map((data: any) => (
+          {queryData?.providerProfile?.samples?.map((data: any) => (
             <Box
               key={data?._id}
               sx={{

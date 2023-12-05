@@ -49,7 +49,7 @@ const Dashboard = ({ data }: any) => {
             lg: 'none',
             xl: 'none',
           },
-          mt: 5,
+          mt: 2,
         }}
       >
         🥰 Nice to have you here {data?.provider?.profile?.firstName}

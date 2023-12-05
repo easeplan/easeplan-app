@@ -271,7 +271,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                             ) : (
                               <Box>
                                 <Image
-                                  src={values.picture}
+                                  src={previewImg}
                                   alt="profileImg"
                                   height={80}
                                   width={80}

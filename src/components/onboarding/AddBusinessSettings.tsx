@@ -65,8 +65,6 @@ const BusinessSettings = ({ token }: PropsTypes) => {
     (state: RootState) => state.onboarding,
   );
   const { user } = useAuth();
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?._id;
   const services = [
     'DJ',
     'Catering',

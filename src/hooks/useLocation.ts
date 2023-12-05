@@ -18,7 +18,6 @@ function useLocation() {
           );
 
           const { address } = response.data;
-          console.log(address);
           setLocation({
             currentState: address.state,
             currentCity: address.city || address.town || address.village, // Some places might not have 'city' but might have 'town' or 'village'

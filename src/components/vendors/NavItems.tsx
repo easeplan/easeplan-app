@@ -236,10 +236,7 @@ const NavItems = ({ data, userData }: any) => {
                 <AddBusinessIcon
                   sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />
-                <NavLink
-                  text="Become a vendor"
-                  onClick={handledBecomeAVendor}
-                />
+                <NavLink text="Become a vendor" href="/account/onboard" />
               </Stack>
             )}
             {!user ? (
@@ -256,6 +253,7 @@ const NavItems = ({ data, userData }: any) => {
                   },
                 }}
               >
+                console.log
                 <LoginIcon
                   sx={{ mr: 1, fontSize: '1.5rem', color: 'primary.main' }}
                 />

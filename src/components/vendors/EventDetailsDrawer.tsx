@@ -40,9 +40,6 @@ export default function EventDetailsDrawer({ data, id }: any) {
       ) {
         return;
       }
-
-      console.log('ID:', id);
-
       setState({ ...state, [anchor]: open });
     };
 

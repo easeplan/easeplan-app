@@ -4,17 +4,11 @@ import * as Yup from 'yup';
 import FormInput from '../common/FormInput';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Box, MenuItem, Typography, Button } from '@mui/material';
+import { Box, MenuItem, Typography } from '@mui/material';
 import { headTextAnimation, headContainerAnimation } from '@/lib/motion';
 import CustomButton from '../common/CustomButton';
 import { styled } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setIntro,
-  setIntroFour,
-  setIntroOne,
-  setIntroThree,
-} from '@/features/onboardingSlice';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
 import Dojah from 'react-dojah';
@@ -36,9 +30,7 @@ interface PropsTypes {
 const ProfileSettings = ({ token }: PropsTypes) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { stepThree, stepSix } = useSelector(
-    (state: RootState) => state.onboarding,
-  );
+  const { stepSix } = useSelector((state: RootState) => state.onboarding);
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
@@ -77,7 +69,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
           );
         }
       }
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response.data.message);
       setIsLoading(false);
     }
   };
@@ -102,7 +95,8 @@ const ProfileSettings = ({ token }: PropsTypes) => {
       );
       if (data.status === 'success') {
         toast.success('OTP verified successfully');
-        setShowDojah(true);
+        // setShowDojah(true);
+        router.push('/account/profile');
         setIsLoading(false);
         if (typeof window !== 'undefined') {
           localStorage.setItem(
@@ -127,38 +121,38 @@ const ProfileSettings = ({ token }: PropsTypes) => {
     otp: Yup.string().required('OTP is required'),
   });
 
-  const type = 'custom';
+  // const type = 'custom';
 
-  const config = {
-    debug: true,
-    widget_id: `${process.env.NEXT_PUBLIC_VERIFICATION_WIDGETID}`,
-    webhook: true, //Before you set webhook to true, Ensure you are subscribed to the webhook here https://api-docs.dojah.io/docs/subscribe-to-services
-  };
+  // const config = {
+  //   debug: true,
+  //   widget_id: `${process.env.NEXT_PUBLIC_VERIFICATION_WIDGETID}`,
+  //   webhook: true, //Before you set webhook to true, Ensure you are subscribed to the webhook here https://api-docs.dojah.io/docs/subscribe-to-services
+  // };
 
-  /**
-   *  These are the metadata options
-   *  You can pass any values within the object
-   */
-  const metadata = {
-    user_id: userInfo,
-  };
-  /**
-   * @param {String} type
-   * This method receives the type
-   * The type can only be one of:
-   * loading, begin, success, error, close
-   * @param {String} data
-   * This is the data from doja
-   */
-  const response = (type: string, data: string) => {
-    if (type === 'success') {
-      router.push('/account/profile');
-    } else if (type === 'error') {
-    } else if (type === 'close') {
-    } else if (type === 'begin') {
-    } else if (type === 'loading') {
-    }
-  };
+  // /**
+  //  *  These are the metadata options
+  //  *  You can pass any values within the object
+  //  */
+  // const metadata = {
+  //   user_id: userInfo,
+  // };
+  // /**
+  //  * @param {String} type
+  //  * This method receives the type
+  //  * The type can only be one of:
+  //  * loading, begin, success, error, close
+  //  * @param {String} data
+  //  * This is the data from doja
+  //  */
+  // const response = (type: string, data: string) => {
+  //   if (type === 'success') {
+  //     //router.push('/account/profile');
+  //   } else if (type === 'error') {
+  //   } else if (type === 'close') {
+  //   } else if (type === 'begin') {
+  //   } else if (type === 'loading') {
+  //   }
+  // };
 
   return (
     <Box>
@@ -175,7 +169,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
             component={motion.section}
             {...headContainerAnimation}
           >
-            {showDojah && (
+            {/* {showDojah && (
               <Dojah
                 response={response}
                 appID={process.env.NEXT_PUBLIC_VERIFICATION_APPID}
@@ -184,7 +178,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
                 metadata={metadata}
                 type={type}
               />
-            )}
+            )} */}
             <Box
               sx={{
                 width: {

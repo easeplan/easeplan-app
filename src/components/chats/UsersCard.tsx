@@ -138,7 +138,6 @@ const UsersCard = ({
   //   fetchAllConversation();
   // }, [messages]);
 
-  // console.log(conversations);
 
   function truncateWords(sentence: any, limit = 5) {
     const words = sentence?.split(' ');

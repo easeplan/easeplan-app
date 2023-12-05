@@ -11,9 +11,10 @@ export { getServerSideProps } from '@/hooks/getServerSideProps';
 
 interface PropsTypes {
   token: string;
+  userData: any;
 }
 
-const OnboardingPage = ({ token }: PropsTypes) => {
+const OnboardingPage = ({ token, userData }: PropsTypes) => {
   useEffect(() => {
     localStorage.setItem('isFinsihedOnboarding', 'false');
   }, []);
@@ -21,7 +22,7 @@ const OnboardingPage = ({ token }: PropsTypes) => {
   return (
     <Layout>
       <Box>
-        <WelcomeScreen token={token} />
+        <WelcomeScreen token={token} userData={userData} />
         <ProfileSettings token={token} />
         <VerificationSettings token={token} />
         <CompanySettings token={token} />

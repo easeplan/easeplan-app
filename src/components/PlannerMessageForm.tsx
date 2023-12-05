@@ -12,7 +12,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const PlannerMessageForm = () => {
-  const handleSubmit = (values: any) => {};
+  const handleSubmit = (values: any) => {
+    return;
+  };
 
   return (
     <Box sx={{ border: `solid 1px ${theme.palette.primary.main}` }}>

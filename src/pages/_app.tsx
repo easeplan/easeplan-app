@@ -29,7 +29,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    // Set the app element to the root element with id '__next'
     Modal.setAppElement('#__next');
   }, []);
   // Posthog and Route Change Effect

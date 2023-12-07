@@ -70,8 +70,8 @@ const CreateContractModal = ({
         budget: credentials.budget,
         dateTime: credentials.dateTime,
         profileId: queryData?._id,
-        city: queryData?.providerProfile?.city,
-        state: queryData.providerProfile?.state,
+        city: userData?.provider?.city,
+        state: userData?.provider?.state,
         service: credentials.service,
         preference: credentials.preference,
       };

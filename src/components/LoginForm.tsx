@@ -70,12 +70,15 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
     } catch (error: any) {
       setIsLoading(false);
       if (error?.data?.message) {
-        setErrorMsg(error.data.message);
-        if (error.data.message === 'Verify your email to login') {
+        setErrorMsg(error.data.error);
+        if (error.data.error === 'Verify your email to login') {
           setVerificationModal(true);
         }
       } else {
         setErrorMsg(error.data.error);
+        if (error.data.error === 'Verify your email to login') {
+          setVerificationModal(true);
+        }
       }
     }
   };

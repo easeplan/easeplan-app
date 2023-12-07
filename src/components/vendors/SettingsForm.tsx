@@ -65,7 +65,6 @@ const SettingsForm = ({
   handleClose,
   setModal,
 }: Props) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfrimPassword] = useState(false);
   const [selectedState, setSelectedState] = useState<any>();
@@ -164,6 +163,7 @@ const SettingsForm = ({
     } else {
       toast.success('Profile Updated!');
       setHasPhoneNumber(false);
+      setIsLoading(false);
     }
   };
   const submitCredentials = async (credentials: any) => {
@@ -176,9 +176,11 @@ const SettingsForm = ({
 
     setPhoneNumber(credentials.phoneNumber);
     const resData = {
-      firstName: credentials.firstName,
-      lastName: credentials.lastName,
-      picture: location || queryData?.provider?.profile?.picture,
+      profile: {
+        firstName: credentials.firstName,
+        lastName: credentials.lastName,
+        picture: location || queryData?.provider?.profile?.picture,
+      },
       state: credentials.state,
       city: credentials.city,
       gender: credentials.gender,

@@ -141,7 +141,7 @@ const SignupForm = ({ modal }: any) => {
         localStorage.setItem('authUser', res?.data?.user?._id);
         localStorage.setItem('userEmail', email);
       }
-      setUser(res?.data?.user);
+      // setUser(res?.data?.user);
       setReferedBy();
       setVerificationModal(true);
     } catch (error: any) {

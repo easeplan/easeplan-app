@@ -74,7 +74,7 @@ const NavItems = ({ data }: any) => {
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
   const { user, setUser, setIsLoggedIn } = useAuth();
-  
+
   const handleLogout = async () => {
     try {
       const data = await axios.post(

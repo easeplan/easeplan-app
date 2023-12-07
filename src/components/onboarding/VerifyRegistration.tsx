@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 import {
   Box,
-  Grid,
   Typography,
   FormControl,
   FormControlLabel,
@@ -12,17 +11,9 @@ import {
 } from '@mui/material';
 import * as Yup from 'yup';
 import { headContainerAnimation } from '@/lib/motion';
-import { HiArrowUturnLeft } from 'react-icons/hi2';
-import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setIntroTwo,
-  setIntroOne,
-  setIntroThree,
-} from '@/features/onboardingSlice';
+import { setIntroTwo, setIntroOne } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
-import { useState } from 'react';
-import useFetch from '@/hooks/useFetch';
 import { Formik, Form, Field } from 'formik';
 import FormInput from '../common/FormInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -44,13 +35,8 @@ const CompanySchema = Yup.object().shape({
 });
 
 const VerifyRegistration = ({ token }: PropsTypes) => {
-  const router = useRouter();
   const dispatch = useDispatch();
-  const { stepOne, stepTwo } = useSelector(
-    (state: RootState) => state.onboarding,
-  );
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-  // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
+  const { stepOne } = useSelector((state: RootState) => state.onboarding);
   const queryClient = useQueryClient();
 
   const { mutate: verifyCompany, isLoading } = useMutation({
@@ -149,7 +135,8 @@ const VerifyRegistration = ({ token }: PropsTypes) => {
                   <Formik
                     initialValues={{
                       isRegistered: '', // Add this initial value
-                      cac_number: '',
+                      rc_number: '',
+                      company_name: '',
                     }}
                     validationSchema={CompanySchema}
                     onSubmit={(values) => {

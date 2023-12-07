@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Typography, Button, Container } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
 import { dateFormater } from '@/utils';
 import BannerImg from '@/public/banner.png';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import RatingStar from '../common/RatingStar';
 import { QueryData } from '@/lib/types';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -14,7 +12,6 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import CreateContractModal from '../publicPageSections/CreateContract';
 import ChatIcon from '@mui/icons-material/Chat';
-import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
@@ -29,6 +26,7 @@ type Props = {
 };
 
 const Hero = ({ queryData, token, searchResult, data }: any) => {
+  //furzocomlu@gufum.com
   const router = useRouter();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -66,6 +64,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
       toast.success('Contract send successfully');
+      router.push(`/user/events/${data?.data?._id}`);
     },
     onError: (error: any) => {
       toast.error(error.response.data.message);
@@ -83,25 +82,25 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
     const credentials = {
       budget: vendorData.budget,
       dateTime: vendorData.eventDate,
-      profileId: queryData?._id,
-      city: vendorData?.city,
-      state: vendorData.state,
+      profileId: data?._id,
+      city: data?.provider?.city,
+      state: data?.provider?.state,
       service: vendorData.service,
     };
     try {
       handleUpdateContract(credentials);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
-        credentials,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        },
-      );
-      router.push(`/user/events/${data?.data?._id}`);
+      // const { data } = await axios.post(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/profiles/create-offer`,
+      //   credentials,
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //     withCredentials: true,
+      //   },
+      // );
+      // router.push(`/user/events/${data?.data?._id}`);
     } catch (error) {
       console.log(error);
     }

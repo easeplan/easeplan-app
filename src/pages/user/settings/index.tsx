@@ -32,7 +32,13 @@ const SettingPage = ({ token, userData }: any) => {
               lg: 4,
               xl: 4,
             },
-            mt: 0,
+            mt: {
+              xs: 5,
+              sm: 5,
+              md: 5,
+              lg: 0,
+              xl: 0,
+            },
           }}
         >
           <SettingsIcon

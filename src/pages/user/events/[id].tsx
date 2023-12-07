@@ -7,10 +7,8 @@ import theme from '@/styles/theme';
 import AcceptOfferConfirmModal from '@/components/AcceptOfferConfirmModal';
 import CustomButton from '@/components/common/CustomButton';
 import Image from 'next/image';
-import UserRating from '@/components/common/UserRating';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/components/DashboardLayout';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import {
@@ -28,13 +26,7 @@ import {
 import axios from 'axios';
 import { formatCurrency } from '@/utils';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Data, QueryData } from '@/lib/types';
 import Layout from '@/components/vendors/Layout';
-import useFetch from '@/hooks/useFetch';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import ErrorPage from '@/components/ErrorPage';
-import CloseIcon from '@mui/icons-material/Close';
-import ReviewForm from '@/components/ReviewForm';
 import ReviewFormFull from '@/components/ReviewFormFull';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import successBanner from '@/public/successBanner.png';
@@ -46,7 +38,6 @@ const ViewEvent = ({ id, data, token, userData }: any) => {
   const [userEmail] = useState(
     typeof window !== 'undefined' && localStorage.getItem('userEmail'),
   );
-  const { userInfo } = useSelector((state: RootState) => state.auth);
   const [confirm, setConfirm] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [confirmDispute, setConfirmDispute] = useState(false);
@@ -91,7 +82,7 @@ const ViewEvent = ({ id, data, token, userData }: any) => {
   useEffect(() => {
     localStorage.setItem('eventID', `${id}`);
     localStorage.setItem('contract', `${data}`);
-  }, []);
+  }, [data, id]);
 
   // const userServiceObj =
   //   typeof window !== `undefined` && JSON?.parse(data?.package);
@@ -267,8 +258,8 @@ const ViewEvent = ({ id, data, token, userData }: any) => {
           <Box
             sx={{
               mt: {
-                xs: 4,
-                sm: 4,
+                xs: 10,
+                sm: 10,
                 md: 4,
                 lg: 4,
                 xl: 5,
@@ -668,9 +659,9 @@ const ViewEvent = ({ id, data, token, userData }: any) => {
                   <Box>
                     <Image
                       src={
-                        eventData?.parties?.receiver?.providerProfile.company
+                        eventData?.parties?.receiver?.providerProfile?.company
                           ?.image &&
-                        eventData?.parties?.receiver?.providerProfile.company
+                        eventData?.parties?.receiver?.providerProfile?.company
                           ?.image
                       }
                       alt="bannerImage"
@@ -965,7 +956,7 @@ export async function getServerSideProps(
   } = context;
 
   // Convert headers to a compatible format
-  const headers: Record<string, string> = {};
+  const headers: Record<string, string> = {}
   const { token } = parseCookies(req);
 
   Object.entries(req.headers).forEach(([key, value]) => {

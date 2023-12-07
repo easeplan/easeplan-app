@@ -71,10 +71,11 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
       toast.error(error.response.data.message);
     },
   });
-
   const openCreateHireMeModal = () => {
     if (userInfo) {
       setOpenModal(true);
+    } else {
+      router.push(`/login?redirect_url=user/profile/${queryData.publicId}`);
     }
   };
 

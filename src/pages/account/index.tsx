@@ -26,7 +26,6 @@ const HomePage = ({ token, userData }: Props) => {
   const [contracts, setContracts] = useState<any>();
   const [notificationData, setNotificationData] = useState<any>();
   // useActivityTracker(userInfo as string);
-
   useEffect(() => {
     if (userData) {
       setUser(userData.provider);
@@ -42,7 +41,6 @@ const HomePage = ({ token, userData }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          credentials: 'include',
         },
       );
 
@@ -63,7 +61,6 @@ const HomePage = ({ token, userData }: Props) => {
     `/profiles/${userInfo}`,
     token,
   );
-
   if (isLoading) {
     return <LoadingScreen />;
   }

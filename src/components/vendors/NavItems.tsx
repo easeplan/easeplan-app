@@ -67,14 +67,14 @@ const links = [
   //   href: `/user/support`,
   // },
 ];
-const NavItems = ({ data, userData }: any) => {
+const NavItems = ({ data }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
   const { user, setUser, setIsLoggedIn } = useAuth();
-
+  
   const handleLogout = async () => {
     try {
       const data = await axios.post(
@@ -111,6 +111,11 @@ const NavItems = ({ data, userData }: any) => {
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setUser(user);
+    }
+  }, [data, setUser, user]);
   return (
     <Box>
       <Box>

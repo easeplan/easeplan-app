@@ -13,7 +13,7 @@ import { parseCookies } from '@/lib/parseCookies';
 import AuthHero from '@/components/UserProfile/Hero';
 import { useAuth } from '@/hooks/authContext';
 
-const PublicProfilePage = ({ data, publicId, token }: any) => {
+const PublicProfilePage = ({ data, publicId, token, userData }: any) => {
   const { setUser } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = data?._id;
@@ -23,21 +23,21 @@ const PublicProfilePage = ({ data, publicId, token }: any) => {
     }
   }, []);
 
-  const { queryData, error, isLoading } = useFetch(
-    `/profiles/${userInfo}`,
-    token,
-  );
+  // const { queryData, error, isLoading } = useFetch(
+  //   `/profiles/${userInfo}`,
+  //   token,
+  // );
   useEffect(() => {
-    if (queryData) {
-      setUser(queryData.provider);
+    if (userData) {
+      setUser(userData.provider);
     }
-  }, [queryData, setUser]);
+  }, [userData, setUser]);
   return (
     <>
-      <Layout data={queryData?.provider}>
+      <Layout data={userData?.provider}>
         <Box>
           {userInfo ? (
-            <AuthHero queryData={data} token={token} data={queryData} />
+            <AuthHero queryData={data} token={token} data={userData} />
           ) : (
             <Hero queryData={data} publicId={publicId} />
           )}
@@ -81,11 +81,32 @@ export async function getServerSideProps(
   // Ensure that token is not undefined; if it is, set it to null
   const serializedToken = token === undefined ? null : token;
 
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401) {
+    // Token is invalid or expired
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  // Handle other status codes as needed
+
+  const userdata = await resp.json();
+
   return {
     props: {
       data: data?.data || null, // Also ensure data.data is not undefined
       publicId: publicId,
       token: serializedToken,
+      userData: userdata.data,
     },
   };
 }

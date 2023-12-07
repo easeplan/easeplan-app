@@ -15,7 +15,7 @@ import { parseCookies } from '@/lib/parseCookies';
 const Header = ({ handleSearchChange, data, isSearch }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -85,7 +85,7 @@ const Header = ({ handleSearchChange, data, isSearch }: any) => {
             {isSearch && (
               <SearchInput handleSearchChange={handleSearchChange} />
             )}
-            {userInfo && !data?.providerProfile && (
+            {userInfo && !data?.provider?.providerProfile && (
               <Button
                 onClick={handledBecomeAVendor}
                 variant="outlined"

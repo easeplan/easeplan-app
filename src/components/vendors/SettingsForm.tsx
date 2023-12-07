@@ -85,14 +85,14 @@ const SettingsForm = ({
   const queryClient = useQueryClient();
   const [resendCountDown, setResendCountDown] = useState<any>();
   const [countDown, setCountDown] = useState<any>();
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isResend, setIsResend] = useState<boolean>(false);
   const [isResendLoading, setIsResendLoading] = useState<boolean>(false);
   const [isTokenSent, setIsTokenSent] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [userCredentials, setCredentials] = useState<object>({});
 
-  const { mutate: updateProfile, isLoading } = useMutation({
+  const { mutate: updateProfile } = useMutation({
     mutationFn: (credentials: any) =>
       customFetch.post(
         'onboarding/company/phone_verify_request',
@@ -167,6 +167,7 @@ const SettingsForm = ({
     }
   };
   const submitCredentials = async (credentials: any) => {
+    setIsLoading(true);
     let location;
     if (credentials.picture) {
       const { Location } = await uploadFileToS3('images', credentials.picture);
@@ -309,7 +310,9 @@ const SettingsForm = ({
             lastName: queryData?.provider?.profile?.lastName
               ? queryData?.provider?.profile?.lastName
               : '',
-            picture: '',
+            picture: queryData?.provider?.profile?.picture
+              ? queryData?.provider?.profile?.picture
+              : '',
             gender: queryData?.provider?.gender
               ? queryData?.provider?.gender
               : '',

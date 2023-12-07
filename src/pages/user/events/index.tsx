@@ -9,32 +9,26 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { RootState } from '@/store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import useFetch from '@/hooks/useFetch';
+import { useDispatch } from 'react-redux';
 import Divider from '@/components/common/Divider';
 export { getServerSideProps } from '@/hooks/getServerSideProps';
 import StyleIcon from '@mui/icons-material/Style';
-import EventDetailsDrawer from '@/components/vendors/EventDetailsDrawer';
 import { setNotifyData } from '@/features/notificationsSlice';
-import { dateFormater, formatCurrency } from '@/utils';
+import { formatCurrency } from '@/utils';
 import { Card, CardContent, Chip, Button } from '@mui/material';
 import { useAuth } from '@/hooks/authContext';
 
 const EventsPage = ({ token, userData }: any) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-
   // const { queryData } = useFetch(`/profiles/${userInfo}`, token);
   const dispatch = useDispatch();
   const [contracts, setContracts] = useState<any>();
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   // When the component mounts, update the user data in the context
   useEffect(() => {
     if (userData) {
       setUser(userData.provider);
     }
   }, [userData, setUser]);
-
   const fetchContracts = async () => {
     try {
       const res = await fetch(
@@ -44,7 +38,6 @@ const EventsPage = ({ token, userData }: any) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          credentials: 'include',
         },
       );
 
@@ -166,7 +159,7 @@ const EventsPage = ({ token, userData }: any) => {
   };
 
   return (
-    <Layout data={user}>
+    <Layout data={userData}>
       <Container sx={{ pt: 4 }} maxWidth="md">
         <Stack
           direction="row"

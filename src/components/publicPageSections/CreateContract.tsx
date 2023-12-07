@@ -1,4 +1,4 @@
-import { Box, Typography, MenuItem, Alert } from '@mui/material';
+import { Box, Typography, MenuItem, Alert, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -47,6 +47,7 @@ const FormSchema = Yup.object().shape({
   budget: Yup.string().required('Budget is missing'),
   dateTime: Yup.string().required('Date is missing'),
   service: Yup.string().required('Service is missing'),
+  preference: Yup.string().required('Preference is missing'),
 });
 
 const CreateContractModal = ({
@@ -56,7 +57,6 @@ const CreateContractModal = ({
   queryData,
   handleModal,
   userData,
-  setLocalQueryData,
 }: any) => {
   const router = useRouter();
   const { errorMsg } = useSelector((state: RootState) => state.searchModal);
@@ -73,6 +73,7 @@ const CreateContractModal = ({
         city: queryData?.providerProfile?.city,
         state: queryData.providerProfile?.state,
         service: credentials.service,
+        preference: credentials.preference,
       };
       if (
         userData.provider?.profile?.firstName &&
@@ -160,11 +161,12 @@ const CreateContractModal = ({
                     budget: '',
                     dateTime: '',
                     service: '',
+                    preference: '',
                   }}
                   onSubmit={(values) => handleSubmit(values)}
                   validationSchema={FormSchema}
                 >
-                  {({}) => (
+                  {({ values, touched, handleChange, handleBlur, errors }) => (
                     <Form>
                       <Box>
                         {errorMsg?.msg && (
@@ -214,6 +216,24 @@ const CreateContractModal = ({
                               ),
                             )}
                           </FormInput>
+                        </Box>
+                        <Box sx={{ width: '100%' }}>
+                          <Label text="Enter your preferences" />
+                          <TextField
+                            label="Tell vendor exactly what you want."
+                            name="preference"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            fullWidth
+                            value={values.preference}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={
+                              touched.preference && Boolean(errors.preference)
+                            }
+                            helperText={touched.preference && errors.preference}
+                          />
                         </Box>
                         <Box
                           mt={3}

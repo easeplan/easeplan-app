@@ -59,7 +59,6 @@ const useFetch = (url: string, token: string) => {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
-            withCredentials: true,
           },
         );
         return response.data;

@@ -48,6 +48,7 @@ const VerifiactionModal = ({
   const [isResend, setIsResend] = useState<boolean>(false);
   const [isResendLoading, setIsResendLoading] = useState<boolean>(false);
   const { setIsLoggedIn } = useAuth();
+  const { redirect_url } = router.query;
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -83,7 +84,9 @@ const VerifiactionModal = ({
         toast.success('Email verified successfully');
         dispatch(setCredentials(data.data._id));
         setIsLoggedIn(true);
-        router.push('/user/findvendors');
+        redirect_url
+          ? router.push(redirect_url as string)
+          : router.push('/user/findvendors');
         setIsLoading(false);
         setLoginError('');
         dispatch(setCloseModal(false));

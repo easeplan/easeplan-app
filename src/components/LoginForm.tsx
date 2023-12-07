@@ -38,6 +38,7 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
   const [verificationModal, setVerificationModal] = useState<any>(false);
   const [otpSuccessful, setOtpSuccessful] = useState<any>(false);
   const { setUser } = useAuth();
+  const { redirect_url } = router.query;
 
   const [userName] = useState<any>(
     typeof window !== 'undefined' ? localStorage.getItem('userName') : '',
@@ -60,8 +61,8 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
       setUser(data.user);
 
       if (fromLoginPage) {
-        if (lastVisitedURL) {
-          router.push(lastVisitedURL);
+        if (redirect_url) {
+          router.push(redirect_url as string);
         } else {
           router.push('/user/findvendors');
         }
@@ -110,7 +111,13 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
       if (data.success) {
         setUser(data.user);
         // Uncomment if you need redirection
-        fromLoginPage && router.push('/user/findvendors');
+        if (fromLoginPage) {
+          if (redirect_url) {
+            router.push(redirect_url as string);
+          } else {
+            router.push('/user/findvendors');
+          }
+        }
         dispatch(isLogin(false));
         dispatch(setCloseModal(false));
       } else {
@@ -265,7 +272,14 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
                         Sign up
                       </Button>
                     ) : (
-                      <Link href="/signup" className="link">
+                      <Link
+                        href={
+                          redirect_url
+                            ? `/signup?redirect_url=${redirect_url}`
+                            : '/signup'
+                        }
+                        className="link"
+                      >
                         Sign up
                       </Link>
                     )}

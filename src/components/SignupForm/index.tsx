@@ -47,6 +47,7 @@ const SignupForm = ({ modal }: any) => {
   const [isCheckedMsg, setIsCheckedMsg] = useState('');
   const [termAndCondition, setTermsAndCondition] = useState<boolean>(false);
   const { setUser } = useAuth();
+  const { redirect_url } = router.query;
 
   const setReferedBy = () => {
     const referedBy = localStorage.getItem('referedBy');
@@ -175,7 +176,9 @@ const SignupForm = ({ modal }: any) => {
         setUser(data?.user);
         if (data.success === true) {
           dispatch(setCloseModal(false));
-          router.push('/user/findvendors');
+          redirect_url
+            ? router.push(redirect_url as string)
+            : router.push('/user/findvendors');
           setReferedBy();
         }
       }

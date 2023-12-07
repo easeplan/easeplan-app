@@ -42,7 +42,6 @@ const EmojiModal = ({ onClick }: any) => {
         ml: 2,
         mr: 2,
         mb: 1,
-    
       }}
     >
       {/* Emoji Picker */}

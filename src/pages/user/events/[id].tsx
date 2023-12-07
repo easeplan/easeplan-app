@@ -956,7 +956,7 @@ export async function getServerSideProps(
   } = context;
 
   // Convert headers to a compatible format
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string> = {};
   const { token } = parseCookies(req);
 
   Object.entries(req.headers).forEach(([key, value]) => {

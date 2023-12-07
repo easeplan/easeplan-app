@@ -85,9 +85,9 @@ const VerifiactionModal = ({
         dispatch(setCredentials(data.data._id));
         setUser(data.data);
         setIsLoggedIn(true);
-        // redirect_url
-        //   ? router.push(redirect_url as string)
-        //   : router.push('/user/findvendors');
+        redirect_url
+          ? router.push(redirect_url as string)
+          : router.push('/user/findvendors');
         setIsLoading(false);
         setLoginError('');
         dispatch(setCloseModal(false));

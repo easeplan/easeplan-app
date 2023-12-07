@@ -38,11 +38,10 @@ const EmojiModal = ({ onClick }: any) => {
       sx={{
         position: 'absolute',
         bottom: 45,
-        left: 0,
+        right: 0,
         ml: 2,
         mr: 2,
         mb: 1,
-        right: 0,
       }}
     >
       {/* Emoji Picker */}

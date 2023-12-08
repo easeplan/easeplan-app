@@ -62,9 +62,10 @@ const PublicProfilePage = ({ data, publicId, token, userData }: any) => {
   );
 };
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext & { req: NextApiRequest },
-) {
+export async function getServerSideProps(context: {
+  req: any;
+  query: { publicId: any };
+}) {
   const {
     req,
     query: { publicId },
@@ -72,41 +73,40 @@ export async function getServerSideProps(
 
   const { token } = parseCookies(req);
 
-  const res = await fetch(
+  // Fetch the public profile data
+  const profileResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/profiles/profile/${publicId}`,
   );
 
-  const data = await res.json();
-
-  // Ensure that token is not undefined; if it is, set it to null
-  const serializedToken = token === undefined ? null : token;
-
-  const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status === 401) {
-    // Token is invalid or expired
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
+  let data = null;
+  if (profileResponse.ok) {
+    data = await profileResponse.json();
   }
 
-  // Handle other status codes as needed
+  let userData = null;
+  if (token) {
+    // Fetch user data only if the token exists
+    const userResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
-  const userdata = await resp.json();
+    if (userResponse.ok) {
+      const userResult = await userResponse.json();
+      userData = userResult.data;
+    }
+  }
 
   return {
     props: {
-      data: data?.data || null, // Also ensure data.data is not undefined
+      data: data?.data || null,
       publicId: publicId,
-      token: serializedToken,
-      userData: userdata.data,
+      token: token || null,
+      userData: userData,
     },
   };
 }

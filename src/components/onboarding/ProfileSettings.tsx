@@ -76,6 +76,7 @@ const ProfileSettings = ({ token }: PropsTypes) => {
         gender: credentials.gender,
         state: credentials.state,
         city: credentials.city,
+        dob: credentials.dob,
       };
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/onboarding/personal`,

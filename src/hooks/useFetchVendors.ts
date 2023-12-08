@@ -31,7 +31,7 @@ export function useFetchVendors(
         setError(error);
         setLoading(false);
       });
-  }, [page, search, service]); // The effect will re-run if userId changes
+  }, [budget, currentCity, currentState, page, search, service]); // The effect will re-run if userId changes
 
   return { data, loading, error };
 }

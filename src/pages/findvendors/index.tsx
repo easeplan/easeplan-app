@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -17,9 +17,6 @@ import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
 import 'swiper/css/navigation';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
@@ -163,7 +160,6 @@ const VendorPage = () => {
     budget,
     service,
   );
-  const { setUser } = useAuth();
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };

@@ -5,11 +5,7 @@ import { Box, Typography, Button } from '@mui/material';
 import * as Yup from 'yup';
 import { headContainerAnimation } from '@/lib/motion';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setIntroTwo,
-  setIntroThree,
-  setIntroSix,
-} from '@/features/onboardingSlice';
+import { setIntroTwo, setIntroThree } from '@/features/onboardingSlice';
 import { RootState } from '@/store/store';
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
@@ -17,11 +13,9 @@ import FormInput from '../common/FormInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import CustomButton from '../common/CustomButton';
-import Label from '../common/Label';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import { toast } from 'react-toastify';
-import OTPRequestCooldown from './OTPRequest';
 import { useAuth } from '@/hooks/authContext';
 
 interface PropsTypes {
@@ -39,11 +33,8 @@ const CodeSchema = Yup.object().shape({
 const AddPricingSection = ({ token }: PropsTypes) => {
   const dispatch = useDispatch();
   const { stepTwo } = useSelector((state: RootState) => state.onboarding);
-  const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?._id;
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
-  const [reference_id, setReference_id] = useState('');
   const [verificationToken, setVerificationToken] = useState('');
 
   const queryClient = useQueryClient();
@@ -102,7 +93,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
     const data = {
       otp: credentials.code,
       type: 'phone_number',
-      phone: credentials.destination,
+      phone_number: credentials.destination,
     };
     updateOTP(data);
   };

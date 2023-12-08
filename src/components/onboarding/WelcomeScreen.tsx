@@ -56,7 +56,6 @@ const WelcomeScreen = ({ token, userData }: PropsTypes) => {
     `/profiles/${userInfo}`,
     token,
   );
-
   useEffect(() => {
     if (userData) {
       setUser(userData.provider);
@@ -96,9 +95,9 @@ const WelcomeScreen = ({ token, userData }: PropsTypes) => {
     }
   }, [dispatch, queryData, isLoading, error]);
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Replace with your loading component or spinner
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>; // Replace with your loading component or spinner
+  // }
 
   if (!queryData || !queryData.provider) {
     return null; // or some placeholder if you prefer

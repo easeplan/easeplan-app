@@ -9,6 +9,7 @@ const Layout = ({
   data,
   isSearch,
   inchat,
+  searchParams,
 }: any) => {
   return (
     <div>
@@ -34,7 +35,10 @@ const Layout = ({
               px: 4,
             }}
           >
-            <SearchInput handleSearchChange={handleSearchChange} />
+            <SearchInput
+              handleSearchChange={handleSearchChange}
+              searchParams={searchParams}
+            />
           </Box>
         )}
       </Box>

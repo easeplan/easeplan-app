@@ -24,7 +24,6 @@ const PreviousEvent = ({ queryData, token }: any) => {
   const [sampleId, setSampleId] = useState('');
   const [eventData, setEventData] = useState('');
   const queryClient = useQueryClient();
-
   const { mutate: handleDelete } = useMutation({
     mutationFn: (sampleId: string) =>
       customFetch.put(`profiles/${userInfo}/delete-sample/${sampleId}`, {

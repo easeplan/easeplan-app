@@ -30,7 +30,7 @@ const Sidenav = ({ data }: any) => {
     try {
       await axios.post('/api/logout', {}, { withCredentials: true });
       setUser(null);
-      router.push('/user/findvendors');
+      router.push('/findvendors');
       dispatch(clearCredentials());
     } catch (error: any) {}
   };

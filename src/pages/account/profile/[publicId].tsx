@@ -7,8 +7,6 @@ import PricingSection from '@/components/publicPageSections/PricingSection';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
 import ClientReviews from '@/components/publicPageSections/ClientReviews';
 import Head from 'next/head';
-import { GetServerSidePropsContext } from 'next';
-import type { NextApiRequest } from 'next';
 
 const ViewProfilePage = ({ data, token }: any) => {
   useEffect(() => {
@@ -20,61 +18,82 @@ const ViewProfilePage = ({ data, token }: any) => {
   return (
     <>
       <Head>
-        <title>{data?.data?.company?.name} Business Profile</title>
+        <title>{data?.providerProfile?.company?.name} - Easeplan</title>
         <meta name="theme-color" content="#134153" />
-        <meta itemProp="name" content={data?.data?.company?.name} />
-        <meta itemProp="image" content={data?.data?.company?.image} />
-        <meta name="description" content={data?.data?.company?.description} />
+        <meta itemProp="name" content={data?.providerProfile?.company?.name} />
+        <meta
+          itemProp="image"
+          content={data?.providerProfile?.company?.image}
+        />
+        <meta
+          name="description"
+          content={data?.providerProfile?.company?.description}
+        />
 
         {/*<!-- Facebook Meta Tags -->*/}
-        <meta property="og:title" content={data?.data?.company?.name} />
-        <meta property="og:image" content={data?.data?.company?.image} />
+        <meta
+          property="og:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        />
         <meta
           property="og:url"
-          content={`https://app.easeplan.io/profile/${data?.data?.publicId}`}
+          content={`https://app.easeplan.io/profile/${data?.providerProfile?.publicId}`}
         />
         <meta property="og:type" content="website" />
 
         {/*<!-- Twitter Meta Tags -->*/}
-        <meta name="twitter:title" content={data?.data?.company?.name} />
-        <meta name="twitter:image" content={data?.data?.company?.image} />
+        <meta
+          name="twitter:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          name="twitter:image"
+          content={data?.providerProfile?.company?.image}
+        />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:image" content={data?.data?.company?.image}></meta>
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        ></meta>
       </Head>
       <DashboardLayout token={token}>
         <Box>
-          <Hero queryData={data?.data} token={token} />
-          <PricingSection queryData={data?.data} />
+          <Hero queryData={data} token={token} />
+          <PricingSection queryData={data} />
           <Divider />
-          <PreviousEvent queryData={data?.data} />
+          <PreviousEvent queryData={data} />
           <Divider />
-          <ClientReviews queryData={data?.data} />
+          <ClientReviews queryData={data} />
         </Box>
       </DashboardLayout>
     </>
   );
 };
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext & { req: NextApiRequest },
-) {
+export async function getServerSideProps(context: {
+  req: any;
+  query: { publicId: any };
+}) {
   const {
     req,
     query: { publicId },
   } = context;
+
   const { token } = parseCookies(req);
-  // const { publicId } = context.query;
-  // Fetch data based on the dynamicParam
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user-profiles/profile/${publicId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/profiles/profile/${publicId}`,
   );
 
   const data = await res.json();
 
   return {
     props: {
-      token: token,
-      data: data?.data,
+      token: token || null,
+      data: data?.data || null,
     },
   };
 }

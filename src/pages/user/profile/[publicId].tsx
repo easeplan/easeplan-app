@@ -6,12 +6,11 @@ import { useEffect } from 'react';
 import PreviousEvent from '@/components/publicPageSections/PreviousEvent';
 import ClientReviews from '@/components/publicPageSections/ClientReviews';
 // import Head from 'next/head';
-import { GetServerSidePropsContext } from 'next';
-import type { NextApiRequest } from 'next';
-import useFetch from '@/hooks/useFetch';
+
 import { parseCookies } from '@/lib/parseCookies';
 import AuthHero from '@/components/UserProfile/Hero';
 import { useAuth } from '@/hooks/authContext';
+import Head from 'next/head';
 
 const PublicProfilePage = ({ data, publicId, token, userData }: any) => {
   const { setUser } = useAuth();
@@ -34,6 +33,49 @@ const PublicProfilePage = ({ data, publicId, token, userData }: any) => {
   }, [userData, setUser]);
   return (
     <>
+      <Head>
+        <title>{data?.providerProfile?.company?.name} - Easeplan</title>
+        <meta name="theme-color" content="#134153" />
+        <meta itemProp="name" content={data?.providerProfile?.company?.name} />
+        <meta
+          itemProp="image"
+          content={data?.providerProfile?.company?.image}
+        />
+        <meta
+          name="description"
+          content={data?.providerProfile?.company?.description}
+        />
+
+        {/*<!-- Facebook Meta Tags -->*/}
+        <meta
+          property="og:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        />
+        <meta
+          property="og:url"
+          content={`https://app.easeplan.io/profile/${data?.providerProfile?.publicId}`}
+        />
+        <meta property="og:type" content="website" />
+
+        {/*<!-- Twitter Meta Tags -->*/}
+        <meta
+          name="twitter:title"
+          content={data?.providerProfile?.company?.name}
+        />
+        <meta
+          name="twitter:image"
+          content={data?.providerProfile?.company?.image}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:image"
+          content={data?.providerProfile?.company?.image}
+        ></meta>
+      </Head>
       <Layout data={userData?.provider}>
         <Box>
           {userInfo ? (
@@ -72,7 +114,7 @@ export async function getServerSideProps(context: {
   } = context;
 
   const { token } = parseCookies(req);
-
+  console.log(token);
   // Fetch the public profile data
   const profileResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/profiles/profile/${publicId}`,

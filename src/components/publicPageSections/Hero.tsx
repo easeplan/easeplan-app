@@ -1,15 +1,11 @@
-import { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import UserRating from '../common/UserRating';
 import Link from 'next/link';
 import { dateFormater } from '@/utils';
 import BannerImg from '@/public/banner.png';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import RatingStar from '../common/RatingStar';
 import { QueryData } from '@/lib/types';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BadgeIcon from '@mui/icons-material/Badge';
 import { useRouter } from 'next/router';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -22,6 +18,7 @@ type Props = {
 };
 
 const Hero = ({ queryData, token, publicId }: any) => {
+  console.log(queryData)
   const router = useRouter();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);

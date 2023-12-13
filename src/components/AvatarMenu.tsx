@@ -50,7 +50,7 @@ export default function AvatarMenu({
       await axios.post('/api/logout', {}, { withCredentials: true });
       dispatch(clearCredentials());
       setUser(null);
-      router.push('/user/findvendors');
+      router.push('/findvendors');
       setOpen(false);
     } catch (error: any) {}
   };

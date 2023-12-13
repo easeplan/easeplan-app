@@ -23,7 +23,7 @@ const MobileSidenav = ({ data }: any) => {
         <MobileNavItems
           icon={<SearchIcon />}
           text="Find vendors"
-          href="/user/findvendors"
+          href="/findvendors"
         />
         {/* {data?.providerProfile ? (
           <MobileNavItems

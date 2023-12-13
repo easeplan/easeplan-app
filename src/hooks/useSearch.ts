@@ -13,6 +13,7 @@ export const useSearch = (searchTerm = '') => {
   };
 
   return {
+    setSearch,
     search,
     handleSearchChange,
   };

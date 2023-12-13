@@ -12,7 +12,7 @@ const HomePage = () => {
   const userInfo = user?._id;
   useEffect(() => {
     if (userInfo) {
-      router.push('/user/findvendors');
+      router.push('/findvendors');
     } else {
       router.push('/login');
     }

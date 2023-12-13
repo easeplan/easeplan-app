@@ -177,8 +177,8 @@ const SignupForm = ({ modal }: any) => {
         if (data.success === true) {
           dispatch(setCloseModal(false));
           redirect_url
-            ? router.push(redirect_url as string)
-            : router.push('/user/findvendors');
+            ? router.push(redirect_url.toString().replace(/\s/g, '/'))
+            : router.push('/findvendors');
           setReferedBy();
         }
       }

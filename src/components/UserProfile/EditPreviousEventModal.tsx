@@ -18,6 +18,7 @@ import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import DragAndDropInput from '../common/DragAndDropInput';
 import { useAuth } from '@/hooks/authContext';
+import { uploadFileToS3 } from '@/utils/uploadFile';
 
 const style = {
   position: 'absolute' as const,
@@ -39,7 +40,7 @@ const style = {
 };
 
 const CompanyProfileSchema = Yup.object().shape({
-  editeventImage: Yup.string().required('Image is missing'),
+  image: Yup.string().required('Image is missing'),
 });
 
 const EditPreviousEventModal = ({
@@ -55,17 +56,21 @@ const EditPreviousEventModal = ({
   const queryClient = useQueryClient();
 
   const { mutate: handleUpdate, isLoading } = useMutation({
-    mutationFn: (credentials: any) =>
-      customFetch.put(
+    mutationFn: async (credentials: any) => {
+      const { Location } = await uploadFileToS3('cover', credentials.image);
+      credentials.image = Location;
+      return customFetch.put(
+        // Ensure this returns a promise
         `profiles/${userInfo}/edit-sample/${eventId}`,
         credentials,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         },
-      ),
+      );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userAuthData'] });
       toast.success('Event Updated');
@@ -77,12 +82,7 @@ const EditPreviousEventModal = ({
   });
 
   const handleEventSubmit = async (credentials: any) => {
-    const formData = new FormData();
-    formData.append('sampleImage', credentials.editeventImage);
-    const data = {
-      sampleImage: credentials.editeventImage,
-    };
-    handleUpdate(data);
+    handleUpdate(credentials);
   };
 
   return (
@@ -113,7 +113,7 @@ const EditPreviousEventModal = ({
               <Box>
                 <Formik
                   initialValues={{
-                    editeventImage: '',
+                    image: '',
                   }}
                   onSubmit={(values) => handleEventSubmit(values)}
                   validationSchema={CompanyProfileSchema}
@@ -123,7 +123,7 @@ const EditPreviousEventModal = ({
                       <Box>
                         <Box mt={2}>
                           <Label text="Event Cover Image" />
-                          <DragAndDropInput type="file" name="editeventImage" />
+                          <DragAndDropInput type="file" name="image" />
                         </Box>
                         <Box
                           mt={2}
@@ -170,3 +170,4 @@ const EditPreviousEventModal = ({
 };
 
 export default EditPreviousEventModal;
+user/findvendors

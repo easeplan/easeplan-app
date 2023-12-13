@@ -11,7 +11,6 @@ import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
-import Dojah from 'react-dojah';
 import { useRouter } from 'next/router';
 import OTPRequestCooldown from './OTPRequest';
 import { useAuth } from '@/hooks/authContext';

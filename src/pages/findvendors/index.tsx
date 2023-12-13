@@ -19,8 +19,6 @@ import Head from 'next/head';
 import 'swiper/css/navigation';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Image from 'next/image';
-// import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
-// export { getServerSideProps } from '@/hooks/useFetchToken';
 import cateringIcon from '@/public/event-icons/catering.png';
 import cakeIcon from '@/public/event-icons/cake.png';
 import decorationIcon from '@/public/event-icons/decoration.png';
@@ -36,7 +34,6 @@ import hairStylistIcon from '@/public/event-icons/hair-dye.png';
 import makeUpIcon from '@/public/event-icons/make-up.png';
 import liveBandicon from '@/public/event-icons/live-music.png';
 import { useAuth } from '@/hooks/authContext';
-import { parseCookies } from '@/lib/parseCookies';
 
 const services = [
   {
@@ -136,15 +133,8 @@ const services = [
   // },
 ];
 
-interface Props {
-  token: string;
-  userData: any;
-}
-
 const VendorPage = () => {
   const { user } = useAuth();
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?._id;
   const [page, setPage] = useState(1);
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
@@ -165,30 +155,11 @@ const VendorPage = () => {
   };
 
   const dataObj = data as any;
+
   return (
     <>
       <Head>
-        <title>
-          EasePlan || Find event vendors near you in Lagos, Abuja, Port
-          Harcourt, Delta, Ibadan, Calabar, Enugu, Abia, Owerri
-        </title>
-        <meta
-          name="description"
-          content="Make event planning a breeze with Easeplan. Find the best service providers, connect with top event planners and vendors near you, and manage everything in one easy-to-use platform in Lagos, Abuja, Port
-          Harcourt, Delta, Ibadan, Calabar, Enugu, Abia, Owerri"
-        />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
-        <meta
-          name="keyword"
-          content="Find event vendors near your such as, Find near you, Find vendors, Event vendors near me, vendors near me, Catering, Photographer, MC, Make-up Artist, Venue manager, Event decorator, Transportation coordinator, Security personnel, Videographer, Print vendor, Ushering, Entertainer, Tailor, Venue Vendor, Sound Engineer, Instrumentalist, Comedian, Hair Dresser, Live Band"
-        />
+        <title>Easeplan || Find & Hire Verified event Vendors Near You</title>
       </Head>
       <Layout isSearch handleSearchChange={handleSearchChange} data={user}>
         <Box

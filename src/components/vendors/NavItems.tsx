@@ -70,7 +70,6 @@ const links = [
 const NavItems = ({ data }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { userInfo } = useSelector((state: RootState) => state.auth);
   const { closeModal } = useSelector((state: RootState) => state.onboarding);
   const [loginModal, setLoginModal] = useState(false);
   const { user, setUser, setIsLoggedIn } = useAuth();
@@ -87,7 +86,7 @@ const NavItems = ({ data }: any) => {
         setIsLoggedIn(false);
         dispatch(clearCredentials());
         setUser(null);
-        router.push('/user/findvendors');
+        router.push('/findvendors');
       }
     } catch (error: any) {
       console.log(error);

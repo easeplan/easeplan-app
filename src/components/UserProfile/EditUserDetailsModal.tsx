@@ -1,23 +1,15 @@
-import { useState } from 'react';
-import { Box, MenuItem, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { Box, TextField, Typography } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import customFetch from '@/utils/customFetch';
 import toast from 'react-hot-toast';
-import data from '@/lib/states.json';
 import Modal from '@mui/material/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Container } from '@mui/system';
-import FormInput from '../common/FormInput';
-import Label from '../common/Label';
 import CustomButton from '../common/CustomButton';
-import SelectState from '../common/SelectState';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import MultipleSelectCity from '../onboarding/MultipleSelectCity';
-import MultipleSelectState from '../onboarding/MultipleSelectState';
 import { useAuth } from '@/hooks/authContext';
 
 const style = {
@@ -48,14 +40,7 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
-  const [selectedState, setSelectedState] = useState<any>();
-  const [selectedCities, setSelectedCities] = useState<any>();
   const queryClient = useQueryClient();
-
-  const allCities = data.states.reduce((cities, state) => {
-    cities.push(...state.cities);
-    return cities;
-  }, [] as string[]) as string[];
 
   const { mutate: updateProfile, isLoading } = useMutation({
     mutationFn: (credentials: any) =>
@@ -76,9 +61,153 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
   });
 
   const updateProfileImg = async (credentials: any) => {
+    console.log(credentials);
     updateProfile(credentials);
   };
 
+  const cities = [
+    'Ikeja',
+    'Lekki',
+    'Victoria Island',
+    'Ibadan',
+    'Ogbomosho',
+    'Oyo',
+    'Aba',
+    'Umuahia',
+    'Ohafia',
+    'Yola',
+    'Mubi',
+    'Jimeta',
+    'Uyo',
+    'Ikot Ekpene',
+    'Eket',
+    'Awka',
+    'Onitsha',
+    'Nnewi',
+    'Bauchi',
+    'Katagum',
+    'Jamaare',
+    'Yenagoa',
+    'Brass',
+    'Sagbama',
+    'Makurdi',
+    'Otukpo',
+    'Gboko',
+    'Maiduguri',
+    'Biu',
+    'Bama',
+    'Calabar',
+    'Ogoja',
+    'Obudu',
+    'Asaba',
+    'Warri',
+    'Sapele',
+    'Abakaliki',
+    'Afikpo',
+    'Ishielu',
+    'Benin City',
+    'Auchi',
+    'Uromi',
+    'Ado-Ekiti',
+    'Ikere',
+    'Ilawe',
+    'Enugu',
+    'Nsukka',
+    'Oji-River',
+    'Abuja',
+    'Gwagwalada',
+    'Kuje',
+    'Dutse',
+    'Hadejia',
+    'Gumel',
+    'Kaduna',
+    'Zaria',
+    'Kafanchan',
+    'Kano',
+    'Fagge',
+    'Dala',
+    'Katsina',
+    'Funtua',
+    'Daura',
+    'Birnin Kebbi',
+    'Argungu',
+    'Yauri',
+    'Lokoja',
+    'Okene',
+    'Idah',
+    'Ilorin',
+    'Offa',
+    'Omu-Aran',
+    'Lafia',
+    'Keffi',
+    'Akwanga',
+    'Minna',
+    'Bida',
+    'Suleja',
+    'Abeokuta',
+    'Ijebu-Ode',
+    'Sagamu',
+    'Osogbo',
+    'Ile-Ife',
+    'Ilesa',
+    'Jos',
+    'Pankshin',
+    'Riyom',
+    'Port Harcourt',
+    'Okrika',
+    'Omoku',
+    'Sokoto',
+    'Gwadabawa',
+    'Tambuwal',
+    'Jalingo',
+    'Wukari',
+    'Bali',
+    'Damaturu',
+    'Potiskum',
+    'Gujba',
+    'Gusau',
+    'Anka',
+    'Maru',
+  ];
+  const states = [
+    'Lagos',
+    'Oyo',
+    'Abia',
+    'Adamawa',
+    'Akwa Ibom',
+    'Anambra',
+    'Bauchi',
+    'Bayelsa',
+    'Benue',
+    'Borno',
+    'Cross River',
+    'Delta',
+    'Ebonyi',
+    'Edo',
+    'Ekiti',
+    'Enugu',
+    'FCT',
+    'Gombe',
+    'Imo',
+    'Jigawa',
+    'Kaduna',
+    'Kano',
+    'Katsina',
+    'Kebbi',
+    'Kogi',
+    'Kwara',
+    'Nasarawa',
+    'Niger',
+    'Ogun',
+    'Ondo',
+    'Osun',
+    'Plateau',
+    'Rivers',
+    'Sokoto',
+    'Taraba',
+    'Yobe',
+    'Zamfara',
+  ];
   return (
     <Container fixed>
       <Modal
@@ -123,49 +252,107 @@ const EditUserDetailsModal = ({ isOpen, isClose, token, queryData }: any) => {
                   onSubmit={(values) => updateProfileImg(values)}
                   validationSchema={ProfileSchema}
                 >
-                  {({ setFieldValue }) => (
+                  {({ setFieldValue, touched, errors }) => (
                     <Form>
                       <Box>
                         <Box>
-                          <div>
+                          {/* <div>
                             <Label text="First Name" />
-                          </div>
-                          <FormInput
-                            ariaLabel="FirstName"
+                          </div> */}
+                          <Field
+                            sx={{
+                              width: '100%',
+                              marginTop: '0.5rem',
+                              marginBottom: '0.5rem',
+                            }}
+                            as={TextField}
+                            label="Last Name"
                             name="firstName"
                             type="text"
                             placeholder="e.g John"
+                            helperText={touched.firstName && errors.firstName}
+                            error={
+                              touched.firstName && Boolean(errors.firstName)
+                            }
                           />
                         </Box>
                         <Box>
-                          <div>
+                          {/* <div>
                             <Label text="Last Name" />
-                          </div>
-                          <FormInput
-                            ariaLabel="Last Name"
+                          </div> */}
+                          <Field
+                            sx={{
+                              width: '100%',
+                              marginTop: '0.5rem',
+                              marginBottom: '0.5rem',
+                            }}
+                            as={TextField}
+                            label="Last Name"
                             name="lastName"
                             type="text"
                             placeholder="e.g mark"
+                            helperText={touched.lastName && errors.lastName}
+                            error={touched.lastName && Boolean(errors.lastName)}
                           />
                         </Box>
                         <Box>
-                          <div>
+                          {/* <div>
                             <Label text="Operational State" />
-                          </div>
-                          <MultipleSelectState
-                            name="operationStates"
-                            setServices={setSelectedState}
-                            states={data?.states}
+                          </div> */}
+                          <Autocomplete
+                            multiple
+                            sx={{
+                              width: '100%',
+                              marginTop: '0.5rem',
+                              marginRight: '0.5rem ',
+                            }}
+                            freeSolo
+                            onChange={(event, value) =>
+                              setFieldValue('operationStates', value)
+                            }
+                            options={states}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Operational States"
+                                placeholder="State"
+                                name="operationStates"
+                                error={
+                                  touched.operationStates &&
+                                  Boolean(errors.operationStates)
+                                }
+                              />
+                            )}
                           />
                         </Box>
                         <Box>
-                          <div>
+                          {/* <div>
                             <Label text="Operational Cities" />
-                          </div>
-                          <MultipleSelectCity
-                            name="operationCities"
-                            setServices={setSelectedCities}
-                            cities={allCities}
+                          </div> */}
+                          <Autocomplete
+                            multiple
+                            sx={{
+                              width: '100%',
+                              marginTop: '0.5rem',
+                              marginRight: '0.5rem ',
+                            }}
+                            freeSolo
+                            onChange={(event, value) =>
+                              setFieldValue('operationCities', value)
+                            }
+                            options={cities}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Operational Cities"
+                                placeholder="State"
+                                name="operationCities"
+                                error={
+                                  touched.operationCities &&
+                                  Boolean(errors.operationCities)
+                                }
+                              />
+                            )}
                           />
                         </Box>
                         <Box

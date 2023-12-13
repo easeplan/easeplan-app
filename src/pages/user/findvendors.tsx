@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -17,9 +17,6 @@ import { useSearch } from '@/hooks/useSearch';
 import useSearchServices from '@/hooks/useSearchServices';
 import Head from 'next/head';
 import 'swiper/css/navigation';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import useFetch from '@/hooks/useFetch';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import Image from 'next/image';
 // import { useGetCurrentUserQuery } from '@/features/usersApiSlice';
@@ -39,7 +36,6 @@ import hairStylistIcon from '@/public/event-icons/hair-dye.png';
 import makeUpIcon from '@/public/event-icons/make-up.png';
 import liveBandicon from '@/public/event-icons/live-music.png';
 import { useAuth } from '@/hooks/authContext';
-import { parseCookies } from '@/lib/parseCookies';
 
 const services = [
   {
@@ -146,8 +142,6 @@ interface Props {
 
 const VendorPage = () => {
   const { user } = useAuth();
-  // const { userInfo } = useSelector((state: RootState) => state.auth);
-  const userInfo = user?._id;
   const [page, setPage] = useState(1);
   const [state, setState] = useState('');
   const [city, setCity] = useState('');

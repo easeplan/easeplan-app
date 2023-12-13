@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 
 export function useFetchVendors(
-  page: unknown,
-  search?: unknown,
-  currentState?: any,
-  currentCity?: any,
+  page: number,
+  search?: string,
+  currentState?: string,
+  currentCity?: string,
   budget?: any,
   service?: string,
 ) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     // Assuming you're fetching data from an API
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/profiles?page=${page}&state=${currentState}&city=${currentCity}&budget=${budget}&service=${service}&searchTerm=${search}`,
+      `${process.env.NEXT_PUBLIC_API1_URL}/profiles?page=${page}&state=${currentState}&city=${currentCity}&budget=${budget}&service=${service}&searchTerm=${search}`,
     )
       .then((response) => {
         if (!response.ok) {
@@ -32,6 +31,5 @@ export function useFetchVendors(
         setLoading(false);
       });
   }, [budget, currentCity, currentState, page, search, service]); // The effect will re-run if userId changes
-
   return { data, loading, error };
 }

@@ -61,11 +61,9 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
       setUser(data.user);
 
       if (fromLoginPage) {
-        if (redirect_url) {
-          router.push(redirect_url as string);
-        } else {
-          router.push('/user/findvendors');
-        }
+        redirect_url
+          ? router.push(redirect_url.toString().replace(/\s/g, '/'))
+          : router.push('/findvendors');
       }
     } catch (error: any) {
       setIsLoading(false);
@@ -115,11 +113,9 @@ const LoginForm = ({ modal, fromLoginPage = false }: any) => {
         setUser(data.user);
         // Uncomment if you need redirection
         if (fromLoginPage) {
-          if (redirect_url) {
-            router.push(redirect_url as string);
-          } else {
-            router.push('/user/findvendors');
-          }
+          redirect_url
+            ? router.push(redirect_url.toString().replace(/\s/g, '/'))
+            : router.push('/findvendors');
         }
         dispatch(isLogin(false));
         dispatch(setCloseModal(false));

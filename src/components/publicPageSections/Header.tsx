@@ -30,7 +30,7 @@ const Header = ({ publicId, userData }: any) => {
       await axios.post('/api/logout', {}, { withCredentials: true });
       dispatch(clearCredentials());
       setUser(null);
-      router.push('/user/findvendors');
+      router.push('/findvendors');
     } catch (error: any) {}
   };
 

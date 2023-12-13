@@ -32,7 +32,6 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
   // const { userInfo } = useSelector((state: RootState) => state.auth);
   const userInfo = user?._id;
   const [openModal, setOpenModal] = useState(false);
-  const [showError, setShowError] = useState<boolean>(false);
   const [vendorData, setVendorData] = useState(
     typeof window !== 'undefined'
       ? JSON.parse(localStorage.getItem('findVendorData')!)
@@ -40,7 +39,6 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
   );
 
   const [localQueryData, setLocalQueryData] = useState(queryData);
-
   const [open, setModal] = useState(false);
 
   const handleModal = () => {
@@ -74,7 +72,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
     if (userInfo) {
       setOpenModal(true);
     } else {
-      router.push(`/login?redirect_url=user/profile/${queryData.publicId}`);
+      router.push(`/login?redirect_url=user profile ${queryData.publicId}`);
     }
   };
 
@@ -107,7 +105,6 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
   };
 
   const loggedUserId = userInfo;
-
   return (
     <Box>
       <CreateContractModal
@@ -307,7 +304,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
             the chat links to the chat section
             [*] DONE
           */}
-          {localQueryData.providerProfile?.currentlyHiredBy?.includes(
+          {localQueryData?.providerProfile?.currentlyHiredBy?.includes(
             loggedUserId,
           ) ? (
             <Link href="/user/chat">
@@ -319,7 +316,7 @@ const Hero = ({ queryData, token, searchResult, data }: any) => {
                 Chat
               </Button>
             </Link>
-          ) : localQueryData.providerProfile?.currentlyRequestedBy?.includes(
+          ) : localQueryData?.providerProfile?.currentlyRequestedBy?.includes(
               loggedUserId,
             ) ? (
             <Button variant="contained" sx={{ color: 'secondary.main', px: 6 }}>

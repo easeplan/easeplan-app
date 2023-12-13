@@ -18,7 +18,7 @@ type Props = {
 };
 
 const Hero = ({ queryData, token, publicId }: any) => {
-  console.log(queryData)
+  console.log(queryData);
   const router = useRouter();
   const { user } = useAuth();
   // const { userInfo } = useSelector((state: RootState) => state.auth);

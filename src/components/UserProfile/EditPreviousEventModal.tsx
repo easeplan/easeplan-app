@@ -170,4 +170,3 @@ const EditPreviousEventModal = ({
 };
 
 export default EditPreviousEventModal;
-user/findvendors

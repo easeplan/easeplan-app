@@ -9,6 +9,7 @@ const nextConfig = {
       'ease-storage.s3.us-east-1.amazonaws.com',
       'media.graphassets.com',
       'ease-storage.s3.amazonaws.com',
+      'easeplan-store.s3.amazonaws.com',
     ],
   },
 };

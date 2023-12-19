@@ -208,7 +208,7 @@ const AddPricingSection = ({ token }: PropsTypes) => {
                                 ariaLabel="destination"
                                 name="destination"
                                 type="number"
-                                placeholder="Enter Phone Number"
+                                placeholder="Enter Phone Number Eg, 08161593466"
                               />
                             </Box>
                           )}

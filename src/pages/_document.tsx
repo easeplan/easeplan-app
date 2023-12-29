@@ -43,6 +43,10 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <meta
+            name="google-site-verification"
+            content="lUaVCkoNpMHRTdWtbNnBrMl0585RRJlDTTKFhZ0Itfw"
+          />
           {isProduction && (
             <>
               <Script

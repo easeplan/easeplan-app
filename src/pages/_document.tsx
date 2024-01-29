@@ -138,8 +138,11 @@ export default class MyDocument extends Document {
             content="https://res.cloudinary.com/dw8my5zef/image/upload/v1702409519/p5k8zhv3fqdyeej9i3eh.png"
           ></meta>
           <script
-            src="//code.tidio.co/21uy26badngx3tbzmpasj43ughruymu0.js"
+            type="text/javascript"
+            id="hs-script-loader"
             async
+            defer
+            src="//js-na1.hs-scripts.com/45082060.js"
           ></script>
         </Head>
         <body>
